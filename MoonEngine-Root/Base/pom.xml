@@ -1,0 +1,44 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.greentree.engine.moon</groupId>
+		<artifactId>root</artifactId>
+		<version>0.1</version>
+	</parent>
+	
+  	<artifactId>base</artifactId>
+	
+	<name>MoonEngine Base</name>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+		  	<artifactId>kernel</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+			<artifactId>ecs</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.greentree.commons</groupId>
+			<artifactId>xml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.greentree.commons</groupId>
+			<artifactId>assets</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.greentree.commons</groupId>
+			<artifactId>math</artifactId>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.10</version>
+		</dependency>
+	</dependencies>
+	
+</project>
