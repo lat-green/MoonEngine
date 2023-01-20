@@ -7,7 +7,7 @@
 		<version>0.1</version>
 	</parent>
 	
-  	<artifactId>moon-script</artifactId>
+  	<artifactId>script</artifactId>
 	
 	<name>MoonEngine Script</name>
 	
