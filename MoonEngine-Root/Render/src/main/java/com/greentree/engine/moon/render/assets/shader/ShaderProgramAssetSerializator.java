@@ -14,8 +14,7 @@ import com.greentree.commons.assets.value.merge.MIValue;
 import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 
-public class ShaderProgramAssetSerializator<S> extends AbstractIterableAssetSerializator<S>
-		implements AssetSerializator<Iterable<S>> {
+public class ShaderProgramAssetSerializator<S> extends AbstractIterableAssetSerializator<S> {
 	
 	public ShaderProgramAssetSerializator(TypeInfo<S> type) {
 		super(type);
@@ -42,9 +41,12 @@ public class ShaderProgramAssetSerializator<S> extends AbstractIterableAssetSeri
 			
 			final var vert = manager.load(ITER_TYPE, vertKey);
 			final var frag = manager.load(ITER_TYPE, fragKey);
-			final var geom = manager.load(ITER_TYPE, geomKey);
 			
-			return new MIValue<>(vert, frag, geom);
+			if(manager.isDeepValid(ITER_TYPE, geomKey)) {
+				final var geom = manager.load(ITER_TYPE, geomKey);
+				return new MIValue<>(vert, frag, geom);
+			}
+			return new MIValue<>(vert, frag);
 		}
 		return null;
 	}

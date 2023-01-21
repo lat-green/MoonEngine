@@ -3,12 +3,12 @@ open module engine.moon.ecs {
 	requires transitive commons.action;
 	requires transitive commons.graph;
 	
-	exports com.greentree.common.ecs;
-	exports com.greentree.common.ecs.pool;
-	exports com.greentree.common.ecs.filter;
-	exports com.greentree.common.ecs.system;
-	exports com.greentree.common.ecs.system.debug;
-	exports com.greentree.common.ecs.component;
-	exports com.greentree.common.ecs.annotation;
+	exports com.greentree.engine.moon.ecs;
+	exports com.greentree.engine.moon.ecs.pool;
+	exports com.greentree.engine.moon.ecs.filter;
+	exports com.greentree.engine.moon.ecs.system;
+	exports com.greentree.engine.moon.ecs.system.debug;
+	exports com.greentree.engine.moon.ecs.component;
+	exports com.greentree.engine.moon.ecs.annotation;
 	
 }

@@ -1,10 +1,10 @@
 package com.greentree.engine.moon.render.ui;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.commons.action.observer.run.RunAction;
 import com.greentree.engine.moon.base.transform.Transform;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 @RequiredComponent({Transform.class})
 public final class Clickable implements ConstComponent {

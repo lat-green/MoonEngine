@@ -1,12 +1,12 @@
 package com.greentree.engine.moon.signals;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.ReadWorldComponent;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
 import com.greentree.common.renderer.window.Key;
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.module.ExitManagerProperty;
 import com.greentree.engine.moon.signals.device.EventState;
 import com.greentree.engine.moon.signals.keyboard.KeyBoardButton;

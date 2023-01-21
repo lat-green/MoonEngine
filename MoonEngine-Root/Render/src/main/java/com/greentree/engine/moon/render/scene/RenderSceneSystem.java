@@ -1,10 +1,10 @@
 package com.greentree.engine.moon.render.scene;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.CreateWorldComponent;
-import com.greentree.common.ecs.annotation.ReadWorldComponent;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.CreateWorldComponent;
+import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.render.camera.Cameras;
 
 

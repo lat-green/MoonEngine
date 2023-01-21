@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.base.scene;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.system.ECSSystem;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.system.ECSSystem;
 
 public interface Scene {
 	

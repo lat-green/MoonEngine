@@ -4,11 +4,11 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import com.greentree.common.ecs.Entity;
-import com.greentree.common.ecs.component.Component;
 import com.greentree.commons.data.file.DataFileReader;
 import com.greentree.commons.data.file.DataFileWriter;
 import com.greentree.commons.data.file.serializer.AbstractSerializer;
+import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.ecs.component.Component;
 
 public class EntitySerializer extends AbstractSerializer {
 

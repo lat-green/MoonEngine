@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.ECSSystem;
-import com.greentree.common.ecs.system.InitSystem;
-import com.greentree.common.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
 import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.base.scene.SceneManager;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.ECSSystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.module.EngineProperties;
 
 public final class SceneManagerBase implements SceneManager {

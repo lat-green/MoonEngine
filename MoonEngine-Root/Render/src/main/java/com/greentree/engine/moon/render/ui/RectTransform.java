@@ -1,11 +1,11 @@
 package com.greentree.engine.moon.render.ui;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.commons.math.Mathf;
 import com.greentree.commons.math.vector.AbstractVector2f;
 import com.greentree.commons.math.vector.Vector2f;
 import com.greentree.engine.moon.base.transform.Transform;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 @RequiredComponent({Transform.class})
 public record RectTransform(Vector2f min, Vector2f max, float rotation) implements ConstComponent {

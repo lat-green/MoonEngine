@@ -2,7 +2,7 @@ package com.greentree.common.ecs;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.component.Component;
+import com.greentree.engine.moon.ecs.component.Component;
 
 public final class ACompnent implements Component {
 	private static final long serialVersionUID = 1L;

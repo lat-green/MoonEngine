@@ -5,8 +5,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 
-import com.greentree.common.ecs.component.Component;
-import com.greentree.common.ecs.component.ConstComponent;
+import com.greentree.engine.moon.ecs.component.Component;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 import com.greentree.engine.moon.replication.id.EntityID;
 import com.greentree.engine.moon.replication.id.OwnerID;
 

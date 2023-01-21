@@ -2,7 +2,7 @@ package com.greentree.engine.moon.replication.id;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.WorldComponent;
+import com.greentree.engine.moon.ecs.WorldComponent;
 
 
 public class OwnerIDWorldComponent implements WorldComponent {

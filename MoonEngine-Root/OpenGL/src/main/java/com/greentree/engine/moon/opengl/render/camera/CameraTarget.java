@@ -5,14 +5,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Objects;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.Component;
 import com.greentree.common.graphics.sgl.enums.gl.GLPixelFormat;
 import com.greentree.common.graphics.sgl.enums.gl.param.value.GLFiltering;
 import com.greentree.common.graphics.sgl.freambuffer.FreamBuffer;
 import com.greentree.common.graphics.sgl.freambuffer.FreamBufferBuilder;
 import com.greentree.common.graphics.sgl.texture.gl.GLTexture2DImpl;
 import com.greentree.common.graphics.sgl.window.Window;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.Component;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 
 @RequiredComponent({CameraComponent.class})

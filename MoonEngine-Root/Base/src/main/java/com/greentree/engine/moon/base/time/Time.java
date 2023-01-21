@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.base.time;
 
-import com.greentree.common.ecs.WorldComponent;
-import com.greentree.common.ecs.annotation.CreateSystem;
+import com.greentree.engine.moon.ecs.WorldComponent;
+import com.greentree.engine.moon.ecs.annotation.CreateSystem;
 
 
 @CreateSystem(TimeSystem.class)

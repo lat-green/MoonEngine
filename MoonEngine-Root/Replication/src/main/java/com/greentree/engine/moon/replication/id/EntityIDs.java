@@ -3,10 +3,10 @@ package com.greentree.engine.moon.replication.id;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.greentree.common.ecs.Entity;
-import com.greentree.common.ecs.WorldComponent;
 import com.greentree.commons.util.collection.MapID;
 import com.greentree.commons.util.collection.MapIDImpl;
+import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.ecs.WorldComponent;
 
 
 public final class EntityIDs implements WorldComponent {

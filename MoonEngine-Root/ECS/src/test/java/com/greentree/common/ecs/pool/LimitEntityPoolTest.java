@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.greentree.common.ecs.World;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.pool.ArrayLimitEntityPool;
+import com.greentree.engine.moon.ecs.pool.EmptyEntityStrategy;
 
 public class LimitEntityPoolTest {
 	

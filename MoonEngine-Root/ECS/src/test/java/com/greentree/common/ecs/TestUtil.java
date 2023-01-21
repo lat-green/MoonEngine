@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import com.greentree.engine.moon.ecs.Entity;
+
 public class TestUtil {
 
 	public static void assertComponentEquals(Entity a, Entity b) {

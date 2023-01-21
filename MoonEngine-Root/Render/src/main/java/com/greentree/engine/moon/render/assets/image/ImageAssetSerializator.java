@@ -28,15 +28,13 @@ public class ImageAssetSerializator implements AssetSerializator<ImageData> {
 	
 	@Override
 	public Value<ImageData> load(LoadContext manager, AssetKey key) {
-		{
+		if(manager.canLoad(Resource.class, key)) {
 			final var res = manager.load(Resource.class, key);
-			if(res != null)
-				return manager.map(res, new ImageDataAsset());
+			return manager.map(res, new ImageDataAsset());
 		}
-		{
+		if(manager.canLoad(Color.class, key)) {
 			final var color = manager.load(Color.class, key);
-			if(color != null)
-				return manager.map(color, new ColorTextureAsset());
+			return manager.map(color, new ColorTextureAsset());
 		}
 		return null;
 	}

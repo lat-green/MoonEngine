@@ -6,8 +6,9 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.greentree.common.ecs.IterAssertions;
-import com.greentree.common.ecs.annotation.AnnotationUtil;
 import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
+import com.greentree.engine.moon.ecs.system.ECSSystem;
 
 public class SortSystemTest {
 	

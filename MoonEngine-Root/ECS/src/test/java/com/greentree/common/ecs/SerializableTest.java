@@ -11,6 +11,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.greentree.engine.moon.ecs.Entity;
+
 public class SerializableTest {
 
 	static Stream<Integer> ints() {

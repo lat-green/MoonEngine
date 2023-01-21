@@ -4,10 +4,10 @@ import java.util.Objects;
 
 import org.joml.Matrix4f;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.base.transform.Transform;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 @RequiredComponent({Transform.class})
 public record DirectionLightComponent(Color color, float intensity) implements ConstComponent {

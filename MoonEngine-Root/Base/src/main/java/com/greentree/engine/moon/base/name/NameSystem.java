@@ -1,10 +1,10 @@
 package com.greentree.engine.moon.base.name;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.CreateWorldComponent;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
 import com.greentree.commons.action.ListenerCloser;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.CreateWorldComponent;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 
 public class NameSystem implements InitSystem, DestroySystem {
 	

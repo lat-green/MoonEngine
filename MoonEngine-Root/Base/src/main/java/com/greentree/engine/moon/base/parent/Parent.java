@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-import com.greentree.common.ecs.Entity;
-import com.greentree.common.ecs.component.Component;
+import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.ecs.component.Component;
 
 public final class Parent implements Component {
 	

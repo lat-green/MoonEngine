@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.replication.event;
 
-import com.greentree.common.ecs.World;
+import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.replication.id.EntityIDs;
 
 public record RemoveEntityEvent(int entity) implements EntityEvent {

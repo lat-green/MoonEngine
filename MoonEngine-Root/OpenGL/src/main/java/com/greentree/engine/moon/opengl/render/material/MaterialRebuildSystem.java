@@ -1,20 +1,20 @@
 package com.greentree.engine.moon.opengl.render.material;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.filter.Filter;
-import com.greentree.common.ecs.filter.FilterBuilder;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
-import com.greentree.common.ecs.system.UpdateSystem;
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.common.renderer.material.Material;
 import com.greentree.common.renderer.material.MaterialPropertiesImpl;
 import com.greentree.common.renderer.opengl.material.GLTextureProperty;
-import com.greentree.commons.assets.value.ConstWrappedValue;
 import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.map.MapValueImpl;
+import com.greentree.commons.assets.value.Values;
+import com.greentree.commons.assets.value.function.Value2Function;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.filter.Filter;
+import com.greentree.engine.moon.ecs.filter.FilterBuilder;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.render.MeshRenderer;
 
 public final class MaterialRebuildSystem implements InitSystem, UpdateSystem, DestroySystem {
@@ -39,40 +39,36 @@ public final class MaterialRebuildSystem implements InitSystem, UpdateSystem, De
 		program = manager.loadAsync(GLShaderProgram.class, "pbr_mapping.glsl");
 	}
 	
+	private static final class MaterialRebuildAssetSerializator
+			implements Value2Function<GLShaderProgram, GLPBRMaterial, Material> {
+		
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public Material apply(GLShaderProgram program, GLPBRMaterial material) {
+			final var ps = new MaterialPropertiesImpl();
+			
+			ps.put("material.albedo", new GLTextureProperty(material.albedo()));
+			ps.put("material.ao", new GLTextureProperty(material.ambientOcclusion()));
+			ps.put("material.displacement", new GLTextureProperty(material.displacement()));
+			ps.put("material.metallic", new GLTextureProperty(material.metallic()));
+			ps.put("material.normal", new GLTextureProperty(material.normal()));
+			ps.put("material.roughness", new GLTextureProperty(material.roughness()));
+			
+			ps.put("ao_scale", 1f);
+			ps.put("height_scale", 1f);
+			
+			return new Material(ps, program);
+		}
+		
+	}
+	
 	@Override
 	public void update() {
 		for(var e : renderes) {
 			final var material = e.get(GLPBRMeshRendener.class).material;
 			
-			final var m = ConstWrappedValue.newValue(material,
-					new MapValueImpl<GLPBRMaterial, Material>() {
-						
-						private static final long serialVersionUID = 1L;
-						
-						@Override
-						protected Material map(GLPBRMaterial value) {
-							final var ps = new MaterialPropertiesImpl();
-							
-							ps.put("material.albedo", new GLTextureProperty(value.albedo()));
-							ps.put("material.ao", new GLTextureProperty(value.ambientOcclusion()));
-							ps.put("material.displacement",
-									new GLTextureProperty(value.displacement()));
-							ps.put("material.metallic", new GLTextureProperty(value.metallic()));
-							ps.put("material.normal", new GLTextureProperty(value.normal()));
-							ps.put("material.roughness", new GLTextureProperty(value.roughness()));
-							
-							ps.put("ao_scale", 1f);
-							ps.put("height_scale", 1f);
-							
-							return new Material(ps, program.get());
-						}
-						
-						@Override
-						protected Material map(GLPBRMaterial value, Material dest) {
-							return map(value);
-						}
-						
-					});
+			final var m = Values.map(program, material, new MaterialRebuildAssetSerializator());
 			
 			e.add(new MeshRenderer(m));
 		}

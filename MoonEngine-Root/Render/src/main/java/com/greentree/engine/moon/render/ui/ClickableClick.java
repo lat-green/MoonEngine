@@ -2,8 +2,8 @@ package com.greentree.engine.moon.render.ui;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.Entity;
-import com.greentree.common.ecs.component.ConstComponent;
+import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 
 public final class ClickableClick implements ConstComponent {

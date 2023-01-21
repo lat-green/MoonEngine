@@ -6,10 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.system.ECSSystem;
-import com.greentree.common.ecs.system.debug.DebugSystems;
-import com.greentree.common.ecs.system.debug.PrintStreamSystemsProfiler;
 import com.greentree.commons.assets.key.AssetKey;
 import com.greentree.commons.assets.key.ResultAssetKeyImpl;
 import com.greentree.commons.assets.serializator.AssetSerializator;
@@ -24,6 +20,10 @@ import com.greentree.commons.xml.XMLElement;
 import com.greentree.engine.moon.base.layer.Layer;
 import com.greentree.engine.moon.base.name.Name;
 import com.greentree.engine.moon.base.scene.Scene;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.system.ECSSystem;
+import com.greentree.engine.moon.ecs.system.debug.DebugSystems;
+import com.greentree.engine.moon.ecs.system.debug.PrintStreamSystemsProfiler;
 
 public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 	

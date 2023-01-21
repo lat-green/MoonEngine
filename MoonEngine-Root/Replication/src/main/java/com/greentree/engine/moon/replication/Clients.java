@@ -2,9 +2,9 @@ package com.greentree.engine.moon.replication;
 
 import java.util.function.IntConsumer;
 
-import com.greentree.common.ecs.WorldComponent;
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.commons.action.observer.integer.IntAction;
+import com.greentree.engine.moon.ecs.WorldComponent;
 
 
 public class Clients implements WorldComponent {

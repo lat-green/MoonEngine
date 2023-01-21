@@ -20,16 +20,14 @@ public class XMLAssetSerializator implements AssetSerializator<XMLElement> {
 	}
 	
 	@Override
-	public Value<XMLElement> load(LoadContext context, AssetKey ckey) {
-		{
-			final var res = context.load(Resource.class, ckey);
-			if(res != null)
-				return context.map(res, XMLFunction.INSTANCE);
+	public Value<XMLElement> load(LoadContext context, AssetKey key) {
+		if(context.canLoad(Resource.class, key)) {
+			final var res = context.load(Resource.class, key);
+			return context.map(res, XMLFunction.INSTANCE);
 		}
-		{
-			final var text = context.load(String.class, ckey);
-			if(text != null)
-				return context.map(text, XMLTextFunction.INSTANCE);
+		if(context.canLoad(String.class, key)) {
+			final var text = context.load(String.class, key);
+			return context.map(text, XMLTextFunction.INSTANCE);
 		}
 		return null;
 	}

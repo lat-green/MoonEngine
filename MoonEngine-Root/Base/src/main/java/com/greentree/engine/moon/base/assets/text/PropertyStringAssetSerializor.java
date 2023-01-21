@@ -18,7 +18,7 @@ public class PropertyStringAssetSerializor implements AssetSerializator<String> 
 		if(ckey instanceof PropertyAssetKey key) {
 			final var prop = manager.load(Properties.class, key.properties());
 			final var name = manager.load(String.class, key.name());
-			return manager.map(prop, name, new PropertyAsset());
+			return manager.map(prop, name, new PropertyAssetFunction());
 		}
 		return null;
 	}
@@ -48,7 +48,8 @@ public class PropertyStringAssetSerializor implements AssetSerializator<String> 
 		return key instanceof PropertyAssetKey;
 	}
 	
-	private static final class PropertyAsset implements Value2Function<Properties, String, String> {
+	private static final class PropertyAssetFunction
+			implements Value2Function<Properties, String, String> {
 		
 		private static final long serialVersionUID = 1L;
 		

@@ -2,9 +2,9 @@ package com.greentree.engine.moon.opengl.render.material;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.commons.assets.value.Value;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
 
 @RequiredComponent({MeshComponent.class})

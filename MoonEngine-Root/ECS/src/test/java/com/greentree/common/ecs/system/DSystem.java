@@ -1,7 +1,8 @@
 package com.greentree.common.ecs.system;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.DestroyComponent;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.DestroyComponent;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 
 public class DSystem implements InitSystem {
 	

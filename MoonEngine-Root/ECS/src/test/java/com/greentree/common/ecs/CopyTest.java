@@ -9,6 +9,8 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.greentree.engine.moon.ecs.World;
+
 public class CopyTest {
 
 	static Stream<Integer> ints() {

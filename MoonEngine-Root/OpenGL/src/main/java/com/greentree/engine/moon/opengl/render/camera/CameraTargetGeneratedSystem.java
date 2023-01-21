@@ -1,13 +1,13 @@
 package com.greentree.engine.moon.opengl.render.camera;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.CreateComponent;
-import com.greentree.common.ecs.annotation.ReadComponent;
-import com.greentree.common.ecs.filter.Filter;
-import com.greentree.common.ecs.filter.FilterBuilder;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
-import com.greentree.common.ecs.system.UpdateSystem;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.CreateComponent;
+import com.greentree.engine.moon.ecs.annotation.ReadComponent;
+import com.greentree.engine.moon.ecs.filter.Filter;
+import com.greentree.engine.moon.ecs.filter.FilterBuilder;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 
 public class CameraTargetGeneratedSystem implements InitSystem, UpdateSystem, DestroySystem {

@@ -19,9 +19,8 @@ import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 public class CubeImageAssetSerializator implements AssetSerializator<CubeImageData> {
 	
 	@Override
-	public CubeImageData loadDefault(DefaultAssetManager manager, AssetKeyType type) {
-		final ImageData DEFAULT = manager.loadDefault(ImageData.class);
-		return new CubeImageData(DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+	public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+		return key instanceof CubeImageAssetKey || manager.canLoad(Properties.class, key);
 	}
 	
 	@Override
@@ -35,37 +34,34 @@ public class CubeImageAssetSerializator implements AssetSerializator<CubeImageDa
 			final var negz = context.load(ImageData.class, key.negz());
 			return context.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
 		}
-		{
-			final var prop = context.load(Properties.class, ckey);
-			if(prop != null) {
-				final var posx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posx"));
-				final var negx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negx"));
-				final var posy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posy"));
-				final var negy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negy"));
-				final var posz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posz"));
-				final var negz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negz"));
-				
-				
-				final Value<ImageData> posx, negx, posy, negy, posz, negz;
-				
-				try(final var parallel = context.parallel()) {
-					posx = parallel.load(ImageData.class, posx_res);
-					negx = parallel.load(ImageData.class, negx_res);
-					posy = parallel.load(ImageData.class, posy_res);
-					negy = parallel.load(ImageData.class, negy_res);
-					posz = parallel.load(ImageData.class, posz_res);
-					negz = parallel.load(ImageData.class, negz_res);
-				}
-				
-				return context.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
+		if(context.canLoad(Properties.class, ckey)) {
+			final var posx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posx"));
+			final var negx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negx"));
+			final var posy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posy"));
+			final var negy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negy"));
+			final var posz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posz"));
+			final var negz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negz"));
+			
+			final Value<ImageData> posx, negx, posy, negy, posz, negz;
+			
+			try(final var parallel = context.parallel()) {
+				posx = parallel.load(ImageData.class, posx_res);
+				negx = parallel.load(ImageData.class, negx_res);
+				posy = parallel.load(ImageData.class, posy_res);
+				negy = parallel.load(ImageData.class, negy_res);
+				posz = parallel.load(ImageData.class, posz_res);
+				negz = parallel.load(ImageData.class, negz_res);
 			}
+			
+			return context.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
 		}
 		return null;
 	}
 	
 	@Override
-	public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
-		return key instanceof CubeImageAssetKey || manager.canLoad(Properties.class, key);
+	public CubeImageData loadDefault(DefaultAssetManager manager, AssetKeyType type) {
+		final var DEFAULT = manager.loadDefault(ImageData.class);
+		return new CubeImageData(DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 	}
 	
 	private static final class CubeImageAsset implements

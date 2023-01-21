@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import com.greentree.common.ecs.Entity;
 import com.greentree.commons.data.file.DataSerialization;
 import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.commons.web.protocol.ConnectionInputStream;
 import com.greentree.commons.web.protocol.ConnectionOutputStream;
 import com.greentree.commons.web.protocol.StreamableConnection;
+import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.replication.event.AddComponentEvent;
 import com.greentree.engine.moon.replication.event.AddEntityEvent;
 import com.greentree.engine.moon.replication.event.ChangeComponentEvent;

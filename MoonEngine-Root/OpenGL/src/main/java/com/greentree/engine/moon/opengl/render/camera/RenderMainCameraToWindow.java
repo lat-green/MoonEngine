@@ -4,13 +4,6 @@ import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.system.MemoryStack;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.ReadComponent;
-import com.greentree.common.ecs.annotation.ReadWorldComponent;
-import com.greentree.common.ecs.annotation.WriteWorldComponent;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
-import com.greentree.common.ecs.system.UpdateSystem;
 import com.greentree.common.graphics.sgl.enums.gl.GLClientState;
 import com.greentree.common.graphics.sgl.enums.gl.GLPrimitive;
 import com.greentree.common.graphics.sgl.enums.gl.GLType;
@@ -18,6 +11,13 @@ import com.greentree.common.graphics.sgl.texture.gl.GLTexture2D;
 import com.greentree.common.graphics.sgl.texture.gl.GLTexture2DImpl;
 import com.greentree.common.graphics.sgl.window.Window;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.ReadComponent;
+import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
+import com.greentree.engine.moon.ecs.annotation.WriteWorldComponent;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.opengl.WindowProperty;
 import com.greentree.engine.moon.render.camera.Cameras;
 

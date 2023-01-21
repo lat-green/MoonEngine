@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.opengl;
 
-import com.greentree.common.ecs.system.UpdateSystem;
 import com.greentree.common.graphics.sgl.window.GLFWContext;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 
 public class GLFWUpdateEvents implements UpdateSystem {
 	

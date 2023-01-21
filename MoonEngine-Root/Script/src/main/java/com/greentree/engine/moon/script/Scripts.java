@@ -2,9 +2,9 @@ package com.greentree.engine.moon.script;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.commons.assets.value.Value;
 import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 public record Scripts(Iterable<? extends Value<? extends Script>> scripts)
 		implements ConstComponent {

@@ -109,9 +109,9 @@ public final class PBRMaterialAssetSerializator<T> implements AssetSerializator<
 			displacementAsset = manager.load(TYPE, texture_displacement);
 			ambient_occlusionAsset = manager.load(TYPE, texture_ambient_occlusion);
 			
-			
 			return manager.map(albedoAsset, normalAsset, metallicAsset, roughnessAsset,
-					displacementAsset, ambient_occlusionAsset, new PBRMaterialPropertiesAsset<>());
+					displacementAsset, ambient_occlusionAsset,
+					new PBRMaterialPropertiesAssetFunction<>());
 		}
 		return null;
 	}
@@ -125,7 +125,7 @@ public final class PBRMaterialAssetSerializator<T> implements AssetSerializator<
 	//		return new PBRMaterial<>(DEFAULT_ALBEDO, DEFAULT_NORMAL, DEFAULT_METALLIC, DEFAULT_ROUGHNESS, DEFAULT_DISPLACEMENT, DEFAULT_AMBIENT_OCCLUSION);
 	//	}
 	
-	private final static class PBRMaterialPropertiesAsset<T>
+	private final static class PBRMaterialPropertiesAssetFunction<T>
 			implements Value6Function<T, T, T, T, T, T, PBRMaterial<T>> {
 		
 		private static final long serialVersionUID = 1L;

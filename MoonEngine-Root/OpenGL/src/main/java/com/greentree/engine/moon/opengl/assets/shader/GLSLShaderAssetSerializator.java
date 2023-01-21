@@ -18,11 +18,10 @@ public class GLSLShaderAssetSerializator implements AssetSerializator<GLSLShader
 	}
 	
 	@Override
-	public Value<GLSLShader> load(LoadContext manager, AssetKey ckey) {
-		{
-			final var shader = manager.load(ShaderData.class, ckey).toLazy();
-			if(shader != null)
-				return manager.map(shader, new GLSLShaderAsset());
+	public Value<GLSLShader> load(LoadContext manager, AssetKey key) {
+		if(manager.canLoad(ShaderData.class, key)) {
+			final var shader = manager.load(ShaderData.class, key).toLazy();
+			return manager.map(shader, new GLSLShaderAsset());
 		}
 		return null;
 	}

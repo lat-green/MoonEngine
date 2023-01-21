@@ -10,10 +10,10 @@ import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Quaternionfc;
 
-import com.greentree.common.ecs.component.Component;
 import com.greentree.commons.math.vector.AbstractVector3f;
 import com.greentree.commons.math.vector.FinalVector3f;
 import com.greentree.commons.math.vector.Vector3f;
+import com.greentree.engine.moon.ecs.component.Component;
 
 public final class Transform implements Component, Externalizable {
 	

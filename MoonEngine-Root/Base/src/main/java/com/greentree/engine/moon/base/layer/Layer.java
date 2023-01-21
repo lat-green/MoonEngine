@@ -2,7 +2,7 @@ package com.greentree.engine.moon.base.layer;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.component.ConstComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 public record Layer(String value) implements ConstComponent {
 	

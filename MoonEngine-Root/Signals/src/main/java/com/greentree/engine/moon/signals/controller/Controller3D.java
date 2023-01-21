@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.signals.controller;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.commons.math.Mathf;
 import com.greentree.engine.moon.base.transform.Transform;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 @RequiredComponent({Transform.class})
 public record Controller3D(float speed) implements ConstComponent {

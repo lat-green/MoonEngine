@@ -1,12 +1,12 @@
 package com.greentree.engine.moon.opengl;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.WriteWorldComponent;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
-import com.greentree.common.ecs.system.UpdateSystem;
 import com.greentree.common.graphics.sgl.window.Window;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.WriteWorldComponent;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.module.ExitManager;
 import com.greentree.engine.moon.module.ExitManagerProperty;
 

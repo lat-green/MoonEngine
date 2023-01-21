@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.replication.event;
 
-import com.greentree.common.ecs.ClassSet.LockClassSet;
-import com.greentree.common.ecs.component.Component;
+import com.greentree.engine.moon.ecs.ClassSet.LockClassSet;
+import com.greentree.engine.moon.ecs.component.Component;
 
 public record AddComponentEvent(Component component) implements ComponentEvent {
 

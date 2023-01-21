@@ -28,12 +28,12 @@ public class GLPBRMaterialAssetSerializator implements AssetSerializator<GLPBRMa
 		{
 			final var texture = manager.load(TYPE, ckey).toLazy();
 			if(texture != null)
-				return manager.map(texture, new GLPBRMaterialAsset());
+				return manager.map(texture, new GLPBRMaterialAssetFunction());
 		}
 		return null;
 	}
 	
-	public static final class GLPBRMaterialAsset
+	public static final class GLPBRMaterialAssetFunction
 			implements Value1Function<PBRMaterial<GLTexture2DImpl>, GLPBRMaterial> {
 		
 		private static final long serialVersionUID = 1L;

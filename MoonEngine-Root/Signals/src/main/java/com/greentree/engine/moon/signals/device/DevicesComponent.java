@@ -2,7 +2,7 @@ package com.greentree.engine.moon.signals.device;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.component.Component;
+import com.greentree.engine.moon.ecs.component.Component;
 
 public record DevicesComponent(AbstractDevices signals) implements Component {
 	

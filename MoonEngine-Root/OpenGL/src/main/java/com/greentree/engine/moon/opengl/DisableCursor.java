@@ -2,11 +2,11 @@ package com.greentree.engine.moon.opengl;
 
 import org.lwjgl.glfw.GLFW;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.ReadWorldComponent;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 
 public final class DisableCursor implements InitSystem, DestroySystem {
 	

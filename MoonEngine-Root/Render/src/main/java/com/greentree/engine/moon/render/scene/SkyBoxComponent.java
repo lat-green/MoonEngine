@@ -2,10 +2,10 @@ package com.greentree.engine.moon.render.scene;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.common.renderer.texture.CubeTextureData;
 import com.greentree.commons.assets.value.Value;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 
 @RequiredComponent({CameraComponent.class})

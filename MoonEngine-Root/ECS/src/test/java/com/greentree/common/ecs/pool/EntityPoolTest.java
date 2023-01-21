@@ -11,8 +11,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import com.greentree.common.ecs.ACompnent;
-import com.greentree.common.ecs.Entity;
-import com.greentree.common.ecs.World;
+import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.pool.EmptyEntityStrategy;
+import com.greentree.engine.moon.ecs.pool.EntityPoolStrategy;
+import com.greentree.engine.moon.ecs.pool.PrototypeEntityStrategy;
+import com.greentree.engine.moon.ecs.pool.StackEntityPool;
 
 public class EntityPoolTest {
 

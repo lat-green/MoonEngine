@@ -13,23 +13,23 @@
 	
 	<dependencies>
 		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+		  	<artifactId>signals</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+		  	<artifactId>render</artifactId>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.greentree.commons</groupId>
 			<artifactId>action</artifactId>
 		</dependency>
 		
 		<dependency>
-		<groupId>com.greentree.engine.moon</groupId>
-		  	<artifactId>signals</artifactId>
-		</dependency>
-		<dependency>
-		<groupId>com.greentree.engine.moon</groupId>
-		  	<artifactId>render</artifactId>
-		</dependency>
-		
-		<dependency>
 			  <groupId>com.greentree.common</groupId>
 			  <artifactId>renderer-opengl</artifactId>
-			  <version>0.2</version>
+			  <version>0.2.4</version>
 		</dependency>
 	</dependencies>
 	

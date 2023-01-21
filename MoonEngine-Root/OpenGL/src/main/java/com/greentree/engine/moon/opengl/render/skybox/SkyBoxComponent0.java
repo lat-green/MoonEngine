@@ -2,10 +2,10 @@ package com.greentree.engine.moon.opengl.render.skybox;
 
 import java.util.Objects;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.common.graphics.sgl.texture.gl.cubemap.GLCubeMapTexture;
 import com.greentree.commons.assets.value.Value;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 
 @RequiredComponent({CameraComponent.class})

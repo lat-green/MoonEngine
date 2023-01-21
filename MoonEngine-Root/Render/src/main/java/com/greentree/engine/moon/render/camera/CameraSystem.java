@@ -1,11 +1,11 @@
 package com.greentree.engine.moon.render.camera;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.CreateWorldComponent;
-import com.greentree.common.ecs.annotation.DestroyWorldComponent;
-import com.greentree.common.ecs.system.DestroySystem;
-import com.greentree.common.ecs.system.InitSystem;
 import com.greentree.commons.action.ListenerCloser;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.CreateWorldComponent;
+import com.greentree.engine.moon.ecs.annotation.DestroyWorldComponent;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 
 public class CameraSystem implements InitSystem, DestroySystem {
 	

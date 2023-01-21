@@ -3,9 +3,9 @@ package com.greentree.engine.moon.render.camera;
 import org.joml.Matrix4f;
 import org.joml.Quaternionfc;
 
-import com.greentree.common.ecs.Entity;
 import com.greentree.commons.math.vector.AbstractVector3f;
 import com.greentree.engine.moon.base.transform.Transform;
+import com.greentree.engine.moon.ecs.Entity;
 
 public class CameraUtil {
 	

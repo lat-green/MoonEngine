@@ -3,7 +3,7 @@ package com.greentree.engine.moon.replication;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.greentree.common.ecs.Entity;
+import com.greentree.engine.moon.ecs.Entity;
 
 public class ConnectionInfos implements AutoCloseable {
 	

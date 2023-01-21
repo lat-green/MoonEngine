@@ -1,7 +1,8 @@
 package com.greentree.common.ecs.system;
 
-import com.greentree.common.ecs.World;
-import com.greentree.common.ecs.annotation.CreateComponent;
+import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.CreateComponent;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 
 public class ASystem implements InitSystem {
 	

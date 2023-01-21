@@ -22,10 +22,9 @@ public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2D
 	
 	@Override
 	public Value<GLTexture2DImpl> load(LoadContext manager, AssetKey ckey) {
-		{
+		if(manager.canLoad(Texture2DData.class, ckey)) {
 			final var texture = manager.load(Texture2DData.class, ckey).toLazy();
-			if(texture != null)
-				return manager.map(texture, new GLTextureAsset());
+			return manager.map(texture, new GLTextureAsset());
 		}
 		return null;
 	}
@@ -37,6 +36,8 @@ public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2D
 		
 		@Override
 		public GLTexture2DImpl applyWithDest(Texture2DData texture, GLTexture2DImpl tex) {
+			System.out.println(texture);
+			
 			tex.bind();
 			final var type = texture.type();
 			

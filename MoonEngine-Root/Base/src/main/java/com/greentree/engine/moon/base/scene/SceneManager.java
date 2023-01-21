@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.base.scene;
 
-import com.greentree.common.ecs.system.ECSSystem;
+import com.greentree.engine.moon.ecs.system.ECSSystem;
 
 public interface SceneManager {
 	

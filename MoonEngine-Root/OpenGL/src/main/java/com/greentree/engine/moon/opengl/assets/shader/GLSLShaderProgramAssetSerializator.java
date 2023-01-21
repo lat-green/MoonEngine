@@ -23,11 +23,10 @@ public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLS
 	}
 	
 	@Override
-	public Value<GLShaderProgram> load(LoadContext manager, AssetKey ckey) {
-		{
-			final var key = manager.load(TYPE, ckey).toLazy();
-			if(key != null)
-				return manager.map(key, new GLShaderProgramFunction());
+	public Value<GLShaderProgram> load(LoadContext manager, AssetKey key) {
+		if(manager.canLoad(TYPE, key)) {
+			final var program = manager.load(TYPE, key).toLazy();
+			return manager.map(program, new GLShaderProgramFunction());
 		}
 		return null;
 	}
@@ -44,7 +43,7 @@ public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLS
 		
 		@Override
 		public GLShaderProgram applyWithDest(Iterable<GLSLShader> data, GLShaderProgram program) {
-			final var p = new GLShaderProgram(IteratorUtil.filter(data, x->x != null));
+			final var p = new GLShaderProgram(data);
 			program.close();
 			return p;
 		}

@@ -3,9 +3,9 @@ package com.greentree.engine.moon.render.camera;
 import org.joml.Matrix4f;
 import org.joml.Matrix4fc;
 
-import com.greentree.common.ecs.annotation.RequiredComponent;
-import com.greentree.common.ecs.component.ConstComponent;
 import com.greentree.engine.moon.base.transform.Transform;
+import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 @RequiredComponent({Transform.class})
 public record CameraComponent(int width, int height, Matrix4fc projection) implements ConstComponent {
