@@ -9,6 +9,7 @@ import com.greentree.commons.assets.value.Value;
 import com.greentree.commons.assets.value.function.Value1Function;
 import com.greentree.commons.util.classes.info.TypeInfo;
 
+@Deprecated
 public final class JSONToObjectSerializator<T> implements AssetSerializator<T> {
 	
 	public final JSONFunction<T> INSTANCE;

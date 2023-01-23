@@ -36,7 +36,17 @@ public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2D
 		
 		@Override
 		public GLTexture2DImpl applyWithDest(Texture2DData texture, GLTexture2DImpl tex) {
-			System.out.println(texture);
+			tex.close();
+			return apply(texture);
+		}
+		
+		@Override
+		public GLTexture2DImpl apply(Texture2DData texture) {
+			final var img = texture.image();
+			final var tex = TextureBuilder
+					.builder(img.getByteBuffer(), GLPixelFormat.gl(img.getFormat()))
+					.build2d(img.getWidth(), img.getHeight(), GLPixelFormat.RGBA);
+			
 			
 			tex.bind();
 			final var type = texture.type();
@@ -47,16 +57,8 @@ public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2D
 			tex.setWrapY(GLEnums.get(type.wrapY()));
 			
 			tex.unbind();
+			
 			return tex;
-		}
-		
-		@Override
-		public GLTexture2DImpl apply(Texture2DData texture) {
-			final var img = texture.image();
-			final var tex = TextureBuilder
-					.builder(img.getByteBuffer(), GLPixelFormat.gl(img.getFormat()))
-					.build2d(img.getWidth(), img.getHeight(), GLPixelFormat.RGBA);
-			return applyWithDest(texture, tex);
 		}
 		
 	}

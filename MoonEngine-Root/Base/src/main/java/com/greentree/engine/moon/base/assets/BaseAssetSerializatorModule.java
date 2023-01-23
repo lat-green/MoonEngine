@@ -39,7 +39,7 @@ public class BaseAssetSerializatorModule implements LaunchModule {
 		manager.addSerializator(new PropertyStringAssetSerializor());
 		manager.addSerializator(new PropertiesAssetSerializator());
 		
-		manager.addGenerator(new JSONToObjectGenerator());
+		//		manager.addGenerator(new JSONToObjectGenerator());
 		
 		manager.addSerializator(new XMLAssetSerializator());
 		manager.addSerializator(new JSONAssetSerializator());

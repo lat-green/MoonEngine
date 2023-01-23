@@ -26,8 +26,8 @@ public class PropertyStringAssetSerializor implements AssetSerializator<String> 
 	@Override
 	public boolean isDeepValid(DeepValidAssetManagerBase manager, AssetKey key) {
 		if(key instanceof PropertyAssetKey k)
-			if(manager.isValid(Properties.class, k.properties())
-					&& manager.isValid(String.class, k.name())) {
+			if(manager.isDeepValid(Properties.class, k.properties())
+					&& manager.isDeepValid(String.class, k.name())) {
 				final var prop = manager.loadData(Properties.class, k.properties());
 				final var name = manager.loadData(String.class, k.name());
 				return prop.containsKey(name);
@@ -36,16 +36,11 @@ public class PropertyStringAssetSerializor implements AssetSerializator<String> 
 	}
 	
 	@Override
-	public boolean isValid(ValidAssetManagerBase manager, AssetKey key) {
-		if(key instanceof PropertyAssetKey k)
-			return manager.isValid(Properties.class, k.properties())
-					&& manager.isValid(String.class, k.name());
-		return false;
-	}
-	
-	@Override
 	public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
-		return key instanceof PropertyAssetKey;
+		if(key instanceof PropertyAssetKey k)
+			return manager.canLoad(Properties.class, k.properties())
+					&& manager.canLoad(String.class, k.name());
+		return false;
 	}
 	
 	private static final class PropertyAssetFunction

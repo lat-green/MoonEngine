@@ -14,6 +14,8 @@ import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.commons.assets.value.Value;
 import com.greentree.commons.assets.value.function.Value1Function;
 import com.greentree.commons.data.resource.Resource;
+import com.greentree.commons.util.classes.ClassUtil;
+import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.commons.util.string.RefStringBuilder;
 import com.greentree.commons.xml.XMLElement;
@@ -46,10 +48,28 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 	private static final class XMLWorldFunction implements Value1Function<XMLElement, Scene> {
 		
 		private static final long serialVersionUID = 1L;
+		private final ObjectXMLBuilder builder = new ObjectXMLBuilder();
 		private final LoadContext context;
 		
 		public XMLWorldFunction(LoadContext context) {
 			this.context = context;
+			
+			builder.add(new XMLTypeAddapter() {
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
+						XMLElement xml_value) {
+					if(ClassUtil.isExtends(Value.class, type.toClass())) {
+						final var xml_value_text = xml_value.getContent();
+						final var value_type = type.getTypeArguments()[0].getBoxing();
+						final var value = context.load(value_type, xml_value_text);
+						return new ValueConstructor<>((T) value);
+					}
+					return null;
+				}
+			});
+			
 		}
 		
 		@Override
@@ -58,9 +78,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				
 				@Override
 				public void build(World world) {
-					for(var xml_entity : xml_scene.getChildrens("entity")) {
+					for(var xml_entity : xml_scene.getChildrens("entity"))
 						addEntity(world, xml_entity);
-					}
 					for(var xml_entity_ref : xml_scene.getChildrens("entity_ref")) {
 						final var file = xml_entity_ref.getAttribute("file");
 						final var res = context.load(Resource.class, file).get();
@@ -89,25 +108,6 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					}
 				}
 				
-				private void addEntity(World world, XMLElement xml_entity) {
-					final var name_atr = xml_entity.getAttribute("name");
-					final var layer_atr = xml_entity.getAttribute("layer");
-					final var entity = world.newEntity();
-					try(final var lock = entity.lock()) {
-						if(name_atr != null)
-							lock.add(new Name(name_atr));
-						if(layer_atr != null)
-							lock.add(new Layer(layer_atr));
-						
-						for(var xml_component : xml_entity.getChildrens("component"))
-							try {
-								lock.add(ObjectXMLBuilder.newFromXML(context, xml_component));
-							}catch(ClassNotFoundException e) {
-								e.printStackTrace();
-							}
-					}
-				}
-				
 				@Override
 				public ECSSystem getSystems(Iterable<? extends ECSSystem> globalSystems) {
 					final var systems = new ArrayList<ECSSystem>();
@@ -115,7 +115,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						systems.add(system);
 					for(var xml_system : xml_scene.getChildrens("system"))
 						try {
-							systems.add(ObjectXMLBuilder.newFromXML(context, xml_system));
+							systems.add(newFromXML(xml_system));
 						}catch(ClassNotFoundException e1) {
 							e1.printStackTrace();
 						}
@@ -128,6 +128,33 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					}catch(FileNotFoundException e) {
 						throw new WrappedException(e);
 					}
+				}
+				
+				private void addEntity(World world, XMLElement xml_entity) {
+					final var name_atr = xml_entity.getAttribute("name");
+					final var layer_atr = xml_entity.getAttribute("layer");
+					final var entity = world.newEntity();
+					try(final var lock = entity.lock()) {
+						if(name_atr != null)
+							lock.add(new Name(name_atr));
+						if(layer_atr != null)
+							lock.add(new Layer(layer_atr));
+						
+						for(var xml_component : xml_entity.getChildrens("component"))
+							try {
+								lock.add(newFromXML(xml_component));
+							}catch(ClassNotFoundException e) {
+								e.printStackTrace();
+							}
+					}
+				}
+				
+				private <T> T newFromXML(XMLElement xml_element) throws ClassNotFoundException {
+					final var systemClassName = xml_element.getAttribute("type");
+					@SuppressWarnings("unchecked")
+					final var systemClass = (Class<T>) ClassUtil
+							.loadClassInAllPackages(systemClassName);
+					return builder.build(systemClass, xml_element);
 				}
 				
 			};

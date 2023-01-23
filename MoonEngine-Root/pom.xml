@@ -15,7 +15,7 @@
 		<java.version.source>18</java.version.source>
 		<java.version.target>${java.version.source}</java.version.target>
 		
-		<commons.version>0.2</commons.version>
+		<commons.version>0.3</commons.version>
 		<junit.version>5.5.2</junit.version>
         <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
