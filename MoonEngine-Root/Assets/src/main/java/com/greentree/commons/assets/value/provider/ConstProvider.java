@@ -1,13 +1,21 @@
 package com.greentree.commons.assets.value.provider;
 
-import java.util.Objects;
-
-public record ConstProvider<T>(T value) implements ValueProvider<T> {
+public final class ConstProvider<T> implements ValueProvider<T> {
 	
-	public static final int CHARACTERISTICS = CONST | NOT_NULL | BLANCK_CLOSE | DISTINCT_CHANGE;
+	public static final int CHARACTERISTICS = CONST | NOT_NULL | BLANCK_CLOSE | DISTINCT_CHANGE
+			| CECHED;
 	
-	public ConstProvider {
-		Objects.requireNonNull(value);
+	private final T value;
+	
+	private ConstProvider(T value) {
+		this.value = value;
+	}
+	
+	
+	public static <T> ValueProvider<T> newValue(T value) {
+		if(value == null)
+			return NullProvider.instance();
+		return new ConstProvider<>(value);
 	}
 	
 	@Override

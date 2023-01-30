@@ -8,6 +8,7 @@ import com.greentree.commons.assets.value.ConstValue;
 import com.greentree.commons.assets.value.DefaultValue;
 import com.greentree.commons.assets.value.MutableValue;
 import com.greentree.commons.assets.value.NullValue;
+import com.greentree.commons.assets.value.Value;
 
 public class DefaultValueTest {
 	
@@ -21,7 +22,7 @@ public class DefaultValueTest {
 		
 		final var m = DefaultValue.newValue(v1, v2);
 		
-		assertFalse(m.hasCharacteristicConst());
+		assertFalse(m.hasCharacteristics(Value.CONST));
 		assertFalse(m.isNull());
 		
 		try(final var p = m.openProvider()) {

@@ -1,7 +1,5 @@
 package com.greentree.commons.assets.value;
 
-import java.util.function.Consumer;
-
 import com.greentree.commons.assets.value.provider.ValueProvider;
 
 
@@ -14,6 +12,7 @@ public abstract class AbstractRefCountValue<T> implements Value<T> {
 	
 	private long lastRawGet = Long.MIN_VALUE;
 	
+	@Deprecated
 	@Override
 	public T get() {
 		if(rawProvider != null) {
@@ -94,47 +93,47 @@ public abstract class AbstractRefCountValue<T> implements Value<T> {
 		
 		@Override
 		public T getNotChenge() {
+			if(isClose)
+				throw new UnsupportedOperationException("getNotChenge on close " + this);
 			return raw_get();
 		}
 		
 		@Override
 		public int characteristics() {
+			if(isClose)
+				throw new UnsupportedOperationException("characteristics on close " + this);
 			return rawProvider.characteristics();
 		}
 		
 		@Override
 		public void close() {
-			if(isClose)
-				throw new UnsupportedOperationException("double closing");
+			if(isClose) {
+				throw new UnsupportedOperationException("double closing " + this);
+			}
 			isClose = true;
 			end();
 		}
 		
 		@Override
-		public boolean tryGet(Consumer<? super T> action) {
-			if(lastGet == lastRawGet)
-				return false;
-			return rawProvider.tryGet(v-> {
-				lastRawGet++;
-				lastGet = lastRawGet;
-				action.accept(v);
-			});
-		}
-		
-		@Override
 		public T get() {
+			if(isClose)
+				throw new UnsupportedOperationException("get on close " + this);
 			lastGet = lastRawGet;
 			return raw_get();
 		}
 		
 		@Override
 		public boolean isChenge() {
+			if(isClose)
+				throw new UnsupportedOperationException("isChenge on close " + this);
 			return (lastGet < lastRawGet) || raw_isChenge();
 		}
 		
 		@Override
 		public String toString() {
-			return "RefCountProvider [" + rawProvider + "]";
+			if(isClose)
+				throw new UnsupportedOperationException("toString on close " + this);
+			return rawProvider.toString();
 		}
 		
 	}

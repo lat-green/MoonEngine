@@ -22,14 +22,15 @@ public final class DefultProvider<T> implements ValueProvider<T> {
 	public static <T> ValueProvider<T> newProviderFromProviders(
 			Iterable<? extends ValueProvider<T>> providers) {
 		for(var v : providers)
-			if(v.hasCharacteristicConst())
+			if(v.hasCharacteristics(CONST))
 				return v;
 			else
 				break;
 		List<ValueProvider<T>> list = new ArrayList<>();
 		for(var i : providers)
 			list.add(i);
-		list = list.stream().distinct().filter(s->!(s.hasCharacteristicConst() && s.isNull())).toList();
+		list = list.stream().distinct().filter(s->!(s.hasCharacteristics(CONST) && s.isNull()))
+				.toList();
 		if(list.isEmpty())
 			return NullProvider.instance();
 		if(list.size() == 1)

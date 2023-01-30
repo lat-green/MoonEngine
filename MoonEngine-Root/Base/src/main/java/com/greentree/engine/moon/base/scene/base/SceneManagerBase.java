@@ -48,10 +48,10 @@ public final class SceneManagerBase implements SceneManager {
 	}
 	
 	public void clearScene() {
-		if(currentWorld != null)
-			currentWorld.close();
 		if(currentSystems instanceof DestroySystem dsystem)
 			dsystem.destroy();
+		if(currentWorld != null)
+			currentWorld.close();
 	}
 	
 	private synchronized void loadScene() {
@@ -61,7 +61,7 @@ public final class SceneManagerBase implements SceneManager {
 		
 		clearScene();
 		
-		final var currentWorld = new World();
+		currentWorld = new World();
 		currentWorld.add(new EnginePropertiesWorldComponent(properties));
 		
 		currentSystems = nextScene.getSystems(globalSystems);

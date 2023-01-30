@@ -10,8 +10,8 @@ public record Scripts(Iterable<? extends ValueProvider<? extends Script>> script
 		implements ConstComponent {
 	
 	@SafeVarargs
-	public Scripts(ValueProvider<? extends Script>... scripts) {
-		this(IteratorUtil.iterable(scripts));
+	public Scripts(ValueProvider<? extends Script>... scriptsArray) {
+		this(IteratorUtil.iterable(scriptsArray));
 	}
 	
 	public Scripts() {

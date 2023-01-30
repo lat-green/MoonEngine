@@ -20,6 +20,7 @@ import com.greentree.engine.moon.opengl.assets.buffer.GLAttributeGroupAssetSeria
 import com.greentree.engine.moon.opengl.assets.buffer.VAOAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.buffer.VBOAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.material.GLPBRMaterialAssetSerializator;
+import com.greentree.engine.moon.opengl.assets.material.MaterialAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderProgramAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.texture.GLCubeTextureAssetSerializator;
@@ -88,6 +89,8 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
 		manager.addSerializator(
 				new VertexArrayDataAssetSerializator<>(EBO_TYPE, ATTRIBUTE_GROUP_TYPE));
 		manager.addSerializator(new VAOAssetSerializator());
+		
+		manager.addSerializator(new MaterialAssetSerializator());
 	}
 	
 }

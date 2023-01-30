@@ -1,7 +1,5 @@
 package com.greentree.commons.assets.value.provider;
 
-import java.util.Objects;
-
 import com.greentree.commons.assets.value.Value;
 
 public final class NotNullProvider<T> implements ValueProvider<T> {
@@ -59,6 +57,12 @@ public final class NotNullProvider<T> implements ValueProvider<T> {
 	public static <T> ValueProvider<T> newProvider(ValueProvider<T> provider) {
 		if(provider.hasCharacteristics(NOT_NULL))
 			return provider;
+		if(provider.hasCharacteristics(CONST)) {
+			final var v = provider.get();
+			if(v == null)
+				throw new NullPointerException("const null provider:" + provider);
+			return ConstProvider.newValue(v);
+		}
 		return new NotNullProvider<>(provider);
 	}
 	

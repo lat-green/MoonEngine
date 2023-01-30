@@ -20,7 +20,7 @@ public final class DefaultValue<T> implements Value<T> {
 	
 	public static <T> Value<T> newValue(Iterable<? extends Value<T>> values) {
 		for(var v : values)
-			if(v.hasCharacteristicConst())
+			if(v.hasCharacteristics(CONST))
 				return v;
 			else
 				break;

@@ -12,7 +12,6 @@ public class TimeSystem implements InitSystem, UpdateSystem {
 	@Override
 	public void update() {
 		time.step();
-		System.out.println(1f / time.delta());//TODO
 	}
 	
 	@CreateWorldComponent({Time.class})

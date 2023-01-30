@@ -12,26 +12,16 @@ public class CecheProvider<T> implements ValueProvider<T> {
 	
 	private transient T ceche;
 	
-	@Override
-	public String toString() {
-		return "Ceche [" + provider + ", " + ceche + "]";
+	private CecheProvider(ValueProvider<T> provider) {
+		this.provider = provider;
+		ceche = provider.get();
 	}
 	
 	public static <T> ValueProvider<T> ceche(Value<T> Value) {
 		final var provider = Value.openProvider();
-		if(provider.hasCharacteristicConst())
+		if(provider.hasCharacteristics(CONST) || provider.hasCharacteristics(CECHED))
 			return provider;
 		return new CecheProvider<>(provider);
-	}
-	
-	@Override
-	public void close() {
-		provider.close();
-	}
-	
-	private CecheProvider(ValueProvider<T> provider) {
-		this.provider = provider;
-		ceche = provider.get();
 	}
 	
 	@Override
@@ -39,18 +29,9 @@ public class CecheProvider<T> implements ValueProvider<T> {
 		return provider.characteristics() | CHARACTERISTICS;
 	}
 	
-	
 	@Override
-	public T getNotChenge() {
-		return ceche;
-	}
-	
-	@Override
-	public boolean tryGet(Consumer<? super T> action) {
-		return provider.tryGet(c-> {
-			ceche = c;
-			action.accept(ceche);
-		});
+	public void close() {
+		provider.close();
 	}
 	
 	@Override
@@ -61,9 +42,28 @@ public class CecheProvider<T> implements ValueProvider<T> {
 		return ceche;
 	}
 	
+	
+	@Override
+	public T getNotChenge() {
+		return ceche;
+	}
+	
 	@Override
 	public boolean isChenge() {
 		return provider.isChenge();
+	}
+	
+	@Override
+	public String toString() {
+		return "Ceche [" + provider + "]";
+	}
+	
+	@Override
+	public boolean tryGet(Consumer<? super T> action) {
+		return provider.tryGet(c-> {
+			ceche = c;
+			action.accept(ceche);
+		});
 	}
 	
 }

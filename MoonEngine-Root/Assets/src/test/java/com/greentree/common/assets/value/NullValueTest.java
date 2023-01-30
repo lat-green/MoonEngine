@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import com.greentree.commons.assets.value.NullValue;
+import com.greentree.commons.assets.value.Value;
 
 public class NullValueTest {
 	
@@ -14,7 +15,7 @@ public class NullValueTest {
 		
 		assertNull(v1.get());
 		
-		assertTrue(v1.hasCharacteristicConst());
+		assertTrue(v1.hasCharacteristics(Value.CONST));
 		assertTrue(v1.isNull());
 	}
 	

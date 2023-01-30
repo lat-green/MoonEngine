@@ -22,11 +22,11 @@ public final class ValueFunctionMapProvider<IN, OUT> extends AbstractMapProvider
 	
 	public static <T, R> ValueProvider<R> newProvider(ValueProvider<T> provider,
 			Value1Function<? super T, R> function) {
-		if(provider.hasCharacteristicConst()) {
+		if(provider.hasCharacteristics(CONST)) {
 			final var v = provider.get();
 			provider.close();
 			final var r = function.apply(v);
-			return new ConstProvider<>(r);
+			return ConstProvider.newValue(r);
 		}
 		return new ValueFunctionMapProvider<>(provider, function);
 	}

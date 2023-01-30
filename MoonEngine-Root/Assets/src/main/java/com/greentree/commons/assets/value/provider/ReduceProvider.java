@@ -9,15 +9,16 @@ public final class ReduceProvider<T> implements ValueProvider<T> {
 	private final ValueProvider<? extends Value<? extends T>> in;
 	private ValueProvider<? extends T> value;
 	
-	public ReduceProvider(Value<? extends Value<? extends T>> in) {
-		this(in.openProvider());
-	}
-	
-	public ReduceProvider(ValueProvider<? extends Value<? extends T>> in) {
+	private ReduceProvider(ValueProvider<? extends Value<? extends T>> in) {
 		this.in = in;
 		final var v = this.in.get();
 		if(v != null)
 			this.value = v.openProvider();
+	}
+	
+	@Override
+	public String toString() {
+		return "ReduceProvider [" + in + "]";
 	}
 	
 	@Override
@@ -57,6 +58,19 @@ public final class ReduceProvider<T> implements ValueProvider<T> {
 			value = this.in.get().openProvider();
 		}
 		return value.get();
+	}
+	
+	public static <T> ValueProvider<T> newValue(Value<? extends Value<T>> value) {
+		return newValue(value.openProvider());
+	}
+	
+	public static <T> ValueProvider<T> newValue(ValueProvider<? extends Value<T>> provider) {
+		if(provider.hasCharacteristics(CONST)) {
+			final var value = provider.get();
+			provider.close();
+			return value.openProvider();
+		}
+		return new ReduceProvider<>(provider);
 	}
 	
 }

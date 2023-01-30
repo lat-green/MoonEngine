@@ -3,7 +3,6 @@ package com.greentree.commons.assets.value;
 import com.greentree.commons.assets.value.function.Value1Function;
 import com.greentree.commons.assets.value.provider.AbstractMapProvider;
 import com.greentree.commons.assets.value.provider.ConstProvider;
-import com.greentree.commons.assets.value.provider.ValueFunctionMapProvider;
 import com.greentree.commons.assets.value.provider.ValueProvider;
 
 public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> {
@@ -18,7 +17,7 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
 	}
 	
 	public static <T, R> Value<R> newValue(Value<T> value, Value1Function<? super T, R> function) {
-		if(value.hasCharacteristicConst()) {
+		if(value.hasCharacteristics(CONST)) {
 			try(final var p = value.openProvider()) {
 				final var v = p.get();
 				final var r = function.apply(v);
@@ -30,7 +29,7 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
 	
 	@Override
 	public String toString() {
-		return "ValueFunctionMapValue [" + value + ", " + function + "]";
+		return "ValueFunctionMapValue [" + value + ", " + function.getClass().getSimpleName() + "]";
 	}
 	
 	@Override
@@ -54,11 +53,11 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
 		
 		public static <T, R> ValueProvider<R> newProvider(ValueProvider<T> provider,
 				Value1Function<? super T, R> function) {
-			if(provider.hasCharacteristicConst()) {
+			if(provider.hasCharacteristics(CONST)) {
 				final var v = provider.get();
 				provider.close();
 				final var r = function.apply(v);
-				return new ConstProvider<>(r);
+				return ConstProvider.newValue(r);
 			}
 			return new Provider<>(provider, function);
 		}

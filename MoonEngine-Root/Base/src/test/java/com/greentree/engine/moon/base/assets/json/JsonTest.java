@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 
 import com.google.gson.JsonElement;
+import com.greentree.commons.assets.value.Value;
 import com.greentree.engine.moon.Engine;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.InitAssetManagerModule;
@@ -38,12 +39,12 @@ public class JsonTest {
 				final var json = manager.load(JsonElement.class, key);
 				
 				assertFalse(json.isNull());
-				assertTrue(json.hasCharacteristicConst());
+				assertTrue(json.hasCharacteristics(Value.CONST));
 				
 				final var res = manager.load(arr.getClass(), json.get());
 				
 				assertFalse(res.isNull());
-				assertTrue(res.hasCharacteristicConst());
+				assertTrue(res.hasCharacteristics(Value.CONST));
 				
 				assertEquals(arr, res.get());
 				

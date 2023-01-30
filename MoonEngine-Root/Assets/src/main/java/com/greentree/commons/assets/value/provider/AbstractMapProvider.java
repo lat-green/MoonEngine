@@ -6,7 +6,7 @@ import com.greentree.commons.assets.value.Value;
 
 public abstract class AbstractMapProvider<IN, OUT> implements ValueProvider<OUT> {
 	
-	private static final int CHARACTERISTICS = 0;
+	public static final int CHARACTERISTICS = 0;
 	protected final ValueProvider<IN> input;
 	
 	public AbstractMapProvider(Value<IN> input) {
@@ -19,7 +19,7 @@ public abstract class AbstractMapProvider<IN, OUT> implements ValueProvider<OUT>
 	
 	@Override
 	public final int characteristics() {
-		return CHARACTERISTICS;
+		return input.characteristics() & ~CECHED;
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public abstract class AbstractMapProvider<IN, OUT> implements ValueProvider<OUT>
 	
 	@Override
 	public String toString() {
-		return "AbstractMapProvider [" + input + "]";
+		return "MapProvider [" + input + "]";
 	}
 	
 	@Override

@@ -12,7 +12,6 @@ public interface ValueProvider<T> extends ValueCharacteristics<T>, AutoCloseable
 	
 	T get();
 	
-	@Deprecated
 	default boolean isNull() {
 		return !hasCharacteristics(NOT_NULL) && get() == null;
 	}

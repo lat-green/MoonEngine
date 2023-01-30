@@ -20,7 +20,7 @@ public final class IteratableValue<T> implements Value<Iterable<T>> {
 	
 	@Override
 	public ValueProvider<Iterable<T>> openProvider() {
-		return new ReduceProvider<>(IteratableProvider.newValue(values));
+		return ReduceProvider.newValue(IteratableProvider.newValue(values));
 	}
 	
 	

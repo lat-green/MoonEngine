@@ -14,16 +14,9 @@ public final class CecheValue<T> implements Value<T> {
 	}
 	
 	public static <T> Value<T> ceche(Value<T> value) {
-		if(value.hasCharacteristics(CONST))
-			return value;
-		if(value.hasCharacteristics(CECHED))
+		if(value.hasCharacteristics(CONST) || value.hasCharacteristics(CECHED))
 			return value;
 		return new CecheValue<>(value);
-	}
-	
-	@Override
-	public String toString() {
-		return "Ceche [" + value + "]";
 	}
 	
 	@Override
@@ -34,6 +27,11 @@ public final class CecheValue<T> implements Value<T> {
 	@Override
 	public ValueProvider<T> openProvider() {
 		return CecheProvider.ceche(value);
+	}
+	
+	@Override
+	public String toString() {
+		return "Ceche [" + value + "]";
 	}
 	
 }

@@ -7,8 +7,8 @@ import com.greentree.commons.data.resource.Resource;
 
 public final class ResourceProvider implements ValueProvider<Resource> {
 	
-	public static final int CHARACTERISTICS = BLANCK_CLOSE | NOT_NULL;
-	private long lastModified;
+	public static final int CHARACTERISTICS = BLANCK_CLOSE | NOT_NULL | CECHED;
+	private transient long lastModified;
 	private final Resource resource;
 	
 	
@@ -31,6 +31,11 @@ public final class ResourceProvider implements ValueProvider<Resource> {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "ResourceProvider [" + resource + "]";
 	}
 	
 	@Override

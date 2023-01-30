@@ -1,13 +1,14 @@
 package com.greentree.commons.assets.value;
 
+import java.util.ArrayList;
 
 public interface ValueCharacteristics<T> {
 	
 	int NOT_NULL = 0x00000001;
 	int BLANCK_CLOSE = 0x00000002;
 	int DISTINCT_CHANGE = 0x00000004;
-	int CONST = 0x00000008;
-	int CECHED = 0x00000010;
+	int CECHED = 0x00000008;
+	int CONST = 0x00000010 | CECHED;
 	
 	
 	int characteristics();
@@ -16,7 +17,19 @@ public interface ValueCharacteristics<T> {
 		return (characteristics() & characteristics) == characteristics;
 	}
 	
-	default boolean hasCharacteristicConst() {
-		return hasCharacteristics(CONST);
+	static String toString(int characteristics) {
+		final var result = new ArrayList<>(5);
+		if((characteristics & CONST) != 0)
+			result.add("CONST");
+		if((characteristics & CECHED) != 0)
+			result.add("CECHED");
+		if((characteristics & DISTINCT_CHANGE) != 0)
+			result.add("DISTINCT_CHANGE");
+		if((characteristics & BLANCK_CLOSE) != 0)
+			result.add("BLANCK_CLOSE");
+		if((characteristics & NOT_NULL) != 0)
+			result.add("NOT_NULL");
+		return result.toString();
 	}
+	
 }

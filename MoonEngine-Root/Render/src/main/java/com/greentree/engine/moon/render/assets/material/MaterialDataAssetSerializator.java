@@ -7,7 +7,7 @@ import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.commons.assets.value.ConstValue;
 import com.greentree.commons.assets.value.Value;
 
-public class MaterialAssetSerializator implements AssetSerializator<MaterialData> {
+public class MaterialDataAssetSerializator implements AssetSerializator<MaterialData> {
 	
 	@Override
 	public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {

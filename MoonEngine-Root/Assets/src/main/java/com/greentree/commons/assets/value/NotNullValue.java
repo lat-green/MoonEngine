@@ -3,12 +3,12 @@ package com.greentree.commons.assets.value;
 import com.greentree.commons.assets.value.provider.NotNullProvider;
 import com.greentree.commons.assets.value.provider.ValueProvider;
 
-public final class NotNUllValue<T> implements Value<T> {
+public final class NotNullValue<T> implements Value<T> {
 	
 	private static final long serialVersionUID = 1L;
 	private final Value<T> value;
 	
-	private NotNUllValue(Value<T> value) {
+	private NotNullValue(Value<T> value) {
 		this.value = value;
 	}
 	
@@ -25,7 +25,7 @@ public final class NotNUllValue<T> implements Value<T> {
 	public static <T> Value<T> newValue(Value<T> value) {
 		if(value.hasCharacteristics(NOT_NULL))
 			return value;
-		return new NotNUllValue<>(value);
+		return new NotNullValue<>(value);
 	}
 	
 	

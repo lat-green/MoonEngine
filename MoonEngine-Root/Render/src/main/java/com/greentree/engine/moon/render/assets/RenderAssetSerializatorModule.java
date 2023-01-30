@@ -17,7 +17,7 @@ import com.greentree.engine.moon.render.assets.buffer.VertexArrayVBOsAssetSerial
 import com.greentree.engine.moon.render.assets.color.ColorAssetSerializer;
 import com.greentree.engine.moon.render.assets.image.ImageAssetSerializator;
 import com.greentree.engine.moon.render.assets.image.cube.CubeImageAssetSerializator;
-import com.greentree.engine.moon.render.assets.material.MaterialAssetSerializator;
+import com.greentree.engine.moon.render.assets.material.MaterialDataAssetSerializator;
 import com.greentree.engine.moon.render.assets.mesh.AssimpMeshAssetSerializator;
 import com.greentree.engine.moon.render.assets.mesh.AssimpSceneAssetSerializator;
 import com.greentree.engine.moon.render.assets.shader.ShaderAssetSerializator;
@@ -42,7 +42,7 @@ public class RenderAssetSerializatorModule implements LaunchModule {
 		
 		manager.addSerializator(new ShaderAssetSerializator());
 		
-		manager.addSerializator(new MaterialAssetSerializator());
+		manager.addSerializator(new MaterialDataAssetSerializator());
 		
 		manager.addSerializator(new IntBufferAssetSerializotor());
 		

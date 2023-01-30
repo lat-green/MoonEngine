@@ -48,7 +48,7 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 		final var height = Integer.parseInt(wini.getProperty("window.height"));
 		
 		SGLFW.init();
-		window = new Window(title, width, height, false, false, false);//TODO
+		window = new Window(title, width, height);
 		final var wwc = new WindowProperty(window);
 		properties.add(wwc);
 		window.makeCurrent();

@@ -33,7 +33,7 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
 	
 	
 	public AssetManager() {
-		executor = Executors.newSingleThreadExecutor(r-> {
+		executor = Executors.newFixedThreadPool(4, r-> {
 			final var thread = new Thread(r, "AssetManager");
 			thread.setDaemon(true);
 			thread.setPriority(Thread.MAX_PRIORITY);
@@ -172,6 +172,7 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
 			return DefaultValue.newValue(result, ConstValue.newValue(def));
 		}
 		
+		@Override
 		public <T> T loadData(TypeInfo<T> type, AssetKey key, T def) {
 			final var info = get(type);
 			try {

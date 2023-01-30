@@ -24,7 +24,6 @@ import com.greentree.commons.assets.serializator.context.LoadContext;
 import com.greentree.commons.assets.value.AbstractRefCountValue;
 import com.greentree.commons.assets.value.CecheValue;
 import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.provider.ProxyProvider;
 import com.greentree.commons.assets.value.provider.ValueProvider;
 import com.greentree.commons.data.resource.location.ResourceLocation;
 import com.greentree.commons.util.classes.info.TypeInfo;
@@ -182,6 +181,15 @@ final class AssetSerializatorContainer {
 		
 		private static final long serialVersionUID = 1L;
 		
+		private final Value<T> value;
+		
+		private final Runnable onClose;
+		
+		public CechedValue(Value<T> Value, Runnable close) {
+			this.value = Value;
+			this.onClose = close;
+		}
+		
 		@Deprecated
 		@Override
 		public T get() {
@@ -196,13 +204,19 @@ final class AssetSerializatorContainer {
 			return value.isNull();
 		}
 		
-		private final Value<T> value;
+		@Override
+		public ValueProvider<T> openRawProvider() {
+			return value.openProvider();
+		}
 		
-		private final Runnable onClose;
+		@Override
+		public String toString() {
+			return value.toString();
+		}
 		
-		public CechedValue(Value<T> Value, Runnable close) {
-			this.value = Value;
-			this.onClose = close;
+		@Serial
+		private Object writeReplace() throws ObjectStreamException {
+			return value;
 		}
 		
 		@Override
@@ -213,21 +227,6 @@ final class AssetSerializatorContainer {
 		@Override
 		protected int rawCharacteristics() {
 			return value.characteristics();
-		}
-		
-		@Override
-		public ValueProvider<T> openRawProvider() {
-			return value.openProvider();
-		}
-		
-		@Override
-		public String toString() {
-			return "CechedValue [" + value + "]";
-		}
-		
-		@Serial
-		private Object writeReplace() throws ObjectStreamException {
-			return value;
 		}
 		
 	}

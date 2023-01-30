@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import com.greentree.commons.assets.value.MutableValue;
+import com.greentree.commons.assets.value.Value;
 
 public class MutableValueTest {
 	
@@ -16,7 +17,7 @@ public class MutableValueTest {
 		try(final var p = v1.openProvider()) {
 			assertEquals(p.get(), TEXT);
 			
-			assertFalse(p.hasCharacteristicConst());
+			assertFalse(p.hasCharacteristics(Value.CONST));
 			assertFalse(p.isNull());
 			
 			v1.set(null);

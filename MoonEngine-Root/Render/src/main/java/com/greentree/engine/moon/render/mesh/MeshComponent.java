@@ -11,17 +11,6 @@ import com.greentree.engine.moon.ecs.component.ConstComponent;
 @RequiredComponent({Transform.class})
 public record MeshComponent(ValueProvider<? extends GraphicsMesh> mesh) implements ConstComponent {
 	
-	
-	public MeshComponent {
-		Objects.requireNonNull(mesh);
-		System.out.println(mesh);
-	}
-	
-	@Override
-	public void close() {
-		mesh.close();
-	}
-	
 	public MeshComponent {
 		Objects.requireNonNull(mesh);
 	}
@@ -33,6 +22,11 @@ public record MeshComponent(ValueProvider<? extends GraphicsMesh> mesh) implemen
 		builder.append(mesh);
 		builder.append("]");
 		return builder.toString();
+	}
+	
+	@Override
+	public void close() {
+		mesh.close();
 	}
 	
 }

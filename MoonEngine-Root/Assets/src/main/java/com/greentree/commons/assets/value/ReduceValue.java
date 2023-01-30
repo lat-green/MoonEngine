@@ -27,7 +27,7 @@ public final class ReduceValue<T> implements Value<T> {
 	
 	@Override
 	public ValueProvider<T> openProvider() {
-		return new ReduceProvider<>(result);
+		return ReduceProvider.newValue(result);
 	}
 	
 }

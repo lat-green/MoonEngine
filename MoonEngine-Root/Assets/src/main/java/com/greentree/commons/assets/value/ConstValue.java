@@ -26,7 +26,7 @@ public final class ConstValue<T> implements Value<T> {
 	
 	@Override
 	public ValueProvider<T> openProvider() {
-		return new ConstProvider<>(value);
+		return ConstProvider.newValue(value);
 	}
 	
 	@Override

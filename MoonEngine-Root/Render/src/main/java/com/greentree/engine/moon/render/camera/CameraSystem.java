@@ -10,6 +10,7 @@ import com.greentree.engine.moon.ecs.system.InitSystem;
 public class CameraSystem implements InitSystem, DestroySystem {
 	
 	private Cameras cameras;
+	private ListenerCloser lc;
 	
 	@CreateWorldComponent({Cameras.class})
 	@Override
@@ -19,7 +20,7 @@ public class CameraSystem implements InitSystem, DestroySystem {
 		
 		setMainCamera(world);
 		
-		world.onRemoveComponent(CameraComponent.class, e-> {
+		lc = world.onRemoveComponent(CameraComponent.class, e-> {
 			if(e.equals(cameras.main()))
 				setMainCamera(world);
 		});
@@ -42,6 +43,8 @@ public class CameraSystem implements InitSystem, DestroySystem {
 	@DestroyWorldComponent({Cameras.class})
 	@Override
 	public void destroy() {
+		lc.close();
+		lc = null;
 		cameras.setMainCamera(null);
 		cameras = null;
 	}

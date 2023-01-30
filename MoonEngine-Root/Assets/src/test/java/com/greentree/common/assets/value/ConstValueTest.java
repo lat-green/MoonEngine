@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import com.greentree.commons.assets.value.ConstValue;
+import com.greentree.commons.assets.value.Value;
 
 public class ConstValueTest {
 	
@@ -13,7 +14,7 @@ public class ConstValueTest {
 	@Test
 	void test_NEW() {
 		final var v1 = ConstValue.newValue(TEXT);
-		assertTrue(v1.hasCharacteristicConst());
+		assertTrue(v1.hasCharacteristics(Value.CONST));
 		try(final var p = v1.openProvider()) {
 			assertEquals(p.get(), TEXT);
 			assertFalse(p.isNull());
