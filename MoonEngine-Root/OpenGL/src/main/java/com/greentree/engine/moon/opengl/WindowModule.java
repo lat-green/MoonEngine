@@ -42,13 +42,13 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 		
 		final var manager = properties.get(AssetManagerProperty.class).manager();
 		
-		final var wini = manager.load(Properties.class, "window.ini").get();
+		final var wini = manager.loadData(Properties.class, "window.ini");
 		final var title = wini.getProperty("window.title");
 		final var width = Integer.parseInt(wini.getProperty("window.width"));
 		final var height = Integer.parseInt(wini.getProperty("window.height"));
 		
 		SGLFW.init();
-		window = new Window(title, width, height);
+		window = new Window(title, width, height, false, false, false);//TODO
 		final var wwc = new WindowProperty(window);
 		properties.add(wwc);
 		window.makeCurrent();

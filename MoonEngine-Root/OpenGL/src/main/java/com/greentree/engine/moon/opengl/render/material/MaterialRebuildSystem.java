@@ -5,8 +5,9 @@ import com.greentree.common.renderer.material.Material;
 import com.greentree.common.renderer.material.MaterialPropertiesImpl;
 import com.greentree.common.renderer.opengl.material.GLTextureProperty;
 import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.Values;
 import com.greentree.commons.assets.value.function.Value2Function;
+import com.greentree.commons.assets.value.merge.M2Provider;
+import com.greentree.commons.assets.value.provider.ValueFunctionMapProvider;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
 import com.greentree.engine.moon.ecs.World;
@@ -26,7 +27,6 @@ public final class MaterialRebuildSystem implements InitSystem, UpdateSystem, De
 	
 	@Override
 	public void destroy() {
-		program.close();
 		renderes.close();
 	}
 	
@@ -67,10 +67,12 @@ public final class MaterialRebuildSystem implements InitSystem, UpdateSystem, De
 	public void update() {
 		for(var e : renderes) {
 			final var material = e.get(GLPBRMeshRendener.class).material;
+			final var m = new M2Provider<>(program.openProvider(), material);
 			
-			final var m = Values.map(program, material, new MaterialRebuildAssetSerializator());
+			final var mat = ValueFunctionMapProvider.newProvider(m,
+					new MaterialRebuildAssetSerializator());
 			
-			e.add(new MeshRenderer(m));
+			e.add(new MeshRenderer(mat));
 		}
 	}
 	

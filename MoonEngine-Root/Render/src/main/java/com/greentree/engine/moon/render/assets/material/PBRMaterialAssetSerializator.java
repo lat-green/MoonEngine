@@ -6,7 +6,7 @@ import com.greentree.common.renderer.texture.Texture2DType;
 import com.greentree.commons.assets.key.AssetKey;
 import com.greentree.commons.assets.key.DefaultAssetKey;
 import com.greentree.commons.assets.key.ResourceAssetKey;
-import com.greentree.commons.assets.key.ResultAssetKeyImpl;
+import com.greentree.commons.assets.key.ResultAssetKey;
 import com.greentree.commons.assets.serializator.AssetSerializator;
 import com.greentree.commons.assets.serializator.context.LoadContext;
 import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
@@ -21,21 +21,19 @@ import com.greentree.engine.moon.render.assets.texture.Texture2DAssetKey;
 
 public final class PBRMaterialAssetSerializator<T> implements AssetSerializator<PBRMaterial<T>> {
 	
-	private final static AssetKey DEFAULT_ALBEDO = new ResultAssetKeyImpl(
-			new ImageData(Color.white));
+	private final static AssetKey DEFAULT_ALBEDO = new ResultAssetKey(new ImageData(Color.white));
 	
-	private final static AssetKey DEFAULT_NORMAL = new ResultAssetKeyImpl(
+	private final static AssetKey DEFAULT_NORMAL = new ResultAssetKey(
 			new ImageData(new Color(0.5, 0.5, 1)));
 	
-	private final static AssetKey DEFAULT_METALLIC = new ResultAssetKeyImpl(
+	private final static AssetKey DEFAULT_METALLIC = new ResultAssetKey(new ImageData(Color.black));
+	
+	private final static AssetKey DEFAULT_ROUGHNESS = new ResultAssetKey(
 			new ImageData(Color.black));
 	
-	private final static AssetKey DEFAULT_ROUGHNESS = new ResultAssetKeyImpl(
+	private final static AssetKey DEFAULT_DISPLACEMENT = new ResultAssetKey(
 			new ImageData(Color.black));
-	
-	private final static AssetKey DEFAULT_DISPLACEMENT = new ResultAssetKeyImpl(
-			new ImageData(Color.black));
-	private final static AssetKey DEFAULT_AMBIENT_OCCLUSION = new ResultAssetKeyImpl(
+	private final static AssetKey DEFAULT_AMBIENT_OCCLUSION = new ResultAssetKey(
 			new ImageData(Color.white));
 	
 	private final TypeInfo<T> TYPE;

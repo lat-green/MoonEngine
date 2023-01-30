@@ -24,15 +24,13 @@ public class MeshAssetSerializator implements AssetSerializator<GraphicsMesh> {
 	public Value<GraphicsMesh> load(LoadContext manager, AssetKey ckey) {
 		if(manager.canLoad(Resource.class, ckey)) {
 			final var resource = manager.load(Resource.class, ckey);
-			final var name = resource.get().getName();
-			if(name.endsWith(".obj")) {
-				return manager.map(resource, new ObjMeshAsset());
-			}
+			return manager.map(resource, new ObjMeshValue1Function());
 		}
 		return null;
 	}
 	
-	private static final class ObjMeshAsset implements Value1Function<Resource, GraphicsMesh> {
+	private static final class ObjMeshValue1Function
+			implements Value1Function<Resource, GraphicsMesh> {
 		
 		private static final long serialVersionUID = 1L;
 		

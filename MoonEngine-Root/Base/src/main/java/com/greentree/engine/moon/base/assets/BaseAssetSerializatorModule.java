@@ -2,7 +2,6 @@ package com.greentree.engine.moon.base.assets;
 
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.assets.json.JSONAssetSerializator;
-import com.greentree.engine.moon.base.assets.json.JSONToObjectGenerator;
 import com.greentree.engine.moon.base.assets.number.BooleanAssetSerializator;
 import com.greentree.engine.moon.base.assets.number.ByteAssetSerializator;
 import com.greentree.engine.moon.base.assets.number.DoubleAssetSerializator;

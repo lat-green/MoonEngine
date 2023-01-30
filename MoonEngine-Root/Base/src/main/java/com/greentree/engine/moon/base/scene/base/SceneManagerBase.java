@@ -34,7 +34,7 @@ public final class SceneManagerBase implements SceneManager {
 	}
 	
 	@Override
-	public void set(Scene scene) {
+	public synchronized void set(Scene scene) {
 		if(loadScene)
 			throw new IllegalArgumentException("set scene on load scene");
 		nextScene = scene;
@@ -49,12 +49,12 @@ public final class SceneManagerBase implements SceneManager {
 	
 	public void clearScene() {
 		if(currentWorld != null)
-			currentWorld.clear();
+			currentWorld.close();
 		if(currentSystems instanceof DestroySystem dsystem)
 			dsystem.destroy();
 	}
 	
-	private void loadScene() {
+	private synchronized void loadScene() {
 		if(loadScene)
 			throw new IllegalArgumentException("load scene on load scene");
 		loadScene = true;

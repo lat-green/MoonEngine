@@ -7,12 +7,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.ResultAssetKeyImpl;
+import com.greentree.commons.assets.key.ResultAssetKey;
 import com.greentree.commons.assets.serializator.AssetSerializator;
 import com.greentree.commons.assets.serializator.context.LoadContext;
 import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.commons.assets.value.Value;
 import com.greentree.commons.assets.value.function.Value1Function;
+import com.greentree.commons.assets.value.provider.ValueProvider;
 import com.greentree.commons.data.resource.Resource;
 import com.greentree.commons.util.classes.ClassUtil;
 import com.greentree.commons.util.classes.info.TypeInfo;
@@ -36,10 +37,9 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 	
 	@Override
 	public Value<Scene> load(LoadContext context, AssetKey ckey) {
-		{
+		if(context.canLoad(XMLElement.class, ckey)) {
 			final var res = context.load(XMLElement.class, ckey);
-			if(res != null)
-				return context.map(res, new XMLWorldFunction(context));
+			return context.map(res, new XMLWorldFunction(context));
 		}
 		return null;
 	}
@@ -69,6 +69,35 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					return null;
 				}
 			});
+			builder.add(new XMLTypeAddapter() {
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
+						XMLElement xml_value) {
+					if(ClassUtil.isExtends(ValueProvider.class, type.toClass())) {
+						final var xml_value_text = xml_value.getContent();
+						final var value_type = type.getTypeArguments()[0].getBoxing();
+						final var value = context.load(value_type, xml_value_text).openProvider();
+						return new ValueConstructor<>((T) value);
+					}
+					return null;
+				}
+			});
+			builder.add(new XMLTypeAddapter() {
+				
+				@Override
+				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
+						XMLElement xml_value) {
+					final var xml_value_text = xml_value.getContent();
+					final var key = new ResultAssetKey(xml_value_text);
+					if(context.isDeepValid(type, key)) {
+						final var v = context.loadData(type, key);
+						return new ValueConstructor<>(v);
+					}
+					return null;
+				}
+			});
 			
 		}
 		
@@ -82,7 +111,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						addEntity(world, xml_entity);
 					for(var xml_entity_ref : xml_scene.getChildrens("entity_ref")) {
 						final var file = xml_entity_ref.getAttribute("file");
-						final var res = context.load(Resource.class, file).get();
+						final var res = context.loadData(Resource.class, file);
 						
 						final RefStringBuilder builder;
 						try {
@@ -101,8 +130,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						}
 						
 						final var text = builder.toString(map);
-						final var xml = context.load(XMLElement.class, new ResultAssetKeyImpl(text))
-								.get();
+						final var xml = context.loadData(XMLElement.class,
+								new ResultAssetKey(text));
 						
 						addEntity(world, xml);
 					}

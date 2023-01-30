@@ -2,7 +2,7 @@ package com.greentree.engine.moon.opengl.render.material;
 
 import java.util.Objects;
 
-import com.greentree.commons.assets.value.Value;
+import com.greentree.commons.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
@@ -12,10 +12,15 @@ public class GLPBRMeshRendener implements ConstComponent {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public final Value<GLPBRMaterial> material;
+	public final ValueProvider<GLPBRMaterial> material;
 	
-	public GLPBRMeshRendener(Value<GLPBRMaterial> material) {
+	public GLPBRMeshRendener(ValueProvider<GLPBRMaterial> material) {
 		this.material = material;
+	}
+	
+	@Override
+	public void close() {
+		material.close();
 	}
 	
 	@Override

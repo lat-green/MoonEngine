@@ -23,28 +23,6 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 	private final Collection<XMLTypeAddapter> addapters = new ArrayList<>();
 	
 	{
-		add(new XMLTypeAddapter() {
-			
-			@Override
-			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type,
-					XMLElement element) {
-				final var cls = type.toClass();
-				final var v = newInstanceOrNull(cls, element.getContent());
-				if(v != null)
-					return new ValueConstructor<>(v);
-				return null;
-			}
-			
-			@SuppressWarnings("unchecked")
-			public <T> T newInstanceOrNull(Class<T> cls, String text) {
-				if(Float.class == cls)
-					return (T) (Float) Float.parseFloat(text);
-				if(Integer.class == cls)
-					return (T) (Integer) Integer.parseInt(text);
-				return null;
-			}
-			
-		});
 		add(new ReDirectXMLTypeAddapter(Iterable.class, Collection.class));
 		add(new ReDirectXMLTypeAddapter(Collection.class, List.class));
 		add(new ReDirectXMLTypeAddapter(List.class, ArrayList.class));
@@ -122,6 +100,8 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		for(var i = 0; i < params.length; i++) {
 			var p = params[i];
 			final var p_type = TypeInfoBuilder.getTypeInfo(p.getParameterizedType());
+			if(p_type == null)
+				throw new NullPointerException("null TypeInfo of " + p);
 			final var xml_value = names.remove(p.getName());
 			args[i] = build(p_type, xml_value);
 		}

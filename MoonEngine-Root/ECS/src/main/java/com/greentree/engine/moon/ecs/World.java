@@ -18,7 +18,7 @@ import com.greentree.commons.action.observer.object.EventAction;
 import com.greentree.commons.action.observer.type.TypedObjectAction;
 import com.greentree.engine.moon.ecs.component.Component;
 
-public final class World implements Iterable<Entity>, Externalizable, Cloneable {
+public final class World implements Iterable<Entity>, Externalizable, Cloneable, AutoCloseable {
 	
 	private transient final TypedObjectAction<Class<? extends Component>, Entity> odAddComponentAction = new TypedObjectAction<>();
 	private transient final TypedObjectAction<Class<? extends Component>, Entity> onRemoveComponentAction = new TypedObjectAction<>();
@@ -133,7 +133,8 @@ public final class World implements Iterable<Entity>, Externalizable, Cloneable 
 		return e;
 	}
 	
-	public <T extends Component> ListenerCloser onAddComponent(Class<T> componentClass, Consumer<? super Entity> l) {
+	public <T extends Component> ListenerCloser onAddComponent(Class<T> componentClass,
+			Consumer<? super Entity> l) {
 		return odAddComponentAction.addListener(componentClass, l);
 	}
 	
@@ -145,7 +146,8 @@ public final class World implements Iterable<Entity>, Externalizable, Cloneable 
 		return onAddEntityAction.addListener(l);
 	}
 	
-	public <T extends Component> ListenerCloser onRemoveComponent(Class<T> componentClass, Consumer<? super Entity> l) {
+	public <T extends Component> ListenerCloser onRemoveComponent(Class<T> componentClass,
+			Consumer<? super Entity> l) {
 		return onRemoveComponentAction.addListener(componentClass, l);
 	}
 	
@@ -250,6 +252,15 @@ public final class World implements Iterable<Entity>, Externalizable, Cloneable 
 		for(var c : entity)
 			onRemoveComponentAction.event(c.getClass(), entity);
 		onRemoveEntityAction.event(entity);
+	}
+	
+	@Override
+	public void close() {
+		for(var e : activeEntities)
+			e.close();
+		for(var e : deactiveEntities)
+			e.close();
+		clear();
 	}
 	
 }

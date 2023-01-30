@@ -27,7 +27,7 @@ public class VAOAssetSerializator implements AssetSerializator<GLVertexArray> {
 	
 	@Override
 	public Value<GLVertexArray> load(LoadContext context, AssetKey key) {
-		final var data = context.load(VERTEX_ARRAY_DATA_TYPE, key).toLazy();
+		final var data = context.load(VERTEX_ARRAY_DATA_TYPE, key);
 		if(data != null)
 			return context.map(data, new VAOFunction());
 		return null;

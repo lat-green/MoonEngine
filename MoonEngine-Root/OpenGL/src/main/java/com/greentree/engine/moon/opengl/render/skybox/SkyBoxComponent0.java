@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import com.greentree.common.graphics.sgl.texture.gl.cubemap.GLCubeMapTexture;
 import com.greentree.commons.assets.value.Value;
+import com.greentree.commons.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
 import com.greentree.engine.moon.render.camera.CameraComponent;
@@ -13,10 +14,15 @@ public class SkyBoxComponent0 implements ConstComponent {
 	
 	private static final long serialVersionUID = 1L;
 	
-	public final Value<GLCubeMapTexture> texture;
+	public final ValueProvider<GLCubeMapTexture> texture;
 	
-	public SkyBoxComponent0(Value<GLCubeMapTexture> texture) {
+	public SkyBoxComponent0(ValueProvider<GLCubeMapTexture> texture) {
 		this.texture = texture;
+	}
+	
+	@Override
+	public void close() {
+		texture.close();
 	}
 	
 	@Override

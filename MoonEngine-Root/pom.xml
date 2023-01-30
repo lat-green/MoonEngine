@@ -15,7 +15,7 @@
 		<java.version.source>18</java.version.source>
 		<java.version.target>${java.version.source}</java.version.target>
 		
-		<commons.version>0.3</commons.version>
+		<commons.version>0.3.1</commons.version>
 		<junit.version>5.5.2</junit.version>
         <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
@@ -58,11 +58,6 @@
 			<dependency>
 				<groupId>com.greentree.commons</groupId>
 				<artifactId>action</artifactId>
-				<version>${commons.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.greentree.commons</groupId>
-				<artifactId>assets</artifactId>
 				<version>${commons.version}</version>
 			</dependency>
 			<dependency>
@@ -110,7 +105,18 @@
 				<artifactId>xml</artifactId>
 				<version>${commons.version}</version>
 			</dependency>
+			<dependency>
+				<groupId>com.greentree.commons</groupId>
+				<artifactId>tests</artifactId>
+				<version>${commons.version}</version>
+		   		<scope>test</scope>
+			</dependency>
 			
+			<dependency>
+  				<groupId>com.greentree.engine.moon</groupId>
+				<artifactId>assets</artifactId>
+  				<version>${project.version}</version>
+			</dependency>
 			<dependency>
   				<groupId>com.greentree.engine.moon</groupId>
   				<artifactId>base</artifactId>

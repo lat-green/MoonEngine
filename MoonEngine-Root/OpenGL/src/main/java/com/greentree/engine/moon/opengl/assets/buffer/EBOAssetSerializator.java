@@ -23,7 +23,7 @@ public final class EBOAssetSerializator
 	
 	@Override
 	public Value<IntStaticDrawElementArrayBuffer> load(LoadContext manager, AssetKey ckey) {
-		final var buf = manager.load(IntBuffer.class, ckey).toLazy();
+		final var buf = manager.load(IntBuffer.class, ckey);
 		if(buf != null)
 			return manager.map(buf, new EBOAsset());
 		return null;

@@ -5,7 +5,6 @@ import java.util.Objects;
 import com.greentree.common.renderer.buffer.AttributeGroupData;
 import com.greentree.commons.assets.key.AssetKey;
 import com.greentree.commons.assets.key.ResultAssetKey;
-import com.greentree.commons.assets.key.ResultAssetKeyImpl;
 
 public final class AttributeGroupVertexAssetKey implements AssetKey {
 	
@@ -29,7 +28,7 @@ public final class AttributeGroupVertexAssetKey implements AssetKey {
 		if(group instanceof ResultAssetKey key) {
 			final var r = key.result();
 			if(r instanceof AttributeGroupData<?> g) {
-				return new ResultAssetKeyImpl(g.vertex());
+				return new ResultAssetKey(g.vertex());
 			}
 		}
 		return new AttributeGroupVertexAssetKey(group);

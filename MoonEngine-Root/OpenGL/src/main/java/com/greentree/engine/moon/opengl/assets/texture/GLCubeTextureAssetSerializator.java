@@ -24,7 +24,7 @@ public class GLCubeTextureAssetSerializator implements AssetSerializator<GLCubeM
 	@Override
 	public Value<GLCubeMapTexture> load(LoadContext manager, AssetKey ckey) {
 		{
-			final var texture = manager.load(CubeTextureData.class, ckey).toLazy();
+			final var texture = manager.load(CubeTextureData.class, ckey);
 			if(texture != null)
 				return manager.map(texture, new GLCubeMapAsset());
 		}

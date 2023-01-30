@@ -20,14 +20,14 @@
 			<groupId>com.greentree.engine.moon</groupId>
 			<artifactId>ecs</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+			<artifactId>assets</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.greentree.commons</groupId>
 			<artifactId>xml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.greentree.commons</groupId>
-			<artifactId>assets</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.greentree.commons</groupId>

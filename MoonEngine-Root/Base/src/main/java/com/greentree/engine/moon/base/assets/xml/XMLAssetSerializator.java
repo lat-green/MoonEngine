@@ -38,6 +38,7 @@ public class XMLAssetSerializator implements AssetSerializator<XMLElement> {
 		
 		public static final XMLFunction INSTANCE = new XMLFunction();
 		
+		@SuppressWarnings("deprecation")
 		@Override
 		public XMLElement apply(Resource res) {
 			try(final var in = res.open()) {
@@ -55,6 +56,7 @@ public class XMLAssetSerializator implements AssetSerializator<XMLElement> {
 		
 		public static final XMLTextFunction INSTANCE = new XMLTextFunction();
 		
+		@SuppressWarnings("deprecation")
 		@Override
 		public XMLElement apply(String text) {
 			try(final var bout = new ByteArrayInputStream(text.getBytes());) {

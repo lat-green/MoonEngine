@@ -26,7 +26,7 @@ public class GLPBRMaterialAssetSerializator implements AssetSerializator<GLPBRMa
 	@Override
 	public Value<GLPBRMaterial> load(LoadContext manager, AssetKey ckey) {
 		{
-			final var texture = manager.load(TYPE, ckey).toLazy();
+			final var texture = manager.load(TYPE, ckey);
 			if(texture != null)
 				return manager.map(texture, new GLPBRMaterialAssetFunction());
 		}

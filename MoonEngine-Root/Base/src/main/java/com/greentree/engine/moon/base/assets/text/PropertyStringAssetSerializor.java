@@ -7,7 +7,6 @@ import com.greentree.commons.assets.serializator.AssetSerializator;
 import com.greentree.commons.assets.serializator.context.LoadContext;
 import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.commons.assets.serializator.manager.DeepValidAssetManagerBase;
-import com.greentree.commons.assets.serializator.manager.ValidAssetManagerBase;
 import com.greentree.commons.assets.value.Value;
 import com.greentree.commons.assets.value.function.Value2Function;
 

@@ -25,7 +25,7 @@ public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLS
 	@Override
 	public Value<GLShaderProgram> load(LoadContext manager, AssetKey key) {
 		if(manager.canLoad(TYPE, key)) {
-			final var program = manager.load(TYPE, key).toLazy();
+			final var program = manager.load(TYPE, key);
 			return manager.map(program, new GLShaderProgramFunction());
 		}
 		return null;

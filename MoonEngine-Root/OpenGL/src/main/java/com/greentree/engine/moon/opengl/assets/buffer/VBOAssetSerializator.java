@@ -21,7 +21,7 @@ public final class VBOAssetSerializator implements AssetSerializator<FloatStatic
 	
 	@Override
 	public Value<FloatStaticDrawArrayBuffer> load(LoadContext manager, AssetKey key) {
-		final var buf = manager.load(FloatBuffer.class, key).toLazy();
+		final var buf = manager.load(FloatBuffer.class, key);
 		if(buf != null)
 			return manager.map(buf, new VBOAsset());
 		return null;

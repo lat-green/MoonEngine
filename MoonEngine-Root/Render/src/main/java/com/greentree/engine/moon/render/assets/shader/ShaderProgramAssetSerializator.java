@@ -6,7 +6,6 @@ import com.greentree.common.renderer.shader.ShaderType;
 import com.greentree.commons.assets.key.AssetKey;
 import com.greentree.commons.assets.key.ResourceAssetKey;
 import com.greentree.commons.assets.serializator.AbstractIterableAssetSerializator;
-import com.greentree.commons.assets.serializator.AssetSerializator;
 import com.greentree.commons.assets.serializator.context.LoadContext;
 import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.commons.assets.value.Value;

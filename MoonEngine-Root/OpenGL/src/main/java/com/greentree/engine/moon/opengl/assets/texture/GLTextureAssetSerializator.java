@@ -23,7 +23,7 @@ public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2D
 	@Override
 	public Value<GLTexture2DImpl> load(LoadContext manager, AssetKey ckey) {
 		if(manager.canLoad(Texture2DData.class, ckey)) {
-			final var texture = manager.load(Texture2DData.class, ckey).toLazy();
+			final var texture = manager.load(Texture2DData.class, ckey);
 			return manager.map(texture, new GLTextureAsset());
 		}
 		return null;

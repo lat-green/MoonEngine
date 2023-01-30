@@ -38,12 +38,12 @@ public class JsonTest {
 				final var json = manager.load(JsonElement.class, key);
 				
 				assertFalse(json.isNull());
-				assertTrue(json.isConst());
+				assertTrue(json.hasCharacteristicConst());
 				
 				final var res = manager.load(arr.getClass(), json.get());
 				
 				assertFalse(res.isNull());
-				assertTrue(res.isConst());
+				assertTrue(res.hasCharacteristicConst());
 				
 				assertEquals(arr, res.get());
 				

@@ -24,9 +24,9 @@ public class GLAttributeGroupAssetSerializator implements AssetSerializator<Attr
 	public Value<AttributeGroup> load(LoadContext manager, AssetKey ckey) {
 		if(manager.canLoad(AttributeGroupData.class, ckey)) {
 			final var buffer = manager.load(FloatStaticDrawArrayBuffer.class,
-					AttributeGroupVertexAssetKey.create(ckey)).toLazy();
-			final var sizes = manager.load(IntArray.class, AttributeGroupSizesAssetKey.create(ckey))
-					.toLazy();
+					AttributeGroupVertexAssetKey.create(ckey));
+			final var sizes = manager.load(IntArray.class,
+					AttributeGroupSizesAssetKey.create(ckey));
 			return manager.map(buffer, sizes, new AttributeGroupAsset());
 		}
 		return null;

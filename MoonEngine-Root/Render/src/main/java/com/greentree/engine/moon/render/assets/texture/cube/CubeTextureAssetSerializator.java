@@ -34,7 +34,7 @@ public class CubeTextureAssetSerializator implements AssetSerializator<CubeTextu
 			return load(manager, key);
 		}
 		if(ckey instanceof ResultAssetKey key) {
-			return load(manager, new CubeTextureAssetKey(key.getResult()));
+			return load(manager, new CubeTextureAssetKey((String) key.result()));
 		}
 		if(ckey instanceof ResourceAssetKey key) {
 			return load(manager, key.resourceName());

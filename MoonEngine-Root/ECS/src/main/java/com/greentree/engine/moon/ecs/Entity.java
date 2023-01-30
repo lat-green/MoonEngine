@@ -12,62 +12,39 @@ import com.greentree.engine.moon.ecs.ClassSet.LockClassSet;
 import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
 import com.greentree.engine.moon.ecs.component.Component;
 
-public final class Entity implements Iterable<Component>, Externalizable, Cloneable {
+public final class Entity implements Iterable<Component>, Externalizable, Cloneable, AutoCloseable {
+	
 	private static final long serialVersionUID = 1L;
 	
 	private final ClassSet<Component> components = new ComponentClassSet();
-
-	public static final class ComponentClassSet extends ClassSet<Component> {
-		private static final long serialVersionUID = 1L;
-		
-		public ComponentClassSet() {
-		}
-		
-		protected Iterable<? extends Class<? extends Component>> getClassRequired(Class<? extends Component> cls) {
-			return AnnotationUtil.getRequiredComponent(cls);
-		};
-		
-	}
-	
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		out.writeInt(components.size());
-		for(var c : this)
-			out.writeObject(c);
-	}
-
-	
-	@Override
-	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-		var size = in.readInt();
-		try(final var lock = lock()) {
-			while(size-- > 0) {
-				final var c = (Component) in.readObject();
-				lock.add(c);
-			}
-		}
-	}
 	
 	public Entity() {
 	}
-
+	
+	public void add(Component component) {
+		try(final var lock = lock()) {
+			lock.add(component);
+		}
+	}
+	
+	
 	public void clear() {
 		components.clear();
 	}
-
+	
 	@Override
 	public Entity clone() {
 		final var clone = new Entity();
 		cloneTo(clone);
 		return clone;
 	}
-
+	
 	public Entity clone(World world) {
 		final var clone = world.newEntity();
 		cloneTo(clone);
 		return clone;
 	}
-
+	
 	public void cloneTo(Entity clone) {
 		try(var lock = clone.lock()) {
 			for(var c : clone) {
@@ -92,59 +69,95 @@ public final class Entity implements Iterable<Component>, Externalizable, Clonea
 			}
 		}
 	}
-
+	
+	@Override
+	public void close() {
+		for(var c : components)
+			c.close();
+		clear();
+	}
+	
 	public boolean contains(Class<? extends Component> componentClass) {
 		return components.contains(componentClass);
 	}
-
+	
 	public boolean contains(Component component) {
 		return components.contains(component);
 	}
-
+	
 	public <T extends Component> T get(Class<T> componentClass) {
 		return components.get(componentClass);
 	}
-
+	
+	public TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getAddAction() {
+		return components.getAddAction();
+	}
+	
+	public TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getRemoveAction() {
+		return components.getRemoveAction();
+	}
+	
 	public boolean isEmpty() {
 		return components.isEmpty();
 	}
-
+	
 	@Override
 	public Iterator<Component> iterator() {
 		return components.iterator();
 	}
-
+	
 	public LockClassSet<Component> lock() {
 		return components.lock();
 	}
-
-	public TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getAddAction() {
-		return components.getAddAction();
-	}
-	public TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getRemoveAction() {
-		return components.getRemoveAction();
-	}
-
-	public int size() {
-		return components.size();
-	}
-
+	
 	@Override
-	public String toString() {
-		return "Entity " + IteratorUtil.toString(components);
-	}
-
-
-	public void add(Component component) {
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		var size = in.readInt();
 		try(final var lock = lock()) {
-			lock.add(component);
+			while(size-- > 0) {
+				final var c = (Component) in.readObject();
+				lock.add(c);
+			}
 		}
 	}
-
+	
 	public void remove(Class<? extends Component> componentClass) {
 		try(final var lock = lock()) {
 			lock.remove(componentClass);
 		}
 	}
-
+	
+	public int size() {
+		return components.size();
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "Entity " + IteratorUtil.toString(components);
+	}
+	
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		out.writeInt(components.size());
+		for(var c : this)
+			out.writeObject(c);
+	}
+	
+	
+	public static final class ComponentClassSet extends ClassSet<Component> {
+		
+		private static final long serialVersionUID = 1L;
+		
+		public ComponentClassSet() {
+		}
+		
+		@Override
+		protected Iterable<? extends Class<? extends Component>> getClassRequired(
+				Class<? extends Component> cls) {
+			return AnnotationUtil.getRequiredComponent(cls);
+		}
+		
+	}
+	
 }
