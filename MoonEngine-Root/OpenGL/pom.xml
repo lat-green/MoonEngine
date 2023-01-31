@@ -27,9 +27,9 @@
 		</dependency>
 		
 		<dependency>
-			  <groupId>com.greentree.common</groupId>
-			  <artifactId>renderer-opengl</artifactId>
-			  <version>0.2.5</version>
+			<groupId>com.greentree.common.graphics</groupId>
+			<artifactId>sgl</artifactId>
+			<version>0.3</version>
 		</dependency>
 	</dependencies>
 	

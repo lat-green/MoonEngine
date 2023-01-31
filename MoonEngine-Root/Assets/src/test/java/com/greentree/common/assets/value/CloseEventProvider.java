@@ -1,7 +1,7 @@
 package com.greentree.common.assets.value;
 
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.provider.ValueProvider;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 
 
 public class CloseEventProvider<T> implements ValueProvider<T> {

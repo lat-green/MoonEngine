@@ -1,13 +1,14 @@
 package com.greentree.engine.moon.render.assets.buffer;
 
-import com.greentree.common.renderer.buffer.FloatBuffer;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value1Function;
 import com.greentree.commons.util.array.FloatArray;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.render.buffer.BufferUsing;
+import com.greentree.engine.moon.render.buffer.FloatBuffer;
 
 public class FloatBufferAssetSerializotor implements AssetSerializator<FloatBuffer> {
 	
@@ -21,18 +22,19 @@ public class FloatBufferAssetSerializotor implements AssetSerializator<FloatBuff
 		{
 			final var array = manager.load(FloatArray.class, ckey);
 			if(array != null)
-				return manager.map(array, new FloatBufferAssetFunction());
+				return manager.map(array, new FloatArray_TO_FloatBuffer_Function());
 		}
 		return null;
 	}
 	
-	public class FloatBufferAssetFunction implements Value1Function<FloatArray, FloatBuffer> {
+	public class FloatArray_TO_FloatBuffer_Function
+			implements Value1Function<FloatArray, FloatBuffer> {
 		
 		private static final long serialVersionUID = 1L;
 		
 		@Override
 		public FloatBuffer apply(FloatArray array) {
-			return new FloatBuffer(array);
+			return new FloatBuffer(array, BufferUsing.STATIC_DRAW);
 		}
 		
 	}

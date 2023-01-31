@@ -5,12 +5,10 @@ import com.greentree.common.graphics.sgl.buffer.IntStaticDrawElementArrayBuffer;
 import com.greentree.common.graphics.sgl.shader.GLSLShader;
 import com.greentree.common.graphics.sgl.texture.gl.GLTexture2DImpl;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray.AttributeGroup;
-import com.greentree.common.renderer.buffer.AttributeGroupData;
-import com.greentree.common.renderer.buffer.FloatBuffer;
-import com.greentree.commons.assets.serializator.IterableAssetSerializator;
-import com.greentree.commons.assets.serializator.MapIterableAssetSerializator;
 import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.classes.info.TypeInfoBuilder;
+import com.greentree.engine.moon.assets.serializator.IterableAssetSerializator;
+import com.greentree.engine.moon.assets.serializator.MapIterableAssetSerializator;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.module.EngineProperties;
 import com.greentree.engine.moon.module.LaunchModule;
@@ -30,6 +28,8 @@ import com.greentree.engine.moon.render.assets.buffer.AttributeGroupVertexAssetS
 import com.greentree.engine.moon.render.assets.buffer.VertexArrayDataAssetSerializator;
 import com.greentree.engine.moon.render.assets.material.PBRMaterialAssetSerializator;
 import com.greentree.engine.moon.render.assets.shader.ShaderProgramAssetSerializator;
+import com.greentree.engine.moon.render.buffer.AttributeGroupData;
+import com.greentree.engine.moon.render.buffer.FloatBuffer;
 
 
 public final class OpenGLInitAssetManagerModule implements LaunchModule {

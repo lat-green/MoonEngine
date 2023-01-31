@@ -2,22 +2,22 @@ package com.greentree.engine.moon.render.assets.material;
 
 import java.util.Properties;
 
-import com.greentree.common.renderer.texture.Texture2DType;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.DefaultAssetKey;
-import com.greentree.commons.assets.key.ResourceAssetKey;
-import com.greentree.commons.assets.key.ResultAssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value6Function;
 import com.greentree.commons.image.Color;
 import com.greentree.commons.image.image.ImageData;
 import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.classes.info.TypeInfoBuilder;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.DefaultAssetKey;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
+import com.greentree.engine.moon.assets.key.ResultAssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value6Function;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 import com.greentree.engine.moon.render.assets.texture.Texture2DAssetKey;
+import com.greentree.engine.moon.render.other.Texture2DType;
 
 public final class PBRMaterialAssetSerializator<T> implements AssetSerializator<PBRMaterial<T>> {
 	

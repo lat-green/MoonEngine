@@ -16,17 +16,16 @@
 			<groupId>com.greentree.engine.moon</groupId>
 		  	<artifactId>base</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+		  	<artifactId>mesh</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.greentree.commons</groupId>
 			<artifactId>image</artifactId>
 		</dependency>
 		
-		<dependency>
-			<groupId>com.greentree.common</groupId>
-			<artifactId>renderer</artifactId>
-			<version>0.2.4</version>
-		</dependency>
 	</dependencies>
 	
 </project>

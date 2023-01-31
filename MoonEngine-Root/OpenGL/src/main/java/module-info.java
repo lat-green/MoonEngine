@@ -1,7 +1,6 @@
 open module engine.moon.opengl {
 	
-	requires transitive common.renderer.opengl;
-	requires transitive engine.moon.base;
+	requires transitive common.graphics.sgl;
 	requires transitive engine.moon.signals;
 	requires transitive engine.moon.render;
 	

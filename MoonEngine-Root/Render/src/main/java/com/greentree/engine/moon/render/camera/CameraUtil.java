@@ -23,7 +23,8 @@ public class CameraUtil {
 	}
 	
 	public static Matrix4f getView(AbstractVector3f position, Quaternionfc rotation) {
-		return new Matrix4f().lookAt(position.toJoml(), Transform.direction(rotation).add(position).toJoml(), Transform.UP.toJoml());
+		return new Matrix4f().lookAt(position.toJoml(),
+				Transform.direction(rotation).add(position).toJoml(), Transform.UP.toJoml());
 	}
 	
 }

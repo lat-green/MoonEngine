@@ -2,8 +2,8 @@ package com.greentree.engine.moon.base.assets.text;
 
 import java.util.Objects;
 
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.ResultAssetKey;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResultAssetKey;
 
 
 public record PropertyAssetKey(AssetKey properties, AssetKey name) implements AssetKey {

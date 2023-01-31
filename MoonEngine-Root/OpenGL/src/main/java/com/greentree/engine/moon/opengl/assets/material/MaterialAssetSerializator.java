@@ -1,16 +1,16 @@
 package com.greentree.engine.moon.opengl.assets.material;
 
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
-import com.greentree.common.renderer.material.Material;
-import com.greentree.common.renderer.material.MaterialPropertiesImpl;
-import com.greentree.common.renderer.opengl.material.GLTextureProperty;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value2Function;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value2Function;
 import com.greentree.engine.moon.opengl.render.material.GLPBRMaterial;
+import com.greentree.engine.moon.opengl.render.material.GLTextureProperty;
+import com.greentree.engine.moon.render.material.Material;
+import com.greentree.engine.moon.render.material.MaterialPropertiesImpl;
 
 
 public class MaterialAssetSerializator implements AssetSerializator<Material> {

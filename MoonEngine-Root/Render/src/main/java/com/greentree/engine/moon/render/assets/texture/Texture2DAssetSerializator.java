@@ -1,16 +1,16 @@
 package com.greentree.engine.moon.render.assets.texture;
 
-import com.greentree.common.renderer.texture.Texture2DData;
-import com.greentree.common.renderer.texture.Texture2DType;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.AssetKeyType;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.serializator.manager.DefaultAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value1Function;
 import com.greentree.commons.image.image.ImageData;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.AssetKeyType;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.serializator.manager.DefaultAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.render.other.Texture2DData;
+import com.greentree.engine.moon.render.other.Texture2DType;
 
 public class Texture2DAssetSerializator implements AssetSerializator<Texture2DData> {
 	

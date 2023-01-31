@@ -8,7 +8,8 @@ import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 @RequiredComponent({Transform.class})
-public record CameraComponent(int width, int height, Matrix4fc projection) implements ConstComponent {
+public record CameraComponent(int width, int height, Matrix4fc projection)
+		implements ConstComponent {
 	
 	public CameraComponent(int width, int height) {
 		this(width, height, FrustumCameraMatrix.INSTANCE);

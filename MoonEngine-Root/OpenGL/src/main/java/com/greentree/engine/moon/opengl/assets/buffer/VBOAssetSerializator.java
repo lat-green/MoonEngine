@@ -4,13 +4,13 @@ import org.lwjgl.system.MemoryStack;
 
 import com.greentree.common.graphics.sgl.buffer.FloatStaticDrawArrayBuffer;
 import com.greentree.common.graphics.sgl.enums.gl.GLType;
-import com.greentree.common.renderer.buffer.FloatBuffer;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.render.buffer.FloatBuffer;
 
 public final class VBOAssetSerializator implements AssetSerializator<FloatStaticDrawArrayBuffer> {
 	
@@ -35,7 +35,7 @@ public final class VBOAssetSerializator implements AssetSerializator<FloatStatic
 		@Override
 		public FloatStaticDrawArrayBuffer applyWithDest(FloatBuffer arr,
 				FloatStaticDrawArrayBuffer vbo) {
-			final var VERTEXS = arr.array().array;
+			final var VERTEXS = arr.data().array;
 			vbo.bind();
 			try(final var stack = MemoryStack.create(VERTEXS.length * GLType.FLOAT.size).push()) {
 				vbo.setData(stack.floats(VERTEXS));
@@ -46,7 +46,7 @@ public final class VBOAssetSerializator implements AssetSerializator<FloatStatic
 		
 		@Override
 		public FloatStaticDrawArrayBuffer apply(FloatBuffer arr) {
-			final var VERTEXS = arr.array().array;
+			final var VERTEXS = arr.data().array;
 			final var vbo = new FloatStaticDrawArrayBuffer();
 			vbo.bind();
 			try(final var stack = MemoryStack.create(VERTEXS.length * GLType.FLOAT.size).push()) {

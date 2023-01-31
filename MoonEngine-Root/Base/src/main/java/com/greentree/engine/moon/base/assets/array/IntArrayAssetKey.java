@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.base.assets.array;
 
-import com.greentree.commons.assets.key.AssetKey;
 import com.greentree.commons.util.array.IntArray;
+import com.greentree.engine.moon.assets.key.AssetKey;
 
 public record IntArrayAssetKey(IntArray value) implements AssetKey {
 	

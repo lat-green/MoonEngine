@@ -1,14 +1,14 @@
 package com.greentree.engine.moon.render.assets.buffer;
 
-import com.greentree.common.renderer.buffer.AttributeGroupData;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value2Function;
 import com.greentree.commons.util.array.IntArray;
 import com.greentree.commons.util.classes.info.TypeInfo;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value2Function;
+import com.greentree.engine.moon.render.buffer.AttributeGroupData;
 
 
 public final class AttributeGroupAssetSerializator<VBO>

@@ -3,7 +3,6 @@ package com.greentree.engine.moon.signals.ui;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.greentree.common.renderer.window.MouseButton;
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
 import com.greentree.engine.moon.ecs.World;
@@ -18,8 +17,8 @@ import com.greentree.engine.moon.ecs.pool.StackEntityPool;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
-import com.greentree.engine.moon.render.ui.Click;
 import com.greentree.engine.moon.signals.DevicesProperty;
+import com.greentree.engine.moon.signals.MouseButton;
 import com.greentree.engine.moon.signals.device.Devices;
 import com.greentree.engine.moon.signals.mouse.MouseButtonDevice;
 import com.greentree.engine.moon.signals.mouse.MouseXDevice;

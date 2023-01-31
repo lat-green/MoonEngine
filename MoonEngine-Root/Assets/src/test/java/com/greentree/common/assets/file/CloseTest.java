@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 import com.greentree.common.assets.file.AssetTest.NullExecutorService;
 import com.greentree.common.assets.file.AssetTest.StringToIntAssetSerializator;
 import com.greentree.common.assets.value.CloseEventValue;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.AssetManager;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.MutableValue;
-import com.greentree.commons.assets.value.Value;
 import com.greentree.commons.tests.ExecuteCounter;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.MutableValue;
+import com.greentree.engine.moon.assets.value.Value;
 
 public class CloseTest {
 	
@@ -59,7 +59,7 @@ public class CloseTest {
 	void test3() {
 		manager.addSerializator(new CloseEventAssetSerializator());
 		
-		try(final var close_counter = new ExecuteCounter(2);) {
+		try(final var close_counter = new ExecuteCounter(1);) {
 			final var key = new CloseEventKey("delete 2", close_counter);
 			final var v1 = manager.load(String.class, key).openProvider();
 			final var v2 = manager.load(String.class, key).openProvider();

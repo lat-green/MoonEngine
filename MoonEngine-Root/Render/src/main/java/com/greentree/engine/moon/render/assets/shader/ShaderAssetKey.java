@@ -2,10 +2,10 @@ package com.greentree.engine.moon.render.assets.shader;
 
 import java.util.Objects;
 
-import com.greentree.common.renderer.shader.ShaderType;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.AssetKeyType;
-import com.greentree.commons.assets.key.ResourceAssetKey;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.AssetKeyType;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
+import com.greentree.engine.moon.render.shader.ShaderType;
 
 
 public final record ShaderAssetKey(AssetKey text, ShaderType shaderType) implements AssetKey {

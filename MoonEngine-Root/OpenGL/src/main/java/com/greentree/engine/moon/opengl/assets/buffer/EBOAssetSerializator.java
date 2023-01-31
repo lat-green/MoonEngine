@@ -4,13 +4,13 @@ import org.lwjgl.system.MemoryStack;
 
 import com.greentree.common.graphics.sgl.buffer.IntStaticDrawElementArrayBuffer;
 import com.greentree.common.graphics.sgl.enums.gl.GLType;
-import com.greentree.common.renderer.buffer.IntBuffer;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.render.buffer.IntBuffer;
 
 public final class EBOAssetSerializator
 		implements AssetSerializator<IntStaticDrawElementArrayBuffer> {
@@ -37,7 +37,7 @@ public final class EBOAssetSerializator
 		@Override
 		public IntStaticDrawElementArrayBuffer applyWithDest(IntBuffer arr,
 				IntStaticDrawElementArrayBuffer vbo) {
-			final var INDEXES = arr.array().array;
+			final var INDEXES = arr.data().array;
 			vbo.bind();
 			try(final var stack = MemoryStack.create(INDEXES.length * GLType.FLOAT.size).push()) {
 				vbo.setData(stack.ints(INDEXES));
@@ -48,7 +48,7 @@ public final class EBOAssetSerializator
 		
 		@Override
 		public IntStaticDrawElementArrayBuffer apply(IntBuffer arr) {
-			final var INDEXES = arr.array().array;
+			final var INDEXES = arr.data().array;
 			final var vbo = new IntStaticDrawElementArrayBuffer();
 			vbo.bind();
 			try(final var stack = MemoryStack.create(INDEXES.length * GLType.FLOAT.size).push()) {

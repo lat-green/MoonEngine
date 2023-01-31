@@ -4,9 +4,9 @@ import java.lang.reflect.Modifier;
 import java.util.function.Function;
 
 import com.google.gson.JsonElement;
-import com.greentree.commons.assets.serializator.AssetSerializator;
 import com.greentree.commons.util.classes.ClassUtil;
 import com.greentree.commons.util.classes.info.TypeInfo;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 
 public class JSONToObjectGenerator implements Function<TypeInfo<?>, AssetSerializator<?>> {
 	

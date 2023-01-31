@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.render.assets.texture.cube;
 
-import com.greentree.common.renderer.texture.Texture3DType;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.ResourceAssetKey;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
+import com.greentree.engine.moon.render.other.Texture3DType;
 
 
 public record CubeTextureAssetKey(AssetKey image, Texture3DAssetType type) implements AssetKey {

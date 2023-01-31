@@ -2,9 +2,9 @@ package com.greentree.engine.moon.render.assets.buffer;
 
 import java.util.Objects;
 
-import com.greentree.common.renderer.buffer.AttributeGroupData;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.ResultAssetKey;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResultAssetKey;
+import com.greentree.engine.moon.render.buffer.AttributeGroupData;
 
 public final class AttributeGroupSizesAssetKey implements AssetKey {
 	

@@ -2,13 +2,15 @@ package com.greentree.engine.moon.render.assets.buffer;
 
 import java.util.Arrays;
 
-import com.greentree.common.renderer.mesh.VertexComponent;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.ResultAssetKey;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResultAssetKey;
+import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 
-public record MeshVAOAssetKey(AssetKey mesh, VertexComponent... components) implements AssetKey {
+public record MeshVAOAssetKey(AssetKey mesh, StaticMeshFaceComponent... components)
+		implements AssetKey {
 	
-	public MeshVAOAssetKey(Object obj, VertexComponent... components) {
+	@SafeVarargs
+	public MeshVAOAssetKey(Object obj, StaticMeshFaceComponent... components) {
 		this(new ResultAssetKey(obj), components);
 	}
 	

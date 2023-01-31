@@ -2,16 +2,16 @@ package com.greentree.engine.moon.render.assets.shader;
 
 import java.util.Properties;
 
-import com.greentree.common.renderer.shader.ShaderType;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.key.ResourceAssetKey;
-import com.greentree.commons.assets.serializator.AbstractIterableAssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.merge.MIValue;
 import com.greentree.commons.util.classes.info.TypeInfo;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
+import com.greentree.engine.moon.assets.serializator.AbstractIterableAssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.merge.MIValue;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
+import com.greentree.engine.moon.render.shader.ShaderType;
 
 public class ShaderProgramAssetSerializator<S> extends AbstractIterableAssetSerializator<S> {
 	

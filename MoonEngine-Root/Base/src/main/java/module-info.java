@@ -5,8 +5,8 @@ open module engine.moon.base {
 	
 	requires transitive engine.moon.kernel;
 	requires transitive engine.moon.ecs;
+	requires transitive engine.moon.assets;
 	
-	requires transitive commons.assets;
 	requires transitive commons.math;
 	requires transitive commons.xml;
 	

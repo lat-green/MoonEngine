@@ -9,6 +9,8 @@ import java.util.Properties;
 import com.greentree.common.graphics.sgl.GLFWCallback;
 import com.greentree.common.graphics.sgl.SGLFW;
 import com.greentree.common.graphics.sgl.SGLFW.ButtonAction;
+import com.greentree.common.graphics.sgl.SGLFW.GLFWKey;
+import com.greentree.common.graphics.sgl.SGLFW.GLFWMouseButton;
 import com.greentree.common.graphics.sgl.enums.gl.debug.GLDebugSeverity;
 import com.greentree.common.graphics.sgl.window.Window;
 import com.greentree.commons.action.ListenerCloser;
@@ -21,6 +23,8 @@ import com.greentree.engine.moon.module.annotation.CreateProperty;
 import com.greentree.engine.moon.module.annotation.DestroyProperty;
 import com.greentree.engine.moon.module.annotation.ReadProperty;
 import com.greentree.engine.moon.signals.DevicesProperty;
+import com.greentree.engine.moon.signals.Key;
+import com.greentree.engine.moon.signals.MouseButton;
 import com.greentree.engine.moon.signals.keyboard.KeyBoardButton;
 import com.greentree.engine.moon.signals.mouse.MouseButtonDevice;
 import com.greentree.engine.moon.signals.mouse.MouseXDevice;
@@ -82,17 +86,25 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 			new MouseYDevice().signal(signals, fy);
 		});
 		lcs[1] = window.getKeyPress().addListener(key-> {
-			new KeyBoardButton(key.nonGL()).press(signals);
+			new KeyBoardButton(nonGL(key)).press(signals);
 		});
 		lcs[2] = window.getKeyRelease().addListener(key-> {
-			new KeyBoardButton(key.nonGL()).release(signals);
+			new KeyBoardButton(nonGL(key)).release(signals);
 		});
 		lcs[3] = window.addMouseButtonCallback((button, action, mods)-> {
 			if(action == ButtonAction.PRESS)
-				new MouseButtonDevice(button.nonGL()).press(signals);
+				new MouseButtonDevice(nonGL(button)).press(signals);
 			if(action == ButtonAction.RELEASE)
-				new MouseButtonDevice(button.nonGL()).release(signals);
+				new MouseButtonDevice(nonGL(button)).release(signals);
 		});
+	}
+	
+	private Key nonGL(GLFWKey key) {
+		return Key.valueOf(key.name());
+	}
+	
+	private MouseButton nonGL(GLFWMouseButton button) {
+		return MouseButton.valueOf(button.name());
 	}
 	
 	@DestroyProperty({WindowProperty.class})

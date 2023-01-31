@@ -1,16 +1,16 @@
 package com.greentree.engine.moon.opengl.assets.texture;
 
-import com.greentree.common.graphics.sgl.GLEnums;
 import com.greentree.common.graphics.sgl.enums.gl.GLPixelFormat;
 import com.greentree.common.graphics.sgl.texture.builder.TextureBuilder;
 import com.greentree.common.graphics.sgl.texture.gl.GLTexture2DImpl;
-import com.greentree.common.renderer.texture.Texture2DData;
-import com.greentree.commons.assets.key.AssetKey;
-import com.greentree.commons.assets.serializator.AssetSerializator;
-import com.greentree.commons.assets.serializator.context.LoadContext;
-import com.greentree.commons.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.commons.assets.value.Value;
-import com.greentree.commons.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
+import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.opengl.GLEnums;
+import com.greentree.engine.moon.render.other.Texture2DData;
 
 
 public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2DImpl> {
