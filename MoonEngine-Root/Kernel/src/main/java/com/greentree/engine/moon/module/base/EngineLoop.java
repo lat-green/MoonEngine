@@ -7,11 +7,13 @@ import com.greentree.engine.moon.module.EngineModule;
 import com.greentree.engine.moon.module.ExitManager;
 import com.greentree.engine.moon.module.ExitManagerProperty;
 import com.greentree.engine.moon.module.LaunchModule;
+import com.greentree.engine.moon.module.PreLaunchModule;
 import com.greentree.engine.moon.module.TerminateModule;
 import com.greentree.engine.moon.module.UpdateModule;
 
 public class EngineLoop implements ExitManager {
 	
+	private final Iterable<? extends PreLaunchModule> pre_launch_modules;
 	private final Iterable<? extends LaunchModule> launch_modules;
 	private final Iterable<? extends TerminateModule> terminate_modules;
 	private final Iterable<? extends UpdateModule> update_modules;
@@ -23,6 +25,10 @@ public class EngineLoop implements ExitManager {
 		final var list = new ArrayList<EngineModule>();
 		for(var m : iterable)
 			list.add(m);
+		final var pre_launch_list = new ArrayList<>(list.stream()
+				.filter(m->m instanceof PreLaunchModule).map(m->(PreLaunchModule) m).toList());
+		AnnotationUtil.sort(pre_launch_list, "pre_launch");
+		pre_launch_modules = pre_launch_list;
 		final var launch_list = new ArrayList<>(list.stream().filter(m->m instanceof LaunchModule)
 				.map(m->(LaunchModule) m).toList());
 		AnnotationUtil.sort(launch_list, "launch");
@@ -49,6 +55,9 @@ public class EngineLoop implements ExitManager {
 		
 		properties = new EnginePropertiesBase();
 		properties.add(new ExitManagerProperty(this));
+		
+		for(var m : pre_launch_modules)
+			m.pre_launch(properties);
 		
 		for(var m : launch_modules)
 			m.launch(properties);
