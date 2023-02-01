@@ -7,18 +7,18 @@ public final class MaterialPropertiesImpl implements MaterialProperties {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private final Map<String, Property> properties;
+	private final Map<String, MaterialProperty> properties;
 	
 	public MaterialPropertiesImpl() {
 		properties = new HashMap<>();
 	}
 	
-	public MaterialPropertiesImpl(Map<? extends String, ? extends Property> properties) {
+	public MaterialPropertiesImpl(Map<? extends String, ? extends MaterialProperty> properties) {
 		this.properties = new HashMap<>(properties);
 	}
 	
 	@Override
-	public Property get(String name) {
+	public MaterialProperty get(String name) {
 		return properties.get(name);
 	}
 	
@@ -33,12 +33,12 @@ public final class MaterialPropertiesImpl implements MaterialProperties {
 	}
 	
 	@Override
-	public void put(String name, Property property) {
+	public void put(String name, MaterialProperty property) {
 		properties.put(name, property);
 	}
 	
 	@Override
-	public Property remove(String name) {
+	public MaterialProperty remove(String name) {
 		return properties.remove(name);
 	}
 	

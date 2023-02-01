@@ -7,8 +7,8 @@ import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.ValidAssetManagerBase;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
-import com.greentree.engine.moon.render.shader.ShaderDataImpl;
-import com.greentree.engine.moon.render.shader.ShaderType;
+import com.greentree.engine.moon.render.shader.data.ShaderDataImpl;
+import com.greentree.engine.moon.render.shader.data.ShaderType;
 
 
 public class ShaderAssetSerializator implements AssetSerializator<ShaderDataImpl> {

@@ -24,6 +24,7 @@ import com.greentree.engine.moon.base.layer.Layer;
 import com.greentree.engine.moon.base.name.Name;
 import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.component.Component;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
 import com.greentree.engine.moon.ecs.system.debug.DebugSystems;
 import com.greentree.engine.moon.ecs.system.debug.PrintStreamSystemsProfiler;
@@ -144,7 +145,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						systems.add(system);
 					for(var xml_system : xml_scene.getChildrens("system"))
 						try {
-							systems.add(newFromXML(xml_system));
+							systems.add(newFromXML(ECSSystem.class, xml_system));
 						}catch(ClassNotFoundException e1) {
 							e1.printStackTrace();
 						}
@@ -171,19 +172,26 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						
 						for(var xml_component : xml_entity.getChildrens("component"))
 							try {
-								lock.add(newFromXML(xml_component));
+								final var c = newFromXML(Component.class, xml_component);
+								if(c != null)
+									lock.add(c);
 							}catch(ClassNotFoundException e) {
 								e.printStackTrace();
 							}
 					}
 				}
 				
-				private <T> T newFromXML(XMLElement xml_element) throws ClassNotFoundException {
+				private <T> T newFromXML(Class<T> baseClass, XMLElement xml_element)
+						throws ClassNotFoundException {
 					final var systemClassName = xml_element.getAttribute("type");
 					@SuppressWarnings("unchecked")
-					final var systemClass = (Class<T>) ClassUtil
-							.loadClassInAllPackages(systemClassName);
-					return builder.build(systemClass, xml_element);
+					final var cls = (Class<T>) ClassUtil.loadClassInAllPackages(baseClass,
+							systemClassName);
+					try(final var c = builder.newInstance(cls, xml_element)) {
+						if(c == null)
+							return null;
+						return c.value();
+					}
 				}
 				
 			};

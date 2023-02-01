@@ -1,15 +1,16 @@
 package com.greentree.engine.moon.render.material;
 
-import com.greentree.commons.math.vector.AbstractVector3f;
 import com.greentree.engine.moon.render.shader.UniformLocation;
 
-public interface Vector3fProperty extends Property {
+public interface Vector3fProperty extends MaterialProperty {
 	
-	AbstractVector3f value();
+	float x();
+	float y();
+	float z();
 	
 	@Override
-	default void set(UniformLocation location, PropertyContext context) {
-		location.setf(value());
+	default void set(UniformLocation location) {
+		location.setFloat(x(), y(), z());
 	}
 	
 }

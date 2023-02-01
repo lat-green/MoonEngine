@@ -5,12 +5,12 @@ import static org.lwjgl.opengl.GL11.*;
 import java.util.Objects;
 
 import com.greentree.common.graphics.sgl.freambuffer.FreamBuffer;
-import com.greentree.common.renderer.opengl.command.OpenGLContext;
-import com.greentree.common.renderer.pipeline.buffer.CommandBuffer;
-import com.greentree.common.renderer.pipeline.buffer.ProxyCommandBuffer;
+import com.greentree.engine.moon.opengl.command.OpenGLContext;
+import com.greentree.engine.moon.render.pipeline.target.buffer.ProxyCommandBuffer;
+import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 
 
-public class FreamBufferCommandBuffer extends ProxyCommandBuffer implements CommandBuffer {
+public class FreamBufferCommandBuffer extends ProxyCommandBuffer implements TargetCommandBuffer {
 	
 	protected final FreamBuffer fb;
 	
@@ -18,7 +18,7 @@ public class FreamBufferCommandBuffer extends ProxyCommandBuffer implements Comm
 		this(fb, new OpenGLCommandBuffer(context));
 	}
 	
-	public FreamBufferCommandBuffer(FreamBuffer fb, CommandBuffer buffer) {
+	public FreamBufferCommandBuffer(FreamBuffer fb, TargetCommandBuffer buffer) {
 		super(buffer);
 		Objects.requireNonNull(fb);
 		this.fb = fb;

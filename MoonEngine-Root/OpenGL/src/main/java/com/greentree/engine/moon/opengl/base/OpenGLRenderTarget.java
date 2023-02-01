@@ -1,14 +1,14 @@
 package com.greentree.engine.moon.opengl.base;
 
-import com.greentree.common.renderer.opengl.command.OpenGLContext;
-import com.greentree.common.renderer.pipeline.buffer.CommandBuffer;
-import com.greentree.common.renderer.pipeline.target.RenderTarget;
+import com.greentree.engine.moon.opengl.command.OpenGLContext;
+import com.greentree.engine.moon.render.pipeline.target.RenderTarget;
+import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 
 
 public record OpenGLRenderTarget(OpenGLContext context) implements RenderTarget {
 	
 	@Override
-	public CommandBuffer buffer() {
+	public TargetCommandBuffer buffer() {
 		return new OpenGLCommandBuffer(context);
 	}
 	

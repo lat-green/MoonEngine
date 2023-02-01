@@ -3,27 +3,23 @@ package com.greentree.engine.moon.opengl.base;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.greentree.common.renderer.material.Material;
-import com.greentree.common.renderer.material.TextureProperty;
-import com.greentree.common.renderer.mesh.GraphicsMesh;
-import com.greentree.common.renderer.opengl.command.ClearRenderTargetColor;
-import com.greentree.common.renderer.opengl.command.ClearRenderTargetDepth;
-import com.greentree.common.renderer.opengl.command.DrawMesh;
-import com.greentree.common.renderer.opengl.command.DrawSkyBox;
-import com.greentree.common.renderer.opengl.command.DrawTexture;
-import com.greentree.common.renderer.opengl.command.OpenGLCommand;
-import com.greentree.common.renderer.opengl.command.OpenGLContext;
-import com.greentree.common.renderer.pipeline.buffer.CommandBuffer;
 import com.greentree.commons.image.Color;
+import com.greentree.engine.moon.mesh.StaticMesh;
+import com.greentree.engine.moon.opengl.command.ClearRenderTargetColor;
+import com.greentree.engine.moon.opengl.command.ClearRenderTargetDepth;
+import com.greentree.engine.moon.opengl.command.DrawMesh;
+import com.greentree.engine.moon.opengl.command.OpenGLCommand;
+import com.greentree.engine.moon.opengl.command.OpenGLContext;
+import com.greentree.engine.moon.render.material.Material;
+import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 
 
-public final class OpenGLCommandBuffer implements CommandBuffer {
+public final class OpenGLCommandBuffer implements TargetCommandBuffer {
 	
 	private final Collection<OpenGLCommand> commands = new ArrayList<>();
 	private final OpenGLContext context;
 	
 	public OpenGLCommandBuffer(OpenGLContext context) {
-		super();
 		this.context = context;
 	}
 	
@@ -45,18 +41,8 @@ public final class OpenGLCommandBuffer implements CommandBuffer {
 	}
 	
 	@Override
-	public void drawMesh(GraphicsMesh mesh, Material material) {
+	public void drawMesh(StaticMesh mesh, Material material) {
 		commands.add(new DrawMesh(mesh, material));
-	}
-	
-	@Override
-	public void drawSkyBox(Material material) {
-		commands.add(new DrawSkyBox(material));
-	}
-	
-	@Override
-	public void drawTexture(TextureProperty texture) {
-		commands.add(new DrawTexture(texture));
 	}
 	
 }

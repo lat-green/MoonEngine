@@ -19,6 +19,7 @@ import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.opengl.WindowProperty;
+import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.Cameras;
 
 
@@ -35,7 +36,8 @@ public class RenderMainCameraToWindow implements InitSystem, UpdateSystem, Destr
 		glEnableClientState(GLClientState.VERTEX_ARRAY.glEnum);
 		glEnableClientState(GLClientState.TEXTURE_COORD_ARRAY.glEnum);
 		try(var stack = MemoryStack.create(GLType.FLOAT.size * 2 * 8).push()) {
-			glVertexPointer(2, GLType.FLOAT.glEnum, 0, stack.floats(-1f, -1f, -1f, 1f, 1f, 1f, 1f, -1f));
+			glVertexPointer(2, GLType.FLOAT.glEnum, 0,
+					stack.floats(-1f, -1f, -1f, 1f, 1f, 1f, 1f, -1f));
 			glTexCoordPointer(2, GLType.FLOAT.glEnum, 0, stack.floats(0, 0, 0, 1, 1, 1, 1, 0));
 		}
 		glDrawArrays(GLPrimitive.QUADS.glEnum, 0, 4);
@@ -54,7 +56,8 @@ public class RenderMainCameraToWindow implements InitSystem, UpdateSystem, Destr
 	@Override
 	public void init(World world) {
 		cameras = world.get(Cameras.class);
-		window = world.get(EnginePropertiesWorldComponent.class).properties().get(WindowProperty.class).window();
+		window = world.get(EnginePropertiesWorldComponent.class).properties()
+				.get(WindowProperty.class).window();
 	}
 	
 	@WriteWorldComponent({EnginePropertiesWorldComponent.class})
@@ -62,10 +65,11 @@ public class RenderMainCameraToWindow implements InitSystem, UpdateSystem, Destr
 	@Override
 	public void update() {
 		final var camera = cameras.main();
-		final var buffer = (GLTexture2D) camera.get(CameraTarget.class).buffer().getColorTexture(0);
+		final var buffer = (GLTexture2D) camera.get(CameraTarget.class).target().getColorTexture(0);
 		
 		glViewport(0, 0, window.getWidth(), window.getHeight());
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_ACCUM_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_ACCUM_BUFFER_BIT
+				| GL_STENCIL_BUFFER_BIT);
 		renderTexture(buffer);
 		window.swapBuffer();
 	}

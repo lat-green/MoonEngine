@@ -7,8 +7,17 @@ import java.util.Objects;
 import com.greentree.commons.math.vector.AbstractVector2f;
 import com.greentree.commons.math.vector.AbstractVector3f;
 import com.greentree.engine.moon.mesh.StaticMesh.MeshFace;
+import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
+import com.greentree.engine.moon.mesh.compoent.VertexArrayBuilder;
 
 public interface StaticMesh extends Mesh, Iterable<MeshFace>, Serializable {
+	
+	
+	
+	default AttributeData getAttributeGroup(StaticMeshFaceComponent... types) {
+		final var builder = new VertexArrayBuilder();
+		return builder.getAttributeGroup(this, types);
+	}
 	
 	MeshFace face(int i);
 	

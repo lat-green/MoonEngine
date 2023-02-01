@@ -5,19 +5,24 @@ import java.io.Serializable;
 import org.joml.Matrix4f;
 
 import com.greentree.commons.image.Color;
+import com.greentree.commons.math.vector.AbstractVector2f;
 import com.greentree.commons.math.vector.AbstractVector3f;
 
 public interface MaterialProperties extends Serializable {
 	
-	void put(String name, Property property);
-	Property remove(String name);
-	Property get(String name);
+	void put(String name, MaterialProperty property);
+	MaterialProperty remove(String name);
+	MaterialProperty get(String name);
 	Iterable<? extends String> getNames();
 	boolean has(String name);
 	
 	
 	default void put(String name, AbstractVector3f vector) {
 		put(name, new Vector3fPropertyImpl(vector));
+	}
+	
+	default void put(String name, AbstractVector2f vector) {
+		put(name, new Vector2fPropertyImpl(vector));
 	}
 	
 	default void putRGB(String name, Color color) {

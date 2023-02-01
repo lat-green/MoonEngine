@@ -14,7 +14,7 @@ import com.greentree.engine.moon.assets.serializator.manager.DefaultAssetManager
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value6Function;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
-import com.greentree.engine.moon.render.other.CubeImageData;
+import com.greentree.engine.moon.render.texture.CubeImageData;
 
 public class CubeImageAssetSerializator implements AssetSerializator<CubeImageData> {
 	

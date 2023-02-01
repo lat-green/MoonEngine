@@ -12,7 +12,6 @@ open module engine.moon.opengl {
 	exports com.greentree.engine.moon.opengl.assets.material;
 	
 	exports com.greentree.engine.moon.opengl.render.material;
-	exports com.greentree.engine.moon.opengl.render.skybox;
 	exports com.greentree.engine.moon.opengl.render.camera;
 	
 }

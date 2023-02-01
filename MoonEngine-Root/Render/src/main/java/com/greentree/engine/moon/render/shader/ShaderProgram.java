@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.render.shader;
 
-public interface ShaderProgram {
-	
-	UniformLocation getUL(String name);
+import com.greentree.engine.moon.render.pipeline.source.RenderSource;
+
+public interface ShaderProgram extends RenderSource {
 	
 }

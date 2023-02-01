@@ -18,11 +18,10 @@ public class AssimpMeshAssetSerializator implements AssetSerializator<GraphicsMe
 	}
 	
 	@Override
-	public Value<GraphicsMesh> load(LoadContext manager, AssetKey ckey) {
-		{
-			final var scene = manager.load(AssimpScene.class, ckey);
-			if(scene != null)
-				return manager.map(scene, new AssimpAsssetFunction());
+	public Value<GraphicsMesh> load(LoadContext manager, AssetKey key) {
+		if(manager.canLoad(AssimpScene.class, key)) {
+			final var scene = manager.load(AssimpScene.class, key);
+			return manager.map(scene, new AssimpAsssetFunction());
 		}
 		return null;
 	}

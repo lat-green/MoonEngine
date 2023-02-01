@@ -11,15 +11,18 @@ import com.greentree.commons.math.vector.Vector3f;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.render.MeshRenderer;
-import com.greentree.engine.moon.render.camera.CameraComponent;
+import com.greentree.engine.moon.render.RenderContextProperty;
+import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.CameraUtil;
 import com.greentree.engine.moon.render.camera.Cameras;
+import com.greentree.engine.moon.render.camera.SkyBoxComponent;
 import com.greentree.engine.moon.render.light.HasShadow;
 import com.greentree.engine.moon.render.light.direction.DirectionLightComponent;
 import com.greentree.engine.moon.render.light.point.PointLightComponent;
@@ -34,8 +37,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	private static final float FAR_PLANE = 250;
 	private static final int SHADOW_SIZE = 512;
 	
-	private static final FilterBuilder CAMERAS = new FilterBuilder()
-			.required(CameraComponent.class);
+	private static final FilterBuilder CAMERAS = new FilterBuilder().required(CameraTarget.class);
 	private static final FilterBuilder POINT_LIGHT = new FilterBuilder()
 			.required(PointLightComponent.class);
 	private static final FilterBuilder DIR_LIGTH = new FilterBuilder()
@@ -44,7 +46,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	
 	private Filter cameras, point_ligth, dir_ligth, renderer;
 	
-	private RenderContext context;
+	private RenderLibraryContext context;
 	private World world;
 	
 	@Override
@@ -52,9 +54,11 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 		world = null;
 	}
 	
+	@ReadWorldComponent({RenderContextProperty.class})
 	@Override
 	public void init(World world) {
 		this.world = world;
+		context = world.get(RenderContextProperty.class).context();
 		cameras = CAMERAS.build(world);
 		point_ligth = POINT_LIGHT.build(world);
 		dir_ligth = DIR_LIGTH.build(world);
@@ -99,11 +103,11 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 				}
 			}
 		for(var camera : cameras) {
-			final var target = context.getTarget(camera);
+			final var target = camera.get(CameraTarget.class).target();
 			try(final var buffer = target.buffer()) {
-				if(context.getSkyBox(camera) != null) {
+				if(camera.contains(SkyBoxComponent.class)) {
 					buffer.clearRenderTargetDepth();
-					final var skybox = context.getSkyBox(camera);
+					final var skybox = camera.get(SkyBoxComponent.class).material().get();
 					buffer.drawSkyBox(skybox);
 				}else
 					buffer.clearRenderTarget(Color.gray, 1);
@@ -115,9 +119,9 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 			}
 		}
 		final var camera = world.get(Cameras.class).main();
-		final var texture = context.getTarget(camera).getColorTexture();
+		final var texture = camera.get(CameraTarget.class).target().getColorTexture();
 		try(final var buffer = context.buffer()) {
-			buffer.drawTexture(texture);
+			buffer.drawTexture(context, texture);
 		}
 		context.swapBuffer();
 		

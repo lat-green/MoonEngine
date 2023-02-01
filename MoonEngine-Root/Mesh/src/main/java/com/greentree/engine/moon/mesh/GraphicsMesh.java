@@ -141,7 +141,7 @@ public final class GraphicsMesh implements StaticMesh {
 		
 		@Override
 		public AbstractVector2f textureCoordinate() {
-			return textureCoords.get(normal);
+			return textureCoords.get(texCoord);
 		}
 		
 		@Override

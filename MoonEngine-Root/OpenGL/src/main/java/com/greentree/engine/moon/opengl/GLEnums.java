@@ -3,9 +3,9 @@ package com.greentree.engine.moon.opengl;
 import com.greentree.common.graphics.sgl.enums.gl.GLShaderType;
 import com.greentree.common.graphics.sgl.enums.gl.param.value.GLFiltering;
 import com.greentree.common.graphics.sgl.enums.gl.param.value.GLWrapping;
-import com.greentree.engine.moon.render.other.Filtering;
-import com.greentree.engine.moon.render.other.Wrapping;
-import com.greentree.engine.moon.render.shader.ShaderType;
+import com.greentree.engine.moon.render.shader.data.ShaderType;
+import com.greentree.engine.moon.render.texture.Filtering;
+import com.greentree.engine.moon.render.texture.Wrapping;
 
 public class GLEnums {
 	

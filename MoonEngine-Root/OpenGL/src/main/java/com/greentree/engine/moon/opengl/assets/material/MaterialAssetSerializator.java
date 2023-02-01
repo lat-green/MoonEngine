@@ -7,6 +7,7 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value2Function;
+import com.greentree.engine.moon.opengl.OpenGLShaderProgramAddpter;
 import com.greentree.engine.moon.opengl.render.material.GLPBRMaterial;
 import com.greentree.engine.moon.opengl.render.material.GLTextureProperty;
 import com.greentree.engine.moon.render.material.Material;
@@ -51,7 +52,7 @@ public class MaterialAssetSerializator implements AssetSerializator<Material> {
 			ps.put("ao_scale", 1f);
 			ps.put("height_scale", 1f);
 			
-			return new Material(ps, program);
+			return new Material(ps, new OpenGLShaderProgramAddpter(program));
 		}
 		
 	}

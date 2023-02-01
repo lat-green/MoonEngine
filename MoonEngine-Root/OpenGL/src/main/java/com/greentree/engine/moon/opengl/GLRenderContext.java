@@ -25,30 +25,32 @@ import com.greentree.common.graphics.sgl.texture.gl.cubemap.GLCubeMapTexture;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray.AttributeGroup;
 import com.greentree.common.graphics.sgl.window.GLFWContext;
+import com.greentree.commons.image.image.ImageData;
 import com.greentree.commons.util.array.FloatArray;
 import com.greentree.commons.util.array.IntArray;
 import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.mesh.GraphicsMesh;
-import com.greentree.engine.moon.opengl.base.FreamBufferRenderTarget;
+import com.greentree.engine.moon.mesh.StaticMesh;
+import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 import com.greentree.engine.moon.opengl.base.GLRenderTargetTextuteBuilder;
 import com.greentree.engine.moon.opengl.base.OpenGLCommandBuffer;
-import com.greentree.engine.moon.opengl.base.OpenGLRenderTarget;
 import com.greentree.engine.moon.opengl.command.OpenGLContext;
-import com.greentree.engine.moon.opengl.render.material.GLTextureProperty;
 import com.greentree.engine.moon.render.material.Material;
-import com.greentree.engine.moon.render.material.MaterialPropertiesImpl;
-import com.greentree.engine.moon.render.other.CubeTextureData;
-import com.greentree.engine.moon.render.pipeline.RenderContext;
-import com.greentree.engine.moon.render.pipeline.buffer.CommandBuffer;
-import com.greentree.engine.moon.render.pipeline.target.CameraRenderTarget;
-import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextute;
+import com.greentree.engine.moon.render.material.MaterialProperty;
+import com.greentree.engine.moon.render.pipeline.RenderLibraryContext;
 import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextuteBuilder;
+import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
+import com.greentree.engine.moon.render.shader.ShaderProgram;
+import com.greentree.engine.moon.render.shader.data.ShaderProgramData;
+import com.greentree.engine.moon.render.texture.CubeImageData;
+import com.greentree.engine.moon.render.texture.CubeTextureData;
 
-public final class GLRenderContext implements RenderContext, OpenGLContext, AutoCloseable {
+public final class GLRenderContext implements RenderLibraryContext, OpenGLContext, AutoCloseable {
 	
-	private static final VertexComponent[] TYPES = new VertexComponent[]{VERTEX,NORMAL,
-			TEXTURE_COORDINAT,TANGENT};
+	private static final StaticMeshFaceComponent[] TYPES = new StaticMeshFaceComponent[]{
+			StaticMeshFaceComponent.VERTEX,StaticMeshFaceComponent.NORMAL,
+			StaticMeshFaceComponent.TEXTURE_COORDINAT,StaticMeshFaceComponent.TANGENT};
 	
 	private static final int elements[] = {0,7,1,6,2,5,3,4,0,7};
 	private static final float vertices[] = {
@@ -62,11 +64,10 @@ public final class GLRenderContext implements RenderContext, OpenGLContext, Auto
 			-1.0f,1.0f,-1.0f,-1.0f,1.0f,1.0f,1.0f,-1.0f,};
 	private final GLShaderProgram ShadowShader, CubeMapShadowShader, SkyBoxShader;
 	
-	private final Map<GraphicsMesh, GLVertexArray> vaos = new HashMap<>();
+	private final Map<StaticMesh, GLVertexArray> vaos = new HashMap<>();
 	private final GLVertexArray quadVAO, boxVAO;
 	
 	private final Map<FloatArray, FloatStaticDrawArrayBuffer> vbos = new HashMap<>();
-	private final Map<Camera, RenderTargetTextute> targets = new HashMap<>();
 	
 	private final GLFWContext window;
 	
@@ -139,8 +140,24 @@ public final class GLRenderContext implements RenderContext, OpenGLContext, Auto
 	}
 	
 	@Override
-	public CommandBuffer buffer() {
+	public TargetCommandBuffer buffer() {
 		return new OpenGLCommandBuffer(this);
+	}
+	
+	@Override
+	public MaterialProperty build(CubeImageData image) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public MaterialProperty build(ImageData image) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public ShaderProgram build(ShaderProgramData program) {
+		System.out.println(program);
+		return null;
 	}
 	
 	@Override
@@ -165,45 +182,28 @@ public final class GLRenderContext implements RenderContext, OpenGLContext, Auto
 	
 	@Override
 	public Material getDefaultCubeMapShadowMaterial() {
-		return new Material(CubeMapShadowShader);
+		return new Material(new OpenGLShaderProgramAddpter(CubeMapShadowShader));
 	}
 	
 	@Override
 	public Material getDefaultShadowMaterial() {
-		return new Material(ShadowShader);
+		return new Material(new OpenGLShaderProgramAddpter(ShadowShader));
 	}
 	
 	
 	@Override
-	public Material getSkyBox(Camera camera) {
-		final var skybox = camera.getSkyBox();
-		final var properties = new MaterialPropertiesImpl();
-		final var glTex = toGLTexture(skybox);
-		properties.put("skybox", new GLTextureProperty(glTex));
-		return new Material(properties, SkyBoxShader);
+	public Material getDefaultSpriteMaterial() {
+		return new Material(new SpriteMaterial());
 	}
 	
-	@Override
-	public RenderTargetTextute getTarget(Camera camera) {
-		if(targets.containsKey(camera))
-			return targets.get(camera);
-		
-		final var fb = create(camera.getWidth(), camera.getHeight(), GLPixelFormat.RGB);
-		final var target = new FreamBufferRenderTarget(fb,
-				new CameraRenderTarget(camera, new OpenGLRenderTarget(this)));
-		
-		targets.put(camera, target);
-		
-		return target;
-	}
 	
 	@Override
-	public GLVertexArray getVAO(GraphicsMesh mesh) {
+	public GLVertexArray getVAO(StaticMesh mesh) {
 		if(vaos.containsKey(mesh))
 			return vaos.get(mesh);
 		final var g = mesh.getAttributeGroup(TYPES);
-		final var vbo = getVBO(g.vertex().array());
-		final var vao = new GLVertexArray(AttributeGroup.of(vbo, g.sizes().array));
+		final var vbo = getVBO(new FloatArray(g.vertex()));
+		final var vao = new GLVertexArray(AttributeGroup.of(vbo, g.sizes()));
 		vaos.put(mesh, vao);
 		return vao;
 	}
@@ -230,14 +230,12 @@ public final class GLRenderContext implements RenderContext, OpenGLContext, Auto
 		GLVertexArray.BINDER.unbind();
 	}
 	
-	
 	@Override
 	public void renderQuad() {
 		quadVAO.bind();
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		GLVertexArray.BINDER.unbind();
 	}
-	
 	
 	@Override
 	public void swapBuffer() {

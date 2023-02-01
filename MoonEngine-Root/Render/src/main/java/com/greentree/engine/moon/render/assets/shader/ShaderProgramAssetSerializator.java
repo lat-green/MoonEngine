@@ -11,7 +11,7 @@ import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.merge.MIValue;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
-import com.greentree.engine.moon.render.shader.ShaderType;
+import com.greentree.engine.moon.render.shader.data.ShaderType;
 
 public class ShaderProgramAssetSerializator<S> extends AbstractIterableAssetSerializator<S> {
 	

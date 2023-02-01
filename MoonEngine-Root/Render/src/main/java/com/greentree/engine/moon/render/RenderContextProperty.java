@@ -1,7 +1,9 @@
 package com.greentree.engine.moon.render;
 
+import com.greentree.engine.moon.ecs.WorldComponent;
 import com.greentree.engine.moon.module.EngineProperty;
-import com.greentree.engine.moon.render.pipeline.RenderContext;
+import com.greentree.engine.moon.render.pipeline.RenderLibraryContext;
 
-public record RenderContextProperty(RenderContext context) implements EngineProperty {
+public record RenderContextProperty(RenderLibraryContext context)
+		implements EngineProperty, WorldComponent {
 }

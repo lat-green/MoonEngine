@@ -1,13 +1,14 @@
 package com.greentree.engine.moon.render.assets;
 
-import java.nio.FloatBuffer;
 
 import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.classes.info.TypeInfoBuilder;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.module.EngineProperties;
 import com.greentree.engine.moon.module.LaunchModule;
+import com.greentree.engine.moon.module.annotation.ReadProperty;
 import com.greentree.engine.moon.module.annotation.WriteProperty;
+import com.greentree.engine.moon.render.RenderContextProperty;
 import com.greentree.engine.moon.render.assets.buffer.AttributeGroupSizesAssetSerializator;
 import com.greentree.engine.moon.render.assets.buffer.AttributeGroupVertexAssetSerializator;
 import com.greentree.engine.moon.render.assets.buffer.FloatBufferAssetSerializotor;
@@ -22,6 +23,7 @@ import com.greentree.engine.moon.render.assets.material.MaterialDataAssetSeriali
 import com.greentree.engine.moon.render.assets.shader.ShaderAssetSerializator;
 import com.greentree.engine.moon.render.assets.texture.Texture2DAssetSerializator;
 import com.greentree.engine.moon.render.assets.texture.cube.CubeTextureAssetSerializator;
+import com.greentree.engine.moon.render.buffer.FloatBuffer;
 
 public class RenderAssetSerializatorModule implements LaunchModule {
 	
