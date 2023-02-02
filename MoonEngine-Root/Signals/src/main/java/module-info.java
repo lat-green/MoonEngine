@@ -12,7 +12,6 @@ open module engine.moon.signals {
 	exports com.greentree.engine.moon.signals.device.value;
 	exports com.greentree.engine.moon.signals.keyboard;
 	exports com.greentree.engine.moon.signals.mouse;
-	exports com.greentree.engine.moon.signals.controller;
 	
 	provides EngineModule with CreateDevicesPropertyModule, UpdateDevicesPropertyModule;
 	
