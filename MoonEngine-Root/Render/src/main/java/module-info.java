@@ -1,3 +1,6 @@
+import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.render.assets.RenderAssetSerializatorModule;
+
 open module engine.moon.render {
 	
 	requires transitive engine.moon.base;
@@ -36,5 +39,7 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.pipeline.target;
 	exports com.greentree.engine.moon.render.pipeline.target.buffer;
 	exports com.greentree.engine.moon.render.pipeline.target.buffer.command;
+	
+	provides EngineModule with RenderAssetSerializatorModule;
 	
 }
