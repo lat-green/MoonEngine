@@ -4,7 +4,7 @@ import com.greentree.engine.moon.signals.device.UpdateDevicesPropertyModule;
 
 open module engine.moon.signals {
 	
-	requires transitive engine.moon.render;
+	requires transitive engine.moon.base;
 	
 	exports com.greentree.engine.moon.signals;
 	exports com.greentree.engine.moon.signals.ui;

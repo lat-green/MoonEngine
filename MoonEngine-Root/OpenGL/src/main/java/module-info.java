@@ -7,7 +7,6 @@ import com.greentree.engine.moon.opengl.assets.OpenGLInitAssetManagerModule;
 open module engine.moon.opengl {
 	
 	requires transitive common.graphics.sgl;
-	requires transitive engine.moon.signals;
 	requires transitive engine.moon.render;
 	
 	exports com.greentree.engine.moon.opengl;

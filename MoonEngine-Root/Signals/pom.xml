@@ -14,7 +14,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.greentree.engine.moon</groupId>
-		  	<artifactId>render</artifactId>
+		  	<artifactId>base</artifactId>
 		</dependency>
 	</dependencies>
 	

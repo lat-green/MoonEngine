@@ -20,6 +20,10 @@
 			<groupId>com.greentree.engine.moon</groupId>
 		  	<artifactId>mesh</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+		  	<artifactId>signals</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>com.greentree.commons</groupId>
