@@ -1,3 +1,7 @@
+import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.signals.CreateDevicesPropertyModule;
+import com.greentree.engine.moon.signals.device.UpdateDevicesPropertyModule;
+
 open module engine.moon.signals {
 	
 	requires transitive engine.moon.render;
@@ -10,5 +14,6 @@ open module engine.moon.signals {
 	exports com.greentree.engine.moon.signals.mouse;
 	exports com.greentree.engine.moon.signals.controller;
 	
+	provides EngineModule with CreateDevicesPropertyModule, UpdateDevicesPropertyModule;
 	
 }
