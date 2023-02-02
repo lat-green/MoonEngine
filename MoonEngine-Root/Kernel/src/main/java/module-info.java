@@ -1,3 +1,5 @@
+import com.greentree.engine.moon.module.EngineModule;
+
 open module engine.moon.kernel {
 	
 	requires transitive commons.graph;
@@ -5,6 +7,8 @@ open module engine.moon.kernel {
 	exports com.greentree.engine.moon;
 	exports com.greentree.engine.moon.module;
 	exports com.greentree.engine.moon.module.annotation;
+	
+	uses EngineModule;
 	
 	
 	
