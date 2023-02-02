@@ -7,7 +7,7 @@ import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 
 
-public class CreateRenderLibraryModule implements LaunchModule {
+public final class CreateRenderLibraryModule implements LaunchModule {
 	
 	@CreateProperty({RenderLibraryProperty.class})
 	@Override

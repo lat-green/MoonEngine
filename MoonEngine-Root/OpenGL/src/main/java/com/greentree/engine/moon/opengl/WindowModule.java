@@ -15,7 +15,6 @@ import com.greentree.common.graphics.sgl.enums.gl.debug.GLDebugSeverity;
 import com.greentree.common.graphics.sgl.window.Window;
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.base.scene.SceneManagerProperty;
 import com.greentree.engine.moon.module.EngineProperties;
 import com.greentree.engine.moon.module.LaunchModule;
 import com.greentree.engine.moon.module.TerminateModule;
@@ -23,8 +22,6 @@ import com.greentree.engine.moon.module.annotation.CreateProperty;
 import com.greentree.engine.moon.module.annotation.DestroyProperty;
 import com.greentree.engine.moon.module.annotation.ReadProperty;
 import com.greentree.engine.moon.opengl.adapter.WindowAddapter;
-import com.greentree.engine.moon.render.GLFWUpdateEvents;
-import com.greentree.engine.moon.render.window.ExitOnWindowShouldClose;
 import com.greentree.engine.moon.render.window.WindowProperty;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.Key;
@@ -39,15 +36,10 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 	private Window window;
 	private final ListenerCloser[] lcs = new ListenerCloser[4];
 	
-	@ReadProperty({DevicesProperty.class,AssetManagerProperty.class,SceneManagerProperty.class})
+	@ReadProperty({DevicesProperty.class,AssetManagerProperty.class})
 	@CreateProperty({WindowProperty.class})
 	@Override
 	public void launch(EngineProperties properties) {
-		final var scsnes = properties.get(SceneManagerProperty.class).manager();
-		
-		scsnes.addGlobalSystem(new GLFWUpdateEvents());
-		scsnes.addGlobalSystem(new ExitOnWindowShouldClose());
-		
 		final var manager = properties.get(AssetManagerProperty.class).manager();
 		
 		final var wini = manager.loadData(Properties.class, "window.ini");

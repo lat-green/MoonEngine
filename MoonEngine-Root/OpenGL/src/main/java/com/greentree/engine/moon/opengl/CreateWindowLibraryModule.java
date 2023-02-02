@@ -7,7 +7,7 @@ import com.greentree.engine.moon.opengl.adapter.GLFWWindowLibrary;
 import com.greentree.engine.moon.render.window.WindowLibraryProperty;
 
 
-public class CreateWindowLibraryModule implements LaunchModule {
+public final class CreateWindowLibraryModule implements LaunchModule {
 	
 	@CreateProperty({WindowLibraryProperty.class})
 	@Override

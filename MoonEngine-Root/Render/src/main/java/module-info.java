@@ -1,5 +1,8 @@
+import com.greentree.engine.moon.ecs.system.ECSSystem;
 import com.greentree.engine.moon.module.EngineModule;
 import com.greentree.engine.moon.render.assets.RenderAssetSerializatorModule;
+import com.greentree.engine.moon.render.window.ExitOnWindowShouldClose;
+import com.greentree.engine.moon.render.window.WindowUpdateEvents;
 
 open module engine.moon.render {
 	
@@ -41,5 +44,7 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.pipeline.target.buffer.command;
 	
 	provides EngineModule with RenderAssetSerializatorModule;
+	
+	provides ECSSystem with ExitOnWindowShouldClose, WindowUpdateEvents;
 	
 }

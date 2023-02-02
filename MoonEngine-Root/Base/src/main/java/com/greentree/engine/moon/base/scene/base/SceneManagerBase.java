@@ -3,6 +3,7 @@ package com.greentree.engine.moon.base.scene.base;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
+import java.util.ServiceLoader;
 
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
 import com.greentree.engine.moon.base.scene.Scene;
@@ -22,6 +23,13 @@ public final class SceneManagerBase implements SceneManager {
 	private World currentWorld;
 	private ECSSystem currentSystems;
 	private final Collection<ECSSystem> globalSystems = new ArrayList<>();
+	
+	{
+		final var autoAddGlobalSystems = ServiceLoader.load(ECSSystem.class);
+		for(var system : autoAddGlobalSystems)
+			globalSystems.add(system);
+	}
+	
 	private final EngineProperties properties;
 	
 	public SceneManagerBase(EngineProperties properties) {
@@ -30,6 +38,7 @@ public final class SceneManagerBase implements SceneManager {
 	
 	@Override
 	public void addGlobalSystem(ECSSystem system) {
+		System.out.println(system);
 		Objects.requireNonNull(system);
 		globalSystems.add(system);
 	}
