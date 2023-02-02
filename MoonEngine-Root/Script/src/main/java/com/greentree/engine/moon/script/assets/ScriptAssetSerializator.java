@@ -11,13 +11,12 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
-import com.greentree.engine.moon.script.Script;
 import com.greentree.engine.moon.script.javascript.JavaScriptScript;
 
-public final class ScriptAssetSerializator implements AssetSerializator<Script> {
+public final class ScriptAssetSerializator implements AssetSerializator<JavaScriptScript> {
 	
 	@Override
-	public Value<Script> load(LoadContext context, AssetKey key) {
+	public Value<JavaScriptScript> load(LoadContext context, AssetKey key) {
 		{
 			if(context.canLoad(Resource.class, key)) {
 				final var res = context.load(Resource.class, key);
@@ -32,29 +31,27 @@ public final class ScriptAssetSerializator implements AssetSerializator<Script> 
 		return context.canLoad(Resource.class, key);
 	}
 	
-	private static final class ScriptFunction implements Value1Function<Resource, Script> {
+	private static final class ScriptFunction
+			implements Value1Function<Resource, JavaScriptScript> {
 		
 		private static final long serialVersionUID = 1L;
 		
 		public static final ScriptFunction INSTANCE = new ScriptFunction();
 		
 		@Override
-		public Script applyWithDest(Resource resource, Script dest) {
+		public JavaScriptScript applyWithDest(Resource resource, JavaScriptScript dest) {
 			final String script;
 			try(final var in = resource.open()) {
 				script = new String(in.readAllBytes());
 			}catch(IOException e) {
 				throw new WrappedException(e);
 			}
-			if(dest instanceof JavaScriptScript js) {
-				js.setScript(script);
-				return js;
-			}
-			return new JavaScriptScript(script);
+			dest.setScript(script);
+			return dest;
 		}
 		
 		@Override
-		public Script apply(Resource resource) {
+		public JavaScriptScript apply(Resource resource) {
 			final String script;
 			try(final var in = resource.open()) {
 				script = new String(in.readAllBytes());
