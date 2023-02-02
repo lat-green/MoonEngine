@@ -4,10 +4,10 @@ import org.joml.Matrix4f;
 
 import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.mesh.StaticMesh;
-import com.greentree.engine.moon.render.MeshUtil;
-import com.greentree.engine.moon.render.material.Material;
-import com.greentree.engine.moon.render.material.MaterialProperty;
-import com.greentree.engine.moon.render.pipeline.RenderLibraryContext;
+import com.greentree.engine.moon.render.mesh.MeshUtil;
+import com.greentree.engine.moon.render.pipeline.material.Material;
+import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.pipeline.material.Shader;
 
 public interface TargetCommandBuffer extends AutoCloseable {
 	
@@ -27,31 +27,34 @@ public interface TargetCommandBuffer extends AutoCloseable {
 	@Override
 	void close();
 	
-	void drawMesh(StaticMesh mesh, Material material);
+	void drawMesh(StaticMesh mesh, Shader material, MaterialProperties properties);
 	
-	default void drawMesh(StaticMesh mesh, Matrix4f model, Material material) {
-		final var properties = material.properties();
+	default void drawMesh(StaticMesh mesh, Matrix4f model, Shader material,
+			MaterialProperties properties) {
 		properties.put("model", model);
-		drawMesh(mesh, material);
+		drawMesh(mesh, material, properties);
 	}
 	
-	default void drawMeshInstanced(StaticMesh mesh, Iterable<Matrix4f> model, Material material) {
-		final var properties = material.properties();
+	default void drawMesh(StaticMesh mesh, Matrix4f model, Material material) {
+		drawMesh(mesh, model, material.shader(), material.properties());
+	}
+	
+	default void drawMeshInstanced(StaticMesh mesh, Iterable<Matrix4f> model, Shader material,
+			MaterialProperties properties) {
 		for(var m : model) {
 			properties.put("model", m);
-			drawMesh(mesh, material);
+			drawMesh(mesh, material, properties);
 		}
 	}
 	
-	void drawSkyBox(Material material);
-	
-	default void drawTexture(Material material) {
-		drawMesh(MeshUtil.QUAD, material);
+	default void drawSkyBox(Material material) {
+		drawSkyBox(material.shader(), material.properties());
 	}
-	default void drawTexture(RenderLibraryContext context, MaterialProperty texture) {
-		final var material = context.getDefaultSpriteMaterial();
-		material.properties().put("texture", texture);
-		drawTexture(material);
+	
+	void drawSkyBox(Shader material, MaterialProperties properties);
+	
+	default void drawTexture(Shader material, MaterialProperties properties) {
+		drawMesh(MeshUtil.QUAD, material, properties);
 	}
 	
 }

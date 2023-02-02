@@ -4,7 +4,8 @@ import java.util.Objects;
 
 import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.mesh.StaticMesh;
-import com.greentree.engine.moon.render.material.Material;
+import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 
 
 public class ProxyCommandBuffer implements TargetCommandBuffer {
@@ -32,13 +33,13 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	@Override
-	public void drawMesh(StaticMesh mesh, Material material) {
-		base.drawMesh(mesh, material);
+	public void drawMesh(StaticMesh mesh, Shader material, MaterialProperties properties) {
+		base.drawMesh(mesh, material, properties);
 	}
 	
 	@Override
-	public void drawSkyBox(Material material) {
-		base.drawSkyBox(material);
+	public void drawSkyBox(Shader material, MaterialProperties properties) {
+		base.drawSkyBox(material, properties);
 	}
 	
 }

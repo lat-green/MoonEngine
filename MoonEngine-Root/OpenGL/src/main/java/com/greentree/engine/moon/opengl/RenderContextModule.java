@@ -4,6 +4,7 @@ import com.greentree.engine.moon.module.EngineProperties;
 import com.greentree.engine.moon.module.LaunchModule;
 import com.greentree.engine.moon.module.annotation.CreateProperty;
 import com.greentree.engine.moon.module.annotation.ReadProperty;
+import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
 import com.greentree.engine.moon.render.RenderContextProperty;
 
 
@@ -14,7 +15,7 @@ public class RenderContextModule implements LaunchModule {
 	@Override
 	public void launch(EngineProperties context) {
 		final var window = context.get(WindowProperty.class).window();
-		context.add(new RenderContextProperty(new GLRenderContext(window)));
+		context.add(new RenderContextProperty(new GLRenderLibrary(window)));
 	}
 	
 }

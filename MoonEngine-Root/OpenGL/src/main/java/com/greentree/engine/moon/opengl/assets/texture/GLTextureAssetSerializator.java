@@ -10,7 +10,7 @@ import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
 import com.greentree.engine.moon.opengl.GLEnums;
-import com.greentree.engine.moon.render.texture.Texture2DData;
+import com.greentree.engine.moon.render.texture.data.Texture2DData;
 
 
 public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2DImpl> {

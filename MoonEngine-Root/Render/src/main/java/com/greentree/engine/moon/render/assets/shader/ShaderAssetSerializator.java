@@ -7,8 +7,9 @@ import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.ValidAssetManagerBase;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
-import com.greentree.engine.moon.render.shader.data.ShaderDataImpl;
-import com.greentree.engine.moon.render.shader.data.ShaderType;
+import com.greentree.engine.moon.render.shader.ShaderDataImpl;
+import com.greentree.engine.moon.render.shader.ShaderLanguage;
+import com.greentree.engine.moon.render.shader.ShaderType;
 
 
 public class ShaderAssetSerializator implements AssetSerializator<ShaderDataImpl> {
@@ -34,7 +35,8 @@ public class ShaderAssetSerializator implements AssetSerializator<ShaderDataImpl
 		if(ckey instanceof ShaderAssetKey key) {
 			final var text = manager.load(String.class, key.text());
 			final var type = key.shaderType();
-			return manager.map(text, new ShaderDataImplFunction(type));
+			final var language = key.language();
+			return manager.map(text, new ShaderDataImplFunction(type, language));
 		}
 		return null;
 	}
@@ -44,16 +46,18 @@ public class ShaderAssetSerializator implements AssetSerializator<ShaderDataImpl
 		
 		private static final long serialVersionUID = 1L;
 		private final ShaderType type;
+		private final ShaderLanguage language;
 		
-		public ShaderDataImplFunction(ShaderType type) {
+		public ShaderDataImplFunction(ShaderType type, ShaderLanguage language) {
 			this.type = type;
+			this.language = language;
 		}
 		
 		@Override
 		public ShaderDataImpl apply(String value) {
 			if(value == null)
 				return null;
-			return new ShaderDataImpl(value, type);
+			return new ShaderDataImpl(value, type, language);
 		}
 		
 	}

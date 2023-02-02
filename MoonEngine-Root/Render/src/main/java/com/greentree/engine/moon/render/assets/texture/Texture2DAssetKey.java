@@ -2,7 +2,7 @@ package com.greentree.engine.moon.render.assets.texture;
 
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.ResourceAssetKey;
-import com.greentree.engine.moon.render.texture.Texture2DType;
+import com.greentree.engine.moon.render.texture.data.Texture2DType;
 
 
 public record Texture2DAssetKey(AssetKey image, Texture2DType textureType) implements AssetKey {

@@ -7,11 +7,10 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value2Function;
-import com.greentree.engine.moon.opengl.OpenGLShaderProgramAddpter;
-import com.greentree.engine.moon.opengl.render.material.GLPBRMaterial;
-import com.greentree.engine.moon.opengl.render.material.GLTextureProperty;
-import com.greentree.engine.moon.render.material.Material;
-import com.greentree.engine.moon.render.material.MaterialPropertiesImpl;
+import com.greentree.engine.moon.opengl.adapter.OpenGLShaderProgramAddpter;
+import com.greentree.engine.moon.opengl.material.OpenGLMaterialProperties;
+import com.greentree.engine.moon.opengl.material.OpenGLMaterialPropertiesImpl;
+import com.greentree.engine.moon.render.pipeline.material.Material;
 
 
 public class MaterialAssetSerializator implements AssetSerializator<Material> {
@@ -40,19 +39,19 @@ public class MaterialAssetSerializator implements AssetSerializator<Material> {
 		
 		@Override
 		public Material apply(GLShaderProgram program, GLPBRMaterial material) {
-			final var ps = new MaterialPropertiesImpl();
+			final var ps = new OpenGLMaterialPropertiesImpl();
 			
-			ps.put("material.albedo", new GLTextureProperty(material.albedo()));
-			ps.put("material.ao", new GLTextureProperty(material.ambientOcclusion()));
-			ps.put("material.displacement", new GLTextureProperty(material.displacement()));
-			ps.put("material.metallic", new GLTextureProperty(material.metallic()));
-			ps.put("material.normal", new GLTextureProperty(material.normal()));
-			ps.put("material.roughness", new GLTextureProperty(material.roughness()));
+			ps.put("material.albedo", material.albedo());
+			ps.put("material.ao", material.ambientOcclusion());
+			ps.put("material.displacement", material.displacement());
+			ps.put("material.metallic", material.metallic());
+			ps.put("material.normal", material.normal());
+			ps.put("material.roughness", material.roughness());
 			
 			ps.put("ao_scale", 1f);
 			ps.put("height_scale", 1f);
 			
-			return new Material(ps, new OpenGLShaderProgramAddpter(program));
+			return new Material(new OpenGLShaderProgramAddpter(program), ps);
 		}
 		
 	}

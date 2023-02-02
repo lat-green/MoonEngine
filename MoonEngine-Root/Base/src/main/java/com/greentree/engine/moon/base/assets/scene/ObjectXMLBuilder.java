@@ -20,12 +20,64 @@ import com.greentree.commons.xml.XMLElement;
 
 public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 	
-	private final Collection<XMLTypeAddapter> addapters = new ArrayList<>();
+	private final Collection<XMLTypeAddapter> addapters = new ArrayList<>() {
+		
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public boolean add(XMLTypeAddapter addapter) {
+			super.add(0, addapter);
+			return true;
+		}
+		
+	};
 	
 	{
-		add(new ReDirectXMLTypeAddapter(Iterable.class, Collection.class));
-		add(new ReDirectXMLTypeAddapter(Collection.class, List.class));
-		add(new ReDirectXMLTypeAddapter(List.class, ArrayList.class));
+		add(new XMLTypeAddapter() {
+			
+			@Override
+			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type,
+					XMLElement xml_element) {
+				final var names = getNames(xml_element);
+				
+				final var cls = type.toClass();
+				var c = ObjectBuilder.getMaxConstructor(cls, names.keySet());
+				if(c == null)
+					c = ObjectBuilder.getMinConstructor(cls);
+				if(c == null)
+					throw new UnsupportedOperationException(
+							type + " not have constructor(maybe abstract) xml_element:"
+									+ xml_element + " names:" + names);
+				
+				var params = c.getParameters();
+				var args = new Object[params.length];
+				for(var i = 0; i < params.length; i++) {
+					var p = params[i];
+					final var p_type = TypeInfoBuilder.getTypeInfo(p.getParameterizedType());
+					if(p_type == null)
+						throw new NullPointerException("null TypeInfo of " + p);
+					final var xml_value = names.remove(p.getName());
+					if(xml_value == null) {
+						throw new NullPointerException("constructor of " + type + " has paramtr "
+								+ p.getName() + " but xml not " + names);
+					}
+					try {
+						args[i] = context.build(p_type, xml_value);
+					}catch(Exception e) {
+						throw new RuntimeException("Exception on build constructor parameter " + p
+								+ " of type " + type, e);
+					}
+				}
+				try {
+					return newInstanceConstructor(names, c.newInstance(args));
+				}catch(Exception e) {
+					throw new RuntimeException("args: "
+							+ asList(args) + " constructor: " + asList(c.getParameters()).stream()
+									.map(Parameter::getName).collect(Collectors.toList())
+							+ " type:" + type + " names:" + names, e);
+				}
+			}
+		});
 		add(new XMLTypeAddapter() {
 			
 			@Override
@@ -51,42 +103,10 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 				return null;
 			}
 		});
-		add(new XMLTypeAddapter() {
-			
-			@Override
-			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type,
-					XMLElement xml_element) {
-				final var names = getNames(xml_element);
-				
-				final var cls = type.toClass();
-				var c = ObjectBuilder.getMaxConstructor(cls, names.keySet());
-				if(c == null)
-					c = ObjectBuilder.getMinConstructor(cls);
-				if(c == null)
-					throw new UnsupportedOperationException(
-							type + " not have constructor(maybe abstract) xml_element:"
-									+ xml_element + " names:" + names);
-				
-				var params = c.getParameters();
-				var args = new Object[params.length];
-				for(var i = 0; i < params.length; i++) {
-					var p = params[i];
-					final var p_type = TypeInfoBuilder.getTypeInfo(p.getParameterizedType());
-					if(p_type == null)
-						throw new NullPointerException("null TypeInfo of " + p);
-					final var xml_value = names.remove(p.getName());
-					args[i] = build(p_type, xml_value);
-				}
-				try {
-					return newInstanceConstructor(names, c.newInstance(args));
-				}catch(Exception e) {
-					throw new RuntimeException("args: "
-							+ asList(args) + " constructor: " + asList(c.getParameters()).stream()
-									.map(Parameter::getName).collect(Collectors.toList())
-							+ " type:" + type + " names:" + names, e);
-				}
-			}
-		});
+		
+		add(new ReDirectXMLTypeAddapter(List.class, ArrayList.class));
+		add(new ReDirectXMLTypeAddapter(Collection.class, List.class));
+		add(new ReDirectXMLTypeAddapter(Iterable.class, Collection.class));
 	}
 	
 	public static final Map<String, XMLElement> getNames(XMLElement xml_element) {
@@ -117,13 +137,9 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 	public <T> Constructor<T> newInstance(TypeInfo<T> type, XMLElement xml_element) {
 		type = type.getBoxing();
 		for(var v : addapters) {
-			try {
-				final var c = v.newInstance(this, type, xml_element);
-				if(c != null)
-					return c;
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
+			final var c = v.newInstance(this, type, xml_element);
+			if(c != null)
+				return c;
 		}
 		return null;
 	}

@@ -2,9 +2,11 @@ package com.greentree.engine.moon.render.pipeline.target.buffer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Objects;
 
 import com.greentree.engine.moon.mesh.StaticMesh;
-import com.greentree.engine.moon.render.material.Material;
+import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.DrawMultiMesh;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.TargetCommand;
 
@@ -21,6 +23,7 @@ public abstract class PushCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	public void push(TargetCommand command) {
+		Objects.requireNonNull(command);
 		commands.add(command);
 	}
 	
@@ -32,8 +35,8 @@ public abstract class PushCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	@Override
-	public void drawMesh(StaticMesh mesh, Material material) {
-		push(new DrawMultiMesh(mesh, material));
+	public void drawMesh(StaticMesh mesh, Shader material, MaterialProperties properties) {
+		push(new DrawMultiMesh(mesh, material, properties));
 	}
 	
 }

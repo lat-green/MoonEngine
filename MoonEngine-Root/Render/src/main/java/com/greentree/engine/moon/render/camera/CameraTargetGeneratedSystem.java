@@ -9,16 +9,15 @@ import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
-import com.greentree.engine.moon.module.annotation.ReadProperty;
 import com.greentree.engine.moon.render.RenderContextProperty;
-import com.greentree.engine.moon.render.pipeline.RenderLibraryContext;
+import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 
 public class CameraTargetGeneratedSystem implements InitSystem, UpdateSystem, DestroySystem {
 	
 	private static final FilterBuilder CAMERAS = new FilterBuilder().required(CameraComponent.class)
 			.ignore(CameraTarget.class);
 	private Filter cameras;
-	private RenderLibraryContext context;
+	private RenderLibrary context;
 	
 	@ReadWorldComponent({RenderContextProperty.class})
 	@Override

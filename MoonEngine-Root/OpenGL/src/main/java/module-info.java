@@ -5,13 +5,11 @@ open module engine.moon.opengl {
 	requires transitive engine.moon.render;
 	
 	exports com.greentree.engine.moon.opengl;
+	exports com.greentree.engine.moon.opengl.material;
 	
 	exports com.greentree.engine.moon.opengl.assets.buffer;
 	exports com.greentree.engine.moon.opengl.assets.shader;
 	exports com.greentree.engine.moon.opengl.assets.texture;
 	exports com.greentree.engine.moon.opengl.assets.material;
-	
-	exports com.greentree.engine.moon.opengl.render.material;
-	exports com.greentree.engine.moon.opengl.render.camera;
 	
 }

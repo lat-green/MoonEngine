@@ -11,7 +11,8 @@ import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.merge.MIValue;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
-import com.greentree.engine.moon.render.shader.data.ShaderType;
+import com.greentree.engine.moon.render.shader.ShaderLanguage;
+import com.greentree.engine.moon.render.shader.ShaderType;
 
 public class ShaderProgramAssetSerializator<S> extends AbstractIterableAssetSerializator<S> {
 	
@@ -34,9 +35,12 @@ public class ShaderProgramAssetSerializator<S> extends AbstractIterableAssetSeri
 			final var fragProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "frag"));
 			final var geomProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "geom"));
 			
-			final var vertKey = new ShaderAssetKey(vertProp, ShaderType.VERTEX);
-			final var fragKey = new ShaderAssetKey(fragProp, ShaderType.FRAGMENT);
-			final var geomKey = new ShaderAssetKey(geomProp, ShaderType.GEOMETRY);
+			final var vertKey = new ShaderAssetKey(vertProp, ShaderType.VERTEX,
+					ShaderLanguage.GLSL);
+			final var fragKey = new ShaderAssetKey(fragProp, ShaderType.FRAGMENT,
+					ShaderLanguage.GLSL);
+			final var geomKey = new ShaderAssetKey(geomProp, ShaderType.GEOMETRY,
+					ShaderLanguage.GLSL);
 			
 			final var vert = manager.load(ITER_TYPE, vertKey);
 			final var frag = manager.load(ITER_TYPE, fragKey);

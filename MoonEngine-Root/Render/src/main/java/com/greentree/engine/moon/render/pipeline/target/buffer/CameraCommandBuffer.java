@@ -10,7 +10,8 @@ import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 import com.greentree.engine.moon.render.camera.CameraUtil;
-import com.greentree.engine.moon.render.material.Material;
+import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 
 public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	
@@ -18,21 +19,21 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	
 	public CameraCommandBuffer(Entity camera, TargetCommandBuffer base) {
 		super(base);
-		Objects.requireNonNull(base);
+		Objects.requireNonNull(camera);
 		this.camera = camera;
 	}
 	
 	@Override
-	public void drawMesh(StaticMesh mesh, Material material) {
+	public void drawMesh(StaticMesh mesh, Shader material, MaterialProperties properties) {
 		final var view = CameraUtil.getView(camera);
 		final var projection = camera.get(CameraComponent.class).getProjectionMatrix();
 		final var veiwProjection = new Matrix4f().identity().mul(projection).mul(view);
-		material.properties().put("projectionView", veiwProjection);
-		super.drawMesh(mesh, material);
+		properties.put("projectionView", veiwProjection);
+		super.drawMesh(mesh, material, properties);
 	}
 	
 	@Override
-	public void drawSkyBox(Material material) {
+	public void drawSkyBox(Shader material, MaterialProperties properties) {
 		final var camera = this.camera.get(CameraComponent.class);
 		Matrix4f veiwProjection;
 		{
@@ -46,9 +47,9 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 		Matrix4f view = CameraUtil.getView(this.camera);
 		veiwProjection.mul(new Matrix4f(view.get3x3(mat33)));
 		
-		material.properties().put("projectionView", veiwProjection);
+		properties.put("projectionView", veiwProjection);
 		
-		super.drawSkyBox(material);
+		super.drawSkyBox(material, properties);
 	}
 	
 }

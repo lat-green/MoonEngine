@@ -57,6 +57,21 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 			
 			builder.add(new XMLTypeAddapter() {
 				
+				@Override
+				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
+						XMLElement xml_value) {
+					final var xml_value_text = xml_value.getContent();
+					final var key = new ResultAssetKey(xml_value_text);
+					if(context.isDeepValid(type, key)) {
+						final var v = context.loadData(type, key);
+						return new ValueConstructor<>(v);
+					}
+					return null;
+				}
+			});
+			
+			builder.add(new XMLTypeAddapter() {
+				
 				@SuppressWarnings("unchecked")
 				@Override
 				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
@@ -77,24 +92,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
 						XMLElement xml_value) {
 					if(ClassUtil.isExtends(ValueProvider.class, type.toClass())) {
-						final var xml_value_text = xml_value.getContent();
 						final var value_type = type.getTypeArguments()[0].getBoxing();
+						final var xml_value_text = xml_value.getContent();
 						final var value = context.load(value_type, xml_value_text).openProvider();
 						return new ValueConstructor<>((T) value);
-					}
-					return null;
-				}
-			});
-			builder.add(new XMLTypeAddapter() {
-				
-				@Override
-				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
-						XMLElement xml_value) {
-					final var xml_value_text = xml_value.getContent();
-					final var key = new ResultAssetKey(xml_value_text);
-					if(context.isDeepValid(type, key)) {
-						final var v = context.loadData(type, key);
-						return new ValueConstructor<>(v);
 					}
 					return null;
 				}

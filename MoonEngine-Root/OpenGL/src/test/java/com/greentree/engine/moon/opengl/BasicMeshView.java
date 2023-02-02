@@ -19,7 +19,7 @@ import com.greentree.common.graphics.sgl.vao.GLVertexArray.AttributeGroup;
 import com.greentree.common.graphics.sgl.window.Window;
 import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
-import com.greentree.engine.moon.render.MeshUtil;
+import com.greentree.engine.moon.render.mesh.MeshUtil;
 
 public class BasicMeshView {
 	
