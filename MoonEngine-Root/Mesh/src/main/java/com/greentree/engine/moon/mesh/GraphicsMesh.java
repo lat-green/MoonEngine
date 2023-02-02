@@ -80,9 +80,9 @@ public final class GraphicsMesh implements StaticMesh {
 			final var bv = add(vertices, b.vertex());
 			final var cv = add(vertices, c.vertex());
 			
-			final var an = add(normals, a.vertex());
-			final var bn = add(normals, b.vertex());
-			final var cn = add(normals, c.vertex());
+			final var an = add(normals, a.normal());
+			final var bn = add(normals, b.normal());
+			final var cn = add(normals, c.normal());
 			
 			final var at = add(textureCoords, a.textureCoordinate());
 			final var bt = add(textureCoords, b.textureCoordinate());

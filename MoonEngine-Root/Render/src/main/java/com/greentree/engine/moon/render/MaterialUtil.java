@@ -3,6 +3,7 @@ package com.greentree.engine.moon.render;
 import com.greentree.commons.util.function.SaveFunction;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.material.Material;
+import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.pipeline.material.Shader;
 import com.greentree.engine.moon.render.shader.ShaderDataImpl;
 import com.greentree.engine.moon.render.shader.ShaderLanguage;
@@ -18,9 +19,9 @@ public class MaterialUtil {
 	private static final ShaderProgramData DefaultShadowShaderData;
 	private static final ShaderProgramData DefaultSkyBoxShderData;
 	private static final ShaderProgramData DefaultSpriteShaderData;
-	private static final String DefaultSprite_VERTEX_NAME = "shaders/sprite/sprite.vert";
+	private static final String DefaultSprite_VERTEX_NAME = "shaders/texture/texture.vert";
 	
-	private static final String DefaultSprite_FRAGMENT_NAME = "shaders/sprite/sprite.frag";
+	private static final String DefaultSprite_FRAGMENT_NAME = "shaders/texture/texture.frag";
 	private static final String DefaultCubeMapShadow_VERTEX_NAME = "shaders/shadow/point/point_shadow_mapping_depth.vert";
 	
 	private static final String DefaultCubeMapShadow_GEOMETRY_NAME = "shaders/shadow/point/point_shadow_mapping_depth.geom";
@@ -63,7 +64,6 @@ public class MaterialUtil {
 				ShaderLanguage.GLSL);
 		DefaultSpriteShaderData = new ShaderProgramDataImpl(vert, frag);
 	}
-	private final RenderLibrary library;
 	
 	private final Shader DefaultCubeMapShadowShader;
 	private final Shader DefaultShadowShader;
@@ -71,7 +71,6 @@ public class MaterialUtil {
 	private final Shader DefaultSpriteShader;
 	
 	private MaterialUtil(RenderLibrary library) {
-		this.library = library;
 		DefaultSpriteShader = library.build(DefaultSpriteShaderData);
 		DefaultCubeMapShadowShader = library.build(DefaultCubeMapShadowShaderData);
 		DefaultShadowShader = library.build(DefaultShadowShaderData);
@@ -100,6 +99,10 @@ public class MaterialUtil {
 	
 	public static Shader getDefaultSkyBoxShder(RenderLibrary library) {
 		return get(library).getDefaultSkyBoxShder();
+	}
+	
+	public static Material getDefaultSkyBoxMaterial(RenderLibrary library) {
+		return get(library).getDefaultSkyBoxMaterial();
 	}
 	
 	public static Material getDefaultSpriteMaterial(RenderLibrary library) {
@@ -156,7 +159,7 @@ public class MaterialUtil {
 	
 	public Material getDefaultCubeMapShadowMaterial() {
 		final var shader = getDefaultCubeMapShadowShader();
-		final var properties = library.newMaterialProperties();
+		final var properties = new MaterialPropertiesBase();
 		return new Material(shader, properties);
 	}
 	
@@ -166,7 +169,7 @@ public class MaterialUtil {
 	
 	public Material getDefaultShadowMaterial() {
 		final var shader = getDefaultShadowShader();
-		final var properties = library.newMaterialProperties();
+		final var properties = new MaterialPropertiesBase();
 		return new Material(shader, properties);
 	}
 	
@@ -178,9 +181,15 @@ public class MaterialUtil {
 		return DefaultSkyBoxShder;
 	}
 	
+	public Material getDefaultSkyBoxMaterial() {
+		final var shader = getDefaultSkyBoxShder();
+		final var properties = new MaterialPropertiesBase();
+		return new Material(shader, properties);
+	}
+	
 	public Material getDefaultSpriteMaterial() {
 		final var shader = getDefaultSpriteShader();
-		final var properties = library.newMaterialProperties();
+		final var properties = new MaterialPropertiesBase();
 		return new Material(shader, properties);
 	}
 	

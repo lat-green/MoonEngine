@@ -2,6 +2,7 @@ package com.greentree.engine.moon.opengl;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.joml.Matrix4f;
@@ -48,13 +49,15 @@ out vec4 color;
 
 void main()
 {
-	color = vec4(abs(fNormal), 1.0f);
+	color = vec4(0,1,0, 1.0f);
 }
 						""";
 	
 	public static void main(String[] args) {
+		SGLFW.init();
 		view(MeshUtil.BOX);
 		view(MeshUtil.QUAD);
+		SGLFW.terminate();
 	}
 	
 	private static GLShaderProgram program() {
@@ -65,7 +68,6 @@ void main()
 	}
 	
 	private static void view(StaticMesh mesh) {
-		SGLFW.init();
 		try(final var window = new Window("BasicMeshView", 800, 600)) {
 			window.makeCurrent();
 			
@@ -74,27 +76,27 @@ void main()
 			
 			glClearColor(.6f, .6f, .6f, 1);
 			
-			final var vao = vao(mesh);
-			vao.bind();
-			Matrix4f model = new Matrix4f();
-			
-			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_CULL_FACE);
-			
-			while(!window.isShouldClose()) {
-				Window.updateEvents();
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			try(final var vao = vao(mesh);) {
+				vao.bind();
+				Matrix4f model = new Matrix4f();
 				
-				model.rotate(.0001f, 0, 1, 0);
-				model.rotate(.00003f, 0, 0, 1);
-				set(prog.getUL("model"), model);
+				glEnable(GL_DEPTH_TEST);
 				
-				glDrawArrays(GL_TRIANGLES, 0, vao.size());
-				
-				window.swapBuffer();
+				while(!window.isShouldClose()) {
+					Window.updateEvents();
+					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+					
+					model.rotate(.0001f, 0, 1, 0);
+					model.rotate(.00003f, 0, 0, 1);
+					set(prog.getUL("model"), model);
+					
+					glDrawArrays(GL_TRIANGLES, 0, vao.size());
+					
+					window.swapBuffer();
+				}
+				GLVertexArray.BINDER.unbind();
 			}
 		}
-		SGLFW.terminate();
 	}
 	
 	private static void set(GLUniformLocation ul, Matrix4f model) {
@@ -117,6 +119,7 @@ void main()
 		}
 		vbo.unbind();
 		final var vao = new GLVertexArray(AttributeGroup.of(vbo, v.sizes()));
+		vbo.close();
 		return vao;
 	}
 	

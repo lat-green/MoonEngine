@@ -50,7 +50,7 @@ public final class MeshUtil {
 		final var v11 = new Vector3f(1, 1, 0);
 		
 		map(v-> {
-			v.add(-.5f, -.5f, -.5f);
+			v.add(-.5f, -.5f, 0);
 			v.mul(2);
 		}, v01, v00, v10, v11);
 		

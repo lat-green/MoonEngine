@@ -7,11 +7,11 @@ import org.joml.Matrix4f;
 
 import com.greentree.commons.math.Mathf;
 import com.greentree.engine.moon.ecs.Entity;
-import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 import com.greentree.engine.moon.render.camera.CameraUtil;
-import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.mesh.RenderMesh;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.pipeline.material.Shader;
 
 public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	
@@ -24,7 +24,7 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	}
 	
 	@Override
-	public void drawMesh(StaticMesh mesh, Shader material, MaterialProperties properties) {
+	public void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties) {
 		final var view = CameraUtil.getView(camera);
 		final var projection = camera.get(CameraComponent.class).getProjectionMatrix();
 		final var veiwProjection = new Matrix4f().identity().mul(projection).mul(view);

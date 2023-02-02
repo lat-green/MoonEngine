@@ -62,8 +62,8 @@ public class AssimpSceneAssetSerializator implements AssetSerializator<AssimpSce
 		@Override
 		public AssimpScene apply(Resource res) {
 			final var file = getFile(res);
-			try(AIScene scene = Assimp.aiImportFile(file.toString(),
-					Assimp.aiProcess_Triangulate | Assimp.aiProcess_ValidateDataStructure);) {
+			try(AIScene scene = Assimp.aiImportFile(file.toString(), Assimp.aiProcess_Triangulate
+					| Assimp.aiProcess_ValidateDataStructure | Assimp.aiProcess_OptimizeMeshes);) {
 				if(scene == null) {
 					final var error = Assimp.aiGetErrorString();
 					throw new IllegalArgumentException(error);

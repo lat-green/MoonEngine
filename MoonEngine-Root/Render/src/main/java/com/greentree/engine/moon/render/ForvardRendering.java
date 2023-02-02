@@ -27,9 +27,11 @@ import com.greentree.engine.moon.render.light.point.PointLightComponent;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
 import com.greentree.engine.moon.render.mesh.MeshRenderer;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
+import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextute;
+import com.greentree.engine.moon.render.window.Window;
+import com.greentree.engine.moon.render.window.WindowProperty;
 
 public final class ForvardRendering implements InitSystem, UpdateSystem, DestroySystem {
 	
@@ -45,7 +47,8 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	
 	private Filter cameras, point_ligth, dir_ligth, renderer;
 	
-	private RenderLibrary context;
+	private RenderLibrary library;
+	private Window window;
 	private World world;
 	
 	@Override
@@ -53,11 +56,12 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 		world = null;
 	}
 	
-	@ReadWorldComponent({RenderContextProperty.class})
+	@ReadWorldComponent({RenderLibraryProperty.class,WindowProperty.class})
 	@Override
 	public void init(World world) {
 		this.world = world;
-		context = world.get(RenderContextProperty.class).context();
+		library = world.get(RenderLibraryProperty.class).library();
+		window = world.get(WindowProperty.class).window();
 		cameras = CAMERAS.build(world);
 		point_ligth = POINT_LIGHT.build(world);
 		dir_ligth = DIR_LIGTH.build(world);
@@ -70,7 +74,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 		final var directionShadows = new HashMap<Entity, RenderTargetTextute>();
 		for(var light : point_ligth)
 			if(light.contains(HasShadow.class)) {
-				final var target = context.createRenderTarget().addDepthCubeMapTexture()
+				final var target = library.createRenderTarget().addDepthCubeMapTexture()
 						.build(SHADOW_SIZE, SHADOW_SIZE);
 				pointShadows.put(light, target);
 				
@@ -83,16 +87,16 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 							final var mesh = m.get(MeshComponent.class).mesh().get();
 							final var model = m.get(Transform.class).getModelMatrix();
 							final var material = MaterialUtil
-									.getDefaultCubeMapShadowMaterial(context);
+									.getDefaultCubeMapShadowMaterial(library);
 							final var prperties = material.properties();
 							mapCubeMapShadowMaterial(prperties, light, shadowMatrices[i], i);
-							buffer.drawMesh(mesh, model, material);
+							buffer.drawMesh(library, mesh, model, material);
 						}
 				}
 			}
 		for(var light : dir_ligth)
 			if(light.contains(HasShadow.class)) {
-				final var target = context.createRenderTarget().addDepthTexture().build(SHADOW_SIZE,
+				final var target = library.createRenderTarget().addDepthTexture().build(SHADOW_SIZE,
 						SHADOW_SIZE);
 				directionShadows.put(light, target);
 				
@@ -101,10 +105,10 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 					for(var m : renderer) {
 						final var mesh = m.get(MeshComponent.class).mesh().get();
 						final var model = m.get(Transform.class).getModelMatrix();
-						final var material = MaterialUtil.getDefaultShadowMaterial(context);
+						final var material = MaterialUtil.getDefaultShadowMaterial(library);
 						final var prperties = material.properties();
 						mapShadowMaterial(prperties);
-						buffer.drawMesh(mesh, model, material);
+						buffer.drawMesh(library, mesh, model, material);
 					}
 				}
 			}
@@ -113,7 +117,9 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 			try(final var buffer = target.buffer()) {
 				if(camera.contains(SkyBoxComponent.class)) {
 					buffer.clearRenderTargetDepth();
-					final var material = camera.get(SkyBoxComponent.class).texture().get();
+					final var texture = camera.get(SkyBoxComponent.class).texture().get();
+					final var material = MaterialUtil.getDefaultSkyBoxMaterial(library);
+					material.properties().put("skybox", texture);
 					buffer.drawSkyBox(material);
 				}else
 					buffer.clearRenderTarget(Color.gray, 1);
@@ -121,21 +127,20 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 					final var mesh = m.get(MeshComponent.class).mesh().get();
 					final var model = m.get(Transform.class).getModelMatrix();
 					final var material = m.get(MeshRenderer.class).material().get();
-					final var prperties = material.properties();
-					mapMaterial(prperties, pointShadows, directionShadows);
-					buffer.drawMesh(mesh, model, material);
+					final var properties = material.properties();
+					mapMaterial(properties, pointShadows, directionShadows);
+					buffer.drawMesh(library, mesh, model, material);
 				}
 			}
 		}
-		final var material = MaterialUtil.getDefaultSpriteMaterial(context);
-		
+		final var material = MaterialUtil.getDefaultSpriteMaterial(library);
 		final var camera = world.get(Cameras.class).main();
-		camera.get(CameraTarget.class).target()
-				.getColorTexture(material.properties().get("texture"));
-		try(final var buffer = context.buffer()) {
-			buffer.drawTexture(material.shader(), material.properties());
+		material.properties().put("render_texture",
+				camera.get(CameraTarget.class).target().getColorTexture());
+		try(final var buffer = library.screanRenderTarget().buffer()) {
+			buffer.drawTexture(library, material.shader(), material.properties());
 		}
-		context.swapBuffer();
+		window.swapBuffer();
 		
 		for(var t : pointShadows.values())
 			t.close();
@@ -196,7 +201,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 						light.get(PointLightComponent.class).intensity());
 				
 				if(light.contains(HasShadow.class))
-					pointShadows.get(light).getDepthTexture(properties.get(name + "depth"));
+					properties.put(name + "depth", pointShadows.get(light).getDepthTexture());
 				
 				i++;
 			}
@@ -222,7 +227,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 					
 					properties.put("lightSpaceMatrix[" + i + "]", lightSpaceMatrix);
 					
-					directionShadows.get(light).getDepthTexture(properties.get(name + "depth"));
+					properties.put(name + "depth", directionShadows.get(light).getDepthTexture());
 				}
 				i++;
 			}

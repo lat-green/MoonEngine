@@ -22,6 +22,10 @@ import com.greentree.engine.moon.module.TerminateModule;
 import com.greentree.engine.moon.module.annotation.CreateProperty;
 import com.greentree.engine.moon.module.annotation.DestroyProperty;
 import com.greentree.engine.moon.module.annotation.ReadProperty;
+import com.greentree.engine.moon.opengl.adapter.WindowAddapter;
+import com.greentree.engine.moon.render.GLFWUpdateEvents;
+import com.greentree.engine.moon.render.window.ExitOnWindowShouldClose;
+import com.greentree.engine.moon.render.window.WindowProperty;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.Key;
 import com.greentree.engine.moon.signals.MouseButton;
@@ -53,7 +57,7 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 		
 		SGLFW.init();
 		window = new Window(title, width, height);
-		final var wwc = new WindowProperty(window);
+		final var wwc = new WindowProperty(new WindowAddapter(window));
 		properties.add(wwc);
 		window.makeCurrent();
 		

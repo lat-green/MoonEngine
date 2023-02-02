@@ -9,8 +9,9 @@ import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
-import com.greentree.engine.moon.render.RenderContextProperty;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
+import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
+import com.greentree.engine.moon.render.pipeline.target.CameraRenderTarget;
 
 public class CameraTargetGeneratedSystem implements InitSystem, UpdateSystem, DestroySystem {
 	
@@ -19,11 +20,11 @@ public class CameraTargetGeneratedSystem implements InitSystem, UpdateSystem, De
 	private Filter cameras;
 	private RenderLibrary context;
 	
-	@ReadWorldComponent({RenderContextProperty.class})
+	@ReadWorldComponent({RenderLibraryProperty.class})
 	@Override
 	public void init(World world) {
 		cameras = CAMERAS.build(world);
-		context = world.get(RenderContextProperty.class).context();
+		context = world.get(RenderLibraryProperty.class).library();
 	}
 	
 	@Override
@@ -42,7 +43,8 @@ public class CameraTargetGeneratedSystem implements InitSystem, UpdateSystem, De
 			final var builder = context.createRenderTarget();
 			builder.addColor2D();
 			builder.addDepth();
-			final var target = new CameraTarget(builder.build(c.width(), c.height()));
+			final var target = new CameraTarget(
+					new CameraRenderTarget(e, builder.build(c.width(), c.height())));
 			e.add(target);
 		}
 	}

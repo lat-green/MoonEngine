@@ -7,10 +7,10 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value2Function;
-import com.greentree.engine.moon.opengl.adapter.OpenGLShaderProgramAddpter;
-import com.greentree.engine.moon.opengl.material.OpenGLMaterialProperties;
-import com.greentree.engine.moon.opengl.material.OpenGLMaterialPropertiesImpl;
+import com.greentree.engine.moon.opengl.adapter.ShaderAddapter;
+import com.greentree.engine.moon.opengl.adapter.TextureAddapter;
 import com.greentree.engine.moon.render.pipeline.material.Material;
+import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
 
 
 public class MaterialAssetSerializator implements AssetSerializator<Material> {
@@ -39,19 +39,19 @@ public class MaterialAssetSerializator implements AssetSerializator<Material> {
 		
 		@Override
 		public Material apply(GLShaderProgram program, GLPBRMaterial material) {
-			final var ps = new OpenGLMaterialPropertiesImpl();
+			final var ps = new MaterialPropertiesBase();
 			
-			ps.put("material.albedo", material.albedo());
-			ps.put("material.ao", material.ambientOcclusion());
-			ps.put("material.displacement", material.displacement());
-			ps.put("material.metallic", material.metallic());
-			ps.put("material.normal", material.normal());
-			ps.put("material.roughness", material.roughness());
+			ps.put("material.albedo", new TextureAddapter(material.albedo()));
+			ps.put("material.ao", new TextureAddapter(material.ambientOcclusion()));
+			ps.put("material.displacement", new TextureAddapter(material.displacement()));
+			ps.put("material.metallic", new TextureAddapter(material.metallic()));
+			ps.put("material.normal", new TextureAddapter(material.normal()));
+			ps.put("material.roughness", new TextureAddapter(material.roughness()));
 			
 			ps.put("ao_scale", 1f);
 			ps.put("height_scale", 1f);
 			
-			return new Material(new OpenGLShaderProgramAddpter(program), ps);
+			return new Material(new ShaderAddapter(program), ps);
 		}
 		
 	}
