@@ -10,7 +10,6 @@ import com.google.gson.JsonElement;
 import com.greentree.engine.moon.Engine;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.base.InitAssetManagerModule;
 import com.greentree.engine.moon.base.assets.BaseAssetSerializatorModule;
 import com.greentree.engine.moon.module.EngineProperties;
 import com.greentree.engine.moon.module.ExitManagerProperty;
@@ -54,8 +53,7 @@ public class JsonTest {
 			
 		}
 		
-		Engine.launch(new String[]{}, new Module(), new BaseAssetSerializatorModule(),
-				new InitAssetManagerModule());
+		Engine.launch(new String[]{}, new Module(), new BaseAssetSerializatorModule());
 	}
 	
 }

@@ -1,5 +1,7 @@
 import com.greentree.commons.data.file.DataSerializer;
 import com.greentree.engine.moon.base.EntitySerializer;
+import com.greentree.engine.moon.base.InitAssetManagerModule;
+import com.greentree.engine.moon.module.EngineModule;
 
 open module engine.moon.base {
 	
@@ -30,6 +32,7 @@ open module engine.moon.base {
 	
 	provides DataSerializer with EntitySerializer;
 	
+	provides EngineModule with InitAssetManagerModule;
 	
 	
 }
