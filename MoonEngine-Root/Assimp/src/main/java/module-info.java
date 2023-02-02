@@ -1,3 +1,6 @@
+import com.greentree.engine.moon.mesh.assimp.assets.AssimpAssetSerializatorModule;
+import com.greentree.engine.moon.module.EngineModule;
+
 open module engine.moon.assimp {
 	
 	requires transitive engine.moon.base;
@@ -8,5 +11,7 @@ open module engine.moon.assimp {
 	requires org.lwjgl.assimp;
 	
 	exports com.greentree.engine.moon.mesh.assimp.assets;
+	
+	provides EngineModule with AssimpAssetSerializatorModule;
 	
 }
