@@ -1,7 +1,9 @@
 package com.greentree.engine.moon.render.pipeline.material;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.greentree.engine.moon.render.texture.Texture;
 
@@ -59,12 +61,25 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 			}
 			
 		};
+		//		final var names = set(shader.getPropertyNames());
+		//		for(var n : properties.keySet()) {
+		//			if(!names.contains(n))
+		//				throw new UnsupportedOperationException(
+		//						"properties set not shader property " + n + " in " + names);
+		//		}
 		for(var entry : properties.entrySet()) {
 			final var name = entry.getKey();
 			final var property = entry.getValue();
 			final var location = shader.getProperty(name);
 			property.bind(location, context);
 		}
+	}
+	
+	private static <T> Set<T> set(Iterable<? extends T> iterable) {
+		final var result = new HashSet<T>();
+		for(var i : iterable)
+			result.add(i);
+		return result;
 	}
 	
 	private interface Property {

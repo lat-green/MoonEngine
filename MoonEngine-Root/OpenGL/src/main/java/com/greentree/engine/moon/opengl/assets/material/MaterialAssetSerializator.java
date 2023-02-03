@@ -49,7 +49,7 @@ public class MaterialAssetSerializator implements AssetSerializator<Material> {
 			ps.put("material.roughness", new TextureAddapter(material.roughness()));
 			
 			ps.put("ao_scale", 1f);
-			ps.put("height_scale", 1f);
+			ps.put("displacement_scale", .1f);
 			
 			return new Material(new ShaderAddapter(program), ps);
 		}

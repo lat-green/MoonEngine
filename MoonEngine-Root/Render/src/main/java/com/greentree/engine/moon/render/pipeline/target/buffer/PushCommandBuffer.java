@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.render.pipeline.target.buffer;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import com.greentree.commons.image.Color;
@@ -10,6 +10,7 @@ import com.greentree.engine.moon.render.mesh.RenderMeshUtil;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.pipeline.target.buffer.command.BindShader;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.ClearRenderTargetColor;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.ClearRenderTargetDepth;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.DrawMultiMesh;
@@ -19,7 +20,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	private static final int INITIAL_CAPACITY = 150;
 	private final RenderLibrary library;
-	private final Collection<TargetCommand> commands;
+	private final List<TargetCommand> commands;
 	
 	public PushCommandBuffer(RenderLibrary library) {
 		this(library, INITIAL_CAPACITY);
@@ -42,6 +43,8 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	@Override
 	public void close() {
+		if(commands.size() > 1000)
+			throw new RuntimeException("size: " + commands.size());
 		for(var c : commands)
 			c.run();
 		commands.clear();
@@ -49,7 +52,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	@Override
 	public void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties) {
-		push(new DrawMultiMesh(mesh, material, properties));
+		push(new BindShader(material, properties, new DrawMultiMesh(mesh)));
 	}
 	
 	@Override
@@ -61,7 +64,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	public void push(TargetCommand command) {
 		Objects.requireNonNull(command);
 		commands.add(command);
-		merge();
+		//		merge();
 	}
 	
 	private void merge() {

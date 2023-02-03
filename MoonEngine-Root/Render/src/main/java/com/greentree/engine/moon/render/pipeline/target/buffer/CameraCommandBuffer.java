@@ -6,6 +6,7 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 import com.greentree.commons.math.Mathf;
+import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 import com.greentree.engine.moon.render.camera.CameraUtil;
@@ -25,15 +26,18 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	
 	@Override
 	public void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties) {
+		final var transform = this.camera.get(Transform.class);
 		final var view = CameraUtil.getView(camera);
 		final var projection = camera.get(CameraComponent.class).getProjectionMatrix();
 		final var veiwProjection = new Matrix4f().identity().mul(projection).mul(view);
 		properties.put("projectionView", veiwProjection);
+		properties.put("viewPos", transform.position);
 		super.drawMesh(mesh, material, properties);
 	}
 	
 	@Override
 	public void drawSkyBox(Shader material, MaterialProperties properties) {
+		final var transform = this.camera.get(Transform.class);
 		final var camera = this.camera.get(CameraComponent.class);
 		Matrix4f veiwProjection;
 		{
@@ -48,6 +52,7 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 		veiwProjection.mul(new Matrix4f(view.get3x3(mat33)));
 		
 		properties.put("projectionView", veiwProjection);
+		properties.put("viewPos", transform.position);
 		
 		super.drawSkyBox(material, properties);
 	}

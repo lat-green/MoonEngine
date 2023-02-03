@@ -9,7 +9,7 @@ public record ShaderAddapter(GLShaderProgram program) implements Shader {
 	
 	@Override
 	public Iterable<? extends String> getPropertyNames() {
-		return null;
+		return program.getUniformLocationNames();
 	}
 	
 	@Override
