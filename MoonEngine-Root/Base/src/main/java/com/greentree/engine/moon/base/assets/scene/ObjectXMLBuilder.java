@@ -16,9 +16,12 @@ import com.greentree.commons.util.classes.ClassUtil;
 import com.greentree.commons.util.classes.ObjectBuilder;
 import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.classes.info.TypeInfoBuilder;
+import com.greentree.commons.util.classes.info.TypeUtil;
+import com.greentree.commons.util.collection.AutoGenerateMap;
 import com.greentree.commons.xml.XMLElement;
 
 public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
+	
 	
 	private final Collection<XMLTypeAddapter> addapters = new ArrayList<>() {
 		
@@ -28,6 +31,17 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		public boolean add(XMLTypeAddapter addapter) {
 			super.add(0, addapter);
 			return true;
+		}
+		
+	};
+	
+	private final Map<Class<?>, Collection<XMLTypeAddapter>> type_addapters = new AutoGenerateMap<>() {
+		
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		protected Collection<XMLTypeAddapter> generate(Class<?> k) {
+			return new ArrayList<>();
 		}
 		
 	};
@@ -57,10 +71,9 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 					if(p_type == null)
 						throw new NullPointerException("null TypeInfo of " + p);
 					final var xml_value = names.remove(p.getName());
-					if(xml_value == null) {
+					if(xml_value == null)
 						throw new NullPointerException("constructor of " + type + " has paramtr "
 								+ p.getName() + " but xml not " + names);
-					}
 					try {
 						args[i] = context.build(p_type, xml_value);
 					}catch(Exception e) {
@@ -80,6 +93,15 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		});
 		add(new XMLTypeAddapter() {
 			
+			@SuppressWarnings("rawtypes")
+			private static final TypeInfo<ArrayList> ARRAY_LIST_TYPE = TypeInfoBuilder
+					.getTypeInfo(ArrayList.class);
+			
+			@Override
+			public Class<?> getLoadOnly() {
+				return ArrayList.class;
+			}
+			
 			@Override
 			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type,
 					XMLElement element) {
@@ -91,22 +113,17 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			
 			@SuppressWarnings("unchecked")
 			public <T> T newInstanceOrNull(Context context, TypeInfo<T> type, XMLElement element) {
-				if(type.toClass() == ArrayList.class) {
-					final var lement_type = type.getTypeArguments()[0].getBoxing();
-					final var result = new ArrayList<>();
-					for(var c : element.getChildrens("value")) {
-						final var v = context.build(lement_type, c);
-						result.add(v);
-					}
-					return (T) result;
+				if(TypeUtil.isExtends(type, ARRAY_LIST_TYPE))
+					return null;
+				final var lement_type = type.getTypeArguments()[0].getBoxing();
+				final var result = new ArrayList<>();
+				for(var c : element.getChildrens("value")) {
+					final var v = context.build(lement_type, c);
+					result.add(v);
 				}
-				return null;
+				return (T) result;
 			}
 		});
-		
-		add(new ReDirectXMLTypeAddapter(List.class, ArrayList.class));
-		add(new ReDirectXMLTypeAddapter(Collection.class, List.class));
-		add(new ReDirectXMLTypeAddapter(Iterable.class, Collection.class));
 	}
 	
 	public static final Map<String, XMLElement> getNames(XMLElement xml_element) {
@@ -130,34 +147,47 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 	}
 	
 	public void add(XMLTypeAddapter addapter) {
-		addapters.add(addapter);
+		final var type = addapter.getLoadOnly();
+		if(type == null)
+			addapters.add(addapter);
+		else
+			add(type, addapter);
 	}
 	
 	@Override
 	public <T> Constructor<T> newInstance(TypeInfo<T> type, XMLElement xml_element) {
 		type = type.getBoxing();
-		for(var v : addapters) {
+		final var typed_addapers = type_addapters.get(type.toClass());
+		for(var v : typed_addapers) {
 			final var c = v.newInstance(this, type, xml_element);
-			if(c != null)
+			if(c != null) {
 				return c;
+			}
+		}
+		for(var v : addapters) {
+			if(typed_addapers.contains(v))
+				continue;
+			final var c = v.newInstance(this, type, xml_element);
+			if(c != null) {
+				add(c.value().getClass(), v);
+				return c;
+			}
 		}
 		return null;
 	}
 	
+	private void add(Class<?> type, XMLTypeAddapter addapter) {
+		type_addapters.get(type).add(addapter);
+		final var stype = type.getSuperclass();
+		if(stype != null)
+			add(stype, addapter);
+		for(var i : type.getInterfaces())
+			add(i, addapter);
+	}
+	
 	private <T> Constructor<T> newInstanceConstructor(Map<String, XMLElement> names,
 			T newInstance) {
-		return new Constructor<>() {
-			
-			@Override
-			public void close() {
-				setFields(newInstance, names);
-			}
-			
-			@Override
-			public T value() {
-				return newInstance;
-			}
-		};
+		return new SetFieldsConstructor<>(newInstance, names);
 	}
 	
 	private <T> void setField(T object, Field field, XMLElement value)
@@ -194,6 +224,35 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			}
 			iter.remove();
 		}
+	}
+	
+	private final class SetFieldsConstructor<T> implements Constructor<T> {
+		
+		private final T newInstance;
+		private final Map<String, XMLElement> names;
+		
+		
+		
+		public SetFieldsConstructor(T newInstance, Map<String, XMLElement> names) {
+			this.newInstance = newInstance;
+			this.names = names;
+		}
+		
+		@Override
+		public void close() {
+			setFields(newInstance, names);
+		}
+		
+		@Override
+		public String toString() {
+			return "SetFieldsConstructor [" + newInstance + ", " + names + "]";
+		}
+		
+		@Override
+		public T value() {
+			return newInstance;
+		}
+		
 	}
 	
 }

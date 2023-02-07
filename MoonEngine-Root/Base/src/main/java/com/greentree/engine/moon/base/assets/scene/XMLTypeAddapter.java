@@ -43,4 +43,8 @@ public interface XMLTypeAddapter {
 	
 	<T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element);
 	
+	default Class<?> getLoadOnly() {
+		return null;
+	}
+	
 }

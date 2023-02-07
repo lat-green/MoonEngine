@@ -69,23 +69,12 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					return null;
 				}
 			});
-			
 			builder.add(new XMLTypeAddapter() {
 				
-				@SuppressWarnings("unchecked")
 				@Override
-				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
-						XMLElement xml_value) {
-					if(ClassUtil.isExtends(Value.class, type.toClass())) {
-						final var xml_value_text = xml_value.getContent();
-						final var value_type = type.getTypeArguments()[0].getBoxing();
-						final var value = context.load(value_type, xml_value_text);
-						return new ValueConstructor<>((T) value);
-					}
-					return null;
+				public Class<?> getLoadOnly() {
+					return ValueProvider.class;
 				}
-			});
-			builder.add(new XMLTypeAddapter() {
 				
 				@SuppressWarnings("unchecked")
 				@Override
