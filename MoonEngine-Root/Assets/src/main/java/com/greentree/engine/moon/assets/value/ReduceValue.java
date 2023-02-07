@@ -30,4 +30,9 @@ public final class ReduceValue<T> implements Value<T> {
 		return ReduceProvider.newValue(result);
 	}
 	
+	@Override
+	public String toString() {
+		return "ReduceValue [" + result + "]";
+	}
+	
 }

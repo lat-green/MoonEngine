@@ -23,9 +23,7 @@ public final class ReduceProvider<T> implements ValueProvider<T> {
 	
 	@Override
 	public int characteristics() {
-		if(value == null)
-			return CHARACTERISTICS;
-		return value.characteristics();
+		return CHARACTERISTICS;
 	}
 	
 	@Override

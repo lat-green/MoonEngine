@@ -20,7 +20,6 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.AssetSerializatorContainer.AssetSerializatorInfo;
 import com.greentree.engine.moon.assets.value.ConstValue;
 import com.greentree.engine.moon.assets.value.DefaultValue;
-import com.greentree.engine.moon.assets.value.NullValue;
 import com.greentree.engine.moon.assets.value.ReduceValue;
 import com.greentree.engine.moon.assets.value.Value;
 
@@ -226,7 +225,6 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
 				else
 					def = in_def;
 				
-				
 				if(def != null || has(LoadProperty.NULLABLE)) {
 					final var async_result = new ReduceValue<>(ConstValue.newValue(def));
 					executor.execute(()-> {
@@ -271,13 +269,16 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
 			
 			@Override
 			public <T> Value<T> load(TypeInfo<T> type, AssetKey key, T def) {
-				final var result = new ReduceValue<>(NullValue.<T>instance());
-				final var task = executor.submit(()-> {
-					final var v = LoadContextImpl.this.load(type, key, def);
-					result.set(v);
-				});
-				tasks.add(task);
-				return result;
+				//				final var result = new ReduceValue<>(NullValue.<T>instance());
+				//				final var task = executor.submit(()-> {
+				//					final var v = LoadContextImpl.this.load(type, key, def);
+				//					result.set(v);
+				//				});
+				//				tasks.add(task);
+				//				return result;
+				
+				final var v = LoadContextImpl.this.load(type, key, def);
+				return v;
 			}
 			
 			@Override
