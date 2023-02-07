@@ -43,8 +43,6 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	@Override
 	public void close() {
-		if(commands.size() > 1000)
-			throw new RuntimeException("size: " + commands.size());
 		for(var c : commands)
 			c.run();
 		commands.clear();
@@ -63,34 +61,15 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	public void push(TargetCommand command) {
 		Objects.requireNonNull(command);
-		commands.add(command);
-		merge();
-	}
-	
-	private void merge() {
-		TargetCommand a = null, b = null, merge = null;
-		do {
-			final var iter_a = commands.iterator();
-			A :
-			while(iter_a.hasNext()) {
-				a = iter_a.next();
-				final var iter_b = commands.iterator();
-				while(iter_b.hasNext()) {
-					b = iter_b.next();
-					if(a == b)
-						break;
-					merge = a.merge(b);
-					if(merge != null)
-						break A;
-				}
-			}
-			if(merge == null)
+		while(commands.size() > 1) {
+			final var c = commands.get(commands.size() - 1);
+			final var m = c.merge(command);
+			if(m == null)
 				break;
-			commands.remove(a);
-			commands.remove(b);
-			commands.add(merge);
-			merge = null;
-		}while(true);
+			command = m;
+			commands.remove(commands.size() - 1);
+		}
+		commands.add(command);
 	}
 	
 }
