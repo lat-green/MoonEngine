@@ -34,13 +34,13 @@ public final class Ceche<K, T> {
 		return get(key) != null;
 	}
 	
-	public synchronized T set(K key, Function<Runnable, T> supplier) {
+	public synchronized T set(K key, Function<Runnable, T> create) {
 		var value = cache.get(key);
 		if(value == null) {
 			value = new CachedValue<>();
 			cache.put(key, value);
 			try {
-				value.set(supplier.apply(()-> {
+				value.set(create.apply(()-> {
 					cache.remove(key);
 				}));
 			}catch(Exception e) {
