@@ -64,7 +64,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	public void push(TargetCommand command) {
 		Objects.requireNonNull(command);
 		commands.add(command);
-		//		merge();
+		merge();
 	}
 	
 	private void merge() {

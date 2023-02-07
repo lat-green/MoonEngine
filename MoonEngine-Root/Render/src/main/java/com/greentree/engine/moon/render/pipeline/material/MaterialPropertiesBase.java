@@ -3,6 +3,7 @@ package com.greentree.engine.moon.render.pipeline.material;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import com.greentree.engine.moon.render.texture.Texture;
@@ -11,9 +12,11 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 	
 	protected final Map<String, Property> properties = new HashMap<>();
 	
-	@Override
-	public String toString() {
-		return "MaterialPropertiesBase " + properties;
+	private static <T> Set<T> set(Iterable<? extends T> iterable) {
+		final var result = new HashSet<T>();
+		for(var i : iterable)
+			result.add(i);
+		return result;
 	}
 	
 	@Override
@@ -32,16 +35,16 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 	}
 	
 	@Override
-	public void put(String name, int x) {
-		properties.put(name, new int1Property(x));
-	}
-	
-	@Override
 	public void put(String name, float m00, float m01, float m02, float m03, float m10, float m11,
 			float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31,
 			float m32, float m33) {
 		properties.put(name, new mat4Property(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22,
 				m23, m30, m31, m32, m33));
+	}
+	
+	@Override
+	public void put(String name, int x) {
+		properties.put(name, new int1Property(x));
 	}
 	
 	@Override
@@ -75,11 +78,9 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 		}
 	}
 	
-	private static <T> Set<T> set(Iterable<? extends T> iterable) {
-		final var result = new HashSet<T>();
-		for(var i : iterable)
-			result.add(i);
-		return result;
+	@Override
+	public String toString() {
+		return "MaterialPropertiesBase " + properties;
 	}
 	
 	private interface Property {
@@ -150,6 +151,24 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 					m31, m32, m33);
 		}
 		
+	}
+	
+	@Override
+	public MaterialProperties diff(MaterialProperties other) {
+		if(other instanceof MaterialPropertiesBase m) {
+			final var result = new MaterialPropertiesBase();
+			for(var name : properties.keySet()) {
+				final var v1 = properties.get(name);
+				if(m.properties.containsKey(name)) {
+					final var v2 = m.properties.get(name);
+					if(Objects.equals(v1, v2))
+						continue;
+				}
+				result.properties.put(name, v1);
+			}
+			return result;
+		}
+		return this;
 	}
 	
 }

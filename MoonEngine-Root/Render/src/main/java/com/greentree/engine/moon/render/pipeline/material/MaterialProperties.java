@@ -43,4 +43,6 @@ public interface MaterialProperties {
 	
 	void put(String name, Texture texture);
 	
+	MaterialProperties diff(MaterialProperties other);
+	
 }

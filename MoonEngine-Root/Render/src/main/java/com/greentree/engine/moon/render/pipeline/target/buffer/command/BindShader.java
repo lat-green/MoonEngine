@@ -22,9 +22,20 @@ public record BindShader(Shader shader, Iterable<MaterialProperties> properties,
 	@Override
 	public void run() {
 		shader.bind();
-		for(var p : properties) {
+		final var iter = properties.iterator();
+		MaterialProperties last = null;
+		if(iter.hasNext()) {
+			final var p = iter.next();
 			p.set(shader);
 			base.run();
+			last = p;
+		}
+		while(iter.hasNext()) {
+			final var p = iter.next();
+			final var diff = p.diff(last);
+			diff.set(shader);
+			base.run();
+			last = p;
 		}
 		shader.unbind();
 	}
@@ -34,6 +45,7 @@ public record BindShader(Shader shader, Iterable<MaterialProperties> properties,
 		if(command == this)
 			return this;
 		if(command instanceof BindShader c && c.shader.equals(shader)) {
+			
 			final var m = base.merge(c.base);
 			if(m != null)
 				return new BindShader(shader, IteratorUtil.union(properties, c.properties), m);
