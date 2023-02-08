@@ -1,8 +1,13 @@
 package com.greentree.engine.moon.render.pipeline.material;
 
-public final class MaterialPropertiesWithParent extends ProxyMaterialProperties {
+import java.util.Iterator;
+import java.util.Objects;
+
+import com.greentree.commons.util.iterator.IteratorUtil;
+
+public final class MaterialPropertiesWithParent implements MaterialProperties {
 	
-	private final MaterialProperties parent;
+	private final MaterialProperties parent, base;
 	
 	public MaterialPropertiesWithParent(MaterialProperties parent) {
 		this(parent, new MaterialPropertiesBase());
@@ -10,27 +15,60 @@ public final class MaterialPropertiesWithParent extends ProxyMaterialProperties 
 	
 	
 	public MaterialPropertiesWithParent(MaterialProperties parent, MaterialProperties base) {
-		super(base);
 		this.parent = parent;
-	}
-	
-	
-	@Override
-	public void set(Shader shader) {
-		parent.set(shader);
-		base.set(shader);
+		this.base = base;
 	}
 	
 	@Override
-	public MaterialProperties diff(MaterialProperties other) {
-		if(other instanceof MaterialPropertiesWithParent m) {
-			if(parent.equals(m.parent)) {
-				final var diff = base.diff(m.base);
-				return diff;
-			}
-			throw new UnsupportedOperationException("no realization");
+	public boolean equals(Object obj) {
+		if(this == obj)
+			return true;
+		if(!(obj instanceof MaterialPropertiesWithParent other))
+			return false;
+		return Objects.equals(parent, other.parent) && Objects.equals(base, other.base);
+	}
+	
+	@Override
+	public MaterialProperties get(MaterialProperties last) {
+		if((last instanceof MaterialPropertiesWithParent m) && parent.equals(m.parent)) {
+			final var diff = base.get(m.base);
+			return new MaterialPropertiesWithParent(parent, diff);
 		}
-		return other.diff(this);
+		return MaterialProperties.super.get(last);
+	}
+	
+	@Override
+	public Property get(String name) {
+		Property property;
+		property = base.get(name);
+		if(property != null)
+			return property;
+		property = parent.get(name);
+		return property;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(parent, base);
+	}
+	
+	
+	@Override
+	public Iterator<String> iterator() {
+		return IteratorUtil.union(parent, base).iterator();
+	}
+	
+	
+	@Override
+	public void put(String name, Property property) {
+		base.put(name, property);
+	}
+	
+	
+	@Override
+	public void set(Shader shader, PropertyBindContext context) {
+		parent.set(shader, context);
+		base.set(shader, context);
 	}
 	
 }

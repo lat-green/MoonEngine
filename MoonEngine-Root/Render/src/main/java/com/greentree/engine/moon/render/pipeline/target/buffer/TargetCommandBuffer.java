@@ -33,18 +33,24 @@ public interface TargetCommandBuffer extends AutoCloseable {
 		drawMesh(mesh, material.shader(), material.properties());
 	}
 	
-	void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties);
+	void drawMesh(RenderMesh mesh, Shader shader, MaterialProperties properties);
 	
-	default void drawMesh(RenderMesh mesh, Matrix4f model, Shader material,
+	default void drawMesh(RenderMesh mesh, Matrix4f model, Shader shader,
 			MaterialProperties properties) {
 		properties.put("model", model);
-		drawMesh(mesh, material, properties);
+		drawMesh(mesh, shader, properties);
+	}
+	
+	default void drawMesh(RenderLibrary library, StaticMesh mesh, Matrix4f model, Shader shader,
+			MaterialProperties properties) {
+		final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
+		drawMesh(rmesh, model, shader, properties);
 	}
 	
 	default void drawMesh(RenderLibrary library, StaticMesh mesh, Matrix4f model,
 			Material material) {
 		final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
-		drawMesh(rmesh, model, material.shader(), material.properties());
+		drawMesh(rmesh, model, material);
 	}
 	
 	default void drawMesh(RenderMesh mesh, Matrix4f model, Material material) {
@@ -55,11 +61,11 @@ public interface TargetCommandBuffer extends AutoCloseable {
 		drawSkyBox(material.shader(), material.properties());
 	}
 	
-	void drawSkyBox(Shader material, MaterialProperties properties);
+	void drawSkyBox(Shader shader, MaterialProperties properties);
 	
-	default void drawTexture(RenderLibrary library, Shader material,
+	default void drawTexture(RenderLibrary library, Shader shader,
 			MaterialProperties properties) {
-		drawMesh(RenderMeshUtil.QUAD(library), material, properties);
+		drawMesh(RenderMeshUtil.QUAD(library), shader, properties);
 	}
 	
 }

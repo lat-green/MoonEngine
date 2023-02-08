@@ -32,7 +32,7 @@ public record BindShader(Shader shader, Iterable<MaterialProperties> properties,
 		}
 		while(iter.hasNext()) {
 			final var p = iter.next();
-			final var diff = p.diff(last);
+			final var diff = p.get(last);
 			diff.set(shader);
 			base.run();
 			last = p;

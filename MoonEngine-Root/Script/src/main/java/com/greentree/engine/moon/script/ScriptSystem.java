@@ -17,23 +17,23 @@ public final class ScriptSystem implements InitSystem, DestroySystem, UpdateSyst
 	
 	@Override
 	public void update() {
-		for(var entity : scripts) {
-			final var scripts = entity.get(Scripts.class).scripts();
-			for(var value : scripts) {
-				final var s = value.get();
-				
-				for(var c : world.components())
-					s.setConst(c.getClass().getSimpleName(), c);
-				for(var c : entity)
-					s.set(c.getClass().getSimpleName(), c);
-				
-				try {
-					s.run();
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		//		for(var entity : scripts) {
+		//			final var scripts = entity.get(Scripts.class).scripts();
+		//			for(var value : scripts) {
+		//				final var s = value.get();
+		//				
+		//				for(var c : world.components())
+		//					s.setConst(c.getClass().getSimpleName(), c);
+		//				for(var c : entity)
+		//					s.set(c.getClass().getSimpleName(), c);
+		//				
+		//				try {
+		//					s.run();
+		//				}catch(Exception e) {
+		//					e.printStackTrace();
+		//				}
+		//			}
+		//		}
 	}
 	
 	@Override

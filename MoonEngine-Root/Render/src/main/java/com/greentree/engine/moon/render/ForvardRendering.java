@@ -1,15 +1,11 @@
 package com.greentree.engine.moon.render;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import com.greentree.commons.image.Color;
-import com.greentree.commons.math.vector.AbstractVector3f;
-import com.greentree.commons.math.vector.Vector3f;
+import com.greentree.commons.util.time.PointTimer;
 import com.greentree.engine.moon.base.transform.Transform;
-import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
@@ -23,27 +19,38 @@ import com.greentree.engine.moon.render.camera.Cameras;
 import com.greentree.engine.moon.render.camera.SkyBoxComponent;
 import com.greentree.engine.moon.render.light.HasShadow;
 import com.greentree.engine.moon.render.light.direction.DirectionLightComponent;
+import com.greentree.engine.moon.render.light.direction.DirectionLightTarget;
 import com.greentree.engine.moon.render.light.point.PointLightComponent;
+import com.greentree.engine.moon.render.light.point.PointLightTarget;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
 import com.greentree.engine.moon.render.mesh.MeshRenderer;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextute;
+import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
+import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesWithParent;
 import com.greentree.engine.moon.render.window.Window;
 import com.greentree.engine.moon.render.window.WindowProperty;
 
 public final class ForvardRendering implements InitSystem, UpdateSystem, DestroySystem {
 	
 	private static final float FAR_PLANE = 250;
-	private static final int SHADOW_SIZE = 512;
 	
 	private static final FilterBuilder CAMERAS = new FilterBuilder().required(CameraTarget.class);
-	private static final FilterBuilder POINT_LIGHT = new FilterBuilder()
-			.required(PointLightComponent.class);
-	private static final FilterBuilder DIR_LIGTH = new FilterBuilder()
-			.required(DirectionLightComponent.class);
+	private static final FilterBuilder POINT_LIGHT = new FilterBuilder().required(PointLightTarget.class);
+	private static final FilterBuilder DIR_LIGTH = new FilterBuilder().required(DirectionLightTarget.class);
 	private static final FilterBuilder RENDERER = new FilterBuilder().required(MeshRenderer.class);
+	private static final MaterialProperties POINT_SHADOW[] = new MaterialProperties[6];
+	static {
+		final var shadowMatrices = getShadowMatrices();
+		for(int i = 0; i < POINT_SHADOW.length; i++) {
+			POINT_SHADOW[i] = new MaterialPropertiesBase();
+			
+			POINT_SHADOW[i].put("far_plane", FAR_PLANE);
+			POINT_SHADOW[i].put("face", i);
+			POINT_SHADOW[i].put("projectionView", shadowMatrices[i]);
+		}
+	}
 	
 	private Filter cameras, point_ligth, dir_ligth, renderer;
 	
@@ -70,104 +77,95 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	
 	@Override
 	public void update() {
-		final var pointShadows = new HashMap<Entity, RenderTargetTextute>();
-		final var directionShadows = new HashMap<Entity, RenderTargetTextute>();
-		for(var light : point_ligth)
-			if(light.contains(HasShadow.class)) {
-				final var target = library.createRenderTarget().addDepthCubeMapTexture()
-						.build(SHADOW_SIZE, SHADOW_SIZE);
-				pointShadows.put(light, target);
-				
-				final var shadowMatrices = getShadowMatrices(light.get(Transform.class).position);
-				
-				try(final var buffer = target.buffer()) {
-					buffer.clearRenderTargetDepth();
-					for(var i = 0; i < shadowMatrices.length; i++)
-						for(var m : renderer) {
-							final var mesh = m.get(MeshComponent.class).mesh().get();
-							final var model = m.get(Transform.class).getModelMatrix();
-							final var material = MaterialUtil
-									.getDefaultCubeMapShadowMaterial(library);
-							final var prperties = material.properties();
-							mapCubeMapShadowMaterial(prperties, light, shadowMatrices[i], i);
-							buffer.drawMesh(library, mesh, model, material);
+		{
+			final var t = new PointTimer();
+			final var shader = MaterialUtil.getDefaultCubeMapShadowShader(library);
+			for(var light : point_ligth)
+				if(light.contains(HasShadow.class)) {
+					t.point();
+					
+					final var target = light.get(PointLightTarget.class).target();
+					
+					try(final var buffer = target.buffer()) {
+						buffer.clearRenderTargetDepth();
+						for(var i = 0; i < POINT_SHADOW.length; i++) {
+							final var properties = new MaterialPropertiesWithParent(POINT_SHADOW[i]);
+							properties.put("lightPos", light.get(Transform.class).position);
+							for(var m : renderer) {
+								final var mesh = m.get(MeshComponent.class).mesh().get();
+								final var model = m.get(Transform.class).getModelMatrix();
+								buffer.drawMesh(library, mesh, model, shader, properties);
+							}
 						}
-				}
-			}
-		for(var light : dir_ligth)
-			if(light.contains(HasShadow.class)) {
-				final var target = library.createRenderTarget().addDepthTexture().build(SHADOW_SIZE,
-						SHADOW_SIZE);
-				directionShadows.put(light, target);
-				
-				try(final var buffer = target.buffer()) {
-					buffer.clearRenderTargetDepth();
-					for(var m : renderer) {
-						final var mesh = m.get(MeshComponent.class).mesh().get();
-						final var model = m.get(Transform.class).getModelMatrix();
-						final var material = MaterialUtil.getDefaultShadowMaterial(library);
-						final var prperties = material.properties();
-						mapShadowMaterial(prperties);
-						buffer.drawMesh(library, mesh, model, material);
+						t.point();
 					}
 				}
-			}
-		for(var camera : cameras) {
-			final var target = camera.get(CameraTarget.class).target();
-			try(final var buffer = target.buffer()) {
-				if(camera.contains(SkyBoxComponent.class)) {
-					buffer.clearRenderTargetDepth();
-					final var texture = camera.get(SkyBoxComponent.class).texture().get();
-					final var material = MaterialUtil.getDefaultSkyBoxMaterial(library);
-					material.properties().put("skybox", texture);
-					buffer.drawSkyBox(material);
-				}else
-					buffer.clearRenderTarget(Color.gray, 1);
-				for(var m : renderer) {
-					final var mesh = m.get(MeshComponent.class).mesh().get();
-					final var model = m.get(Transform.class).getModelMatrix();
-					final var material = m.get(MeshRenderer.class).material().get();
-					final var properties = material.properties();
-					mapMaterial(properties, pointShadows, directionShadows);
-					buffer.drawMesh(library, mesh, model, material);
-				}
-			}
+			t.point();
+			System.out.println(t);
 		}
-		final var material = MaterialUtil.getDefaultSpriteMaterial(library);
-		final var camera = world.get(Cameras.class).main();
-		material.properties().put("render_texture",
-				camera.get(CameraTarget.class).target().getColorTexture());
-		try(final var buffer = library.screanRenderTarget().buffer()) {
-			buffer.drawTexture(library, material.shader(), material.properties());
-		}
+		//		for(var light : dir_ligth)
+		//			if(light.contains(HasShadow.class)) {
+		//				final var target = light.get(DirectionLightTarget.class).target();
+		//				
+		//				try(final var buffer = target.buffer()) {
+		//					buffer.clearRenderTargetDepth();
+		//					for(var m : renderer) {
+		//						final var mesh = m.get(MeshComponent.class).mesh().get();
+		//						final var model = m.get(Transform.class).getModelMatrix();
+		//						final var shader = MaterialUtil.getDefaultShadowShader(library);
+		//						final var prperties = new MaterialPropertiesBase();
+		//						mapShadowMaterial(prperties);
+		//						buffer.drawMesh(library, mesh, model, shader, prperties);
+		//					}
+		//				}
+		//			}
+		//		for(var camera : cameras) {
+		//			final var target = camera.get(CameraTarget.class).target();
+		//			try(final var buffer = target.buffer()) {
+		//				if(camera.contains(SkyBoxComponent.class)) {
+		//					buffer.clearRenderTargetDepth();
+		//					final var texture = camera.get(SkyBoxComponent.class).texture().get();
+		//					final var shader = MaterialUtil.getDefaultSkyBoxShader(library);
+		//					final var prperties = new MaterialPropertiesBase();
+		//					prperties.put("skybox", texture);
+		//					buffer.drawSkyBox(shader, prperties);
+		//				}else
+		//					buffer.clearRenderTarget(Color.gray, 1);
+		//				for(var m : renderer) {
+		//					final var mesh = m.get(MeshComponent.class).mesh().get();
+		//					final var model = m.get(Transform.class).getModelMatrix();
+		//					final var material = m.get(MeshRenderer.class).material().get();
+		//					final var properties = material.properties();
+		//					mapMaterial(properties);
+		//					buffer.drawMesh(library, mesh, model, material);
+		//				}
+		//			}
+		//		}
+		//		final var shader = MaterialUtil.getDefaultSpriteShader(library);
+		//		final var prperties = new MaterialPropertiesBase();
+		//		final var camera = world.get(Cameras.class).main();
+		//		prperties.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());
+		//		try(final var buffer = library.screanRenderTarget().buffer()) {
+		//			buffer.drawTexture(library, shader, prperties);
+		//		}
 		window.swapBuffer();
-		
-		for(var t : pointShadows.values())
-			t.close();
-		for(var t : directionShadows.values())
-			t.close();
 	}
 	
-	private Matrix4f[] getShadowMatrices(AbstractVector3f pos) {
+	private static Matrix4f[] getShadowMatrices() {
+		final var zeroVector = new Vector3f();
 		var shadowMatrices = new Matrix4f[6];
-		shadowMatrices[0] = new Matrix4f().lookAt(pos.toJoml(),
-				new Vector3f(1.0f, 0.0f, 0.0f).add(pos).toJoml(),
-				new Vector3f(0.0f, -1.0f, 0.0f).toJoml());
-		shadowMatrices[1] = new Matrix4f().lookAt(pos.toJoml(),
-				new Vector3f(-1.0f, 0.0f, 0.0f).add(pos).toJoml(),
-				new Vector3f(0.0f, -1.0f, 0.0f).toJoml());
-		shadowMatrices[2] = new Matrix4f().lookAt(pos.toJoml(),
-				new Vector3f(0.0f, 1.0f, 0.0f).add(pos).toJoml(),
-				new Vector3f(0.0f, 0.0f, 1.0f).toJoml());
-		shadowMatrices[3] = new Matrix4f().lookAt(pos.toJoml(),
-				new Vector3f(0.0f, -1.0f, 0.0f).add(pos).toJoml(),
-				new Vector3f(0.0f, 0.0f, -1.0f).toJoml());
-		shadowMatrices[4] = new Matrix4f().lookAt(pos.toJoml(),
-				new Vector3f(0.0f, 0.0f, 1.0f).add(pos).toJoml(),
-				new Vector3f(0.0f, -1.0f, 0.0f).toJoml());
-		shadowMatrices[5] = new Matrix4f().lookAt(pos.toJoml(),
-				new Vector3f(0.0f, 0.0f, -1.0f).add(pos).toJoml(),
-				new Vector3f(0.0f, -1.0f, 0.0f).toJoml());
+		shadowMatrices[0] = new Matrix4f().lookAt(zeroVector, new Vector3f(1.0f, 0.0f, 0.0f),
+				new Vector3f(0.0f, -1.0f, 0.0f));
+		shadowMatrices[1] = new Matrix4f().lookAt(zeroVector, new Vector3f(-1.0f, 0.0f, 0.0f),
+				new Vector3f(0.0f, -1.0f, 0.0f));
+		shadowMatrices[2] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 1.0f, 0.0f),
+				new Vector3f(0.0f, 0.0f, 1.0f));
+		shadowMatrices[3] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, -1.0f, 0.0f),
+				new Vector3f(0.0f, 0.0f, -1.0f));
+		shadowMatrices[4] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 0.0f, 1.0f),
+				new Vector3f(0.0f, -1.0f, 0.0f));
+		shadowMatrices[5] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 0.0f, -1.0f),
+				new Vector3f(0.0f, -1.0f, 0.0f));
 		
 		{
 			var shadowProj = new Matrix4f(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 1, 0, 0, 0, 0);
@@ -178,18 +176,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 		return shadowMatrices;
 	}
 	
-	private void mapCubeMapShadowMaterial(MaterialProperties properties, Entity light,
-			Matrix4f shadowMatrix, int face) {
-		mapMaterial0(properties);
-		
-		properties.put("lightPos", light.get(Transform.class).position);
-		properties.put("face", face);
-		properties.put("projectionView", shadowMatrix);
-	}
-	
-	private void mapMaterial(MaterialProperties properties,
-			Map<Entity, RenderTargetTextute> pointShadows,
-			Map<Entity, RenderTargetTextute> directionShadows) {
+	private void mapMaterial(MaterialProperties properties) {
 		mapMaterial0(properties);
 		{
 			var i = 0;
@@ -197,11 +184,10 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 				var name = "point_light[" + i + "].";
 				properties.put(name + "position", light.get(Transform.class).position);
 				properties.putRGB(name + "color", light.get(PointLightComponent.class).color());
-				properties.put(name + "intensity",
-						light.get(PointLightComponent.class).intensity());
+				properties.put(name + "intensity", light.get(PointLightComponent.class).intensity());
 				
 				if(light.contains(HasShadow.class))
-					properties.put(name + "depth", pointShadows.get(light).getDepthTexture());
+					properties.put(name + "depth", light.get(PointLightTarget.class).target().getDepthTexture());
 				
 				i++;
 			}
@@ -213,21 +199,19 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 				var name = "dir_light[" + i + "].";
 				properties.put(name + "direction", light.get(Transform.class).direction());
 				properties.putRGB(name + "color", light.get(DirectionLightComponent.class).color());
-				properties.put(name + "intensity",
-						light.get(DirectionLightComponent.class).intensity());
+				properties.put(name + "intensity", light.get(DirectionLightComponent.class).intensity());
 				
 				if(light.contains(HasShadow.class)) {
 					final Matrix4f lightSpaceMatrix;
 					
 					final var view = CameraUtil.getView(light);
-					final var projection = light.get(DirectionLightComponent.class)
-							.getProjectionMatrix();
+					final var projection = light.get(DirectionLightComponent.class).getProjectionMatrix();
 					
 					lightSpaceMatrix = new Matrix4f().identity().mul(projection).mul(view);
 					
 					properties.put("lightSpaceMatrix[" + i + "]", lightSpaceMatrix);
 					
-					properties.put(name + "depth", directionShadows.get(light).getDepthTexture());
+					properties.put(name + "depth", light.get(DirectionLightTarget.class).target().getDepthTexture());
 				}
 				i++;
 			}

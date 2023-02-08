@@ -2,8 +2,6 @@ package com.greentree.engine.moon.render;
 
 import com.greentree.commons.util.function.SaveFunction;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
-import com.greentree.engine.moon.render.pipeline.material.Material;
-import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.pipeline.material.Shader;
 import com.greentree.engine.moon.render.shader.ShaderDataImpl;
 import com.greentree.engine.moon.render.shader.ShaderLanguage;
@@ -81,32 +79,16 @@ public class MaterialUtil {
 		return INSTANCES.apply(library);
 	}
 	
-	public static Material getDefaultCubeMapShadowMaterial(RenderLibrary library) {
-		return get(library).getDefaultCubeMapShadowMaterial();
-	}
-	
 	public static Shader getDefaultCubeMapShadowShader(RenderLibrary library) {
 		return get(library).getDefaultCubeMapShadowShader();
-	}
-	
-	public static Material getDefaultShadowMaterial(RenderLibrary library) {
-		return get(library).getDefaultShadowMaterial();
 	}
 	
 	public static Shader getDefaultShadowShader(RenderLibrary library) {
 		return get(library).getDefaultShadowShader();
 	}
 	
-	public static Shader getDefaultSkyBoxShder(RenderLibrary library) {
-		return get(library).getDefaultSkyBoxShder();
-	}
-	
-	public static Material getDefaultSkyBoxMaterial(RenderLibrary library) {
-		return get(library).getDefaultSkyBoxMaterial();
-	}
-	
-	public static Material getDefaultSpriteMaterial(RenderLibrary library) {
-		return get(library).getDefaultSpriteMaterial();
+	public static Shader getDefaultSkyBoxShader(RenderLibrary library) {
+		return get(library).getDefaultSkyBoxShader();
 	}
 	
 	public static Shader getDefaultSpriteShader(RenderLibrary library) {
@@ -157,40 +139,16 @@ public class MaterialUtil {
 		}
 	}
 	
-	public Material getDefaultCubeMapShadowMaterial() {
-		final var shader = getDefaultCubeMapShadowShader();
-		final var properties = new MaterialPropertiesBase();
-		return new Material(shader, properties);
-	}
-	
 	public Shader getDefaultCubeMapShadowShader() {
 		return DefaultCubeMapShadowShader;
-	}
-	
-	public Material getDefaultShadowMaterial() {
-		final var shader = getDefaultShadowShader();
-		final var properties = new MaterialPropertiesBase();
-		return new Material(shader, properties);
 	}
 	
 	public Shader getDefaultShadowShader() {
 		return DefaultShadowShader;
 	}
 	
-	public Shader getDefaultSkyBoxShder() {
+	public Shader getDefaultSkyBoxShader() {
 		return DefaultSkyBoxShder;
-	}
-	
-	public Material getDefaultSkyBoxMaterial() {
-		final var shader = getDefaultSkyBoxShder();
-		final var properties = new MaterialPropertiesBase();
-		return new Material(shader, properties);
-	}
-	
-	public Material getDefaultSpriteMaterial() {
-		final var shader = getDefaultSpriteShader();
-		final var properties = new MaterialPropertiesBase();
-		return new Material(shader, properties);
 	}
 	
 	public Shader getDefaultSpriteShader() {

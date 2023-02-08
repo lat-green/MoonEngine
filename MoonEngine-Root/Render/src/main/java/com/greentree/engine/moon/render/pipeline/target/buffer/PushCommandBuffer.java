@@ -49,8 +49,8 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	@Override
-	public void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties) {
-		push(new BindShader(material, properties, new DrawMultiMesh(mesh)));
+	public void drawMesh(RenderMesh mesh, Shader shader, MaterialProperties properties) {
+		push(new BindShader(shader, properties, new DrawMultiMesh(mesh)));
 	}
 	
 	@Override
