@@ -4,18 +4,19 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import com.greentree.commons.image.Color;
-import com.greentree.commons.util.time.PointTimer;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.ReadComponent;
 import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
+import com.greentree.engine.moon.ecs.annotation.WriteComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
+import com.greentree.engine.moon.render.camera.CameraComponent;
 import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.CameraUtil;
-import com.greentree.engine.moon.render.camera.Cameras;
 import com.greentree.engine.moon.render.camera.SkyBoxComponent;
 import com.greentree.engine.moon.render.light.HasShadow;
 import com.greentree.engine.moon.render.light.direction.DirectionLightComponent;
@@ -24,14 +25,11 @@ import com.greentree.engine.moon.render.light.point.PointLightComponent;
 import com.greentree.engine.moon.render.light.point.PointLightTarget;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
 import com.greentree.engine.moon.render.mesh.MeshRenderer;
-import com.greentree.engine.moon.render.mesh.RenderMeshUtil;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesWithParent;
-import com.greentree.engine.moon.render.window.Window;
-import com.greentree.engine.moon.render.window.WindowProperty;
 
 public final class ForvardRendering implements InitSystem, UpdateSystem, DestroySystem {
 	
@@ -44,7 +42,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	private static final MaterialProperties POINT_SHADOW[] = new MaterialProperties[6];
 	static {
 		final var shadowMatrices = getShadowMatrices();
-		for(int i = 0; i < POINT_SHADOW.length; i++) {
+		for(var i = 0; i < POINT_SHADOW.length; i++) {
 			POINT_SHADOW[i] = new MaterialPropertiesBase();
 			
 			POINT_SHADOW[i].put("far_plane", FAR_PLANE);
@@ -56,102 +54,6 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	private Filter cameras, point_ligth, dir_ligth, renderer;
 	
 	private RenderLibrary library;
-	private Window window;
-	private World world;
-	
-	@Override
-	public void destroy() {
-		world = null;
-	}
-	
-	@ReadWorldComponent({RenderLibraryProperty.class,WindowProperty.class})
-	@Override
-	public void init(World world) {
-		this.world = world;
-		library = world.get(RenderLibraryProperty.class).library();
-		window = world.get(WindowProperty.class).window();
-		cameras = CAMERAS.build(world);
-		point_ligth = POINT_LIGHT.build(world);
-		dir_ligth = DIR_LIGTH.build(world);
-		renderer = RENDERER.build(world);
-	}
-	
-	@Override
-	public void update() {
-		//		{
-		//			final var shader = MaterialUtil.getDefaultCubeMapShadowShader(library);
-		//			for(var light : point_ligth)
-		//				if(light.contains(HasShadow.class)) {
-		//					final var target = light.get(PointLightTarget.class).target();
-		//					
-		//					try(final var buffer = target.buffer()) {
-		//						buffer.clearDepth(1);
-		//						for(var i = 0; i < POINT_SHADOW.length; i++) {
-		//							final var properties = new MaterialPropertiesWithParent(POINT_SHADOW[i]);
-		//							properties.put("lightPos", light.get(Transform.class).position);
-		//							for(var m : renderer) {
-		//								final var mesh = m.get(MeshComponent.class).mesh().get();
-		//								final var model = m.get(Transform.class).getModelMatrix();
-		//								properties.put("model", model);
-		//								final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
-		//								buffer.drawMesh(rmesh, shader, properties);
-		//							}
-		//						}
-		//					}
-		//				}
-		//		}
-		//		for(var light : dir_ligth)
-		//			if(light.contains(HasShadow.class)) {
-		//				final var target = light.get(DirectionLightTarget.class).target();
-		//				
-		//				try(final var buffer = target.buffer()) {
-		//					buffer.clearDepth(1);
-		//					for(var m : renderer) {
-		//						final var mesh = m.get(MeshComponent.class).mesh().get();
-		//						final var model = m.get(Transform.class).getModelMatrix();
-		//						final var shader = MaterialUtil.getDefaultShadowShader(library);
-		//						final var properties = new MaterialPropertiesBase();
-		//						mapShadowMaterial(properties);
-		//						properties.put("model", model);
-		//						final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
-		//						buffer.drawMesh(rmesh, shader, properties);
-		//					}
-		//				}
-		//			}
-		//		for(var camera : cameras) {
-		//			final var target = camera.get(CameraTarget.class).target();
-		//			try(final var buffer = target.buffer()) {
-		//				if(camera.contains(SkyBoxComponent.class)) {
-		//					buffer.clearDepth(1);
-		//					final var texture = camera.get(SkyBoxComponent.class).texture().get();
-		//					final var shader = MaterialUtil.getDefaultSkyBoxShader(library);
-		//					final var properties = new MaterialPropertiesBase();
-		//					properties.put("skybox", texture);
-		//					buffer.drawSkyBox(library, shader, properties);
-		//				}else
-		//					buffer.clear(Color.gray, 1);
-		//				for(var m : renderer) {
-		//					final var mesh = m.get(MeshComponent.class).mesh().get();
-		//					final var model = m.get(Transform.class).getModelMatrix();
-		//					final var material = m.get(MeshRenderer.class).material().get();
-		//					final var properties = material.properties();
-		//					mapMaterial(properties);
-		//					properties.put("model", model);
-		//					final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
-		//					buffer.drawMesh(rmesh, material.shader(), properties);
-		//				}
-		//			}
-		//		}
-		//		final var rmesh = RenderMeshUtil.QUAD(library);
-		//		final var shader = MaterialUtil.getDefaultSpriteShader(library);
-		//		final var properties = new MaterialPropertiesBase();
-		//		final var camera = world.get(Cameras.class).main();
-		//		properties.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());
-		//		window.swapBuffer();
-		//		try(final var buffer = library.screanRenderTarget().buffer()) {
-		//			buffer.drawMesh(rmesh, shader, properties);
-		//		}
-	}
 	
 	private static Matrix4f[] getShadowMatrices() {
 		final var zeroVector = new Vector3f();
@@ -176,6 +78,96 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 				shadowProj.mul(shadowMatrices[i], shadowMatrices[i]);
 		}
 		return shadowMatrices;
+	}
+	
+	@Override
+	public void destroy() {
+		library = null;
+		cameras.close();
+		cameras = null;
+		point_ligth.close();
+		dir_ligth.close();
+		renderer.close();
+	}
+	
+	@ReadWorldComponent({RenderLibraryProperty.class})
+	@Override
+	public void init(World world) {
+		library = world.get(RenderLibraryProperty.class).library();
+		cameras = CAMERAS.build(world);
+		point_ligth = POINT_LIGHT.build(world);
+		dir_ligth = DIR_LIGTH.build(world);
+		renderer = RENDERER.build(world);
+	}
+	
+	@ReadComponent({MeshComponent.class,Transform.class,SkyBoxComponent.class,CameraComponent.class,
+			PointLightComponent.class,DirectionLightComponent.class})
+	@WriteComponent({CameraTarget.class,DirectionLightTarget.class,PointLightTarget.class,CameraTarget.class})
+	@Override
+	public void update() {
+		{
+			final var shader = MaterialUtil.getDefaultCubeMapShadowShader(library);
+			for(var light : point_ligth)
+				if(light.contains(HasShadow.class)) {
+					final var target = light.get(PointLightTarget.class).target();
+					
+					try(final var buffer = target.buffer()) {
+						buffer.clearDepth(1);
+						for(MaterialProperties element : POINT_SHADOW) {
+							final var properties = new MaterialPropertiesWithParent(element);
+							properties.put("lightPos", light.get(Transform.class).position);
+							for(var m : renderer) {
+								final var mesh = m.get(MeshComponent.class).mesh().get();
+								final var model = m.get(Transform.class).getModelMatrix();
+								properties.put("model", model);
+								final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
+								buffer.drawMesh(rmesh, shader, properties);
+							}
+						}
+					}
+				}
+		}
+		for(var light : dir_ligth)
+			if(light.contains(HasShadow.class)) {
+				final var target = light.get(DirectionLightTarget.class).target();
+				try(final var buffer = target.buffer()) {
+					buffer.clearDepth(1);
+					for(var m : renderer) {
+						final var mesh = m.get(MeshComponent.class).mesh().get();
+						final var model = m.get(Transform.class).getModelMatrix();
+						final var shader = MaterialUtil.getDefaultShadowShader(library);
+						final var properties = new MaterialPropertiesBase();
+						mapShadowMaterial(properties);
+						properties.put("model", model);
+						final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
+						buffer.drawMesh(rmesh, shader, properties);
+					}
+				}
+			}
+		for(var camera : cameras) {
+			final var target = camera.get(CameraTarget.class).target();
+			try(final var buffer = target.buffer()) {
+				if(camera.contains(SkyBoxComponent.class)) {
+					buffer.clearDepth(1);
+					final var texture = camera.get(SkyBoxComponent.class).texture().get();
+					final var shader = MaterialUtil.getDefaultSkyBoxShader(library);
+					final var properties = new MaterialPropertiesBase();
+					properties.put("skybox", texture);
+					buffer.drawSkyBox(library, shader, properties);
+				}else
+					buffer.clear(Color.gray, 1);
+				for(var m : renderer) {
+					final var mesh = m.get(MeshComponent.class).mesh().get();
+					final var model = m.get(Transform.class).getModelMatrix();
+					final var material = m.get(MeshRenderer.class).material().get();
+					final var properties = material.properties();
+					mapMaterial(properties);
+					properties.put("model", model);
+					final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
+					buffer.drawMesh(rmesh, material.shader(), properties);
+				}
+			}
+		}
 	}
 	
 	private void mapMaterial(MaterialProperties properties) {
