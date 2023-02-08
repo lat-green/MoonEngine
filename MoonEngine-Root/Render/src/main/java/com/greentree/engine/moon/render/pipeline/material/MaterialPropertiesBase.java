@@ -12,7 +12,7 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 	
 	protected final Map<String, Property> properties = new HashMap<>();
 	
-	private static <T> Set<T> set(Iterable<? extends T> iterable) {
+	private static <T> Set<T> newSet(Iterable<? extends T> iterable) {
 		final var result = new HashSet<T>();
 		for(var i : iterable)
 			result.add(i);
@@ -64,7 +64,7 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 			}
 			
 		};
-		//		final var names = set(shader.getPropertyNames());
+		//		final var names = newSet(shader.getPropertyNames());
 		//		for(var n : properties.keySet()) {
 		//			if(!names.contains(n))
 		//				throw new UnsupportedOperationException(
