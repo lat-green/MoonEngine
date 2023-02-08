@@ -6,14 +6,12 @@ import java.util.Objects;
 
 import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.render.mesh.RenderMesh;
-import com.greentree.engine.moon.render.mesh.RenderMeshUtil;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.material.Shader;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.BindShader;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.ClearRenderTargetColor;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.ClearRenderTargetDepth;
-import com.greentree.engine.moon.render.pipeline.target.buffer.command.DrawMultiMesh;
 import com.greentree.engine.moon.render.pipeline.target.buffer.command.TargetCommand;
 
 public class PushCommandBuffer implements TargetCommandBuffer {
@@ -32,12 +30,12 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	@Override
-	public void clearRenderTargetColor(Color color) {
+	public void clearColor(Color color) {
 		push(new ClearRenderTargetColor(library, color));
 	}
 	
 	@Override
-	public void clearRenderTargetDepth(float depth) {
+	public void clearDepth(float depth) {
 		push(new ClearRenderTargetDepth(library, depth));
 	}
 	
@@ -50,13 +48,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	@Override
 	public void drawMesh(RenderMesh mesh, Shader shader, MaterialProperties properties) {
-		push(new BindShader(shader, properties, new DrawMultiMesh(mesh)));
-	}
-	
-	@Override
-	public void drawSkyBox(Shader material, MaterialProperties properties) {
-		final var mesh = RenderMeshUtil.BOX(library);
-		drawMesh(mesh, material, properties);
+		push(new BindShader(shader, mesh, properties));
 	}
 	
 	public void push(TargetCommand command) {

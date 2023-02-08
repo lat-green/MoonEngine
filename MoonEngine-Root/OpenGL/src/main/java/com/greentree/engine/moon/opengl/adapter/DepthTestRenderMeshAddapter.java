@@ -8,9 +8,7 @@ public record DepthTestRenderMeshAddapter(RenderMesh mesh) implements RenderMesh
 	
 	@Override
 	public void render() {
-		glEnable(GL_DEPTH_TEST);
 		mesh.render();
-		glDisable(GL_DEPTH_TEST);
 	}
 	
 	@Override
@@ -24,6 +22,18 @@ public record DepthTestRenderMeshAddapter(RenderMesh mesh) implements RenderMesh
 	@Override
 	public RenderMesh enableDepthTest() {
 		return this;
+	}
+	
+	@Override
+	public void bind() {
+		glEnable(GL_DEPTH_TEST);
+		mesh.bind();
+	}
+	
+	@Override
+	public void unbind() {
+		mesh.unbind();
+		glDisable(GL_DEPTH_TEST);
 	}
 	
 }

@@ -2,14 +2,12 @@ package com.greentree.engine.moon.render.pipeline.target;
 
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.render.pipeline.target.buffer.CameraCommandBuffer;
-import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 import com.greentree.engine.moon.render.texture.Texture;
 
-public record CameraRenderTarget(Entity camera, RenderTargetTextute target)
-		implements RenderTargetTextute {
+public record CameraRenderTarget(Entity camera, RenderTargetTextute target) implements RenderTargetTextute {
 	
 	@Override
-	public TargetCommandBuffer buffer() {
+	public CameraCommandBuffer buffer() {
 		return new CameraCommandBuffer(camera, target.buffer());
 	}
 	

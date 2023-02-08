@@ -14,8 +14,8 @@ void main()
 	gl_Layer = face; 
 	for(int i = 0; i < 3; ++i)
 	{
-		vec4 FragPos = gl_in[i].gl_Position - vec4(lightPos, 0);
-		gl_Position = projectionView * FragPos;
+		vec4 FragPos = gl_in[i].gl_Position;
+		gl_Position = projectionView * (FragPos - vec4(lightPos, 0));
 		lightDistance = length(FragPos.xyz - lightPos) / far_plane;
 		EmitVertex();
 	}    

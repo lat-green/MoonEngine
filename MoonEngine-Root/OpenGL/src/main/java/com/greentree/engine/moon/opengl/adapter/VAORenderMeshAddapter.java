@@ -9,8 +9,17 @@ public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMeshAdda
 	
 	@Override
 	public void render() {
-		vao.bind();
 		glDrawArrays(GL_TRIANGLES, 0, vao.size());
+	}
+	
+	@Override
+	public void bind() {
+		vao.bind();
+		
+	}
+	
+	@Override
+	public void unbind() {
 		vao.unbind();
 	}
 	

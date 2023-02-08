@@ -18,13 +18,13 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	@Override
-	public void clearRenderTargetColor(Color color) {
-		base.clearRenderTargetColor(color);
+	public void clearColor(Color color) {
+		base.clearColor(color);
 	}
 	
 	@Override
-	public void clearRenderTargetDepth(float depth) {
-		base.clearRenderTargetDepth(depth);
+	public void clearDepth(float depth) {
+		base.clearDepth(depth);
 	}
 	
 	@Override
@@ -35,11 +35,6 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
 	@Override
 	public void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties) {
 		base.drawMesh(mesh, material, properties);
-	}
-	
-	@Override
-	public void drawSkyBox(Shader material, MaterialProperties properties) {
-		base.drawSkyBox(material, properties);
 	}
 	
 }

@@ -9,9 +9,7 @@ public record CullFaceRenderMeshAddapter(RenderMesh mesh) implements RenderMeshA
 	
 	@Override
 	public void render() {
-		glEnable(GL_CULL_FACE);
 		mesh.render();
-		glDisable(GL_CULL_FACE);
 	}
 	
 	@Override
@@ -25,6 +23,18 @@ public record CullFaceRenderMeshAddapter(RenderMesh mesh) implements RenderMeshA
 	@Override
 	public RenderMesh enableCullFace() {
 		return this;
+	}
+	
+	@Override
+	public void bind() {
+		glEnable(GL_CULL_FACE);
+		mesh.bind();
+	}
+	
+	@Override
+	public void unbind() {
+		mesh.unbind();
+		glDisable(GL_CULL_FACE);
 	}
 	
 }

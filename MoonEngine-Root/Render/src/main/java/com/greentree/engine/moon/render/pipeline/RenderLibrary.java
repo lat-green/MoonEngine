@@ -14,20 +14,10 @@ import com.greentree.engine.moon.render.texture.data.Texture2DData;
 
 public interface RenderLibrary {
 	
-	StaticMeshFaceComponent[] COMPONENTS = {StaticMeshFaceComponent.VERTEX,
-			StaticMeshFaceComponent.NORMAL,StaticMeshFaceComponent.TEXTURE_COORDINAT,
-			StaticMeshFaceComponent.TANGENT};
-	
-	default void clearRenderTarget(Color color, float depth) {
-		clearRenderTargetColor(color);
-		clearRenderTargetDepth(depth);
-	}
+	StaticMeshFaceComponent[] COMPONENTS = {StaticMeshFaceComponent.VERTEX,StaticMeshFaceComponent.NORMAL,
+			StaticMeshFaceComponent.TEXTURE_COORDINAT,StaticMeshFaceComponent.TANGENT};
 	
 	void clearRenderTargetColor(Color color);
-	
-	default void clearRenderTargetDepth() {
-		clearRenderTargetDepth(1);
-	}
 	
 	void clearRenderTargetDepth(float depth);
 	

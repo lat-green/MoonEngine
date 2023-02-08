@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.render.mesh.RenderMesh;
 
+@Deprecated
 public record DrawMultiMesh(Iterable<RenderMesh> meshs) implements TargetCommand {
 	
 	public DrawMultiMesh {
@@ -17,8 +18,11 @@ public record DrawMultiMesh(Iterable<RenderMesh> meshs) implements TargetCommand
 	
 	@Override
 	public void run() {
-		for(var mesh : meshs)
+		for(var mesh : meshs) {
+			mesh.bind();
 			mesh.render();
+			mesh.unbind();
+		}
 	}
 	
 	@Override
@@ -27,5 +31,12 @@ public record DrawMultiMesh(Iterable<RenderMesh> meshs) implements TargetCommand
 			return new DrawMultiMesh(IteratorUtil.union(meshs, c.meshs));
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		return "DrawMultiMesh [" + IteratorUtil.size(meshs) + "]";
+	}
+	
+	
 	
 }
