@@ -1,17 +1,13 @@
 package com.greentree.engine.moon.mesh.assimp.assets.mesh;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
+import java.nio.ByteBuffer;
 
 import org.lwjgl.assimp.AIScene;
 import org.lwjgl.assimp.Assimp;
+import org.lwjgl.system.MemoryUtil;
 
-import com.greentree.commons.data.resource.FileResource;
 import com.greentree.commons.data.resource.Resource;
-import com.greentree.commons.util.InputStreamUtil;
-import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
@@ -36,42 +32,35 @@ public class AssimpSceneAssetSerializator implements AssetSerializator<AssimpSce
 		return null;
 	}
 	
-	public static final class AssimpSceneAsssetFunction
-			implements Value1Function<Resource, AssimpScene> {
+	public static final class AssimpSceneAsssetFunction implements Value1Function<Resource, AssimpScene> {
 		
 		private static final long serialVersionUID = 1L;
 		
-		private static File getFile(Resource res) {
-			if(res instanceof FileResource fileRes) {
-				final var file = fileRes.getFile();
-				return file;
-			}
-			try {
-				final var temp = Files.createTempFile("", res.getName()).toAbsolutePath().toFile();
-				try(final var out = new FileOutputStream(temp)) {
-					try(final var in = res.open()) {
-						InputStreamUtil.copy(in, out);
-					}
-				}
-				return temp;
-			}catch(IOException e) {
-				throw new WrappedException(e);
-			}
-		}
-		
 		@Override
 		public AssimpScene apply(Resource res) {
-			final var file = getFile(res);
-			try(AIScene scene = Assimp.aiImportFile(file.toString(), Assimp.aiProcess_Triangulate
-					| Assimp.aiProcess_ValidateDataStructure | Assimp.aiProcess_OptimizeMeshes);) {
-				if(scene == null) {
-					final var error = Assimp.aiGetErrorString();
-					throw new IllegalArgumentException(error);
+			byte[] _data;
+			ByteBuffer data;
+			
+			try(final var in = res.open();) {
+				_data = in.readAllBytes();
+				data = MemoryUtil.memCalloc(_data.length);
+				data.put(_data);
+				data.flip();
+			}catch(IOException e) {
+				throw new IllegalArgumentException(e);
+			}
+			try {
+				try(AIScene scene = Assimp.aiImportFileFromMemory(data, Assimp.aiProcess_Triangulate
+						| Assimp.aiProcess_ValidateDataStructure | Assimp.aiProcess_OptimizeMeshes, "");) {
+					if(scene == null) {
+						final var error = Assimp.aiGetErrorString();
+						throw new IllegalArgumentException(error);
+					}
+					final var s = new AssimpScene(scene, AssimpScene.NOT_LOAD_MATERIAL | AssimpScene.NOT_LOAD_TEXTURES);
+					return s;
 				}
-				
-				final var s = new AssimpScene(scene,
-						AssimpScene.NOT_LOAD_MATERIAL | AssimpScene.NOT_LOAD_TEXTURES);
-				return s;
+			}finally {
+				MemoryUtil.memFree(data);
 			}
 		}
 	}

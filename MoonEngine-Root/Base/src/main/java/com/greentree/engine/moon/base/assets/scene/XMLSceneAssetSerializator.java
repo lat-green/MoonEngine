@@ -58,8 +58,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 			builder.add(new XMLTypeAddapter() {
 				
 				@Override
-				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
-						XMLElement xml_value) {
+				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
 					final var xml_value_text = xml_value.getContent();
 					final var key = new ResultAssetKey(xml_value_text);
 					if(context.isDeepValid(type, key)) {
@@ -78,8 +77,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				
 				@SuppressWarnings("unchecked")
 				@Override
-				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type,
-						XMLElement xml_value) {
+				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
 					if(ClassUtil.isExtends(ValueProvider.class, type.toClass())) {
 						final var value_type = type.getTypeArguments()[0].getBoxing();
 						final var xml_value_text = xml_value.getContent();
@@ -121,8 +119,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						}
 						
 						final var text = builder.toString(map);
-						final var xml = context.loadData(XMLElement.class,
-								new ResultAssetKey(text));
+						final var xml = context.loadData(XMLElement.class, new ResultAssetKey(text));
 						
 						addEntity(world, xml);
 					}
@@ -140,10 +137,11 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 							e1.printStackTrace();
 						}
 					try {
+						final var log = new File("log");
+						log.mkdirs();
 						return new DebugSystems(
-								new PrintStreamSystemsProfiler(new File("log/systems_init.log"),
-										new File("log/systems_update.log"),
-										new File("log/systems_destroy.log")),
+								new PrintStreamSystemsProfiler(new File(log, "systems_init.log"),
+										new File(log, "systems_update.log"), new File(log, "systems_destroy.log")),
 								systems);
 					}catch(FileNotFoundException e) {
 						throw new WrappedException(e);
@@ -171,12 +169,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					}
 				}
 				
-				private <T> T newFromXML(Class<T> baseClass, XMLElement xml_element)
-						throws ClassNotFoundException {
+				private <T> T newFromXML(Class<T> baseClass, XMLElement xml_element) throws ClassNotFoundException {
 					final var systemClassName = xml_element.getAttribute("type");
 					@SuppressWarnings("unchecked")
-					final var cls = (Class<T>) ClassUtil.loadClassInAllPackages(baseClass,
-							systemClassName);
+					final var cls = (Class<T>) ClassUtil.loadClassInAllPackages(baseClass, systemClassName);
 					try(final var c = builder.newInstance(cls, xml_element)) {
 						if(c == null)
 							return null;
