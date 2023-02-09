@@ -3,9 +3,10 @@ package com.greentree.engine.moon.opengl.adapter;
 import static org.lwjgl.opengl.GL11.*;
 
 import com.greentree.common.graphics.sgl.vao.GLVertexArray;
+import com.greentree.engine.moon.render.mesh.RenderMesh;
 
 
-public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMeshAddapter {
+public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh {
 	
 	@Override
 	public void render() {

@@ -29,15 +29,6 @@ public final class MaterialPropertiesWithParent implements MaterialProperties {
 	}
 	
 	@Override
-	public MaterialProperties get(MaterialProperties last) {
-		if((last instanceof MaterialPropertiesWithParent m) && parent.equals(m.parent)) {
-			final var diff = base.get(m.base);
-			return new MaterialPropertiesWithParent(parent, diff);
-		}
-		return MaterialProperties.super.get(last);
-	}
-	
-	@Override
 	public Property get(String name) {
 		Property property;
 		property = base.get(name);
@@ -52,7 +43,6 @@ public final class MaterialPropertiesWithParent implements MaterialProperties {
 		return Objects.hash(parent, base);
 	}
 	
-	
 	@Override
 	public Iterator<String> iterator() {
 		return IteratorUtil.union(parent, base).iterator();
@@ -62,6 +52,13 @@ public final class MaterialPropertiesWithParent implements MaterialProperties {
 	@Override
 	public void put(String name, Property property) {
 		base.put(name, property);
+	}
+	
+	
+	@Override
+	public void set(Shader shader, MaterialProperties last, PropertyBindContext context) {
+		parent.set(shader, last, context);
+		base.set(shader, last, context);
 	}
 	
 	

@@ -7,6 +7,8 @@ import com.greentree.engine.moon.render.pipeline.material.Shader;
 
 public interface TargetCommandBuffer extends AutoCloseable {
 	
+	void clear();
+	
 	default void clear(Color color, float depth) {
 		clearColor(color);
 		clearDepth(depth);
@@ -16,9 +18,18 @@ public interface TargetCommandBuffer extends AutoCloseable {
 	
 	void clearDepth(float depth);
 	
+	
+	@Deprecated
 	@Override
 	void close();
 	
+	void disableCullFace();
+	void disableDepthTest();
 	void drawMesh(RenderMesh mesh, Shader shader, MaterialProperties properties);
+	
+	void enableCullFace();
+	
+	void enableDepthTest();
+	void execute();
 	
 }

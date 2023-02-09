@@ -26,7 +26,6 @@ import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 import com.greentree.engine.moon.opengl.GLEnums;
-import com.greentree.engine.moon.render.mesh.MeshUtil;
 import com.greentree.engine.moon.render.mesh.RenderMesh;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.material.Shader;
@@ -115,6 +114,26 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 		return new GLRenderTargetTextuteBuilder(screanRenderTarget());
 	}
 	
+	@Override
+	public void disableCullFace() {
+		glDisable(GL_CULL_FACE);
+	}
+	
+	@Override
+	public void disableDepthTest() {
+		glDisable(GL_DEPTH_TEST);
+	}
+	
+	@Override
+	public void enableCullFace() {
+		glEnable(GL_CULL_FACE);
+	}
+	
+	@Override
+	public void enableDepthTest() {
+		glEnable(GL_DEPTH_TEST);
+	}
+	
 	public GLVertexArray getVAO(StaticMesh mesh, StaticMeshFaceComponent... components) {
 		final var TYPES = COMPONENTS.apply(new TArray<>(components));
 		return TYPES.getVAO(mesh);
@@ -142,8 +161,8 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 		final var iter = texture.image().iterator();
 		for(var d : tex.dirs()) {
 			final var image = iter.next();
-			d.setData(GLPixelFormat.RGB, image.getWidth(), image.getHeight(),
-					GLPixelFormat.gl(image.getFormat()), image.getByteBuffer());
+			d.setData(GLPixelFormat.RGB, image.getWidth(), image.getHeight(), GLPixelFormat.gl(image.getFormat()),
+					image.getByteBuffer());
 		}
 		
 		final var type = texture.type();
@@ -169,8 +188,8 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 		tex.bind();
 		
 		final var image = texture.image();
-		tex.setData(GLPixelFormat.RGB, image.getWidth(), image.getHeight(),
-				GLPixelFormat.gl(image.getFormat()), image.getByteBuffer());
+		tex.setData(GLPixelFormat.RGB, image.getWidth(), image.getHeight(), GLPixelFormat.gl(image.getFormat()),
+				image.getByteBuffer());
 		
 		final var type = texture.type();
 		
@@ -215,16 +234,6 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 			this.components = components;
 		}
 		
-		public FloatStaticDrawArrayBuffer getVBO(float[] VERTEXS) {
-			final var vbo = new FloatStaticDrawArrayBuffer();
-			vbo.bind();
-			try(final var stack = MemoryStack.create(VERTEXS.length * GLType.FLOAT.size).push()) {
-				vbo.setData(stack.floats(VERTEXS));
-			}
-			vbo.unbind();
-			return vbo;
-		}
-		
 		public GLVertexArray getVAO(StaticMesh mesh) {
 			if(vaos.containsKey(mesh))
 				return vaos.get(mesh);
@@ -234,6 +243,16 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 			vaos.put(mesh, vao);
 			vbo.close();
 			return vao;
+		}
+		
+		public FloatStaticDrawArrayBuffer getVBO(float[] VERTEXS) {
+			final var vbo = new FloatStaticDrawArrayBuffer();
+			vbo.bind();
+			try(final var stack = MemoryStack.create(VERTEXS.length * GLType.FLOAT.size).push()) {
+				vbo.setData(stack.floats(VERTEXS));
+			}
+			vbo.unbind();
+			return vbo;
 		}
 		
 	}

@@ -11,4 +11,9 @@ public record TextureProperty(Texture texture) implements Property {
 		texture.bint(slot);
 	}
 	
+	@Override
+	public String toString() {
+		return "[" + texture + "]";
+	}
+	
 }

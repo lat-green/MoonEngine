@@ -30,6 +30,12 @@ public interface RenderLibrary {
 		return build(mesh, COMPONENTS);
 	}
 	
+	
+	void enableCullFace();
+	void enableDepthTest();
+	void disableCullFace();
+	void disableDepthTest();
+	
 	RenderMesh build(StaticMesh mesh, StaticMeshFaceComponent... components);
 	Texture build(CubeTextureData texture);
 	Texture build(Texture2DData texture);

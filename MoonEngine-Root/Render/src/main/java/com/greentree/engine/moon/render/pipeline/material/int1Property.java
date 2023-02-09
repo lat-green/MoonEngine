@@ -8,4 +8,9 @@ public record int1Property(int x) implements Property {
 		property.setInt(x);
 	}
 	
+	@Override
+	public String toString() {
+		return "[" + x + "]";
+	}
+	
 }

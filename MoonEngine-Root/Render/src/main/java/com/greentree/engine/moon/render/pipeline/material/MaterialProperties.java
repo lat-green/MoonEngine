@@ -11,15 +11,8 @@ import com.greentree.engine.moon.render.texture.Texture;
 
 public interface MaterialProperties extends Iterable<String> {
 	
-	default MaterialProperties get(MaterialProperties last) {
-		final var result = new MaterialPropertiesBase();
-		for(var name : this) {
-			final var property = get(name);
-			final var last_property = last.get(name);
-			if(!Objects.equals(property, last_property))
-				result.put(name, property);
-		}
-		return result;
+	default MaterialProperties newChildren() {
+		return new MaterialPropertiesWithParent(this);
 	}
 	
 	Property get(String name);
@@ -71,6 +64,33 @@ public interface MaterialProperties extends Iterable<String> {
 	
 	default void putRGB(String name, Color color) {
 		put(name, color.r, color.g, color.b);
+	}
+	
+	
+	default void set(Shader shader, MaterialProperties last) {
+		final var context = new PropertyBindContext() {
+			
+			int nextEmptyTextureSlot = 1;
+			
+			@Override
+			public int nextEmptyTextureSlot() {
+				return nextEmptyTextureSlot++;
+			}
+			
+		};
+		set(shader, last, context);
+	}
+	
+	
+	default void set(Shader shader, MaterialProperties last, PropertyBindContext context) {
+		for(var name : this) {
+			final var l = last.get(name);
+			final var property = get(name);
+			if(Objects.equals(l, property))
+				continue;
+			final var location = shader.getProperty(name);
+			property.bind(location, context);
+		}
 	}
 	
 	

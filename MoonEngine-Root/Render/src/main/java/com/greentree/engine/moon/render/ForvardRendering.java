@@ -29,7 +29,6 @@ import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
-import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesWithParent;
 
 public final class ForvardRendering implements InitSystem, UpdateSystem, DestroySystem {
 	
@@ -39,13 +38,14 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	private static final FilterBuilder POINT_LIGHT = new FilterBuilder().required(PointLightTarget.class);
 	private static final FilterBuilder DIR_LIGTH = new FilterBuilder().required(DirectionLightTarget.class);
 	private static final FilterBuilder RENDERER = new FilterBuilder().required(MeshRenderer.class);
-	private static final MaterialProperties POINT_SHADOW[] = new MaterialProperties[6];
+	private static final MaterialProperties SUPER_POINT_SHADOW, POINT_SHADOW[] = new MaterialProperties[6];
 	static {
+		SUPER_POINT_SHADOW = new MaterialPropertiesBase();
+		SUPER_POINT_SHADOW.put("far_plane", FAR_PLANE);
+		
 		final var shadowMatrices = getShadowMatrices();
 		for(var i = 0; i < POINT_SHADOW.length; i++) {
-			POINT_SHADOW[i] = new MaterialPropertiesBase();
-			
-			POINT_SHADOW[i].put("far_plane", FAR_PLANE);
+			POINT_SHADOW[i] = SUPER_POINT_SHADOW.newChildren();
 			POINT_SHADOW[i].put("face", i);
 			POINT_SHADOW[i].put("projectionView", shadowMatrices[i]);
 		}
@@ -101,28 +101,28 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	}
 	
 	@ReadComponent({MeshComponent.class,Transform.class,SkyBoxComponent.class,CameraComponent.class,
-			PointLightComponent.class,DirectionLightComponent.class})
+			PointLightComponent.class,DirectionLightComponent.class,HasShadow.class})
 	@WriteComponent({CameraTarget.class,DirectionLightTarget.class,PointLightTarget.class,CameraTarget.class})
 	@Override
 	public void update() {
+		final var tempModelMatrix = new Matrix4f();
 		{
 			final var shader = MaterialUtil.getDefaultCubeMapShadowShader(library);
 			for(var light : point_ligth)
 				if(light.contains(HasShadow.class)) {
+					SUPER_POINT_SHADOW.put("lightPos", light.get(Transform.class).position);
 					final var target = light.get(PointLightTarget.class).target();
-					
 					try(final var buffer = target.buffer()) {
 						buffer.clearDepth(1);
-						for(MaterialProperties element : POINT_SHADOW) {
-							final var properties = new MaterialPropertiesWithParent(element);
-							properties.put("lightPos", light.get(Transform.class).position);
-							for(var m : renderer) {
-								final var mesh = m.get(MeshComponent.class).mesh().get();
-								final var model = m.get(Transform.class).getModelMatrix();
-								properties.put("model", model);
-								final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
+						buffer.enableCullFace();
+						buffer.enableDepthTest();
+						for(var m : renderer) {
+							final var mesh = m.get(MeshComponent.class).mesh().get();
+							final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
+							SUPER_POINT_SHADOW.put("model", model);
+							final var rmesh = library.build(mesh);
+							for(MaterialProperties properties : POINT_SHADOW)
 								buffer.drawMesh(rmesh, shader, properties);
-							}
 						}
 					}
 				}
@@ -132,14 +132,16 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 				final var target = light.get(DirectionLightTarget.class).target();
 				try(final var buffer = target.buffer()) {
 					buffer.clearDepth(1);
+					buffer.enableCullFace();
+					buffer.enableDepthTest();
 					for(var m : renderer) {
 						final var mesh = m.get(MeshComponent.class).mesh().get();
-						final var model = m.get(Transform.class).getModelMatrix();
+						final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
 						final var shader = MaterialUtil.getDefaultShadowShader(library);
 						final var properties = new MaterialPropertiesBase();
 						mapShadowMaterial(properties);
 						properties.put("model", model);
-						final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
+						final var rmesh = library.build(mesh);
 						buffer.drawMesh(rmesh, shader, properties);
 					}
 				}
@@ -147,23 +149,23 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 		for(var camera : cameras) {
 			final var target = camera.get(CameraTarget.class).target();
 			try(final var buffer = target.buffer()) {
+				buffer.clearDepth(1);
 				if(camera.contains(SkyBoxComponent.class)) {
-					buffer.clearDepth(1);
 					final var texture = camera.get(SkyBoxComponent.class).texture().get();
 					final var shader = MaterialUtil.getDefaultSkyBoxShader(library);
-					final var properties = new MaterialPropertiesBase();
-					properties.put("skybox", texture);
-					buffer.drawSkyBox(library, shader, properties);
+					buffer.drawSkyBox(library, shader, texture);
 				}else
-					buffer.clear(Color.gray, 1);
+					buffer.clearColor(Color.gray);
+				buffer.enableCullFace();
+				buffer.enableDepthTest();
 				for(var m : renderer) {
 					final var mesh = m.get(MeshComponent.class).mesh().get();
-					final var model = m.get(Transform.class).getModelMatrix();
+					final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
 					final var material = m.get(MeshRenderer.class).material().get();
-					final var properties = material.properties();
+					final var properties = material.properties().newChildren();
 					mapMaterial(properties);
 					properties.put("model", model);
-					final var rmesh = library.build(mesh).enableDepthTest().enableCullFace();
+					final var rmesh = library.build(mesh);
 					buffer.drawMesh(rmesh, material.shader(), properties);
 				}
 			}

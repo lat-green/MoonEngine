@@ -18,6 +18,11 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	@Override
+	public void clear() {
+		base.clear();
+	}
+	
+	@Override
 	public void clearColor(Color color) {
 		base.clearColor(color);
 	}
@@ -27,14 +32,40 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
 		base.clearDepth(depth);
 	}
 	
+	@Deprecated
 	@Override
 	public void close() {
 		base.close();
 	}
 	
 	@Override
+	public void disableCullFace() {
+		base.disableCullFace();
+	}
+	
+	@Override
+	public void disableDepthTest() {
+		base.disableDepthTest();
+	}
+	
+	@Override
 	public void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties) {
 		base.drawMesh(mesh, material, properties);
+	}
+	
+	@Override
+	public void enableCullFace() {
+		base.enableCullFace();
+	}
+	
+	@Override
+	public void enableDepthTest() {
+		base.enableDepthTest();
+	}
+	
+	@Override
+	public void execute() {
+		base.execute();
 	}
 	
 }

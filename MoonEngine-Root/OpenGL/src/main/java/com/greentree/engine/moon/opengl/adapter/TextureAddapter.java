@@ -15,4 +15,9 @@ public record TextureAddapter(GLTexture texture) implements Texture {
 		glActiveTexture(GL_TEXTURE0);
 	}
 	
+	@Override
+	public String toString() {
+		return texture.toString();
+	}
+	
 }

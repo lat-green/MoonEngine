@@ -8,4 +8,9 @@ public record float1Property(float x) implements Property {
 		property.setFloat(x);
 	}
 	
+	@Override
+	public String toString() {
+		return "[" + x + "]";
+	}
+	
 }

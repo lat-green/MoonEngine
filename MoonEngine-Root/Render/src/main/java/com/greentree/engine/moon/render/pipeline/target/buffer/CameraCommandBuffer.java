@@ -14,7 +14,9 @@ import com.greentree.engine.moon.render.mesh.RenderMesh;
 import com.greentree.engine.moon.render.mesh.RenderMeshUtil;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.texture.Texture;
 
 public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	
@@ -37,7 +39,7 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 		super.drawMesh(mesh, material, properties);
 	}
 	
-	public void drawSkyBox(RenderLibrary library, Shader shader, MaterialProperties properties) {
+	public void drawSkyBox(RenderLibrary library, Shader shader, Texture texture) {
 		final var transform = this.camera.get(Transform.class);
 		final var camera = this.camera.get(CameraComponent.class);
 		Matrix4f veiwProjection;
@@ -51,6 +53,9 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 		Matrix3f mat33 = new Matrix3f();
 		Matrix4f view = CameraUtil.getView(this.camera);
 		veiwProjection.mul(new Matrix4f(view.get3x3(mat33)));
+		
+		final var properties = new MaterialPropertiesBase();
+		properties.put("skybox", texture);
 		
 		properties.put("projectionView", veiwProjection);
 		properties.put("viewPos", transform.position);

@@ -8,4 +8,9 @@ public record float3Property(float x, float y, float z) implements Property {
 		property.setFloat(x, y, z);
 	}
 	
+	@Override
+	public String toString() {
+		return "[" + x + ", " + y + ", " + z + "]";
+	}
+	
 }

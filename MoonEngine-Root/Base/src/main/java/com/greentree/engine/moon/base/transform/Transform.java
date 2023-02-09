@@ -66,11 +66,15 @@ public final class Transform implements Component, Externalizable {
 	}
 	
 	public Matrix4f getModelMatrix() {
-		final var modelView = new Matrix4f();
-		modelView.translate(position.toJoml());
-		modelView.rotate(rotation);
-		modelView.scale(scale.toJoml());
-		return modelView;
+		return getModelMatrix(new Matrix4f());
+	}
+	
+	public Matrix4f getModelMatrix(Matrix4f dest) {
+		dest.identity();
+		dest.translate(position.toJoml());
+		dest.rotate(rotation);
+		dest.scale(scale.toJoml());
+		return dest;
 	}
 	
 	@Override
@@ -80,8 +84,7 @@ public final class Transform implements Component, Externalizable {
 	
 	@Override
 	public String toString() {
-		return "Transform [position=" + position + ", rotation=" + rotation + ", scale=" + scale
-				+ "]";
+		return "Transform [position=" + position + ", rotation=" + rotation + ", scale=" + scale + "]";
 	}
 	
 	@Override
