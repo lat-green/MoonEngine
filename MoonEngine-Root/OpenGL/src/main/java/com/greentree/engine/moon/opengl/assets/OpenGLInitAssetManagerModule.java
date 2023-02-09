@@ -19,6 +19,7 @@ import com.greentree.engine.moon.opengl.assets.buffer.VAOAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.buffer.VBOAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.material.GLPBRMaterialAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.material.MaterialAssetSerializator;
+import com.greentree.engine.moon.opengl.assets.mesh.MeshAddapterAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderProgramAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.ShaderAddapterAssetSerializator;
@@ -36,17 +37,14 @@ import com.greentree.engine.moon.render.buffer.FloatBuffer;
 
 public final class OpenGLInitAssetManagerModule implements LaunchModule {
 	
-	private static final TypeInfo<FloatBuffer> FLOAT_BUFFER_TYPE = TypeInfoBuilder
-			.getTypeInfo(FloatBuffer.class);
+	private static final TypeInfo<FloatBuffer> FLOAT_BUFFER_TYPE = TypeInfoBuilder.getTypeInfo(FloatBuffer.class);
 	
 	private static final TypeInfo<FloatStaticDrawArrayBuffer> VBO_TYPE = TypeInfoBuilder
 			.getTypeInfo(FloatStaticDrawArrayBuffer.class);
 	private static final TypeInfo<IntStaticDrawElementArrayBuffer> EBO_TYPE = TypeInfoBuilder
 			.getTypeInfo(IntStaticDrawElementArrayBuffer.class);
-	private static final TypeInfo<GLSLShader> SHADER_TYPE = TypeInfoBuilder
-			.getTypeInfo(GLSLShader.class);
-	private static final TypeInfo<GLTexture2DImpl> TEXTURE_TYPE = TypeInfoBuilder
-			.getTypeInfo(GLTexture2DImpl.class);
+	private static final TypeInfo<GLSLShader> SHADER_TYPE = TypeInfoBuilder.getTypeInfo(GLSLShader.class);
+	private static final TypeInfo<GLTexture2DImpl> TEXTURE_TYPE = TypeInfoBuilder.getTypeInfo(GLTexture2DImpl.class);
 	
 	private static final TypeInfo<AttributeGroup> ATTRIBUTE_GROUP_TYPE = TypeInfoBuilder
 			.getTypeInfo(AttributeGroup.class);
@@ -62,10 +60,10 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
 		
 		manager.addSerializator(new IterableAssetSerializator<>(ATTRIBUTE_GROUP_TYPE));
 		
-		manager.addSerializator(new MapIterableAssetSerializator<>(ATTRIBUTE_GROUP_DATA_TYPE,
-				VBO_ATTRIBUTE_GROUP_DATA_TYPE));
-		manager.addSerializator(new MapIterableAssetSerializator<>(VBO_ATTRIBUTE_GROUP_DATA_TYPE,
-				ATTRIBUTE_GROUP_TYPE));
+		manager.addSerializator(
+				new MapIterableAssetSerializator<>(ATTRIBUTE_GROUP_DATA_TYPE, VBO_ATTRIBUTE_GROUP_DATA_TYPE));
+		manager.addSerializator(
+				new MapIterableAssetSerializator<>(VBO_ATTRIBUTE_GROUP_DATA_TYPE, ATTRIBUTE_GROUP_TYPE));
 		
 		manager.addSerializator(new GLCubeTextureAssetSerializator());
 		
@@ -88,8 +86,7 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
 		
 		manager.addSerializator(new AttributeGroupVertexAssetSerializator<>(VBO_TYPE));
 		
-		manager.addSerializator(
-				new VertexArrayDataAssetSerializator<>(EBO_TYPE, ATTRIBUTE_GROUP_TYPE));
+		manager.addSerializator(new VertexArrayDataAssetSerializator<>(EBO_TYPE, ATTRIBUTE_GROUP_TYPE));
 		manager.addSerializator(new VAOAssetSerializator());
 		
 		manager.addSerializator(new MaterialAssetSerializator());
@@ -97,6 +94,8 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
 		manager.addSerializator(new ShaderAddapterAssetSerializator());
 		
 		manager.addSerializator(new TextureAddapterAssetSerializator());
+		
+		manager.addSerializator(new MeshAddapterAssetSerializator());
 	}
 	
 }

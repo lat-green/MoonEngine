@@ -6,10 +6,9 @@ import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
-import com.greentree.engine.moon.mesh.StaticMesh;
 
 @RequiredComponent({Transform.class})
-public record MeshComponent(ValueProvider<? extends StaticMesh> mesh) implements ConstComponent {
+public record MeshComponent(ValueProvider<? extends RenderMesh> mesh) implements ConstComponent {
 	
 	public MeshComponent {
 		Objects.requireNonNull(mesh);

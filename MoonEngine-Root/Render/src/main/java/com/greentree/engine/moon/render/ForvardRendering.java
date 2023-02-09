@@ -120,9 +120,8 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 							final var mesh = m.get(MeshComponent.class).mesh().get();
 							final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
 							SUPER_POINT_SHADOW.put("model", model);
-							final var rmesh = library.build(mesh);
 							for(MaterialProperties properties : POINT_SHADOW)
-								buffer.drawMesh(rmesh, shader, properties);
+								buffer.drawMesh(mesh, shader, properties);
 						}
 					}
 				}
@@ -141,8 +140,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 						final var properties = new MaterialPropertiesBase();
 						mapShadowMaterial(properties);
 						properties.put("model", model);
-						final var rmesh = library.build(mesh);
-						buffer.drawMesh(rmesh, shader, properties);
+						buffer.drawMesh(mesh, shader, properties);
 					}
 				}
 			}
@@ -165,8 +163,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 					final var properties = material.properties().newChildren();
 					mapMaterial(properties);
 					properties.put("model", model);
-					final var rmesh = library.build(mesh);
-					buffer.drawMesh(rmesh, material.shader(), properties);
+					buffer.drawMesh(mesh, material.shader(), properties);
 				}
 			}
 		}

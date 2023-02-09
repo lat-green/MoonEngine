@@ -6,7 +6,7 @@ import com.greentree.common.graphics.sgl.vao.GLVertexArray;
 import com.greentree.engine.moon.render.mesh.RenderMesh;
 
 
-public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh {
+public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh, AutoCloseable {
 	
 	@Override
 	public void render() {
@@ -22,6 +22,11 @@ public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh {
 	@Override
 	public void unbind() {
 		vao.unbind();
+	}
+	
+	@Override
+	public void close() throws Exception {
+		vao.close();
 	}
 	
 	

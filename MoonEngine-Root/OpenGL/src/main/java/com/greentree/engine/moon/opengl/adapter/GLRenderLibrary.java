@@ -245,7 +245,7 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 			return vao;
 		}
 		
-		public FloatStaticDrawArrayBuffer getVBO(float[] VERTEXS) {
+		public static FloatStaticDrawArrayBuffer getVBO(float[] VERTEXS) {
 			final var vbo = new FloatStaticDrawArrayBuffer();
 			vbo.bind();
 			try(final var stack = MemoryStack.create(VERTEXS.length * GLType.FLOAT.size).push()) {
