@@ -5,13 +5,22 @@ import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.render.texture.data.Texture3DType;
 
 
-public record CubeTextureAssetKey(AssetKey image, Texture3DAssetType type) implements AssetKey {
+public record CubeTextureAssetKey(AssetKey image, Texture3DType textureType) implements AssetKey {
 	
-	public CubeTextureAssetKey(String name) {
-		this(name, new Texture3DType());
+	public CubeTextureAssetKey(AssetKey image) {
+		this(image, new Texture3DType());
 	}
-	public CubeTextureAssetKey(String name, Texture3DType type) {
-		this(new ResourceAssetKey(name), new Texture3DAssetType(type));
+	
+	public CubeTextureAssetKey(String resource) {
+		this(new ResourceAssetKey(resource));
 	}
-
+	
+	public CubeTextureAssetKey(String resource, Texture3DType textureType) {
+		this(new ResourceAssetKey(resource), textureType);
+	}
+	
+	@Override
+	public Texture3DAssetType type() {
+		return new Texture3DAssetType(textureType);
+	}
 }

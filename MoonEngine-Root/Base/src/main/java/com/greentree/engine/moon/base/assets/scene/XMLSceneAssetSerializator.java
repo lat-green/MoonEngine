@@ -13,6 +13,7 @@ import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.commons.util.string.RefStringBuilder;
 import com.greentree.commons.xml.XMLElement;
 import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.key.ResultAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
@@ -80,14 +81,46 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
 					if(ClassUtil.isExtends(ValueProvider.class, type.toClass())) {
 						final var value_type = type.getTypeArguments()[0].getBoxing();
-						final var xml_value_text = xml_value.getContent();
-						final var value = context.load(value_type, xml_value_text).openProvider();
-						return new ValueConstructor<>((T) value);
+						try(final var key = c.newInstance(AssetKey.class, xml_value);) {
+							final var value = context.load(value_type, key.value()).openProvider();
+							return new ValueConstructor<>((T) value);
+						}
 					}
 					return null;
 				}
 			});
-			
+			builder.add(new XMLTypeAddapter() {
+				
+				@Override
+				public Class<?> getLoadOnly() {
+					return AssetKey.class;
+				}
+				
+				@SuppressWarnings("unchecked")
+				@Override
+				public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_value) {
+					if(AssetKey.class == type.toClass()) {
+						final var xml_value_text = xml_value.getContent();
+						final var xml_value_type = xml_value.getAttribute("type");
+						final AssetKey key;
+						if(xml_value_type == null) {
+							key = new ResourceAssetKey(xml_value_text);
+						}else {
+							final Class<AssetKey> cls;
+							try {
+								cls = findClass(AssetKey.class, xml_value_type);
+							}catch(ClassNotFoundException e) {
+								throw new IllegalArgumentException(e);
+							}
+							try(final var c = context.newInstance(cls, xml_value)) {
+								key = c.value();
+							}
+						}
+						return new ValueConstructor<>((T) key);
+					}
+					return null;
+				}
+			});
 		}
 		
 		@Override
@@ -171,8 +204,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				
 				private <T> T newFromXML(Class<T> baseClass, XMLElement xml_element) throws ClassNotFoundException {
 					final var systemClassName = xml_element.getAttribute("type");
-					@SuppressWarnings("unchecked")
-					final var cls = (Class<T>) ClassUtil.loadClassInAllPackages(baseClass, systemClassName);
+					final var cls = findClass(baseClass, systemClassName);
 					try(final var c = builder.newInstance(cls, xml_element)) {
 						if(c == null)
 							return null;
@@ -183,6 +215,11 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 			};
 		}
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private static <T> Class<T> findClass(Class<T> baseClass, String className) throws ClassNotFoundException {
+		return (Class<T>) ClassUtil.loadClassInAllPackages(baseClass, className);
 	}
 	
 }

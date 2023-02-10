@@ -44,7 +44,7 @@ public final class RenderMainCamera implements InitSystem, UpdateSystem, Destroy
 	@Override
 	public void update() {
 		final var rmesh = RenderMeshUtil.QUAD(library);
-		final var shader = MaterialUtil.getDefaultSpriteShader(library);
+		final var shader = MaterialUtil.getDefaultTextureShader(library);
 		final var properties = new MaterialPropertiesBase();
 		final var camera = cameras.main();
 		properties.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());

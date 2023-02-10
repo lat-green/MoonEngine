@@ -50,8 +50,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		add(new XMLTypeAddapter() {
 			
 			@Override
-			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type,
-					XMLElement xml_element) {
+			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_element) {
 				final var names = getNames(xml_element);
 				
 				final var cls = type.toClass();
@@ -59,9 +58,8 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 				if(c == null)
 					c = ObjectBuilder.getMinConstructor(cls);
 				if(c == null)
-					throw new UnsupportedOperationException(
-							type + " not have constructor(maybe abstract) xml_element:"
-									+ xml_element + " names:" + names);
+					throw new UnsupportedOperationException(type + " not have constructor(maybe abstract) xml_element:"
+							+ xml_element + " names:" + names);
 				
 				var params = c.getParameters();
 				var args = new Object[params.length];
@@ -72,21 +70,20 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 						throw new NullPointerException("null TypeInfo of " + p);
 					final var xml_value = names.remove(p.getName());
 					if(xml_value == null)
-						throw new NullPointerException("constructor of " + type + " has paramtr "
-								+ p.getName() + " but xml not " + names);
+						throw new NullPointerException("constructor of " + type + " has parameter \"" + p.getName()
+								+ "\" but xml not " + names);
 					try {
 						args[i] = context.build(p_type, xml_value);
 					}catch(Exception e) {
-						throw new RuntimeException("Exception on build constructor parameter " + p
-								+ " of type " + type, e);
+						throw new RuntimeException("Exception on build constructor parameter " + p + " of type " + type,
+								e);
 					}
 				}
 				try {
 					return newInstanceConstructor(names, c.newInstance(args));
 				}catch(Exception e) {
-					throw new RuntimeException("args: "
-							+ asList(args) + " constructor: " + asList(c.getParameters()).stream()
-									.map(Parameter::getName).collect(Collectors.toList())
+					throw new RuntimeException("args: " + asList(args) + " constructor: "
+							+ asList(c.getParameters()).stream().map(Parameter::getName).collect(Collectors.toList())
 							+ " type:" + type + " names:" + names, e);
 				}
 			}
@@ -94,8 +91,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		add(new XMLTypeAddapter() {
 			
 			@SuppressWarnings("rawtypes")
-			private static final TypeInfo<ArrayList> ARRAY_LIST_TYPE = TypeInfoBuilder
-					.getTypeInfo(ArrayList.class);
+			private static final TypeInfo<ArrayList> ARRAY_LIST_TYPE = TypeInfoBuilder.getTypeInfo(ArrayList.class);
 			
 			@Override
 			public Class<?> getLoadOnly() {
@@ -103,8 +99,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			}
 			
 			@Override
-			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type,
-					XMLElement element) {
+			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
 				final var v = newInstanceOrNull(context, type, element);
 				if(v != null)
 					return new ValueConstructor<>(v);
@@ -130,7 +125,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		final var names = new HashMap<String, XMLElement>();
 		for(var xml_field : xml_element.getChildrens("field")) {
 			final var name = xml_field.getAttribute("name");
-			names.put(name, xml_field.getChildrens("value").iterator().next());
+			names.put(name, xml_field.getChildrens().iterator().next());
 		}
 		for(var xml_property : xml_element.getChildrens("property")) {
 			final var name = xml_property.getAttribute("name");
@@ -185,8 +180,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			add(i, addapter);
 	}
 	
-	private <T> Constructor<T> newInstanceConstructor(Map<String, XMLElement> names,
-			T newInstance) {
+	private <T> Constructor<T> newInstanceConstructor(Map<String, XMLElement> names, T newInstance) {
 		return new SetFieldsConstructor<>(newInstance, names);
 	}
 	
@@ -218,8 +212,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			try {
 				final var field = cls.getDeclaredField(name);
 				setField(object, field, names.get(name));
-			}catch(NoSuchFieldException | SecurityException | IllegalArgumentException
-					| IllegalAccessException e) {
+			}catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 				throw new RuntimeException(e);
 			}
 			iter.remove();

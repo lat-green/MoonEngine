@@ -6,11 +6,12 @@ import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 public final class RenderMeshUtil {
 	
 	private static final Instances INSTANCES = new Instances();
-	public final RenderMesh BOX, QUAD;
+	public final RenderMesh BOX, QUAD, QUAD_SPRITE;
 	
 	private RenderMeshUtil(RenderLibrary library) {
 		BOX = library.build(MeshUtil.BOX);
 		QUAD = library.build(MeshUtil.QUAD);
+		QUAD_SPRITE = library.build(MeshUtil.QUAD_SPRITE);
 	}
 	
 	public static RenderMesh BOX(RenderLibrary library) {
@@ -23,6 +24,10 @@ public final class RenderMeshUtil {
 	
 	public static RenderMesh QUAD(RenderLibrary library) {
 		return get(library).QUAD;
+	}
+	
+	public static RenderMesh QUAD_SPRITE(RenderLibrary library) {
+		return get(library).QUAD_SPRITE;
 	}
 	
 	

@@ -238,6 +238,7 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 			if(vaos.containsKey(mesh))
 				return vaos.get(mesh);
 			final var g = mesh.getAttributeGroup(components);
+			System.out.println(mesh);
 			final var vbo = getVBO(g.vertex());
 			final var vao = new GLVertexArray(AttributeGroup.of(vbo, g.sizes()));
 			vaos.put(mesh, vao);
@@ -246,6 +247,7 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 		}
 		
 		public static FloatStaticDrawArrayBuffer getVBO(float[] VERTEXS) {
+			System.out.println(Arrays.toString(VERTEXS));
 			final var vbo = new FloatStaticDrawArrayBuffer();
 			vbo.bind();
 			try(final var stack = MemoryStack.create(VERTEXS.length * GLType.FLOAT.size).push()) {

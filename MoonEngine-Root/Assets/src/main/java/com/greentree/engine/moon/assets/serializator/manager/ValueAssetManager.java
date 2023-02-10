@@ -65,12 +65,12 @@ public interface ValueAssetManager extends DefaultAssetManager {
 		return load(type, new ResultAssetKey(key), def);
 	}
 	
-	default <T> Value<T> load(TypeInfo<T> type, String key) {
-		return load(type, new ResourceAssetKey(key), null);
+	default <T> Value<T> load(TypeInfo<T> type, String resource) {
+		return load(type, new ResourceAssetKey(resource), null);
 	}
 	
-	default <T> Value<T> load(TypeInfo<T> type, String key, T def) {
-		return load(type, new ResourceAssetKey(key), def);
+	default <T> Value<T> load(TypeInfo<T> type, String resource, T def) {
+		return load(type, new ResourceAssetKey(resource), def);
 	}
 	
 }

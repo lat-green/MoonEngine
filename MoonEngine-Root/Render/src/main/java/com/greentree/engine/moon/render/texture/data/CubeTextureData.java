@@ -6,8 +6,8 @@ import java.util.Objects;
 public record CubeTextureData(CubeImageData image, Texture3DType type) implements Serializable {
 	
 	public CubeTextureData {
-		Objects.requireNonNull(image);
-		Objects.requireNonNull(type);
+		Objects.requireNonNull(image, "image is null");
+		Objects.requireNonNull(type, "type is null");
 	}
 	
 }
