@@ -48,7 +48,7 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 		final var height = Integer.parseInt(wini.getProperty("window.height"));
 		
 		SGLFW.init();
-		window = new Window(title, width, height);
+		window = new Window(title, width, height, true, true, false);
 		final var wwc = new WindowProperty(new WindowAddapter(window));
 		properties.add(wwc);
 		window.makeCurrent();
@@ -64,9 +64,8 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 				final var severity0 = severity.name;
 				var source0 = source.name;
 				var type0 = type.name;
-				System.err.printf(
-						"openGl error (Source: %s Type: %s ID: %d Severity: %s) message:%s\n",
-						source0, type0, id, severity0, message);
+				System.err.printf("openGl error (Source: %s Type: %s ID: %d Severity: %s) message:%s\n", source0, type0,
+						id, severity0, message);
 			}
 		}), 0);
 		

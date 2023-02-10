@@ -21,7 +21,6 @@ public class TimeSystem implements InitSystem, UpdateSystem {
 	public void init(World world) {
 		this.time = new Time();
 		world.add(time);
-		time.step();
 	}
 	
 	

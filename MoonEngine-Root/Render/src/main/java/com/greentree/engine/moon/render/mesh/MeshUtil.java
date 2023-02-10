@@ -42,7 +42,6 @@ public final class MeshUtil {
 		builder.addFaces(v110, v100, v010);
 		
 		BOX = builder.build();
-		System.out.println("BOX " + BOX);
 	}
 	static {
 		final var builder = GraphicsMesh.builder();
@@ -61,7 +60,6 @@ public final class MeshUtil {
 		builder.addFaces(v00, v10, v11);
 		
 		QUAD = builder.build();
-		System.out.println("QUAD " + QUAD);
 	}
 	static {
 		final var builder = GraphicsMesh.builder();
@@ -90,7 +88,6 @@ public final class MeshUtil {
 		builder.addFaces(i00, i10, i11);
 		
 		QUAD_SPRITE = builder.build();
-		System.out.println("QUAD_SPRITE " + QUAD_SPRITE);
 	}
 	
 	private MeshUtil() {
