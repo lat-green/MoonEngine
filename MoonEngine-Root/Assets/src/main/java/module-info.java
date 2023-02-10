@@ -15,6 +15,7 @@ open module engine.moon.assets {
 	
 	exports com.greentree.engine.moon.assets.value;
 	exports com.greentree.engine.moon.assets.value.merge;
+	exports com.greentree.engine.moon.assets.value.getter;
 	exports com.greentree.engine.moon.assets.value.provider;
 	exports com.greentree.engine.moon.assets.value.function;
 	

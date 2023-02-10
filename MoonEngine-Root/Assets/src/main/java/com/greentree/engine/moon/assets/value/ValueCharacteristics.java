@@ -9,6 +9,9 @@ public interface ValueCharacteristics<T> {
 	int DISTINCT_CHANGE = 0x00000004;
 	int CECHED = 0x00000008;
 	int CONST = 0x00000010 | CECHED;
+	int ASYNC = 0x00000020;
+	int NOT_ASYNC = 0x00000030;
+	
 	
 	
 	int characteristics();

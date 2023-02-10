@@ -2,22 +2,16 @@ package com.greentree.engine.moon.assets.value.provider;
 
 import java.util.function.Consumer;
 
-import com.greentree.engine.moon.assets.value.ValueCharacteristics;
+import com.greentree.engine.moon.assets.value.getter.ValueGetter;
 
-public interface ValueProvider<T> extends ValueCharacteristics<T>, AutoCloseable {
+public interface ValueProvider<T> extends ValueGetter<T> {
 	
-	default T getNotChenge() {
-		return get();
-	}
 	
 	T get();
 	
 	default boolean isNull() {
 		return !hasCharacteristics(NOT_NULL) && get() == null;
 	}
-	
-	@Override
-	void close();
 	
 	boolean isChenge();
 	
