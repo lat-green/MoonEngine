@@ -2,8 +2,7 @@ package com.greentree.engine.moon.assets.value.provider;
 
 public final class ConstProvider<T> implements ValueProvider<T> {
 	
-	public static final int CHARACTERISTICS = CONST | NOT_NULL | BLANCK_CLOSE | DISTINCT_CHANGE
-			| CECHED;
+	public static final int CHARACTERISTICS = CONST | NOT_NULL | BLANCK_CLOSE | DISTINCT_CHANGE | CECHED;
 	
 	private final T value;
 	
@@ -19,8 +18,8 @@ public final class ConstProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public String toString() {
-		return "ConstProvider [" + value + "]";
+	public int characteristics() {
+		return CHARACTERISTICS;
 	}
 	
 	@Override
@@ -28,18 +27,24 @@ public final class ConstProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public boolean isChenge() {
-		return false;
-	}
-	
-	@Override
-	public int characteristics() {
-		return CHARACTERISTICS;
+	public ValueProvider<T> copy() {
+		return this;
 	}
 	
 	@Override
 	public T get() {
 		return value;
+	}
+	
+	@Override
+	public boolean isChenge() {
+		return false;
+	}
+	
+	
+	@Override
+	public String toString() {
+		return "ConstProvider [" + value + "]";
 	}
 	
 }

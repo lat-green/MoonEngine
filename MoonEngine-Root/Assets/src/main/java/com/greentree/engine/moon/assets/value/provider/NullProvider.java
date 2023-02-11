@@ -7,9 +7,7 @@ public final class NullProvider<T> implements ValueProvider<T> {
 	
 	private static final NullProvider<?> INSTANCE = new NullProvider<>();
 	
-	private Object readResolve() throws ObjectStreamException {
-		return INSTANCE;
-	}
+	public static final int CHARACTERISTICS = CONST | BLANCK_CLOSE | DISTINCT_CHANGE;
 	
 	private NullProvider() {
 	}
@@ -19,15 +17,18 @@ public final class NullProvider<T> implements ValueProvider<T> {
 		return (NullProvider<T>) INSTANCE;
 	}
 	
-	public static final int CHARACTERISTICS = CONST | BLANCK_CLOSE | DISTINCT_CHANGE;
+	@Override
+	public int characteristics() {
+		return CHARACTERISTICS;
+	}
 	
 	@Override
 	public void close() {
 	}
 	
 	@Override
-	public boolean isChenge() {
-		return false;
+	public ValueProvider<T> copy() {
+		return this;
 	}
 	
 	@Override
@@ -37,7 +38,11 @@ public final class NullProvider<T> implements ValueProvider<T> {
 	
 	
 	@Override
-	public int characteristics() {
-		return CHARACTERISTICS;
+	public boolean isChenge() {
+		return false;
+	}
+	
+	private Object readResolve() throws ObjectStreamException {
+		return INSTANCE;
 	}
 }

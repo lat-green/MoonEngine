@@ -47,4 +47,9 @@ public final class M2Provider<T1, T2> implements ValueProvider<Group2<T1, T2>> {
 		return "M2Provider [" + provider1 + ", " + provider2 + "]";
 	}
 	
+	@Override
+	public ValueProvider<Group2<T1, T2>> copy() {
+		return new M2Provider<>(provider1.copy(), provider2.copy());
+	}
+	
 }

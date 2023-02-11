@@ -6,10 +6,10 @@ import com.greentree.engine.moon.assets.value.Value;
 public final class ReduceProvider<T> implements ValueProvider<T> {
 	
 	public static final int CHARACTERISTICS = 0;
-	private final ValueProvider<? extends Value<? extends T>> in;
+	private final ValueProvider<? extends Value<T>> in;
 	private ValueProvider<? extends T> value;
 	
-	private ReduceProvider(ValueProvider<? extends Value<? extends T>> in) {
+	private ReduceProvider(ValueProvider<? extends Value<T>> in) {
 		this.in = in;
 		final var v = this.in.get();
 		if(v != null)
@@ -58,11 +58,16 @@ public final class ReduceProvider<T> implements ValueProvider<T> {
 		return value.get();
 	}
 	
-	public static <T> ValueProvider<T> newValue(Value<? extends Value<T>> value) {
-		return newValue(value.openProvider());
+	@Override
+	public ValueProvider<T> copy() {
+		return newProvider(in);
 	}
 	
-	public static <T> ValueProvider<T> newValue(ValueProvider<? extends Value<T>> provider) {
+	public static <T> ValueProvider<T> newProvider(Value<? extends Value<T>> value) {
+		return newProvider(value.openProvider());
+	}
+	
+	public static <T> ValueProvider<T> newProvider(ValueProvider<? extends Value<T>> provider) {
 		if(provider.hasCharacteristics(CONST)) {
 			final var value = provider.get();
 			provider.close();

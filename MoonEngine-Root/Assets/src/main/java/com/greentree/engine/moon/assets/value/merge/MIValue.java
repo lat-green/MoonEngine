@@ -26,7 +26,7 @@ public final class MIValue<T> implements Value<Iterable<T>> {
 	
 	@Override
 	public ValueProvider<Iterable<T>> openProvider() {
-		return new MIProvider<>(values);
+		return MIProvider.newProvider(values);
 	}
 	
 	

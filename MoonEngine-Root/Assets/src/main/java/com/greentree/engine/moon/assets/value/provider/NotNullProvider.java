@@ -38,7 +38,6 @@ public final class NotNullProvider<T> implements ValueProvider<T> {
 	
 	@Override
 	public boolean isChenge() {
-		System.out.println(provider);
 		return provider.tryGet(c-> {
 			if(c != null)
 				ceche = c;
@@ -66,6 +65,9 @@ public final class NotNullProvider<T> implements ValueProvider<T> {
 		return new NotNullProvider<>(provider);
 	}
 	
-	
+	@Override
+	public ValueProvider<T> copy() {
+		return newProvider(provider.copy());
+	}
 	
 }

@@ -7,9 +7,9 @@ import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 public final class IteratableValue<T> implements Value<Iterable<T>> {
 	
 	private static final long serialVersionUID = 1L;
-	private final Value<Iterable<Value<T>>> values;
+	private final Value<? extends Iterable<? extends Value<? extends T>>> values;
 	
-	public IteratableValue(Value<Iterable<Value<T>>> values) {
+	public IteratableValue(Value<? extends Iterable<? extends Value<T>>> values) {
 		this.values = values;
 	}
 	
@@ -20,7 +20,7 @@ public final class IteratableValue<T> implements Value<Iterable<T>> {
 	
 	@Override
 	public ValueProvider<Iterable<T>> openProvider() {
-		return ReduceProvider.newValue(IteratableProvider.newValue(values));
+		return ReduceProvider.newProvider(IteratableProvider.newProvider(values));
 	}
 	
 	

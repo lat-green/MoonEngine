@@ -17,8 +17,7 @@ public final class ResourceNamedValue implements Value<Resource> {
 		this.resources = resources;
 	}
 	
-	public static Value<Resource> newValue(ResourceLocation resources,
-			Value<? extends String> name) {
+	public static Value<Resource> newValue(ResourceLocation resources, Value<? extends String> name) {
 		if(name.hasCharacteristics(CONST)) {
 			@SuppressWarnings("deprecation")
 			final var resource = resources.getResource(name.get());
@@ -39,7 +38,7 @@ public final class ResourceNamedValue implements Value<Resource> {
 	
 	@Override
 	public ValueProvider<Resource> openProvider() {
-		return ResourceNamedProvider.newProvider(resources, name);
+		return ResourceNamedProvider.newResourceProvider(resources, name);
 	}
 	
 }

@@ -81,6 +81,11 @@ public final class MapIterableAssetSerializator<T, R> implements AssetSerializat
 			public static final int CHARACTERISTICS = 0;
 			private final ValueProvider<Iterable<T>> provider;
 			
+			@Override
+			public ValueProvider<Iterable<Value<R>>> copy() {
+				return new Provider(provider.copy());
+			}
+			
 			public Provider(Value<Iterable<T>> value) {
 				this(value.openProvider());
 			}

@@ -22,4 +22,6 @@ public interface ValueProvider<T> extends ValueGetter<T> {
 		return true;
 	}
 	
+	ValueProvider<T> copy();
+	
 }

@@ -3,13 +3,14 @@ package com.greentree.engine.moon.assets.value.provider;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.value.Value;
 
 
 public final class DefultProvider<T> implements ValueProvider<T> {
 	
 	public static final int CHARACTERISTICS = 0;
-	private final List<? extends ValueProvider<? extends T>> providers;
+	private final List<? extends ValueProvider<T>> providers;
 	private int index;
 	
 	public static <T> ValueProvider<T> newProvider(Iterable<? extends Value<T>> values) {
@@ -19,8 +20,7 @@ public final class DefultProvider<T> implements ValueProvider<T> {
 		return newProviderFromProviders(providers);
 	}
 	
-	public static <T> ValueProvider<T> newProviderFromProviders(
-			Iterable<? extends ValueProvider<T>> providers) {
+	public static <T> ValueProvider<T> newProviderFromProviders(Iterable<? extends ValueProvider<T>> providers) {
 		for(var v : providers)
 			if(v.hasCharacteristics(CONST))
 				return v;
@@ -29,8 +29,7 @@ public final class DefultProvider<T> implements ValueProvider<T> {
 		List<ValueProvider<T>> list = new ArrayList<>();
 		for(var i : providers)
 			list.add(i);
-		list = list.stream().distinct().filter(s->!(s.hasCharacteristics(CONST) && s.isNull()))
-				.toList();
+		list = list.stream().distinct().filter(s->!(s.hasCharacteristics(CONST) && s.isNull())).toList();
 		if(list.isEmpty())
 			return NullProvider.instance();
 		if(list.size() == 1)
@@ -38,7 +37,7 @@ public final class DefultProvider<T> implements ValueProvider<T> {
 		return new DefultProvider<T>(list);
 	}
 	
-	private DefultProvider(List<? extends ValueProvider<? extends T>> providers) {
+	private DefultProvider(List<? extends ValueProvider<T>> providers) {
 		this.providers = providers;
 	}
 	
@@ -75,6 +74,11 @@ public final class DefultProvider<T> implements ValueProvider<T> {
 	public T get() {
 		init();
 		return providers.get(index).get();
+	}
+	
+	@Override
+	public ValueProvider<T> copy() {
+		return newProviderFromProviders(IteratorUtil.map(providers, p->p.copy()));
 	}
 	
 }

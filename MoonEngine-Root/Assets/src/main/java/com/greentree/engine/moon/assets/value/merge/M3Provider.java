@@ -11,11 +11,16 @@ public final class M3Provider<T1, T2, T3> implements ValueProvider<Group3<T1, T2
 	private final ValueProvider<T2> provider2;
 	private final ValueProvider<T3> provider3;
 	
-	public M3Provider(Value<T1> Value1, Value<T2> Value2, Value<T3> Value3) {
-		this.provider1 = Value1.openProvider();
-		this.provider2 = Value2.openProvider();
-		this.provider3 = Value3.openProvider();
+	public M3Provider(Value<T1> value1, Value<T2> value2, Value<T3> value3) {
+		this(value1.openProvider(), value2.openProvider(), value3.openProvider());
 	}
+	
+	public M3Provider(ValueProvider<T1> provider1, ValueProvider<T2> provider2, ValueProvider<T3> provider3) {
+		this.provider1 = provider1;
+		this.provider2 = provider2;
+		this.provider3 = provider3;
+	}
+	
 	
 	@Override
 	public int characteristics() {
@@ -40,6 +45,11 @@ public final class M3Provider<T1, T2, T3> implements ValueProvider<Group3<T1, T2
 	@Override
 	public boolean isChenge() {
 		return provider1.isChenge() || provider2.isChenge() || provider3.isChenge();
+	}
+	
+	@Override
+	public ValueProvider<Group3<T1, T2, T3>> copy() {
+		return new M3Provider<>(provider1.copy(), provider2.copy(), provider3.copy());
 	}
 	
 }

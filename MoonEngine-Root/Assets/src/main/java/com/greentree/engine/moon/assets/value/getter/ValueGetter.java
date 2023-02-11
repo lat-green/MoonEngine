@@ -13,4 +13,7 @@ public interface ValueGetter<T> extends ValueCharacteristics<T>, AutoCloseable {
 	
 	@Override
 	void close();
+	
+	ValueGetter<T> copy();
+	
 }

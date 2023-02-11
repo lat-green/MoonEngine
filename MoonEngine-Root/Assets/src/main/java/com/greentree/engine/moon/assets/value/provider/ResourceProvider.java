@@ -51,6 +51,11 @@ public final class ResourceProvider implements ValueProvider<Resource> {
 	}
 	
 	@Override
+	public ValueProvider<Resource> copy() {
+		return new ResourceProvider(resource);
+	}
+	
+	@Override
 	public void close() {
 	}
 	

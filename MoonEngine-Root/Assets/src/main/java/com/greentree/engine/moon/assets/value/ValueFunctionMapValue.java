@@ -46,8 +46,7 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
 			this.function = function;
 		}
 		
-		public static <T, R> ValueProvider<R> newProvider(Value<T> value,
-				Value1Function<? super T, R> function) {
+		public static <T, R> ValueProvider<R> newProvider(Value<T> value, Value1Function<? super T, R> function) {
 			return newProvider(value.openProvider(), function);
 		}
 		
@@ -70,6 +69,11 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
 		@Override
 		protected OUT map(IN in) {
 			return function.apply(in);
+		}
+		
+		@Override
+		public ValueProvider<OUT> copy() {
+			return newProvider(input.copy(), function);
 		}
 		
 	}

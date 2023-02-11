@@ -9,14 +9,12 @@ public final class ValueFunctionMapProvider<IN, OUT> extends AbstractMapProvider
 	public static final int CHARACTERISTICS = 0;
 	private final Value1Function<? super IN, OUT> function;
 	
-	private ValueFunctionMapProvider(ValueProvider<IN> provider,
-			Value1Function<? super IN, OUT> function) {
+	private ValueFunctionMapProvider(ValueProvider<IN> provider, Value1Function<? super IN, OUT> function) {
 		super(provider);
 		this.function = function;
 	}
 	
-	public static <T, R> ValueProvider<R> newProvider(Value<T> value,
-			Value1Function<? super T, R> function) {
+	public static <T, R> ValueProvider<R> newProvider(Value<T> value, Value1Function<? super T, R> function) {
 		return newProvider(value.openProvider(), function);
 	}
 	
@@ -39,6 +37,11 @@ public final class ValueFunctionMapProvider<IN, OUT> extends AbstractMapProvider
 	@Override
 	protected OUT map(IN in) {
 		return function.apply(in);
+	}
+	
+	@Override
+	public ValueProvider<OUT> copy() {
+		return newProvider(input, function);
 	}
 	
 }

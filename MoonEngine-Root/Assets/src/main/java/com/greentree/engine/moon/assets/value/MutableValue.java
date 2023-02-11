@@ -68,6 +68,11 @@ public final class MutableValue<T> implements Value<T> {
 			return "MutableProvider [" + value + "]";
 		}
 		
+		@Override
+		public ValueProvider<T> copy() {
+			return new MutableProvider();
+		}
+		
 	}
 	
 }

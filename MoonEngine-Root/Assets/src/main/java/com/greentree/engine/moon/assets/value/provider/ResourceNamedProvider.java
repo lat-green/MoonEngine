@@ -13,24 +13,32 @@ public final class ResourceNamedProvider implements ValueProvider<ResourceValue>
 	private final ResourceLocation resources;
 	private final ValueProvider<? extends String> name;
 	
-	private ResourceNamedProvider(ResourceLocation resources,
-			ValueProvider<? extends String> name) {
+	private ResourceNamedProvider(ResourceLocation resources, ValueProvider<? extends String> name) {
 		this.name = name;
 		this.resources = resources;
 	}
 	
-	public static ValueProvider<Resource> newProvider(ResourceLocation resources,
+	public static ValueProvider<Resource> newResourceProvider(ResourceLocation resources,
 			Value<? extends String> name) {
-		return newProvider(resources, name.openProvider());
+		return newResourceProvider(resources, name.openProvider());
 	}
 	
-	private static ValueProvider<Resource> newProvider(ResourceLocation resources,
+	private static ValueProvider<Resource> newResourceProvider(ResourceLocation resources,
 			ValueProvider<? extends String> name) {
 		if(name.hasCharacteristics(CONST)) {
 			final var resource = resources.getResource(name.get());
 			return new ResourceProvider(resource);
 		}
-		return ReduceProvider.newValue(new ResourceNamedProvider(resources, name));
+		return ReduceProvider.newProvider(newProvider(resources, name));
+	}
+	
+	public static ValueProvider<ResourceValue> newProvider(ResourceLocation resources, Value<? extends String> name) {
+		return newProvider(resources, name.openProvider());
+	}
+	
+	private static ValueProvider<ResourceValue> newProvider(ResourceLocation resources,
+			ValueProvider<? extends String> name) {
+		return new ResourceNamedProvider(resources, name);
 	}
 	
 	@Override
@@ -64,4 +72,8 @@ public final class ResourceNamedProvider implements ValueProvider<ResourceValue>
 		return "ResourceProvider [" + name + "]";
 	}
 	
+	@Override
+	public ValueProvider<ResourceValue> copy() {
+		return newProvider(resources, name.copy());
+	}
 }

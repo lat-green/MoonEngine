@@ -92,6 +92,11 @@ public abstract class AbstractRefCountValue<T> implements Value<T> {
 		}
 		
 		@Override
+		public ValueProvider<T> copy() {
+			return new Provider();
+		}
+		
+		@Override
 		public T getNotChenge() {
 			if(isClose)
 				throw new UnsupportedOperationException("getNotChenge on close " + this);

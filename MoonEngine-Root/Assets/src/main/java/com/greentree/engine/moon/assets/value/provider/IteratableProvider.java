@@ -1,19 +1,26 @@
 package com.greentree.engine.moon.assets.value.provider;
 
 import com.greentree.engine.moon.assets.value.Value;
+import com.greentree.engine.moon.assets.value.merge.MIValue;
 
-public class IteratableProvider<T> implements ValueProvider<Value<Iterable<T>>> {
+public final class IteratableProvider<T> implements ValueProvider<Value<Iterable<T>>> {
 	
 	public static final int CHARACTERISTICS = NOT_NULL;
 	
-	private final ValueProvider<Iterable<ValueProvider<T>>> providers;
+	private final ValueProvider<? extends Iterable<? extends Value<? extends T>>> providers;
 	
-	private IteratableProvider(ValueProvider<Iterable<ValueProvider<T>>> providers) {
+	private IteratableProvider(ValueProvider<? extends Iterable<? extends Value<? extends T>>> providers) {
 		this.providers = providers;
 	}
 	
-	public static <T> ValueProvider<Value<Iterable<T>>> newValue(Value<Iterable<Value<T>>> values) {
-		return null;
+	public static <T> ValueProvider<Value<Iterable<T>>> newProvider(
+			Value<? extends Iterable<? extends Value<? extends T>>> values) {
+		return newProvider(values.openProvider());
+	}
+	
+	public static <T> ValueProvider<Value<Iterable<T>>> newProvider(
+			ValueProvider<? extends Iterable<? extends Value<? extends T>>> providers) {
+		return new IteratableProvider<>(providers);
 	}
 	
 	@Override
@@ -28,18 +35,17 @@ public class IteratableProvider<T> implements ValueProvider<Value<Iterable<T>>> 
 	
 	@Override
 	public Value<Iterable<T>> get() {
-		return null;
+		return new MIValue<>(providers.get());
 	}
 	
 	@Override
 	public boolean isChenge() {
-		if(providers.isChenge())
-			return true;
-		final var ps = providers.get();
-		for(var p : ps)
-			if(p.isChenge())
-				return true;
-		return true;
+		return providers.isChenge();
+	}
+	
+	@Override
+	public ValueProvider<Value<Iterable<T>>> copy() {
+		return newProvider(providers);
 	}
 	
 }

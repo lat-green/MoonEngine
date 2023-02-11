@@ -9,8 +9,12 @@ public class CloseEventProvider<T> implements ValueProvider<T> {
 	private final ValueProvider<T> provider;
 	private final Runnable onClose;
 	
-	public CloseEventProvider(Value<T> Value, Runnable onClose) {
-		this.provider = Value.openProvider();
+	public CloseEventProvider(Value<T> value, Runnable onClose) {
+		this(value.openProvider(), onClose);
+	}
+	
+	public CloseEventProvider(ValueProvider<T> provider, Runnable onClose) {
+		this.provider = provider;
 		this.onClose = onClose;
 	}
 	
@@ -20,19 +24,24 @@ public class CloseEventProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public T get() {
-		return provider.get();
-	}
-	
-	@Override
 	public void close() {
 		onClose.run();
 		provider.close();
 	}
 	
 	@Override
+	public T get() {
+		return provider.get();
+	}
+	
+	@Override
 	public boolean isChenge() {
 		return provider.isChenge();
+	}
+	
+	@Override
+	public ValueProvider<T> copy() {
+		return new CloseEventProvider<>(provider, onClose);
 	}
 	
 }

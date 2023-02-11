@@ -17,11 +17,20 @@ public class CecheProvider<T> implements ValueProvider<T> {
 		ceche = provider.get();
 	}
 	
-	public static <T> ValueProvider<T> ceche(Value<T> Value) {
-		final var provider = Value.openProvider();
+	@Override
+	public ValueProvider<T> copy() {
+		return ceche(provider.copy());
+	}
+	
+	public static <T> ValueProvider<T> ceche(ValueProvider<T> provider) {
 		if(provider.hasCharacteristics(CONST) || provider.hasCharacteristics(CECHED))
 			return provider;
 		return new CecheProvider<>(provider);
+	}
+	
+	public static <T> ValueProvider<T> ceche(Value<T> Value) {
+		final var provider = Value.openProvider();
+		return ceche(provider);
 	}
 	
 	@Override
