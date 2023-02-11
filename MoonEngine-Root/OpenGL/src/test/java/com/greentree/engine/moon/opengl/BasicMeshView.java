@@ -2,13 +2,13 @@ package com.greentree.engine.moon.opengl;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
 import com.greentree.common.graphics.sgl.SGLFW;
+import com.greentree.common.graphics.sgl.Window;
 import com.greentree.common.graphics.sgl.buffer.FloatStaticDrawArrayBuffer;
 import com.greentree.common.graphics.sgl.enums.gl.GLShaderType;
 import com.greentree.common.graphics.sgl.enums.gl.GLType;
@@ -17,7 +17,6 @@ import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.common.graphics.sgl.shader.GLUniformLocation;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray.AttributeGroup;
-import com.greentree.common.graphics.sgl.window.Window;
 import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 import com.greentree.engine.moon.render.mesh.MeshUtil;

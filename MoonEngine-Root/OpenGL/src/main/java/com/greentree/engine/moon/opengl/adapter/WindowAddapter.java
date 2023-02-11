@@ -1,13 +1,12 @@
 package com.greentree.engine.moon.opengl.adapter;
 
-import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
-import com.greentree.common.graphics.sgl.window.Window;
+import com.greentree.common.graphics.sgl.Window;
 import com.greentree.engine.moon.render.window.CursorInputMode;
 
-public record WindowAddapter(Window window)
-		implements com.greentree.engine.moon.render.window.Window {
+public record WindowAddapter(Window window) implements com.greentree.engine.moon.render.window.Window {
 	
 	@Override
 	public int getHeight() {
@@ -28,8 +27,7 @@ public record WindowAddapter(Window window)
 	public void swapBuffer() {
 		window.swapBuffer();
 		glViewport(0, 0, window.getWidth(), window.getHeight());
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_ACCUM_BUFFER_BIT
-				| GL_STENCIL_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_ACCUM_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 	}
 	
 	@Override
