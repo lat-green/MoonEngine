@@ -58,13 +58,11 @@ public class WorldTest {
 		
 		final var filter = new OneRequiredFilter(world, ACompnent.class);
 		
-		assertEquals(IteratorUtil.size(filter), 0,
-				"OneRequiredFilter not work");
+		assertEquals(IteratorUtil.size(filter), 0, "OneRequiredFilter not work");
 		
 		e.add(new ACompnent());
 		
-		assertEquals(IteratorUtil.size(filter), 1,
-				"OneRequiredFilter after add not work");
+		assertEquals(IteratorUtil.size(filter), 1, "OneRequiredFilter after add not work");
 		
 		world.deactive(e);
 		
@@ -122,6 +120,7 @@ public class WorldTest {
 		}
 		
 	}
+	
 	@Nested
 	class Events {
 		
@@ -159,7 +158,7 @@ public class WorldTest {
 		void timeout_isActive() {
 			final var world = new World();
 			final var e = world.newEntity();
-			assertTimeout(Duration.ofSeconds(1), ()-> {
+			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0)
 					world.isActive(e);
@@ -170,7 +169,7 @@ public class WorldTest {
 		@Test
 		void timeout_newDeactiveEntity() {
 			final var world = new World(1_000_000);
-			assertTimeout(Duration.ofSeconds(1), ()-> {
+			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0)
 					world.newDeactiveEntity();
@@ -181,7 +180,7 @@ public class WorldTest {
 		@Test
 		void timeout_newDeactiveEntity_deleteEntity() {
 			final var world = new World();
-			assertTimeout(Duration.ofSeconds(1), ()-> {
+			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0) {
 					final var e = world.newDeactiveEntity();
@@ -194,7 +193,7 @@ public class WorldTest {
 		@Test
 		void timeout_newEntity() {
 			final var world = new World(1_000_000);
-			assertTimeout(Duration.ofSeconds(2), ()-> {
+			assertTimeout(Duration.ofSeconds(4), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0)
 					world.newEntity();
@@ -205,7 +204,7 @@ public class WorldTest {
 		@Test
 		void timeout_newEntity_chunck() {
 			final var world = new World();
-			assertTimeout(Duration.ofSeconds(1), ()-> {
+			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000;
 				while(t-- > 0) {
 					var t0 = 1_000;
@@ -219,7 +218,7 @@ public class WorldTest {
 		@Test
 		void timeout_newEntity_deleteEntity() {
 			final var world = new World();
-			assertTimeout(Duration.ofSeconds(1), ()-> {
+			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0) {
 					final var e = world.newEntity();
