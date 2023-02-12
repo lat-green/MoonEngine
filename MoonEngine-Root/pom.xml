@@ -3,7 +3,7 @@
 	
   	<groupId>com.greentree.engine.moon</groupId>
   	<artifactId>root</artifactId>
-  	<version>0.3</version>
+  	<version>0.3.1</version>
 
 	<name>MoonEngine Root</name>
  	
