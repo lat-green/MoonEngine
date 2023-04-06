@@ -1,0 +1,44 @@
+
+@startuml render
+
+!include public.wsd
+
+namespace render {
+    interface RenderLibrary {
+        RenderTargetTextuteBuilder createRenderTarget();
+        RenderTarget screanRenderTarget();
+        
+        RenderMesh buildStaticMesh(StaticMesh mesh, StaticMeshFaceComponent... components)
+        Texture buildCubeTexture(CubeTextureData texture)
+        Texture buildTexture2D(Texture2DData texture)
+        Shader buildShader(ShaderProgramData program)
+    }
+    RenderLibrary::buildStaticMesh ..> mesh.StaticMesh : <<use>>
+    RenderLibrary::buildStaticMesh ..> mesh.StaticMeshFaceComponent : <<use>>
+    RenderLibrary::buildCubeTexture ..> texture.CubeTextureData : <<use>>
+    RenderLibrary::buildTexture2D ..> texture.Texture2DData : <<use>>
+    RenderLibrary::buildShader ..> shader.ShaderProgramData : <<use>>
+    RenderLibrary::screanRenderTarget ..> target.RenderTarget : <<return>>
+    RenderLibrary::createRenderTarget ..> target.RenderTargetTextuteBuilder : <<return>>
+    RenderLibrary::buildStaticMesh ..> RenderMesh : <<return>>
+    RenderLibrary::buildCubeTexture ..> Texture : <<return>>
+    RenderLibrary::buildTexture2D ..> Texture : <<return>>
+    RenderLibrary::buildShader ..> Shader : <<return>>
+    interface Texture {
+        void bint(int slot)
+    }
+    interface RenderMesh {
+        void bind()
+        void unbind()
+        void render()
+    }
+    interface Shader {	
+        Iterable<? extends String> getPropertyNames();
+        PropertyLocation getProperty(String name);
+        void bind();
+        void unbind();
+    }
+    Shader::getProperty ..> material.PropertyLocation : <<return>>
+}
+
+@enduml

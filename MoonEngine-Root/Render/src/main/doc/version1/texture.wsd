@@ -1,0 +1,76 @@
+
+@startuml texture
+
+!include public.wsd
+
+namespace texture {
+	class CubeTextureData implements .Serializable {
+		CubeImageData image
+		Texture3DType type
+	}
+	CubeTextureData *-- CubeImageData
+	CubeTextureData *-- Texture3DType
+	class Texture2DData implements .Serializable {
+		ImageData image
+		Texture2DType type
+		
+		PixelFormat getFormat()
+		int getHeight()
+		int getWidth()
+	}
+	Texture2DData *-- ImageData
+	Texture2DData *-- Texture2DType
+	class CubeImageData implements .Iterable, .Serializable {
+		ImageData posx
+		ImageData negx
+		ImageData posy
+		ImageData negy
+		ImageData posz
+		ImageData negz
+	}
+	CubeImageData *-- "6" ImageData
+	class ImageData implements .Serializable {
+		- final byte[] data
+		- final PixelFormat format
+		- final int width
+		- final int height
+	}
+	class Texture3DType implements .Serializable {
+		Filtering filteringMin
+		Filtering filteringMag
+		Wrapping wrapX
+		Wrapping wrapY
+		Wrapping wrapZ
+	}
+	Texture3DType::filteringMin *-- Filtering
+	Texture3DType::filteringMag *-- Filtering
+	Texture3DType::wrapX *-- Wrapping
+	Texture3DType::wrapY *-- Wrapping
+	Texture3DType::wrapZ *-- Wrapping
+	class Texture2DType implements .Serializable {
+		Filtering filteringMin
+		Filtering filteringMag
+		Wrapping wrapX
+		Wrapping wrapY
+	}
+	Texture2DType::filteringMin *-- Filtering
+	Texture2DType::filteringMag *-- Filtering
+	Texture2DType::wrapX *-- Wrapping
+	Texture2DType::wrapY *-- Wrapping
+	enum Filtering {
+		NEAREST
+		LINEAR
+		NEAREST_MIPMAP_NEAREST
+		LINEAR_MIPMAP_NEAREST
+		NEAREST_MIPMAP_LINEAR
+		LINEAR_MIPMAP_LINEAR
+	}
+	enum Wrapping {
+		REPEAT
+		MIRRORED_REPEAT
+		CLAMP_TO_EDGE
+		CLAMP_TO_BORDER
+	}
+}
+
+@enduml

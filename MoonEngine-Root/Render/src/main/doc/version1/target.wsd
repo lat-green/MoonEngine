@@ -1,0 +1,49 @@
+
+@startuml target
+
+!include public.wsd
+
+namespace target {
+    interface RenderTarget {
+        TargetCommandBuffer buffer()
+    }
+    interface RenderPipline {
+
+    }
+    interface TargetCommandBuffer extends .AutoCloseable {
+        void clear();
+        void clearColor(Color color);
+        void clearDepth(float depth);
+        void close();
+        void drawMesh(RenderMesh mesh, Shader shader, MaterialProperties properties);
+        void enableCullFace();
+        void disableCullFace();
+        void enableDepthTest();
+        void disableDepthTest();
+        void execute();
+    }
+    TargetCommandBuffer::drawMesh ..> render.RenderMesh : <<use>>
+    TargetCommandBuffer::drawMesh ..> render.Shader : <<use>>
+    TargetCommandBuffer::drawMesh ..> material.MaterialProperties : <<use>>
+    interface RenderTargetTextuteBuilder <<builder>> {
+        RenderTargetTextuteBuilder addColor2D(PixelFormat format);
+        RenderTargetTextuteBuilder addColorCubeMap(PixelFormat format);
+        RenderTargetTextuteBuilder addDepth();
+        RenderTargetTextuteBuilder addDepthCubeMapTexture();
+        RenderTargetTextuteBuilder addDepthTexture();
+        RenderTargetTextute build(int width, int height);
+    }
+    RenderTargetTextuteBuilder::build ..> RenderTargetTextute : <<return>>
+    interface RenderTargetTextute extends RenderTarget, .AutoCloseable {
+
+        Texture getColorTexture(int index)
+        Texture getDepthTexture()
+
+        void close()
+
+    }
+    RenderTargetTextute::getColorTexture ..> render.Texture : <<return>>
+    RenderTargetTextute::getDepthTexture ..> render.Texture : <<return>>
+}
+
+@enduml

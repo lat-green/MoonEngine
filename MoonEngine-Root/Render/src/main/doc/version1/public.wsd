@@ -1,0 +1,12 @@
+
+@startuml public
+
+interface AutoCloseable
+interface Serializable
+interface Iterable
+
+hide AutoCloseable
+hide Serializable
+hide Iterable
+
+@enduml

@@ -1,0 +1,14 @@
+
+@startuml main
+
+!include window.wsd
+
+!include render.wsd
+!include material.wsd
+!include target.wsd
+
+!include texture.wsd
+!include shader.wsd
+!include mesh.wsd
+
+@enduml

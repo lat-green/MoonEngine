@@ -1,0 +1,57 @@
+
+@startuml mesh
+
+!include public.wsd
+
+namespace mesh {
+    interface StaticMesh extends Mesh, .Serializable {
+        AttributeData getAttributeGroup(StaticMeshFaceComponent... types) <<default>>
+        MeshFace face(int i);
+        int size();
+    }
+    StaticMesh::getAttributeGroup ..> StaticMeshFaceComponent : <<use>>
+    StaticMesh::face ..> MeshFace : <<return>>
+    interface Mesh {	
+        boolean hasNormals();
+        boolean hasTextureCoord();
+    }
+    interface StaticMeshFaceComponent extends MeshComponent {
+	    void get(StaticMesh mesh, int strip, float[][] vertex) <<default>>
+        void get(MeshFace face, int strip, float[] a, float[] b, float[] c)
+        
+        {static} void setVector(float[] dest, int strip, AbstractVector3f vec)
+        {static} void setVector(float[] dest, int strip, AbstractVector2f vec)
+    }
+    StaticMeshFaceComponent::get ..> StaticMesh : <<use>>
+    StaticMeshFaceComponent::get ..> MeshFace : <<use>>
+    interface MeshComponent<MESH extends Mesh> {
+        {static} VertexStaticMeshVertexComponent VERTEX = VertexStaticMeshVertexComponent.INSTANCE;
+        {static} NormalStaticMeshVertexComponent NORMAL = NormalStaticMeshVertexComponent.INSTANCE;
+        {static} TextuteCoordinatStaticMeshVertexComponent TEXTURE_COORDINAT = TextuteCoordinatStaticMeshVertexComponent.INSTANCE;
+        {static} TangentStaticMeshFaceComponent TANGENT = TangentStaticMeshFaceComponent.INSTANCE;
+        
+        int size();
+        {static} int[] sizes(MeshComponent<?>... components)
+        void get(StaticMesh mesh, int strip, float[][] vertex);
+    }
+    MeshComponent::get ..> StaticMesh : <<use>>
+    class MeshFace implements .Serializable {
+		VertexIndex a
+        VertexIndex b
+        VertexIndex c
+		
+		boolean hasNormals() <<default>>
+		boolean hasTextureCoordinate() <<default>>
+	}
+    MeshFace o.. "3" VertexIndex
+    interface VertexIndex extends .Serializable {
+		boolean hasNormal()  <<default>>
+		boolean hasTextureCoordinate() <<default>>
+		
+		AbstractVector3f normal();
+		AbstractVector2f textureCoordinate();
+		AbstractVector3f vertex();
+	}
+}
+
+@enduml

@@ -1,0 +1,32 @@
+
+@startuml shader
+
+!include public.wsd
+
+namespace shader {
+	interface ShaderProgramData extends .Iterable {
+		ShaderData vert();
+		ShaderData frag();
+		ShaderData geom();
+	}
+	ShaderProgramData::vert ..> ShaderData : <<return>>
+	ShaderProgramData::frag ..> ShaderData : <<return>>
+	ShaderProgramData::geom ..> ShaderData : <<return>>
+	interface ShaderData extends .Serializable {
+		String text();
+		ShaderType type();
+		ShaderLanguage language();
+	}
+	ShaderData::type ..> ShaderType : <<return>>
+	ShaderData::language ..> ShaderLanguage : <<return>>
+	enum ShaderLanguage {
+		GLSL
+	}
+	enum ShaderType {
+		VERTEX
+		FRAGMENT
+		GEOMETRY
+	}
+}
+
+@enduml

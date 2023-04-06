@@ -13,7 +13,7 @@ public interface RenderTargetTextuteBuilder {
 	RenderTargetTextuteBuilder addColorCubeMap(PixelFormat format);
 	
 	default RenderTargetTextuteBuilder addColorCubeMap() {
-		return addColor2D(PixelFormat.RGB);
+		return addColorCubeMap(PixelFormat.RGB);
 	}
 	
 	RenderTargetTextuteBuilder addDepth();

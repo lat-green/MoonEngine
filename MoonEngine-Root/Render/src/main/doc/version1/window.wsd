@@ -1,0 +1,48 @@
+
+@startuml window
+
+!include public.wsd
+
+namespace window {
+    enum WindowHit {
+        FULL_SCEAN
+        VSYNC
+        RESIZBLE
+    }
+    enum CursorInputMode {
+        NORMAL
+        HIDDEN
+        DISABLED
+    }
+    interface Window {
+        int width()
+        int height()
+
+        boolean hasHit(WindowHit)
+        void addHit(WindowHit)
+        void removeHit(WindowHit)
+
+        String title()
+
+        Monitor monitor()
+
+        void setInputMode(CursorInputMode mode)
+        CursorInputMode getInputMode()
+    }
+    Window::monitor ..> Monitor : <<return>>
+    Window::setInputMode ..> CursorInputMode : <<use>>
+    Window::hasHit ..> WindowHit : <<use>>
+    Window::addHit ..> WindowHit : <<use>>
+    Window::removeHit ..> WindowHit : <<use>>
+    interface Monitor {
+        int width()
+        int height()
+    }
+    interface WindowLibrary {
+        Window createWindow(String title, int width, int height, WindowHit... hits)
+    }
+    WindowLibrary::createWindow ..> Window : <<return>>
+    WindowLibrary::createWindow ..> WindowHit : <<use>>
+}
+
+@enduml
