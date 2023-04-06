@@ -21,7 +21,9 @@ import com.greentree.engine.moon.module.TerminateModule;
 import com.greentree.engine.moon.module.annotation.CreateProperty;
 import com.greentree.engine.moon.module.annotation.DestroyProperty;
 import com.greentree.engine.moon.module.annotation.ReadProperty;
+import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
 import com.greentree.engine.moon.opengl.adapter.WindowAddapter;
+import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.window.WindowProperty;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.Key;
@@ -36,11 +38,12 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 	private Window window;
 	private final ListenerCloser[] lcs = new ListenerCloser[4];
 	
-	@ReadProperty({DevicesProperty.class,AssetManagerProperty.class})
+	@ReadProperty({DevicesProperty.class, AssetManagerProperty.class, RenderLibraryProperty.class})
 	@CreateProperty({WindowProperty.class})
 	@Override
 	public void launch(EngineProperties properties) {
 		final var manager = properties.get(AssetManagerProperty.class).manager();
+		final var renderLibrary = (GLRenderLibrary) properties.get(RenderLibraryProperty.class).library();
 		
 		final var wini = manager.loadData(Properties.class, "window.ini");
 		final var title = wini.getProperty("window.title");
@@ -49,7 +52,7 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 		
 		SGLFW.init();
 		window = new Window(title, width, height, true, true, false);
-		final var wwc = new WindowProperty(new WindowAddapter(window));
+		final var wwc = new WindowProperty(new WindowAddapter(window, renderLibrary));
 		properties.add(wwc);
 		window.makeCurrent();
 		

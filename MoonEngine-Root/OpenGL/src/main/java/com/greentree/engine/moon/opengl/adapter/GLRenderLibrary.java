@@ -111,7 +111,7 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 	
 	@Override
 	public RenderTargetTextuteBuilder createRenderTarget() {
-		return new GLRenderTargetTextuteBuilder(screanRenderTarget());
+		return new GLRenderTargetTextuteBuilder(this);
 	}
 	
 	@Override
@@ -137,11 +137,6 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 	public GLVertexArray getVAO(StaticMesh mesh, StaticMeshFaceComponent... components) {
 		final var TYPES = COMPONENTS.apply(new TArray<>(components));
 		return TYPES.getVAO(mesh);
-	}
-	
-	@Override
-	public RenderTarget screanRenderTarget() {
-		return this;
 	}
 	
 	private GLSLShader build(ShaderData shader) {

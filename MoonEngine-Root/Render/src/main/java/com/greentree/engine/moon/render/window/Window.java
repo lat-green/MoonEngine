@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.render.window;
 
+import com.greentree.engine.moon.render.pipeline.target.RenderTarget;
 
 public interface Window {
 	
@@ -8,6 +9,7 @@ public interface Window {
 	
 	String getTitle();
 	
+	RenderTarget screanRenderTarget();
 	
 	void swapBuffer();
 	boolean isShouldClose();

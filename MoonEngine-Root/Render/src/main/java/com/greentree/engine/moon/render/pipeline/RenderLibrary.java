@@ -5,7 +5,6 @@ import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 import com.greentree.engine.moon.render.mesh.RenderMesh;
 import com.greentree.engine.moon.render.pipeline.material.Shader;
-import com.greentree.engine.moon.render.pipeline.target.RenderTarget;
 import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextuteBuilder;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 import com.greentree.engine.moon.render.texture.Texture;
@@ -23,8 +22,6 @@ public interface RenderLibrary {
 	
 	
 	RenderTargetTextuteBuilder createRenderTarget();
-	
-	RenderTarget screanRenderTarget();
 	
 	default RenderMesh build(StaticMesh mesh) {
 		return build(mesh, COMPONENTS);

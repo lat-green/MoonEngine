@@ -49,7 +49,7 @@ public final class RenderMainCamera implements InitSystem, UpdateSystem, Destroy
 		final var camera = cameras.main();
 		properties.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());
 		window.swapBuffer();
-		try(final var buffer = library.screanRenderTarget().buffer()) {
+		try(final var buffer = window.screanRenderTarget().buffer()) {
 			buffer.drawMesh(rmesh, shader, properties);
 		}
 	}

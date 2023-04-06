@@ -4,9 +4,11 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 import com.greentree.common.graphics.sgl.Window;
+import com.greentree.engine.moon.render.pipeline.target.RenderTarget;
 import com.greentree.engine.moon.render.window.CursorInputMode;
 
-public record WindowAddapter(Window window) implements com.greentree.engine.moon.render.window.Window {
+public record WindowAddapter(Window window, GLRenderLibrary render)
+		implements com.greentree.engine.moon.render.window.Window {
 	
 	@Override
 	public int getHeight() {
@@ -16,6 +18,12 @@ public record WindowAddapter(Window window) implements com.greentree.engine.moon
 	@Override
 	public int getWidth() {
 		return window.getWidth();
+	}
+	
+	
+	@Override
+	public RenderTarget screanRenderTarget() {
+		return render;
 	}
 	
 	@Override
