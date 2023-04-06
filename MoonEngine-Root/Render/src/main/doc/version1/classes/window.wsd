@@ -18,6 +18,8 @@ namespace window {
         int width()
         int height()
 
+        RenderTarget renderTarget()
+
         boolean hasHit(WindowHit)
         void addHit(WindowHit)
         void removeHit(WindowHit)
@@ -29,6 +31,7 @@ namespace window {
         void setInputMode(CursorInputMode mode)
         CursorInputMode getInputMode()
     }
+    Window::renderTarget ..> target.RenderTarget : <<return>>
     Window::monitor ..> Monitor : <<return>>
     Window::setInputMode ..> CursorInputMode : <<use>>
     Window::hasHit ..> WindowHit : <<use>>

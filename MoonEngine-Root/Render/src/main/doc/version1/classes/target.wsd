@@ -1,0 +1,53 @@
+
+@startuml target
+
+!include public.wsd
+
+namespace target {
+    interface RenderTarget {
+        TargetCommandBuffer buffer()
+    }
+    RenderTarget::buffer ..> TargetCommandBuffer : <<return>>
+    interface TargetCommandBuffer extends .AutoCloseable {
+        void execute()
+        void close()
+    }
+    interface TargetCommandBufferBuilder <<builder>> {
+        TargetCommandBufferBuilder clearColor(Color color)
+        TargetCommandBufferBuilder clearDepth(float depth)
+        
+        TargetCommandBufferBuilder drawMesh(StaticMesh mesh, ShaderProgramData shader, MaterialProperties properties)
+
+        TargetCommandBufferBuilder enableCullFace()
+        TargetCommandBufferBuilder disableCullFace()
+        TargetCommandBufferBuilder enableDepthTest()
+        TargetCommandBufferBuilder disableDepthTest()
+
+        TargetCommandBuffer build()
+    }
+    TargetCommandBufferBuilder::drawMesh ..> mesh.StaticMesh : <<use>>
+    TargetCommandBufferBuilder::drawMesh ..> shader.ShaderProgramData : <<use>>
+    TargetCommandBufferBuilder::drawMesh ..> material.MaterialProperties : <<use>>
+    TargetCommandBufferBuilder::build ..> TargetCommandBuffer : <<return>>
+    interface RenderTargetTextuteBuilder <<builder>> {
+        RenderTargetTextuteBuilder addColor2D(PixelFormat format);
+        RenderTargetTextuteBuilder addColorCubeMap(PixelFormat format);
+        RenderTargetTextuteBuilder addDepth();
+        RenderTargetTextuteBuilder addDepthCubeMapTexture();
+        RenderTargetTextuteBuilder addDepthTexture();
+        RenderTargetTextute build(int width, int height);
+    }
+    RenderTargetTextuteBuilder::build ..> RenderTargetTextute : <<return>>
+    interface RenderTargetTextute extends RenderTarget, .AutoCloseable {
+
+        Property getColorTexture(int index)
+        Property getDepthTexture()
+
+        void close()
+
+    }
+    RenderTargetTextute::getColorTexture ..> material.Property : <<return>>
+    RenderTargetTextute::getDepthTexture ..> material.Property : <<return>>
+}
+
+@enduml

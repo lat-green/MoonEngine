@@ -1,0 +1,49 @@
+
+@startuml startcute
+skinparam componentStyle rectangle
+
+' [Class] o--> [Class] : is
+' [Project BOM] o--> [Class] : is
+' [Project] o--> [Class] : is
+' [Library] o--> [Class] : is
+' [System] o--> [Class] : is
+' [Code Concept] o--> [Class] : is
+
+' [Moon Engine] o--> [Project BOM] : is
+
+' [Moon Render] o--> [Project] : is
+' [Moon OpenGL] o--> [Project] : is
+' [Moon Vulkan] o--> [Project] : is
+
+' [Vulkan] o--> [Library] : is
+' [OpenGL] o--> [Library] : is
+
+' [Render System] o--> [System] : is
+
+' [Render Pipelines] o--> [Code Concept] : is
+' [Abstract Render Lib] o--> [Code Concept] : is
+
+[Moon Engine] *--> [Moon Render] : has
+[Moon Engine] *--> [Moon OpenGL] : has
+[Moon Engine] *--> [Moon Vulkan] : has
+
+[Moon Render] *--> [Render System] : has
+[Moon Render] *--> [Render Pipelines] : has
+[Moon Render] *--> [Abstract Render Lib] : has
+
+[Render System] .right.> [Render Pipelines] : use
+[Render Pipelines] .right.> [Abstract Render Lib] : use
+
+[Abstract Render Lib] *--> [Abstract Window Lib] : has
+[Abstract Render Lib] *--> [Abstract Target Lib] : has
+[Abstract Render Lib] *--> [Abstract Shader Compiler Lib] : has
+
+[Moon Vulkan] *--> [Vulkan Render Lib] : has
+[Abstract Render Lib] --> [Vulkan Render Lib] : implementation
+[Vulkan Render Lib] ..> Vulkan : use
+
+[Moon OpenGL] *--> [OpenGL Render Lib] : has
+[Abstract Render Lib] --> [OpenGL Render Lib] : implementation
+[OpenGL Render Lib] ..> OpenGL : use
+
+@enduml

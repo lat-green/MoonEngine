@@ -1,0 +1,17 @@
+
+@startuml material
+
+!include public.wsd
+
+namespace material {
+    interface MaterialProperties extends .Iterable {
+        Property get(String name)
+        void put(String name, Property property)
+    }
+    MaterialProperties::get ..> Property : <<return>>
+    MaterialProperties::put ..> Property : <<use>>
+    interface Property {
+    }
+}
+
+@enduml

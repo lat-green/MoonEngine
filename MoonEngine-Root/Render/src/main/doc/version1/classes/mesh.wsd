@@ -25,11 +25,6 @@ namespace mesh {
     StaticMeshFaceComponent::get ..> StaticMesh : <<use>>
     StaticMeshFaceComponent::get ..> MeshFace : <<use>>
     interface MeshComponent<MESH extends Mesh> {
-        {static} VertexStaticMeshVertexComponent VERTEX = VertexStaticMeshVertexComponent.INSTANCE;
-        {static} NormalStaticMeshVertexComponent NORMAL = NormalStaticMeshVertexComponent.INSTANCE;
-        {static} TextuteCoordinatStaticMeshVertexComponent TEXTURE_COORDINAT = TextuteCoordinatStaticMeshVertexComponent.INSTANCE;
-        {static} TangentStaticMeshFaceComponent TANGENT = TangentStaticMeshFaceComponent.INSTANCE;
-        
         int size();
         {static} int[] sizes(MeshComponent<?>... components)
         void get(StaticMesh mesh, int strip, float[][] vertex);
