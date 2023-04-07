@@ -35,29 +35,6 @@ public final class MaterialPropertiesBase implements MaterialProperties {
 	}
 	
 	@Override
-	public void set(Shader shader, MaterialProperties last, PropertyBindContext context) {
-		for(var entry : properties.entrySet()) {
-			final var name = entry.getKey();
-			final var property = entry.getValue();
-			final var last_property = last.get(name);
-			if(Objects.equals(last_property, property))
-				continue;
-			final var location = shader.getProperty(name);
-			property.bind(location, context);
-		}
-	}
-	
-	@Override
-	public void set(Shader shader, PropertyBindContext context) {
-		for(var entry : properties.entrySet()) {
-			final var name = entry.getKey();
-			final var property = entry.getValue();
-			final var location = shader.getProperty(name);
-			property.bind(location, context);
-		}
-	}
-	
-	@Override
 	public boolean equals(Object obj) {
 		if(this == obj) {
 			return true;

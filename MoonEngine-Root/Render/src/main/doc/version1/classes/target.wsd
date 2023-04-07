@@ -16,7 +16,7 @@ namespace target {
         TargetCommandBufferBuilder clearColor(Color color)
         TargetCommandBufferBuilder clearDepth(float depth)
         
-        TargetCommandBufferBuilder drawMesh(StaticMesh mesh, ShaderProgramData shader, MaterialProperties properties)
+        TargetCommandBufferBuilder drawMesh(AttributeData mesh, ShaderProgramData shader, MaterialProperties properties)
 
         TargetCommandBufferBuilder enableCullFace()
         TargetCommandBufferBuilder disableCullFace()
@@ -25,7 +25,7 @@ namespace target {
 
         TargetCommandBuffer build()
     }
-    TargetCommandBufferBuilder::drawMesh ..> mesh.StaticMesh : <<use>>
+    TargetCommandBufferBuilder::drawMesh ..> mesh.AttributeData : <<use>>
     TargetCommandBufferBuilder::drawMesh ..> shader.ShaderProgramData : <<use>>
     TargetCommandBufferBuilder::drawMesh ..> material.MaterialProperties : <<use>>
     TargetCommandBufferBuilder::build ..> TargetCommandBuffer : <<return>>

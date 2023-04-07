@@ -2,26 +2,22 @@ package com.greentree.engine.moon.render.assets.shader;
 
 import java.util.Properties;
 
-import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.ResourceAssetKey;
-import com.greentree.engine.moon.assets.serializator.AbstractIterableAssetSerializator;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.merge.MIValue;
+import com.greentree.engine.moon.assets.value.function.Value2Function;
+import com.greentree.engine.moon.assets.value.function.Value3Function;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
+import com.greentree.engine.moon.render.shader.ShaderData;
 import com.greentree.engine.moon.render.shader.ShaderLanguage;
+import com.greentree.engine.moon.render.shader.ShaderProgramDataImpl;
 import com.greentree.engine.moon.render.shader.ShaderType;
 
-public class ShaderProgramDataAssetSerializator<S> extends AbstractIterableAssetSerializator<S> {
+public class ShaderProgramDataAssetSerializator implements AssetSerializator<ShaderProgramDataImpl> {
 	
-	public ShaderProgramDataAssetSerializator(TypeInfo<S> type) {
-		super(type);
-	}
-	
-	protected ShaderProgramDataAssetSerializator() {
-	}
 	
 	@Override
 	public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
@@ -29,7 +25,7 @@ public class ShaderProgramDataAssetSerializator<S> extends AbstractIterableAsset
 	}
 	
 	@Override
-	public Value<Iterable<S>> load(LoadContext manager, AssetKey ckey) {
+	public Value<ShaderProgramDataImpl> load(LoadContext manager, AssetKey ckey) {
 		if(manager.canLoad(Properties.class, ckey)) {
 			final var vertProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "vert"));
 			final var fragProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "frag"));
@@ -42,16 +38,38 @@ public class ShaderProgramDataAssetSerializator<S> extends AbstractIterableAsset
 			final var geomKey = new ShaderAssetKey(geomProp, ShaderType.GEOMETRY,
 					ShaderLanguage.GLSL);
 			
-			final var vert = manager.load(ITER_TYPE, vertKey);
-			final var frag = manager.load(ITER_TYPE, fragKey);
+			final var vert = manager.load(ShaderData.class, vertKey);
+			final var frag = manager.load(ShaderData.class, fragKey);
 			
-			if(manager.isDeepValid(ITER_TYPE, geomKey)) {
-				final var geom = manager.load(ITER_TYPE, geomKey);
-				return new MIValue<>(vert, frag, geom);
+			if(manager.isDeepValid(ShaderData.class, geomKey)) {
+				final var geom = manager.load(ShaderData.class, geomKey);
+				return manager.map(vert, frag, geom, new f3());
 			}
-			return new MIValue<>(vert, frag);
+			return manager.map(vert, frag, new f2());
 		}
 		return null;
+	}
+	
+	private static final class f2 implements Value2Function<ShaderData, ShaderData, ShaderProgramDataImpl> {
+		
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public ShaderProgramDataImpl apply(ShaderData vert, ShaderData frag) {
+			return new ShaderProgramDataImpl(vert, frag);
+		}
+		
+	}
+	
+	private static final class f3 implements Value3Function<ShaderData, ShaderData, ShaderData, ShaderProgramDataImpl> {
+		
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		public ShaderProgramDataImpl apply(ShaderData vert, ShaderData frag, ShaderData geom) {
+			return new ShaderProgramDataImpl(vert, frag, geom);
+		}
+		
 	}
 	
 }

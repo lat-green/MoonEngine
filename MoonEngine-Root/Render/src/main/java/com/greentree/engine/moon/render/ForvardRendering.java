@@ -107,7 +107,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	public void update() {
 		final var tempModelMatrix = new Matrix4f();
 		{
-			final var shader = MaterialUtil.getDefaultCubeMapShadowShader(library);
+			final var shader = MaterialUtil.getDefaultCubeMapShadowShader();
 			for(var light : point_ligth)
 				if(light.contains(HasShadow.class)) {
 					SUPER_POINT_SHADOW.put("lightPos", light.get(Transform.class).position);
@@ -136,7 +136,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 					for(var m : renderer) {
 						final var mesh = m.get(MeshComponent.class).mesh().get();
 						final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
-						final var shader = MaterialUtil.getDefaultShadowShader(library);
+						final var shader = MaterialUtil.getDefaultShadowShader();
 						final var properties = new MaterialPropertiesBase();
 						mapShadowMaterial(properties);
 						properties.put("model", model);
@@ -150,8 +150,8 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 				buffer.clearDepth(1);
 				if(camera.contains(SkyBoxComponent.class)) {
 					final var texture = camera.get(SkyBoxComponent.class).texture().get();
-					final var shader = MaterialUtil.getDefaultSkyBoxShader(library);
-					buffer.drawSkyBox(library, shader, texture);
+					final var shader = MaterialUtil.getDefaultSkyBoxShader();
+					buffer.drawSkyBox(shader, texture);
 				}else
 					buffer.clearColor(Color.gray);
 				buffer.enableCullFace();

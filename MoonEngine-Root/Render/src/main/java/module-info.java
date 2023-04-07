@@ -30,7 +30,6 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.window;
 	
 	exports com.greentree.engine.moon.render.texture;
-	exports com.greentree.engine.moon.render.texture.data;
 	
 	exports com.greentree.engine.moon.render.light;
 	exports com.greentree.engine.moon.render.light.point;
@@ -41,7 +40,6 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.pipeline.material;
 	exports com.greentree.engine.moon.render.pipeline.target;
 	exports com.greentree.engine.moon.render.pipeline.target.buffer;
-	exports com.greentree.engine.moon.render.pipeline.target.buffer.command;
 	
 	provides EngineModule with RenderAssetSerializatorModule;
 	

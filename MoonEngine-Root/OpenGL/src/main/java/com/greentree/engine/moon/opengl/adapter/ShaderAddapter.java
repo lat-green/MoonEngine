@@ -1,31 +1,38 @@
 package com.greentree.engine.moon.opengl.adapter;
 
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
-import com.greentree.engine.moon.render.pipeline.material.PropertyLocation;
-import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.pipeline.material.PropertyBindContext;
 
 
-public record ShaderAddapter(GLShaderProgram program) implements Shader {
+public record ShaderAddapter(GLShaderProgram shader) implements Shader {
 	
-	@Override
-	public Iterable<? extends String> getPropertyNames() {
-		return program.getUniformLocationNames();
-	}
-	
-	@Override
-	public PropertyLocation getProperty(String name) {
-		final var location = program.getUL(name);
-		return new MaterialPropertyAddapter(location);
-	}
 	
 	@Override
 	public void bind() {
-		program.bind();
+		shader.bind();
 	}
 	
 	@Override
 	public void unbind() {
-		program.unbind();
+		shader.unbind();
+	}
+	
+	@Override
+	public void set(MaterialProperties ps) {
+		var context = new PropertyBindContext() {
+			
+			int slot = 1;
+			
+			@Override
+			public int nextEmptyTextureSlot() {
+				return slot++;
+			}
+			
+		};
+		for(var p : ps)
+			ps.get(p).bind(new MaterialPropertyAddapter(shader.getUL(p)), context);
+		
 	}
 	
 }

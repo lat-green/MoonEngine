@@ -8,9 +8,9 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
-import com.greentree.engine.moon.render.texture.data.CubeImageData;
-import com.greentree.engine.moon.render.texture.data.CubeTextureData;
-import com.greentree.engine.moon.render.texture.data.Texture3DType;
+import com.greentree.engine.moon.render.texture.CubeImageData;
+import com.greentree.engine.moon.render.texture.CubeTextureData;
+import com.greentree.engine.moon.render.texture.Texture3DType;
 
 public class CubeTextureAssetSerializator implements AssetSerializator<CubeTextureData> {
 	

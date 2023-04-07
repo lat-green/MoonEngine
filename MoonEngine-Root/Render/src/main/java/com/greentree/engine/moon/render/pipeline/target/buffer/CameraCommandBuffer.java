@@ -8,15 +8,14 @@ import org.joml.Matrix4f;
 import com.greentree.commons.math.Mathf;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.mesh.AttributeData;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 import com.greentree.engine.moon.render.camera.CameraUtil;
-import com.greentree.engine.moon.render.mesh.RenderMesh;
-import com.greentree.engine.moon.render.mesh.RenderMeshUtil;
-import com.greentree.engine.moon.render.pipeline.RenderLibrary;
+import com.greentree.engine.moon.render.mesh.MeshUtil;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
-import com.greentree.engine.moon.render.pipeline.material.Shader;
-import com.greentree.engine.moon.render.texture.Texture;
+import com.greentree.engine.moon.render.pipeline.material.Property;
+import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	
@@ -29,17 +28,17 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 	}
 	
 	@Override
-	public void drawMesh(RenderMesh mesh, Shader material, MaterialProperties properties) {
+	public void drawMesh(AttributeData mesh, ShaderProgramData shader, MaterialProperties properties) {
 		final var transform = this.camera.get(Transform.class);
 		final var view = CameraUtil.getView(camera);
 		final var projection = camera.get(CameraComponent.class).getProjectionMatrix();
 		final var veiwProjection = new Matrix4f().identity().mul(projection).mul(view);
 		properties.put("projectionView", veiwProjection);
 		properties.put("viewPos", transform.position);
-		super.drawMesh(mesh, material, properties);
+		super.drawMesh(mesh, shader, properties);
 	}
 	
-	public void drawSkyBox(RenderLibrary library, Shader shader, Texture texture) {
+	public void drawSkyBox(ShaderProgramData shader, Property texture) {
 		final var transform = this.camera.get(Transform.class);
 		final var camera = this.camera.get(CameraComponent.class);
 		Matrix4f veiwProjection;
@@ -60,7 +59,7 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 		properties.put("projectionView", veiwProjection);
 		properties.put("viewPos", transform.position);
 		
-		final var BOX = RenderMeshUtil.BOX(library);
+		final var BOX = MeshUtil.BOX;
 		super.drawMesh(BOX, shader, properties);
 	}
 	

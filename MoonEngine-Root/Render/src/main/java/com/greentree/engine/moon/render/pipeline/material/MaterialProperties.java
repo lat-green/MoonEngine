@@ -1,13 +1,10 @@
 package com.greentree.engine.moon.render.pipeline.material;
 
-import java.util.Objects;
-
 import org.joml.Matrix4f;
 
 import com.greentree.commons.image.Color;
 import com.greentree.commons.math.vector.AbstractVector2f;
 import com.greentree.commons.math.vector.AbstractVector3f;
-import com.greentree.engine.moon.render.texture.Texture;
 
 public interface MaterialProperties extends Iterable<String> {
 	
@@ -57,64 +54,8 @@ public interface MaterialProperties extends Iterable<String> {
 	void put(String name, Property property);
 	
 	
-	default void put(String name, Texture texture) {
-		put(name, new TextureProperty(texture));
-	}
-	
-	
 	default void putRGB(String name, Color color) {
 		put(name, color.r, color.g, color.b);
-	}
-	
-	
-	default void set(Shader shader, MaterialProperties last) {
-		final var context = new PropertyBindContext() {
-			
-			int nextEmptyTextureSlot = 1;
-			
-			@Override
-			public int nextEmptyTextureSlot() {
-				return nextEmptyTextureSlot++;
-			}
-			
-		};
-		set(shader, last, context);
-	}
-	
-	
-	default void set(Shader shader, MaterialProperties last, PropertyBindContext context) {
-		for(var name : this) {
-			final var l = last.get(name);
-			final var property = get(name);
-			if(Objects.equals(l, property))
-				continue;
-			final var location = shader.getProperty(name);
-			property.bind(location, context);
-		}
-	}
-	
-	
-	default void set(Shader shader) {
-		final var context = new PropertyBindContext() {
-			
-			int nextEmptyTextureSlot = 1;
-			
-			@Override
-			public int nextEmptyTextureSlot() {
-				return nextEmptyTextureSlot++;
-			}
-			
-		};
-		set(shader, context);
-	}
-	
-	
-	default void set(Shader shader, PropertyBindContext context) {
-		for(var name : this) {
-			final var property = get(name);
-			final var location = shader.getProperty(name);
-			property.bind(location, context);
-		}
 	}
 	
 }

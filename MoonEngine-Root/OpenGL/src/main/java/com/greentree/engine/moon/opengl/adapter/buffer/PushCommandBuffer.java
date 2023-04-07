@@ -1,34 +1,35 @@
-package com.greentree.engine.moon.render.pipeline.target.buffer;
+package com.greentree.engine.moon.opengl.adapter.buffer;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 import com.greentree.commons.image.Color;
-import com.greentree.engine.moon.render.mesh.RenderMesh;
-import com.greentree.engine.moon.render.pipeline.RenderLibrary;
+import com.greentree.engine.moon.mesh.AttributeData;
+import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
+import com.greentree.engine.moon.opengl.adapter.buffer.command.ClearRenderTargetColor;
+import com.greentree.engine.moon.opengl.adapter.buffer.command.ClearRenderTargetDepth;
+import com.greentree.engine.moon.opengl.adapter.buffer.command.CullFace;
+import com.greentree.engine.moon.opengl.adapter.buffer.command.DepthTest;
+import com.greentree.engine.moon.opengl.adapter.buffer.command.DrawMesh;
+import com.greentree.engine.moon.opengl.adapter.buffer.command.TargetCommand;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.material.Shader;
-import com.greentree.engine.moon.render.pipeline.target.buffer.command.ClearRenderTargetColor;
-import com.greentree.engine.moon.render.pipeline.target.buffer.command.ClearRenderTargetDepth;
-import com.greentree.engine.moon.render.pipeline.target.buffer.command.CullFace;
-import com.greentree.engine.moon.render.pipeline.target.buffer.command.DepthTest;
-import com.greentree.engine.moon.render.pipeline.target.buffer.command.DrawMesh;
-import com.greentree.engine.moon.render.pipeline.target.buffer.command.TargetCommand;
+import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
+import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	private static final int INITIAL_CAPACITY = 10;
-	private final RenderLibrary library;
+	private final GLRenderLibrary library;
 	private final List<TargetCommand> commands;
 	private boolean depthTest;
 	private boolean cullFace;
 	
-	public PushCommandBuffer(RenderLibrary library) {
+	public PushCommandBuffer(GLRenderLibrary library) {
 		this(library, INITIAL_CAPACITY);
 	}
 	
-	public PushCommandBuffer(RenderLibrary library, int initialCapacity) {
+	public PushCommandBuffer(GLRenderLibrary library, int initialCapacity) {
 		this.library = library;
 		commands = new ArrayList<>(initialCapacity);
 	}
@@ -42,12 +43,12 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	
 	@Override
 	public void clearColor(Color color) {
-		push(new ClearRenderTargetColor(library, color));
+		push(new ClearRenderTargetColor(color));
 	}
 	
 	@Override
 	public void clearDepth(float depth) {
-		push(new ClearRenderTargetDepth(library, depth));
+		push(new ClearRenderTargetDepth(depth));
 	}
 	
 	@Override
@@ -67,12 +68,15 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 	}
 	
 	@Override
-	public void drawMesh(RenderMesh mesh, Shader shader, MaterialProperties properties) {
-		TargetCommand command = new DrawMesh(shader, mesh, properties);
+	public void drawMesh(AttributeData mesh, ShaderProgramData shader, MaterialProperties properties) {
+		var rmesh = library.build(mesh);
+		var rshader = library.build(shader);
+		
+		TargetCommand command = new DrawMesh(rshader, rmesh, properties);
 		if(cullFace)
-			command = new CullFace(library, command);
+			command = new CullFace(command);
 		if(depthTest)
-			command = new DepthTest(library, command);
+			command = new DepthTest(command);
 		push(command);
 	}
 	

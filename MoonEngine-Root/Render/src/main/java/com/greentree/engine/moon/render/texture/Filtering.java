@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.render.texture.data;
+package com.greentree.engine.moon.render.texture;
 
 /**
  * @author Arseny Latyshev

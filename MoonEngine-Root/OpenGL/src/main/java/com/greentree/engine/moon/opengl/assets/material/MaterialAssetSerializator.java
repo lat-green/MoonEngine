@@ -1,16 +1,15 @@
 package com.greentree.engine.moon.opengl.assets.material;
 
-import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value2Function;
-import com.greentree.engine.moon.opengl.adapter.ShaderAddapter;
 import com.greentree.engine.moon.opengl.adapter.TextureAddapter;
 import com.greentree.engine.moon.render.pipeline.material.Material;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
+import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 
 public class MaterialAssetSerializator implements AssetSerializator<Material> {
@@ -24,7 +23,7 @@ public class MaterialAssetSerializator implements AssetSerializator<Material> {
 	@Override
 	public Value<Material> load(LoadContext manager, AssetKey key) {
 		if(manager.canLoad(GLPBRMaterial.class, key)) {
-			final var program = manager.load(GLShaderProgram.class, "pbr_mapping.glsl");
+			final var program = manager.load(ShaderProgramData.class, "pbr_mapping.glsl");
 			final var material = manager.load(GLPBRMaterial.class, key);
 			return manager.map(program, material, new MaterialRebuildAssetSerializator());
 		}
@@ -33,12 +32,12 @@ public class MaterialAssetSerializator implements AssetSerializator<Material> {
 	
 	
 	private static final class MaterialRebuildAssetSerializator
-			implements Value2Function<GLShaderProgram, GLPBRMaterial, Material> {
+			implements Value2Function<ShaderProgramData, GLPBRMaterial, Material> {
 		
 		private static final long serialVersionUID = 1L;
 		
 		@Override
-		public Material apply(GLShaderProgram program, GLPBRMaterial material) {
+		public Material apply(ShaderProgramData program, GLPBRMaterial material) {
 			final var ps = new MaterialPropertiesBase();
 			
 			ps.put("material.albedo", new TextureAddapter(material.albedo()));
@@ -51,7 +50,7 @@ public class MaterialAssetSerializator implements AssetSerializator<Material> {
 			ps.put("ao_scale", 1f);
 			ps.put("displacement_scale", .1f);
 			
-			return new Material(new ShaderAddapter(program), ps);
+			return new Material(program, ps);
 		}
 		
 	}

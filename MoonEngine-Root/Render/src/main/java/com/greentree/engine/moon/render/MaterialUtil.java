@@ -1,8 +1,5 @@
 package com.greentree.engine.moon.render;
 
-import com.greentree.commons.util.function.SaveFunction;
-import com.greentree.engine.moon.render.pipeline.RenderLibrary;
-import com.greentree.engine.moon.render.pipeline.material.Shader;
 import com.greentree.engine.moon.render.shader.ShaderDataImpl;
 import com.greentree.engine.moon.render.shader.ShaderLanguage;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
@@ -11,8 +8,6 @@ import com.greentree.engine.moon.render.shader.ShaderType;
 
 public class MaterialUtil {
 	
-	
-	private static final Instances INSTANCES = new Instances();
 	private static final ShaderProgramData DefaultCubeMapShadowShaderData;
 	private static final ShaderProgramData DefaultShadowShaderData;
 	private static final ShaderProgramData DefaultSkyBoxShderData;
@@ -62,44 +57,28 @@ public class MaterialUtil {
 		final var frag = new ShaderDataImpl(DefaultTexture_FRAGMENT(), ShaderType.FRAGMENT, ShaderLanguage.GLSL);
 		DefaultTextureShaderData = new ShaderProgramDataImpl(vert, frag);
 	}
+
 	
-	private final Shader DefaultCubeMapShadowShader;
-	private final Shader DefaultShadowShader;
-	private final Shader DefaultSkyBoxShder;
-	private final Shader DefaultSpriteShader;
-	private final Shader DefaultTextureShader;
-	
-	private MaterialUtil(RenderLibrary library) {
-		DefaultSpriteShader = library.build(DefaultSpriteShaderData);
-		DefaultCubeMapShadowShader = library.build(DefaultCubeMapShadowShaderData);
-		DefaultShadowShader = library.build(DefaultShadowShaderData);
-		DefaultSkyBoxShder = library.build(DefaultSkyBoxShderData);
-		DefaultTextureShader = library.build(DefaultTextureShaderData);
+	public static ShaderProgramData getDefaultCubeMapShadowShader() {
+		return DefaultCubeMapShadowShaderData;
 	}
 	
-	public static MaterialUtil get(RenderLibrary library) {
-		return INSTANCES.apply(library);
+	public static ShaderProgramData getDefaultShadowShader() {
+		return DefaultShadowShaderData;
 	}
 	
-	public static Shader getDefaultCubeMapShadowShader(RenderLibrary library) {
-		return get(library).getDefaultCubeMapShadowShader();
+	public static ShaderProgramData getDefaultSkyBoxShader() {
+		return DefaultSkyBoxShderData;
 	}
 	
-	public static Shader getDefaultShadowShader(RenderLibrary library) {
-		return get(library).getDefaultShadowShader();
+	public static ShaderProgramData getDefaultSpriteShader() {
+		return DefaultSpriteShaderData;
 	}
 	
-	public static Shader getDefaultSkyBoxShader(RenderLibrary library) {
-		return get(library).getDefaultSkyBoxShader();
+	public static ShaderProgramData getDefaultTextureShader() {
+		return DefaultTextureShaderData;
 	}
 	
-	public static Shader getDefaultSpriteShader(RenderLibrary library) {
-		return get(library).getDefaultSpriteShader();
-	}
-	
-	public static Shader getDefaultTextureShader(RenderLibrary library) {
-		return get(library).getDefaultTextureShader();
-	}
 	
 	private static String DefaultCubeMapShadow_FRAGMENT() {
 		return text(DefaultCubeMapShadow_FRAGMENT_NAME);
@@ -151,37 +130,6 @@ public class MaterialUtil {
 		}catch(Exception e) {
 			throw new RuntimeException("name:" + name, e);
 		}
-	}
-	
-	public Shader getDefaultCubeMapShadowShader() {
-		return DefaultCubeMapShadowShader;
-	}
-	
-	public Shader getDefaultShadowShader() {
-		return DefaultShadowShader;
-	}
-	
-	public Shader getDefaultSkyBoxShader() {
-		return DefaultSkyBoxShder;
-	}
-	
-	public Shader getDefaultSpriteShader() {
-		return DefaultSpriteShader;
-	}
-	
-	public Shader getDefaultTextureShader() {
-		return DefaultTextureShader;
-	}
-	
-	private static final class Instances extends SaveFunction<RenderLibrary, MaterialUtil> {
-		
-		private static final long serialVersionUID = 1L;
-		
-		@Override
-		protected MaterialUtil create(RenderLibrary library) {
-			return new MaterialUtil(library);
-		}
-		
 	}
 	
 }

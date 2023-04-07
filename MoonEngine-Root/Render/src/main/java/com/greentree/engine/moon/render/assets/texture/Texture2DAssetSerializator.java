@@ -9,8 +9,8 @@ import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.DefaultAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
-import com.greentree.engine.moon.render.texture.data.Texture2DData;
-import com.greentree.engine.moon.render.texture.data.Texture2DType;
+import com.greentree.engine.moon.render.texture.Texture2DData;
+import com.greentree.engine.moon.render.texture.Texture2DType;
 
 public class Texture2DAssetSerializator implements AssetSerializator<Texture2DData> {
 	

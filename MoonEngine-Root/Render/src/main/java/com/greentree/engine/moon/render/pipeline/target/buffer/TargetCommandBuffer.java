@@ -1,11 +1,17 @@
 package com.greentree.engine.moon.render.pipeline.target.buffer;
 
 import com.greentree.commons.image.Color;
-import com.greentree.engine.moon.render.mesh.RenderMesh;
+import com.greentree.engine.moon.mesh.AttributeData;
+import com.greentree.engine.moon.mesh.StaticMesh;
+import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.material.Shader;
+import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 public interface TargetCommandBuffer extends AutoCloseable {
+	
+	
+	StaticMeshFaceComponent[] COMPONENTS = {StaticMeshFaceComponent.VERTEX, StaticMeshFaceComponent.NORMAL,
+			StaticMeshFaceComponent.TEXTURE_COORDINAT, StaticMeshFaceComponent.TANGENT};
 	
 	void clear();
 	
@@ -25,11 +31,19 @@ public interface TargetCommandBuffer extends AutoCloseable {
 	
 	void disableCullFace();
 	void disableDepthTest();
-	void drawMesh(RenderMesh mesh, Shader shader, MaterialProperties properties);
+	
+	default void drawMesh(StaticMesh mesh, ShaderProgramData shader, MaterialProperties properties) {
+		drawMesh(
+				mesh.getAttributeGroup(COMPONENTS),
+				shader, properties);
+	}
+	void drawMesh(AttributeData mesh, ShaderProgramData shader, MaterialProperties properties);
+	
 	
 	void enableCullFace();
 	
 	void enableDepthTest();
 	void execute();
+	
 	
 }

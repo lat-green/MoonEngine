@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.render.pipeline.target.buffer.command;
+package com.greentree.engine.moon.opengl.adapter.buffer.command;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Objects;
 
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.render.mesh.RenderMesh;
+import com.greentree.engine.moon.opengl.adapter.RenderMesh;
+import com.greentree.engine.moon.opengl.adapter.Shader;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.material.Shader;
 
 public record DrawMesh(Shader shader, RenderMesh mesh, Iterable<MaterialProperties> properties)
 		implements TargetCommand {
@@ -31,13 +31,13 @@ public record DrawMesh(Shader shader, RenderMesh mesh, Iterable<MaterialProperti
 		MaterialProperties last = null;
 		if(iter.hasNext()) {
 			final var p = iter.next();
-			p.set(shader);
+			shader.set(p);
 			mesh.render();
 			last = p;
 		}
 		while(iter.hasNext()) {
 			final var p = iter.next();
-			p.set(shader, last);
+			shader.set(p, last);
 			mesh.render();
 			last = p;
 		}

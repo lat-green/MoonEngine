@@ -19,10 +19,8 @@ import com.greentree.engine.moon.opengl.assets.buffer.VAOAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.buffer.VBOAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.material.GLPBRMaterialAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.material.MaterialAssetSerializator;
-import com.greentree.engine.moon.opengl.assets.mesh.MeshAddapterAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderProgramAssetSerializator;
-import com.greentree.engine.moon.opengl.assets.shader.ShaderAddapterAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.texture.GLCubeTextureAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.texture.GLTextureAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.texture.TextureAddapterAssetSerializator;
@@ -30,7 +28,6 @@ import com.greentree.engine.moon.render.assets.buffer.AttributeGroupAssetSeriali
 import com.greentree.engine.moon.render.assets.buffer.AttributeGroupVertexAssetSerializator;
 import com.greentree.engine.moon.render.assets.buffer.VertexArrayDataAssetSerializator;
 import com.greentree.engine.moon.render.assets.material.PBRMaterialAssetSerializator;
-import com.greentree.engine.moon.render.assets.shader.ShaderProgramDataAssetSerializator;
 import com.greentree.engine.moon.render.buffer.AttributeGroupData;
 import com.greentree.engine.moon.render.buffer.FloatBuffer;
 
@@ -69,7 +66,6 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
 		
 		manager.addSerializator(new GLTextureAssetSerializator());
 		
-		manager.addSerializator(new ShaderProgramDataAssetSerializator<>(SHADER_TYPE));
 		manager.addSerializator(new GLSLShaderAssetSerializator());
 		manager.addSerializator(new GLSLShaderProgramAssetSerializator());
 		
@@ -91,11 +87,7 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
 		
 		manager.addSerializator(new MaterialAssetSerializator());
 		
-		manager.addSerializator(new ShaderAddapterAssetSerializator());
-		
 		manager.addSerializator(new TextureAddapterAssetSerializator());
-		
-		manager.addSerializator(new MeshAddapterAssetSerializator());
 	}
 	
 }

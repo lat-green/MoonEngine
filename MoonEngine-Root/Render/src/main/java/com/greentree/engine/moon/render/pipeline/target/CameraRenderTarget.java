@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.render.pipeline.target;
 
 import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.render.pipeline.material.Property;
 import com.greentree.engine.moon.render.pipeline.target.buffer.CameraCommandBuffer;
-import com.greentree.engine.moon.render.texture.Texture;
 
 public record CameraRenderTarget(Entity camera, RenderTargetTextute target) implements RenderTargetTextute {
 	
@@ -17,12 +17,12 @@ public record CameraRenderTarget(Entity camera, RenderTargetTextute target) impl
 	}
 	
 	@Override
-	public Texture getColorTexture(int index) {
+	public Property getColorTexture(int index) {
 		return target.getColorTexture(index);
 	}
 	
 	@Override
-	public Texture getDepthTexture() {
+	public Property getDepthTexture() {
 		return target.getDepthTexture();
 	}
 	

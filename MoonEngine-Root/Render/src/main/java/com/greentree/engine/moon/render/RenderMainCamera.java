@@ -9,7 +9,7 @@ import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.Cameras;
-import com.greentree.engine.moon.render.mesh.RenderMeshUtil;
+import com.greentree.engine.moon.render.mesh.MeshUtil;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
@@ -43,8 +43,8 @@ public final class RenderMainCamera implements InitSystem, UpdateSystem, Destroy
 	@ReadComponent({CameraTarget.class})
 	@Override
 	public void update() {
-		final var rmesh = RenderMeshUtil.QUAD(library);
-		final var shader = MaterialUtil.getDefaultTextureShader(library);
+		final var rmesh = MeshUtil.QUAD;
+		final var shader = MaterialUtil.getDefaultTextureShader();
 		final var properties = new MaterialPropertiesBase();
 		final var camera = cameras.main();
 		properties.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());

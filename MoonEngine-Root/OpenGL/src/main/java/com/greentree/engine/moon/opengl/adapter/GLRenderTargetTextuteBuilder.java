@@ -18,9 +18,9 @@ public class GLRenderTargetTextuteBuilder implements RenderTargetTextuteBuilder 
 	
 	private final RenderTarget context;
 	
-	public GLRenderTargetTextuteBuilder(RenderTarget context) {
-		Objects.requireNonNull(context);
-		this.context = context;
+	public GLRenderTargetTextuteBuilder(RenderTarget target) {
+		Objects.requireNonNull(target);
+		this.context = target;
 	}
 	
 	

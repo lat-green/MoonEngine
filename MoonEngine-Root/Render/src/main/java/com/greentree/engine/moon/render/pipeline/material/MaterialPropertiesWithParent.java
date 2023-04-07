@@ -54,18 +54,4 @@ public final class MaterialPropertiesWithParent implements MaterialProperties {
 		base.put(name, property);
 	}
 	
-	
-	@Override
-	public void set(Shader shader, MaterialProperties last, PropertyBindContext context) {
-		parent.set(shader, last, context);
-		base.set(shader, last, context);
-	}
-	
-	
-	@Override
-	public void set(Shader shader, PropertyBindContext context) {
-		parent.set(shader, context);
-		base.set(shader, context);
-	}
-	
 }

@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.render.pipeline.target.buffer.command;
+package com.greentree.engine.moon.opengl.adapter.buffer.command;
 
 public interface TargetCommand {
 	

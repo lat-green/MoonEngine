@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.render.texture.data;
+package com.greentree.engine.moon.render.texture;
 
 public record Texture2DType(Filtering filteringMin, Filtering filteringMag, Wrapping wrapX, Wrapping wrapY) {
 
