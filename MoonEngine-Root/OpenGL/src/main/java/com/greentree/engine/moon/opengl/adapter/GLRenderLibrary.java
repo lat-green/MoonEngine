@@ -35,7 +35,8 @@ import com.greentree.engine.moon.render.texture.Texture2DData;
 
 public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 	
-	private static final RenderMeshBuilder BUILDER = new RenderMeshBuilder();
+	private static final RenderMeshBuilder MESH_BUILDER = new RenderMeshBuilder();
+	private static final GLSLShaderBuilder SHADER_BUILDER = new GLSLShaderBuilder();
 	
 	private final Map<CubeTextureData, GLTexture> cubeTextures = new HashMap<>();
 	private final Map<Texture2DData, GLTexture> textures = new HashMap<>();
@@ -63,7 +64,7 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 	}
 	
 	public GLVertexArray getVAO(AttributeData mesh) {
-		return BUILDER.getVAO(mesh);
+		return MESH_BUILDER.getVAO(mesh);
 	}
 	
 	private GLTexture toGLTexture(CubeTextureData texture) {
@@ -146,12 +147,12 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 		
 		private final Map<AttributeData, GLVertexArray> vaos = new HashMap<>();
 		
-		public GLVertexArray getVAO(AttributeData g) {
-			if(vaos.containsKey(g))
-				return vaos.get(g);
-			final var vbo = getVBO(g.vertex());
-			final var vao = new GLVertexArray(AttributeGroup.of(vbo, g.sizes()));
-			vaos.put(g, vao);
+		public GLVertexArray getVAO(AttributeData attribute) {
+			if(vaos.containsKey(attribute))
+				return vaos.get(attribute);
+			final var vbo = getVBO(attribute.vertex());
+			final var vao = new GLVertexArray(AttributeGroup.of(vbo, attribute.sizes()));
+			vaos.put(attribute, vao);
 			vbo.close();
 			return vao;
 		}
@@ -168,6 +169,41 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 		
 	}
 	
+	private static final class GLSLShaderBuilder {
+		
+		private final Map<ShaderProgramData, Shader> programs = new HashMap<>();
+		
+		public Shader build(ShaderProgramData program) {
+			if(programs.containsKey(program))
+				return programs.get(program);
+			final Shader shader;
+			final var vert = build(program.vert());
+			final var frag = build(program.frag());
+			if(program.geom() != null) {
+				final var geom = build(program.geom());
+				final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag, geom));
+				vert.close();
+				frag.close();
+				geom.close();
+				shader = new ShaderAddapter(p);
+			}else {
+				final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag));
+				vert.close();
+				frag.close();
+				shader = new ShaderAddapter(p);
+			}
+			programs.put(program, shader);
+			return shader;
+		}
+		
+		
+		private GLSLShader build(ShaderData shader) {
+			final var s = new GLSLShader(shader.text(), GLEnums.get(shader.type()));
+			return s;
+		}
+		
+	}
+	
 	public RenderMesh build(StaticMesh mesh) {
 		return build(mesh.getAttributeGroup(TargetCommandBuffer.COMPONENTS));
 	}
@@ -177,26 +213,8 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 		return new VAORenderMeshAddapter(vao);
 	}
 	
-	private GLSLShader build(ShaderData shader) {
-		final var s = new GLSLShader(shader.text(), GLEnums.get(shader.type()));
-		return s;
-	}
-	
 	public Shader build(ShaderProgramData program) {
-		final var vert = build(program.vert());
-		final var frag = build(program.frag());
-		if(program.geom() != null) {
-			final var geom = build(program.geom());
-			final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag, geom));
-			vert.close();
-			frag.close();
-			geom.close();
-			return new ShaderAddapter(p);
-		}
-		final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag));
-		vert.close();
-		frag.close();
-		return new ShaderAddapter(p);
+		return SHADER_BUILDER.build(program);
 	}
 	
 }

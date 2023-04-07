@@ -7,7 +7,6 @@ import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.annotation.ReadComponent;
-import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.annotation.WriteComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
@@ -25,8 +24,6 @@ import com.greentree.engine.moon.render.light.point.PointLightComponent;
 import com.greentree.engine.moon.render.light.point.PointLightTarget;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
 import com.greentree.engine.moon.render.mesh.MeshRenderer;
-import com.greentree.engine.moon.render.pipeline.RenderLibrary;
-import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
 
@@ -52,8 +49,6 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	}
 	
 	private Filter cameras, point_ligth, dir_ligth, renderer;
-	
-	private RenderLibrary library;
 	
 	private static Matrix4f[] getShadowMatrices() {
 		final var zeroVector = new Vector3f();
@@ -82,7 +77,6 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 	
 	@Override
 	public void destroy() {
-		library = null;
 		cameras.close();
 		cameras = null;
 		point_ligth.close();
@@ -90,10 +84,8 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 		renderer.close();
 	}
 	
-	@ReadWorldComponent({RenderLibraryProperty.class})
 	@Override
 	public void init(World world) {
-		library = world.get(RenderLibraryProperty.class).library();
 		cameras = CAMERAS.build(world);
 		point_ligth = POINT_LIGHT.build(world);
 		dir_ligth = DIR_LIGTH.build(world);
@@ -120,7 +112,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 							final var mesh = m.get(MeshComponent.class).mesh().get();
 							final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
 							SUPER_POINT_SHADOW.put("model", model);
-							for(MaterialProperties properties : POINT_SHADOW)
+							for(var properties : POINT_SHADOW)
 								buffer.drawMesh(mesh, shader, properties);
 						}
 					}
