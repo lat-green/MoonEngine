@@ -60,7 +60,7 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 		properties.put("viewPos", transform.position);
 		
 		final var BOX = MeshUtil.BOX;
-		super.drawMesh(BOX, shader, properties);
+		super.drawMesh(BOX.getAttributeGroup(COMPONENTS), shader, properties);
 	}
 	
 }
