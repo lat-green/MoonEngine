@@ -10,32 +10,40 @@ import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.Cameras;
 import com.greentree.engine.moon.render.mesh.MeshUtil;
-import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
+import com.greentree.engine.moon.render.pipeline.material.LazyProperty;
 import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
+import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 import com.greentree.engine.moon.render.window.Window;
 import com.greentree.engine.moon.render.window.WindowProperty;
 
 public final class RenderMainCamera implements InitSystem, UpdateSystem, DestroySystem {
 	
-	private RenderLibrary library;
 	private Window window;
-	private Cameras cameras;
+	private TargetCommandBuffer buffer;
 	
 	
 	@Override
 	public void destroy() {
-		library = null;
 		window = null;
-		cameras = null;
+		buffer.clear();
+		buffer.close();
+		buffer = null;
 	}
 	
-	@ReadWorldComponent({RenderLibraryProperty.class,WindowProperty.class,Cameras.class})
+	@ReadWorldComponent({WindowProperty.class, Cameras.class})
+	@ReadComponent({CameraTarget.class})
 	@Override
 	public void init(World world) {
-		library = world.get(RenderLibraryProperty.class).library();
 		window = world.get(WindowProperty.class).window();
-		cameras = world.get(Cameras.class);
+		var cameras = world.get(Cameras.class);
+		final var rmesh = MeshUtil.QUAD;
+		final var shader = MaterialUtil.getDefaultTextureShader();
+		final var properties = new MaterialPropertiesBase();
+		properties.put("render_texture",
+				new LazyProperty(() -> cameras.main().get(CameraTarget.class).target().getColorTexture()));
+		buffer = window.screanRenderTarget().buffer();
+		buffer.drawMesh(rmesh, shader, properties);
 	}
 	
 	@WriteWorldComponent({RenderLibraryProperty.class,WindowProperty.class})
@@ -43,15 +51,8 @@ public final class RenderMainCamera implements InitSystem, UpdateSystem, Destroy
 	@ReadComponent({CameraTarget.class})
 	@Override
 	public void update() {
-		final var rmesh = MeshUtil.QUAD;
-		final var shader = MaterialUtil.getDefaultTextureShader();
-		final var properties = new MaterialPropertiesBase();
-		final var camera = cameras.main();
-		properties.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());
 		window.swapBuffer();
-		try(final var buffer = window.screanRenderTarget().buffer()) {
-			buffer.drawMesh(rmesh, shader, properties);
-		}
+		buffer.execute();
 	}
 	
 }

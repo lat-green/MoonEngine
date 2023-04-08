@@ -1,5 +1,6 @@
 import com.greentree.engine.moon.ecs.system.ECSSystem;
 import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.render.WindowModule;
 import com.greentree.engine.moon.render.assets.RenderAssetSerializatorModule;
 import com.greentree.engine.moon.render.window.ExitOnWindowShouldClose;
 import com.greentree.engine.moon.render.window.WindowUpdateEvents;
@@ -27,7 +28,9 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.shader;
 	exports com.greentree.engine.moon.render.buffer;
 	exports com.greentree.engine.moon.render.camera;
+	
 	exports com.greentree.engine.moon.render.window;
+	exports com.greentree.engine.moon.render.window.callback;
 	
 	exports com.greentree.engine.moon.render.texture;
 	
@@ -41,7 +44,7 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.pipeline.target;
 	exports com.greentree.engine.moon.render.pipeline.target.buffer;
 	
-	provides EngineModule with RenderAssetSerializatorModule;
+	provides EngineModule with RenderAssetSerializatorModule, WindowModule;
 	
 	provides ECSSystem with ExitOnWindowShouldClose, WindowUpdateEvents;
 	

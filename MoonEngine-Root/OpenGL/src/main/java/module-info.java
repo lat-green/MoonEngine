@@ -1,7 +1,7 @@
 import com.greentree.engine.moon.module.EngineModule;
 import com.greentree.engine.moon.opengl.CreateRenderLibraryModule;
 import com.greentree.engine.moon.opengl.CreateWindowLibraryModule;
-import com.greentree.engine.moon.opengl.WindowModule;
+import com.greentree.engine.moon.opengl.OpenGLInitModule;
 import com.greentree.engine.moon.opengl.assets.OpenGLInitAssetManagerModule;
 
 open module engine.moon.opengl {
@@ -19,6 +19,6 @@ open module engine.moon.opengl {
 	exports com.greentree.engine.moon.opengl.assets.material;
 	
 	provides EngineModule with CreateRenderLibraryModule, CreateWindowLibraryModule,
-			OpenGLInitAssetManagerModule, WindowModule;
+			OpenGLInitAssetManagerModule, OpenGLInitModule;
 	
 }
