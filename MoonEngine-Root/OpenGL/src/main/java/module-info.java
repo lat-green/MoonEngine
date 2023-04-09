@@ -6,15 +6,8 @@ import com.greentree.engine.moon.opengl.assets.OpenGLInitAssetManagerModule;
 
 open module engine.moon.opengl {
 	
-	requires transitive common.graphics.sgl;
+	requires common.graphics.sgl;
 	requires transitive engine.moon.render;
-	
-	exports com.greentree.engine.moon.opengl;
-	exports com.greentree.engine.moon.opengl.adapter;
-	
-	exports com.greentree.engine.moon.opengl.assets;
-	exports com.greentree.engine.moon.opengl.assets.shader;
-	exports com.greentree.engine.moon.opengl.assets.texture;
 	
 	provides EngineModule with CreateRenderLibraryModule, CreateWindowLibraryModule,
 			OpenGLInitAssetManagerModule, OpenGLInitModule;
