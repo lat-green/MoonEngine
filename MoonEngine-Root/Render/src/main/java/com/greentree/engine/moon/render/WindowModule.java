@@ -50,7 +50,7 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 		
 		lcs[0] = window.addCursorPosCallback((x, y) -> {
 			final var fx = 2f * (x - window.getWidth() / 2f) / window.getWidth();
-			final var fy = 2f * (y - window.getHeight() / 2f) / window.getHeight();
+			final var fy = -2f * (y - window.getHeight() / 2f) / window.getHeight();
 			new MouseXDevice().signal(signals, (float) fx);
 			new MouseYDevice().signal(signals, (float) fy);
 		});
