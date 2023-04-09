@@ -14,7 +14,6 @@ open module engine.moon.render {
 	
 	exports com.greentree.engine.moon.render.assets;
 	exports com.greentree.engine.moon.render.assets.color;
-	exports com.greentree.engine.moon.render.assets.buffer;
 	exports com.greentree.engine.moon.render.assets.shader;
 	exports com.greentree.engine.moon.render.assets.material;
 	exports com.greentree.engine.moon.render.assets.image;
@@ -23,7 +22,6 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.assets.texture.cube;
 	
 	exports com.greentree.engine.moon.render;
-	exports com.greentree.engine.moon.render.ui;
 	exports com.greentree.engine.moon.render.mesh;
 	exports com.greentree.engine.moon.render.shader;
 	exports com.greentree.engine.moon.render.camera;
