@@ -8,7 +8,8 @@ import com.greentree.engine.moon.module.annotation.WriteProperty;
 import com.greentree.engine.moon.render.assets.color.ColorAssetSerializer;
 import com.greentree.engine.moon.render.assets.image.ImageAssetSerializator;
 import com.greentree.engine.moon.render.assets.image.cube.CubeImageAssetSerializator;
-import com.greentree.engine.moon.render.assets.material.MaterialDataAssetSerializator;
+import com.greentree.engine.moon.render.assets.material.PBRMaterialPropertiesAssetSerializator;
+import com.greentree.engine.moon.render.assets.material.PBRMaterialAssetSerializator;
 import com.greentree.engine.moon.render.assets.shader.ShaderDataAssetSerializator;
 import com.greentree.engine.moon.render.assets.shader.ShaderProgramDataAssetSerializator;
 import com.greentree.engine.moon.render.assets.texture.Texture2DAssetSerializator;
@@ -29,11 +30,12 @@ public class RenderAssetSerializatorModule implements LaunchModule {
 		
 		manager.addSerializator(new ShaderDataAssetSerializator());
 		
-		manager.addSerializator(new MaterialDataAssetSerializator());
-		
 		manager.addSerializator(new ShaderProgramDataAssetSerializator());
 		
 		manager.addSerializator(new ColorAssetSerializer());
+		
+		manager.addSerializator(new PBRMaterialPropertiesAssetSerializator());
+		manager.addSerializator(new PBRMaterialAssetSerializator());
 	}
 	
 }

@@ -23,7 +23,6 @@ public record TextureAddapter(GLTexture texture) implements Property {
 		glActiveTexture(GL_TEXTURE0 + slot);
 		texture.bind();
 		glActiveTexture(GL_TEXTURE0);
-		
 	}
 	
 }
