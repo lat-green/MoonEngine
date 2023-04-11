@@ -31,15 +31,6 @@ public class GLSLShaderAssetSerializator implements AssetSerializator<GLSLShader
 		private static final long serialVersionUID = 1L;
 		
 		@Override
-		public GLSLShader applyWithDest(ShaderData s, GLSLShader dest) {
-			if(s == null)
-				return null;
-			final var sh = new GLSLShader(s.text(), GLEnums.get(s.type()));
-			dest.close();
-			return sh;
-		}
-		
-		@Override
 		public GLSLShader apply(ShaderData s) {
 			if(s == null)
 				return null;

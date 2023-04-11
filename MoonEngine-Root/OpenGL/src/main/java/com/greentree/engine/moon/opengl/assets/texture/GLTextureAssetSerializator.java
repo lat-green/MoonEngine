@@ -35,12 +35,6 @@ public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2D
 		private static final long serialVersionUID = 1L;
 		
 		@Override
-		public GLTexture2DImpl applyWithDest(Texture2DData texture, GLTexture2DImpl tex) {
-			tex.close();
-			return apply(texture);
-		}
-		
-		@Override
 		public GLTexture2DImpl apply(Texture2DData texture) {
 			final var img = texture.image();
 			final var tex = TextureBuilder

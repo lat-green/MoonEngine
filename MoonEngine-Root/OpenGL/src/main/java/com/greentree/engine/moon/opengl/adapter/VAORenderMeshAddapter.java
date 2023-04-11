@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray;
 
 
-public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh, AutoCloseable {
+public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh {
 	
 	@Override
 	public void render() {
@@ -22,12 +22,5 @@ public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh, Au
 	public void unbind() {
 		vao.unbind();
 	}
-	
-	@Override
-	public void close() throws Exception {
-		vao.close();
-	}
-	
-	
 	
 }

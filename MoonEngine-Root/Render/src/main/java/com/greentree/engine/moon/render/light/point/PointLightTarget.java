@@ -6,10 +6,4 @@ import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextute;
 
 @RequiredComponent(PointLightComponent.class)
 public record PointLightTarget(RenderTargetTextute target) implements ConstComponent {
-	
-	@Override
-	public void close() {
-		target.close();
-	}
-	
 }

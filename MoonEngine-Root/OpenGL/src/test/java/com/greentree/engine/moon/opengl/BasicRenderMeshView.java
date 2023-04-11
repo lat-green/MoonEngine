@@ -33,10 +33,10 @@ out vec3 fNormal;
 
 void main()
 {
-	fNormal = normal;
-	gl_Position = model * vec4(position, 1.0);
+fNormal = normal;
+gl_Position = model * vec4(position, 1.0);
 }
-				""";
+""";
 	private static final String FRAGMENT = """
 #version 330 core
 
@@ -46,10 +46,10 @@ out vec4 color;
 
 void main()
 {
-	color = vec4(abs(fNormal), 1.0f);
-	//color = vec4(vec3(dot(vec3(0,1,0), fNormal)), 1);
+color = vec4(abs(fNormal), 1.0f);
+//color = vec4(vec3(dot(vec3(0,1,0), fNormal)), 1);
 }
-						""";
+""";
 	
 	public static void main(String[] args) throws InterruptedException {
 		//		view(MeshUtil.QUAD);
@@ -57,9 +57,16 @@ void main()
 	}
 	
 	private static GLShaderProgram program() {
-		try(final var vert = new GLSLShader(VERTEX, GLShaderType.VERTEX);
-				final var frag = new GLSLShader(FRAGMENT, GLShaderType.FRAGMENT);) {
-			return new GLShaderProgram(List.of(vert, frag));
+		final var vert = new GLSLShader(VERTEX, GLShaderType.VERTEX);
+		final var frag = new GLSLShader(FRAGMENT, GLShaderType.FRAGMENT);
+		return new GLShaderProgram(List.of(vert, frag));
+	}
+	
+	private static void set(GLUniformLocation ul, Matrix4f model) {
+		try(final var stack = MemoryStack.create().push()) {
+			final var buffer = stack.mallocFloat(16);
+			model.get(buffer);
+			ul.set4fv(buffer);
 		}
 	}
 	
@@ -71,48 +78,40 @@ void main()
 			
 			final var LIBRARY = new GLRenderLibrary();
 			
-			try(final var prog = program();) {
-				prog.bind();
+			final var prog = program();
+			prog.bind();
+			
+			glClearColor(.6f, .6f, .6f, 1);
+			
+			final var m = LIBRARY.build(mesh);
+			var model = new Matrix4f();
+			
+			glEnable(GL_DEPTH_TEST);
+			glEnable(GL_CULL_FACE);
+			timer.step();
+			
+			while(!window.isShouldClose()) {
+				Window.updateEvents();
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				
-				glClearColor(.6f, .6f, .6f, 1);
-				
-				final var m = LIBRARY.build(mesh);
-				Matrix4f model = new Matrix4f();
-				
-				glEnable(GL_DEPTH_TEST);
-				glEnable(GL_CULL_FACE);
 				timer.step();
+				final var depth = timer.getDelta();
 				
-				while(!window.isShouldClose()) {
-					Window.updateEvents();
-					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-					
-					timer.step();
-					final var depth = timer.getDelta();
-					
-					Thread.sleep(10);
-					
-					System.out.println(1f / depth);
-					
-					model.rotate(.1f * depth, 0, 1, 0);
-					model.rotate(.03f * depth, 0, 0, 1);
-					set(prog.getUL("model"), model);
-					
-					m.render();
-					
-					window.swapBuffer();
-				}
+				Thread.sleep(10);
+				
+				System.out.println(1f / depth);
+				
+				model.rotate(.1f * depth, 0, 1, 0);
+				model.rotate(.03f * depth, 0, 0, 1);
+				set(prog.getUL("model"), model);
+				
+				m.render();
+				
+				window.swapBuffer();
 			}
+			Window.unmakeCurrent();
 		}
 		SGLFW.terminate();
-	}
-	
-	private static void set(GLUniformLocation ul, Matrix4f model) {
-		try(final var stack = MemoryStack.create().push()) {
-			final var buffer = stack.mallocFloat(16);
-			model.get(buffer);
-			ul.set4fv(buffer);
-		}
 	}
 	
 }

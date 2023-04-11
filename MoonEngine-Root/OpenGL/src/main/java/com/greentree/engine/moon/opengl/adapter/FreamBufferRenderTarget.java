@@ -23,12 +23,6 @@ public record FreamBufferRenderTarget(FreamBuffer framebuffer, RenderTarget cont
 		return new FreamBufferCommandBuffer(framebuffer, context.buffer());
 	}
 	
-	
-	@Override
-	public void close() {
-		framebuffer.close();
-	}
-	
 	@Override
 	public Property getColorTexture(int index) {
 		final var texture = framebuffer.getColorTexture(index);

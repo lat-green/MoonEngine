@@ -12,11 +12,6 @@ public record CameraRenderTarget(Entity camera, RenderTargetTextute target) impl
 	}
 	
 	@Override
-	public void close() {
-		target.close();
-	}
-	
-	@Override
 	public Property getColorTexture(int index) {
 		return target.getColorTexture(index);
 	}

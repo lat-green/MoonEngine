@@ -153,7 +153,6 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 			final var vbo = getVBO(attribute.vertex());
 			final var vao = new GLVertexArray(AttributeGroup.of(vbo, attribute.sizes()));
 			vaos.put(attribute, vao);
-			vbo.close();
 			return vao;
 		}
 		
@@ -182,14 +181,9 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 			if(program.geom() != null) {
 				final var geom = build(program.geom());
 				final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag, geom));
-				vert.close();
-				frag.close();
-				geom.close();
 				shader = new ShaderAddapter(p);
 			}else {
 				final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag));
-				vert.close();
-				frag.close();
 				shader = new ShaderAddapter(p);
 			}
 			programs.put(program, shader);

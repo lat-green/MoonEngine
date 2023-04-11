@@ -2,10 +2,7 @@ package com.greentree.engine.moon.render.pipeline.target;
 
 import com.greentree.engine.moon.render.pipeline.material.Property;
 
-public interface RenderTargetTextute extends RenderTarget, AutoCloseable {
-	
-	@Override
-	void close();
+public interface RenderTargetTextute extends RenderTarget {
 	
 	default Property getColorTexture() {
 		return getColorTexture(0);

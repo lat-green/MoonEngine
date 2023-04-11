@@ -41,13 +41,6 @@ public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLS
 			return new GLShaderProgram(IteratorUtil.filter(data, x->x != null));
 		}
 		
-		@Override
-		public GLShaderProgram applyWithDest(Iterable<GLSLShader> data, GLShaderProgram program) {
-			final var p = new GLShaderProgram(data);
-			program.close();
-			return p;
-		}
-		
 	}
 	
 }

@@ -35,10 +35,10 @@ out vec3 fNormal;
 
 void main()
 {
-	fNormal = mat3(model) * normal;
-	gl_Position = model * vec4(position, 1.0);
+fNormal = mat3(model) * normal;
+gl_Position = model * vec4(position, 1.0);
 }
-				""";
+""";
 	private static final String FRAGMENT = """
 #version 330 core
 
@@ -48,9 +48,9 @@ out vec4 color;
 
 void main()
 {
-	color = vec4(0,1,0, 1.0f);
+color = vec4(0,1,0, 1.0f);
 }
-						""";
+""";
 	
 	public static void main(String[] args) {
 		SGLFW.init();
@@ -60,42 +60,9 @@ void main()
 	}
 	
 	private static GLShaderProgram program() {
-		try(final var vert = new GLSLShader(VERTEX, GLShaderType.VERTEX);
-				final var frag = new GLSLShader(FRAGMENT, GLShaderType.FRAGMENT);) {
-			return new GLShaderProgram(List.of(vert, frag));
-		}
-	}
-	
-	private static void view(StaticMesh mesh) {
-		try(final var window = new Window("BasicMeshView", 800, 600)) {
-			window.makeCurrent();
-			
-			final var prog = program();
-			prog.bind();
-			
-			glClearColor(.6f, .6f, .6f, 1);
-			
-			try(final var vao = vao(mesh);) {
-				vao.bind();
-				Matrix4f model = new Matrix4f();
-				
-				glEnable(GL_DEPTH_TEST);
-				
-				while(!window.isShouldClose()) {
-					Window.updateEvents();
-					glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-					
-					model.rotate(.0001f, 0, 1, 0);
-					model.rotate(.00003f, 0, 0, 1);
-					set(prog.getUL("model"), model);
-					
-					glDrawArrays(GL_TRIANGLES, 0, vao.size());
-					
-					window.swapBuffer();
-				}
-				GLVertexArray.BINDER.unbind();
-			}
-		}
+		final var vert = new GLSLShader(VERTEX, GLShaderType.VERTEX);
+		final var frag = new GLSLShader(FRAGMENT, GLShaderType.FRAGMENT);
+		return new GLShaderProgram(List.of(vert, frag));
 	}
 	
 	private static void set(GLUniformLocation ul, Matrix4f model) {
@@ -118,8 +85,39 @@ void main()
 		}
 		vbo.unbind();
 		final var vao = new GLVertexArray(AttributeGroup.of(vbo, v.sizes()));
-		vbo.close();
 		return vao;
+	}
+	
+	private static void view(StaticMesh mesh) {
+		try(final var window = new Window("BasicMeshView", 800, 600)) {
+			window.makeCurrent();
+			
+			final var prog = program();
+			prog.bind();
+			
+			glClearColor(.6f, .6f, .6f, 1);
+			
+			final var vao = vao(mesh);
+			vao.bind();
+			var model = new Matrix4f();
+			
+			glEnable(GL_DEPTH_TEST);
+			
+			while(!window.isShouldClose()) {
+				Window.updateEvents();
+				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				
+				model.rotate(.0001f, 0, 1, 0);
+				model.rotate(.00003f, 0, 0, 1);
+				set(prog.getUL("model"), model);
+				
+				glDrawArrays(GL_TRIANGLES, 0, vao.size());
+				
+				window.swapBuffer();
+			}
+			GLVertexArray.BINDER.unbind();
+			Window.unmakeCurrent();
+		}
 	}
 	
 }
