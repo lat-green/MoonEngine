@@ -2,6 +2,7 @@ package com.greentree.engine.moon.module.base;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.greentree.engine.moon.module.EngineModule;
 import com.greentree.engine.moon.module.ExitManager;
@@ -12,9 +13,9 @@ import com.greentree.engine.moon.module.UpdateModule;
 
 public class EngineLoop implements ExitManager {
 	
-	private final Iterable<? extends LaunchModule> launch_modules;
-	private final Iterable<? extends TerminateModule> terminate_modules;
-	private final Iterable<? extends UpdateModule> update_modules;
+	private final List<? extends LaunchModule> launch_modules;
+	private final List<? extends TerminateModule> terminate_modules;
+	private final List<? extends UpdateModule> update_modules;
 	
 	private boolean runnable = false;
 	private EnginePropertiesBase properties;
@@ -23,17 +24,23 @@ public class EngineLoop implements ExitManager {
 		final var list = new ArrayList<EngineModule>();
 		for(var m : iterable)
 			list.add(m);
-		final var launch_list = new ArrayList<>(list.stream().filter(m->m instanceof LaunchModule)
-				.map(m->(LaunchModule) m).toList());
+		List<? extends LaunchModule> launch_list = new ArrayList<>(
+				list.stream().filter(m -> m instanceof LaunchModule).map(m -> (LaunchModule) m).toList());
 		AnnotationUtil.sort(launch_list, "launch");
+		launch_list = launch_list.stream().map(x -> new WrapModule(x)).toList();
 		launch_modules = launch_list;
-		final var terminate_list = new ArrayList<>(list.stream()
-				.filter(m->m instanceof TerminateModule).map(m->(TerminateModule) m).toList());
+		List<? extends TerminateModule> terminate_list = new ArrayList<>(
+				list.stream().filter(m -> m instanceof TerminateModule)
+				.map(m -> (TerminateModule) m)
+						.toList());
 		AnnotationUtil.sort(terminate_list, "terminate");
+		terminate_list = terminate_list.stream().map(x -> new WrapModule(x)).toList();
 		terminate_modules = terminate_list;
-		final var update_list = new ArrayList<>(list.stream().filter(m->m instanceof UpdateModule)
-				.map(m->(UpdateModule) m).toList());
+		List<? extends UpdateModule> update_list =
+				new ArrayList<>(
+						list.stream().filter(m -> m instanceof UpdateModule).map(m -> (UpdateModule) m).toList());
 		AnnotationUtil.sort(update_list, "update");
+		update_list = update_list.stream().map(x -> new WrapModule(x)).toList();
 		update_modules = update_list;
 	}
 	

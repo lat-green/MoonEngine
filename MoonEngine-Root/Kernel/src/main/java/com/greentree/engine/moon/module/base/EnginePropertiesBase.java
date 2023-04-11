@@ -19,6 +19,10 @@ public final class EnginePropertiesBase implements EngineProperties {
 		properties.put(cls, property);
 	}
 	
+	public void clear() {
+		properties.clear();
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EngineProperty> T get(Class<T> cls) {
@@ -28,17 +32,13 @@ public final class EnginePropertiesBase implements EngineProperties {
 	}
 	
 	@Override
-	public Iterator<EngineProperty> iterator() {
-		return properties.values().iterator();
-	}
-	
-	public void clear() {
-		properties.clear();
+	public boolean has(Class<? extends EngineProperty> cls) {
+		return properties.containsKey(cls);
 	}
 	
 	@Override
-	public boolean has(Class<? extends EngineProperty> cls) {
-		return properties.containsKey(cls);
+	public Iterator<EngineProperty> iterator() {
+		return properties.values().iterator();
 	}
 	
 }
