@@ -6,8 +6,13 @@ open module engine.moon.kernel {
 	requires transitive commons.injector;
 	
 	exports com.greentree.engine.moon;
+	
 	exports com.greentree.engine.moon.module;
 	exports com.greentree.engine.moon.module.annotation;
+	
+	exports com.greentree.engine.moon.bean;
+	exports com.greentree.engine.moon.bean.module;
+	exports com.greentree.engine.moon.bean.annotation;
 	
 	uses EngineModule;
 	

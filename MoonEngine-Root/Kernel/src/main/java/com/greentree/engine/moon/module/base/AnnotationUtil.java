@@ -1,15 +1,20 @@
 package com.greentree.engine.moon.module.base;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import com.greentree.commons.graph.DirectedGraph;
 import com.greentree.commons.util.collection.FunctionAutoGenerateMap;
 import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.engine.moon.bean.annotation.AnnotationInherited;
 import com.greentree.engine.moon.module.annotation.CreateProperty;
 import com.greentree.engine.moon.module.annotation.DestroyProperty;
 import com.greentree.engine.moon.module.annotation.ReadProperty;
@@ -21,53 +26,49 @@ public class AnnotationUtil {
 	public static final String UPDATE = "update";
 	public static final String DESTROY = "destroy";
 	
-	public static <T> void sortInit(List<T> list) {
-		sort(list, INIT);
+	public static void check(Object a, String method) {
+		final var aCreate = getCreate(a, method);
+		final var aWrite = getWrite(a, method);
+		final var aRead = getRead(a, method);
+		final var aDestroy = getDestroy(a, method);
+		check(aCreate, aWrite, aRead, aDestroy);
 	}
 	
-	public static <T> void sortUpdate(List<T> list) {
-		sort(list, UPDATE);
+	public static <A extends Annotation> A get(Object a, String method, Class<A> annotationClass) {
+		final var m = getMethod(a.getClass(), method);
+		if(m == null)
+			return null;
+		return m.getAnnotation(annotationClass);
 	}
 	
-	public static <T> void sortDestroy(List<T> list) {
-		sort(list, DESTROY);
+	public static <T extends Annotation> T getAnnotation(AnnotatedElement cls, Class<T> annotationType) {
+		var a = cls.getAnnotation(annotationType);
+		if(a != null)
+			return a;
+		if(isAnnotationInherited(annotationType))
+			return getInheritedAnnotation(cls, annotationType, new HashSet<>());
+		return null;
 	}
 	
-	public static <T> void sort(List<T> list, String method) {
-		final var graph = inverse(getGraph(list, method));
-		
-		final var cycle = graph.getCycleFinder().getCycles();
-		if(!IteratorUtil.isEmpty(cycle))
-			throw new IllegalArgumentException(list + " " + method + " has cycle " + cycle);
-		
-		final var buffer = new LinkedList<>(list);
-		list.clear();
-		while(!buffer.isEmpty())
-			tryAdd(buffer.peek(), buffer, list, graph);
+	public static <T extends Annotation> Stream<T> getAnnotations(AnnotatedElement cls, Class<T> annotationType) {
+		var a = Stream.of(cls.getAnnotationsByType(annotationType));
+		if(isAnnotationInherited(annotationType))
+			return Stream.concat(a, getInheritedAnnotations(cls, annotationType, new HashSet<>()));
+		return a;
 	}
 	
-	private static <T> void tryAdd(T e, LinkedList<T> buffer, Collection<? super T> dest,
-			DirectedGraph<T> graph) {
-		buffer.remove(e);
-		for(var to : graph.getJoints(e)) {
-			final var index = buffer.indexOf(to);
-			if(index != -1)
-				tryAdd(to, buffer, dest, graph);
-		}
-		dest.add(e);
+	public static Iterable<Class<?>> getCreate(Object a, String method) {
+		final var an = get(a, method, CreateProperty.class);
+		if(an == null)
+			return IteratorUtil.empty();
+		return IteratorUtil.iterable(an.value());
 	}
 	
-	private static <T> DirectedGraph<T> inverse(DirectedGraph<T> graph) {
-		final var result = new DirectedGraph<T>();
-		
-		for(var v : graph)
-			result.add(v);
-		
-		for(var v : graph)
-			for(var to : graph.getJoints(v))
-				result.add(to, v);
-			
-		return result;
+	public static Iterable<Class<?>> getDestroy(Object a, String method) {
+		final var an = get(a, method, DestroyProperty.class);
+		if(an == null)
+			return IteratorUtil.empty();
+		return IteratorUtil.iterable(an.value());
 	}
 	
 	public static <T> DirectedGraph<T> getGraph(Iterable<T> iterable, String method) {
@@ -76,14 +77,10 @@ public class AnnotationUtil {
 		for(var v : iterable)
 			result.add(v);
 		
-		final var create = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(
-				()->new ArrayList<>());
-		final var write = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(
-				()->new ArrayList<>());
-		final var read = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(
-				()->new ArrayList<>());
-		final var destroy = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(
-				()->new ArrayList<>());
+		final var create = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(() -> new ArrayList<>());
+		final var write = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(() -> new ArrayList<>());
+		final var read = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(() -> new ArrayList<>());
+		final var destroy = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(() -> new ArrayList<>());
 		
 		for(var v : iterable) {
 			for(var c : getCreate(v, method))
@@ -118,41 +115,11 @@ public class AnnotationUtil {
 		}
 		for(var entry : read.entrySet()) {
 			final var c = entry.getKey();
-			for(var a : entry.getValue()) {
+			for(var a : entry.getValue())
 				for(var b : destroy.get(c))
 					result.add(a, b);
-			}
 		}
 		return result;
-	}
-	
-	public static void check(Object a, String method) {
-		final var aCreate = getCreate(a, method);
-		final var aWrite = getWrite(a, method);
-		final var aRead = getRead(a, method);
-		final var aDestroy = getDestroy(a, method);
-		check(aCreate, aWrite, aRead, aDestroy);
-	}
-	
-	public static <A extends Annotation> A get(Object a, String method, Class<A> annotationClass) {
-		final var m = getMethod(a.getClass(), method);
-		if(m == null)
-			return null;
-		return m.getAnnotation(annotationClass);
-	}
-	
-	public static Iterable<Class<?>> getCreate(Object a, String method) {
-		final var an = get(a, method, CreateProperty.class);
-		if(an == null)
-			return IteratorUtil.empty();
-		return IteratorUtil.iterable(an.value());
-	}
-	
-	public static Iterable<Class<?>> getDestroy(Object a, String method) {
-		final var an = get(a, method, DestroyProperty.class);
-		if(an == null)
-			return IteratorUtil.empty();
-		return IteratorUtil.iterable(an.value());
 	}
 	
 	public static Iterable<Class<?>> getRead(Object a, String method) {
@@ -167,6 +134,41 @@ public class AnnotationUtil {
 		if(an == null)
 			return IteratorUtil.empty();
 		return IteratorUtil.iterable(an.value());
+	}
+	
+	public static boolean hasAnnotation(AnnotatedElement cls, Class<? extends Annotation> annotationType) {
+		return getAnnotation(cls, annotationType) != null;
+	}
+	
+	public static boolean isAnnotationInherited(Class<? extends Annotation> annotationType) {
+		if(annotationType == AnnotationInherited.class)
+			return false;
+		return hasAnnotation(annotationType, AnnotationInherited.class);
+	}
+	
+	public static <T> void sort(List<T> list, String method) {
+		final var graph = inverse(getGraph(list, method));
+		
+		final var cycle = graph.getCycleFinder().getCycles();
+		if(!IteratorUtil.isEmpty(cycle))
+			throw new IllegalArgumentException(list + " " + method + " has cycle " + cycle);
+		
+		final var buffer = new LinkedList<>(list);
+		list.clear();
+		while(!buffer.isEmpty())
+			tryAdd(buffer.peek(), buffer, list, graph);
+	}
+	
+	public static <T> void sortDestroy(List<T> list) {
+		sort(list, DESTROY);
+	}
+	
+	public static <T> void sortInit(List<T> list) {
+		sort(list, INIT);
+	}
+	
+	public static <T> void sortUpdate(List<T> list) {
+		sort(list, UPDATE);
 	}
 	
 	@SafeVarargs
@@ -202,6 +204,28 @@ public class AnnotationUtil {
 		return res;
 	}
 	
+	private static <T extends Annotation> T getInheritedAnnotation(AnnotatedElement cls, Class<T> annotationType,
+			Set<AnnotatedElement> checked) {
+		checked.add(cls);
+		var a = cls.getAnnotation(annotationType);
+		if(a != null)
+			return a;
+		var opt = Stream.of(cls.getAnnotations()).map(Annotation::annotationType).filter(x -> !checked.contains(x))
+				.map(x -> getInheritedAnnotation(x, annotationType, checked)).filter(x -> x != null).findAny();
+		return opt.orElse(null);
+	}
+	
+	private static <T extends Annotation> Stream<T> getInheritedAnnotations(AnnotatedElement cls,
+			Class<T> annotationType,
+			Set<AnnotatedElement> checked) {
+		checked.add(cls);
+		var a = Stream.of(cls.getAnnotationsByType(annotationType));
+		var opt = Stream.of(cls.getAnnotations()).map(Annotation::annotationType)
+				.filter(x -> !checked.contains(x))
+				.map(x -> getInheritedAnnotation(x, annotationType, checked)).filter(x -> x != null);
+		return Stream.concat(a, opt);
+	}
+	
 	private static Method getMethod(Class<?> cls, String method) {
 		for(var m : cls.getMethods())
 			if(m.getName().equals(method))
@@ -209,6 +233,30 @@ public class AnnotationUtil {
 		if(cls != Object.class)
 			return getMethod(cls.getSuperclass(), method);
 		return null;
+	}
+	
+	private static <T> DirectedGraph<T> inverse(DirectedGraph<T> graph) {
+		final var result = new DirectedGraph<T>();
+		
+		for(var v : graph)
+			result.add(v);
+		
+		for(var v : graph)
+			for(var to : graph.getJoints(v))
+				result.add(to, v);
+		
+		return result;
+	}
+	
+	private static <T> void tryAdd(T e, LinkedList<T> buffer, Collection<? super T> dest,
+			DirectedGraph<T> graph) {
+		buffer.remove(e);
+		for(var to : graph.getJoints(e)) {
+			final var index = buffer.indexOf(to);
+			if(index != -1)
+				tryAdd(to, buffer, dest, graph);
+		}
+		dest.add(e);
 	}
 	
 }

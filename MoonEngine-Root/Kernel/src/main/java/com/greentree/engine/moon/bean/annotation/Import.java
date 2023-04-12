@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.module.annotation;
+package com.greentree.engine.moon.bean.annotation;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
@@ -6,13 +6,12 @@ import static java.lang.annotation.RetentionPolicy.*;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.greentree.engine.moon.module.EngineProperty;
-
 
 @Retention(RUNTIME)
-@Target(METHOD)
-public @interface CreateProperty{
+@Target(TYPE)
+@AnnotationInherited
+public @interface Import{
 	
-	Class<? extends EngineProperty>[] value();
+	Class<?>[] value();
 	
 }
