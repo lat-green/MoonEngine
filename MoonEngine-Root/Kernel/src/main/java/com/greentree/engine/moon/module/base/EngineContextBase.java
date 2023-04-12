@@ -97,9 +97,9 @@ public class EngineContextBase implements EngineContext, InjectionContainer {
 			throw new RuntimeException(e);
 		}
 	}
-	@SuppressWarnings("unchecked")
+	
 	private Iterable<? extends EngineBeanProcessor> processors() {
-		return (Iterable<? extends EngineBeanProcessor>) beans.stream().filter(x -> x instanceof EngineBeanProcessor)
+		return beans.stream().filter(x -> x instanceof EngineBeanProcessor).map(x -> (EngineBeanProcessor) x)
 				.toList();
 	}
 	
