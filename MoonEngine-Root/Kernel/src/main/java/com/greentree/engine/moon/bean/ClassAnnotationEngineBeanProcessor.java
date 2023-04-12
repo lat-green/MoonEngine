@@ -16,9 +16,10 @@ public interface ClassAnnotationEngineBeanProcessor<A extends Annotation> extend
 	
 	void processAnnotation(Object bean, A annotation);
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	private Class<A> annotationType() {
-		return (Class<A>) TypeUtil.getFirstAtgument(getClass(), ClassAnnotationEngineBeanProcessor.class).toClass();
+		return TypeUtil.<A, ClassAnnotationEngineBeanProcessor>getFirstAtgument(getClass(),
+				ClassAnnotationEngineBeanProcessor.class).toClass();
 	}
 	
 }
