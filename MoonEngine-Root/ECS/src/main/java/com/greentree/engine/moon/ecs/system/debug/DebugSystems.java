@@ -12,7 +12,7 @@ public class DebugSystems extends Systems {
 
 	private final SystemsProfiler profiler;
 
-	public DebugSystems( SystemsProfiler profiler, ECSSystem... systems) {
+	public DebugSystems(SystemsProfiler profiler, ECSSystem... systems) {
 		super(systems);
 		this.profiler = profiler;
 	}
@@ -42,6 +42,7 @@ public class DebugSystems extends Systems {
 			while(iter.hasNext()) {
 				final var s = iter.next();
 				try(final var start = updateFrofiler.start(s);) {
+					inject(world, s);
 					s.init(world);
 				}
 			}
