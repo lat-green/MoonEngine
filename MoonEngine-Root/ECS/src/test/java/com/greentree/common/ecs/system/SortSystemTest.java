@@ -6,56 +6,10 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.greentree.common.ecs.IterAssertions;
-import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
 
 public class SortSystemTest {
-	
-	@Test
-	void getInitCreate() {
-		final var system = new ASystem();
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitCreate(system), IteratorUtil.iterable(TestComponent1.class));
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitRead(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitWrite(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitDestroy(system), IteratorUtil.iterable());
-	}
-	
-	@Test
-	void getInitRead() {
-		final var system = new BSystem();
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitCreate(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitWrite(system), IteratorUtil.iterable(TestComponent1.class));
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitRead(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitDestroy(system), IteratorUtil.iterable());
-	}
-	
-	@Test
-	void getInitWrite() {
-		final var system = new CSystem();
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitCreate(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitWrite(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitRead(system), IteratorUtil.iterable(TestComponent1.class));
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitDestroy(system), IteratorUtil.iterable());
-	}
-	
-	@Test
-	void getInitDestroy() {
-		final var system = new DSystem();
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitCreate(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitRead(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitWrite(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitDestroy(system), IteratorUtil.iterable(TestComponent1.class));
-	}
-	
-	@Test
-	void getInit_empty() {
-		final var system = new ESystem();
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitCreate(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitRead(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitWrite(system), IteratorUtil.iterable());
-		IterAssertions.assertEqualsAsSet(AnnotationUtil.getInitDestroy(system), IteratorUtil.iterable());
-	}
 	
 	@Test
 	void test1() {

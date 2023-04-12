@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 import com.greentree.engine.moon.ecs.component.Component;
 
 
+@Deprecated
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface WriteComponent{

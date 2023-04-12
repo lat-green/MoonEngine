@@ -9,6 +9,7 @@ import java.lang.annotation.Target;
 import com.greentree.engine.moon.ecs.WorldComponent;
 
 
+@Deprecated
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface ReadWorldComponent{

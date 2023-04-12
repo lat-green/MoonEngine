@@ -42,7 +42,6 @@ public class DebugSystems extends Systems {
 			while(iter.hasNext()) {
 				final var s = iter.next();
 				try(final var start = updateFrofiler.start(s);) {
-					inject(world, s);
 					s.init(world);
 				}
 			}

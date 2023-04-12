@@ -5,14 +5,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.greentree.commons.injector.Injector;
-import com.greentree.commons.injector.MergeDependencyScanner;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
-import com.greentree.engine.moon.ecs.system.container.FilterDependencyScanner;
-import com.greentree.engine.moon.ecs.system.container.WorldComponentDependencyScanner;
-import com.greentree.engine.moon.ecs.system.container.WorldInjectionContainer;
 
 public class Systems
 		implements InitSystem, UpdateSystem, DestroySystem, Serializable {
@@ -50,17 +45,8 @@ public class Systems
 		final var iter = initSystems.iterator();
 		while(iter.hasNext()) {
 			var s = iter.next();
-			inject(world, s);
 			s.init(world);
 		}
-	}
-
-	protected void inject(World world, ECSSystem s) {
-		var sc = new MergeDependencyScanner(new WorldComponentDependencyScanner(),
-				new FilterDependencyScanner());
-		var ctx = new WorldInjectionContainer(world);
-		var injector = new Injector(ctx, sc);
-		injector.inject(s);
 	}
 	
 	public Iterable<? extends InitSystem> initSystems() {

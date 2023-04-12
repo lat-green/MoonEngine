@@ -31,9 +31,9 @@ public class PrintStreamSystemsProfiler implements SystemsProfiler {
 		this.out_destroy = out_destroy;
 	}
 	public PrintStreamSystemsProfiler(CheckedSupplier<? extends PrintStream> out_init, CheckedSupplier<? extends PrintStream> out_update, CheckedSupplier<? extends PrintStream> out_destroy) {
-		this.out_init = out_init.toNonCheked();
-		this.out_update = out_update.toNonCheked();
-		this.out_destroy = out_destroy.toNonCheked();
+		this.out_init = out_init;
+		this.out_update = out_update;
+		this.out_destroy = out_destroy;
 	}
 
 	@Override
