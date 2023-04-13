@@ -2,10 +2,10 @@ package com.greentree.engine.moon;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.ServiceLoader;
 
+import com.greentree.engine.moon.bean.annotation.ImportClassBeanFactoryProcessor;
+import com.greentree.engine.moon.bean.container.BeanContainerBuilderBase;
 import com.greentree.engine.moon.module.EngineModule;
 import com.greentree.engine.moon.module.base.EngineLoop;
 
@@ -26,20 +26,21 @@ public final class Engine {
 		System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
 		System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
 		
-		//		var cls = getCaller();
-		//		var context = new EngineContextBase();
-		//		context.addBean(ImportClassEngineBeanProcessor.class);
-		//		context.addBean(cls);
+		var cls = getCaller();
 		
+		var context = new BeanContainerBuilderBase();
 		
-		final var list = new ArrayList<EngineModule>();
-		Collections.addAll(list, modules);
-		
+		context.addBean(ImportClassBeanFactoryProcessor.class);
+		context.addBean(cls);
+		for(var m : modules)
+			context.addBean(m);
 		final var autoAddModules = ServiceLoader.load(EngineModule.class);
 		for(var m : autoAddModules)
-			list.add(m);
+			context.addBean(m);
 		
-		final var scenes = new EngineLoop(list);
+		var allModules = context.getBeans(EngineModule.class).toList();
+		
+		final var scenes = new EngineLoop(allModules);
 		scenes.run();
 	}
 	

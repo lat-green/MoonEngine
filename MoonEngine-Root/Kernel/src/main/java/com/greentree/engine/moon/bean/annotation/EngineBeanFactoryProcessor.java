@@ -1,8 +1,8 @@
-package com.greentree.engine.moon.bean;
+package com.greentree.engine.moon.bean.annotation;
 
 import java.lang.reflect.Method;
 
-import com.greentree.engine.moon.bean.annotation.EngineBeanFactory;
+import com.greentree.engine.moon.bean.MethodAnnotationEngineBeanProcessor;
 
 public class EngineBeanFactoryProcessor implements MethodAnnotationEngineBeanProcessor<EngineBeanFactory> {
 	

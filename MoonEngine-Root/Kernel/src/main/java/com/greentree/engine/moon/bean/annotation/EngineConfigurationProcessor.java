@@ -1,15 +1,15 @@
-package com.greentree.engine.moon.bean;
+package com.greentree.engine.moon.bean.annotation;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
-import com.greentree.engine.moon.bean.annotation.EngineBeanFactory;
-import com.greentree.engine.moon.bean.annotation.EngineConfiguration;
+import com.greentree.engine.moon.bean.ClassAnnotationBeanProcessor;
+import com.greentree.engine.moon.bean.container.BeanContainerBuilder;
 import com.greentree.engine.moon.module.base.AnnotationUtil;
 
-public class EngineConfigurationProcessor implements ClassAnnotationEngineBeanProcessor<EngineConfiguration> {
+public class EngineConfigurationProcessor implements ClassAnnotationBeanProcessor<EngineConfiguration> {
 	
-	private EngineContext context;
+	private BeanContainerBuilder context;
 	
 	@Override
 	public void processAnnotation(Object bean, EngineConfiguration annotation) {

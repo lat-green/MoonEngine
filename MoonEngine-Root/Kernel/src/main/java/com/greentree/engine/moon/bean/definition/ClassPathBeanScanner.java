@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.bean;
+package com.greentree.engine.moon.bean.definition;
 
 import java.io.File;
 import java.net.JarURLConnection;
@@ -10,16 +10,10 @@ import java.util.Enumeration;
 import java.util.stream.Stream;
 
 import com.greentree.engine.moon.Engine;
-import com.greentree.engine.moon.bean.annotation.Autowired;
-import com.greentree.engine.moon.bean.annotation.BeanScan;
 import com.greentree.engine.moon.bean.annotation.EngineBean;
 import com.greentree.engine.moon.module.base.AnnotationUtil;
 
-@EngineBean
-public class PackageScanEngineBeanProcessor implements ClassAnnotationEngineBeanProcessor<BeanScan> {
-	
-	@Autowired(required = true)
-	private EngineContext context;
+public class ClassPathBeanScanner {
 	
 	public static Stream<String> getAllClassNames(String pkg) {
 		var result = new ArrayList<String>();
@@ -41,8 +35,8 @@ public class PackageScanEngineBeanProcessor implements ClassAnnotationEngineBean
 					var file = new File(url.toURI()).getParentFile();
 					var length = file.toString().length() + 1;
 					
-					var path = Files.walk(file.toPath()).map(Path::toFile).filter(File::isFile)
-							.map(File::toString).map(x -> x.substring(length)).toList();
+					var path = Files.walk(file.toPath()).map(Path::toFile).filter(File::isFile).map(File::toString)
+							.map(x -> x.substring(length)).toList();
 					result.addAll(path);
 				}
 			}
@@ -54,17 +48,14 @@ public class PackageScanEngineBeanProcessor implements ClassAnnotationEngineBean
 				.map(x -> x.replace('/', '.')).map(x -> x.replace('\\', '.')).filter(x -> x.startsWith(pkg));
 	}
 	
-	@Override
-	public void processAnnotation(Object bean, BeanScan annotation) {
-		getAllClassNames(bean.getClass().getPackageName()).map(x -> {
+	public Stream<BeanDefinition> scan(String... packages) {
+		return Stream.of(packages).flatMap(x -> getAllClassNames(x)).map(x -> {
 			try {
 				return Class.forName(x);
 			}catch(ClassNotFoundException e) {
 				throw new RuntimeException(e);
 			}
-		}).filter(x -> !x.isAnnotation()).filter(x -> AnnotationUtil.hasAnnotation(x, EngineBean.class)).forEach(x -> {
-			context.addBean(x);
-		});
+		}).filter(x -> AnnotationUtil.hasAnnotation(x, EngineBean.class)).map(x -> new ClassBeanDefinition(x));
 	}
 	
 }

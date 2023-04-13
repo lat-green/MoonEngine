@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.module.base;
+package com.greentree.engine.moon.bean.container;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -8,6 +8,7 @@ import java.util.Optional;
 import com.greentree.commons.injector.Dependency;
 import com.greentree.commons.injector.InjectionContainer;
 import com.greentree.engine.moon.bean.annotation.Autowired;
+import com.greentree.engine.moon.module.base.AnnotationUtil;
 
 public record AutowiredFieldDependency(Field field) implements Dependency {
 	

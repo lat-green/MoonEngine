@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 
 
 @Retention(RUNTIME)
-@Target(FIELD)
+@Target({FIELD, ANNOTATION_TYPE})
+@AnnotationInherited
 public @interface Autowired{
 	
 	boolean required() default true;
