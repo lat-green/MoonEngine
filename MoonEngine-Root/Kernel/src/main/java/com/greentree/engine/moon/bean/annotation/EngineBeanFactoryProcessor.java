@@ -2,12 +2,12 @@ package com.greentree.engine.moon.bean.annotation;
 
 import java.lang.reflect.Method;
 
-import com.greentree.engine.moon.bean.MethodAnnotationEngineBeanProcessor;
+import com.greentree.engine.moon.bean.MethodAnnotationBeanProcessor;
 
-public class EngineBeanFactoryProcessor implements MethodAnnotationEngineBeanProcessor<EngineBeanFactory> {
+public class EngineBeanFactoryProcessor implements MethodAnnotationBeanProcessor<EngineBeanFactory> {
 	
 	@Override
-	public void process(Object bean, Method method, EngineBeanFactory annotation) {
+	public void processAnnotation(Object bean, Method method, EngineBeanFactory annotation) {
 		System.out.println(method);
 	}
 	

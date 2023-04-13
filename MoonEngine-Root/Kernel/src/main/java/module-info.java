@@ -12,7 +12,7 @@ open module engine.moon.kernel {
 	
 	exports com.greentree.engine.moon.bean;
 	exports com.greentree.engine.moon.bean.annotation;
-	exports com.greentree.engine.moon.bean.definition;
+	exports com.greentree.engine.moon.bean.container;
 	
 	uses EngineModule;
 	

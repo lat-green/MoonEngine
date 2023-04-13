@@ -14,7 +14,7 @@ public interface ClassAnnotationBeanProcessor<A extends Annotation> extends Engi
 	}
 	
 	@Override
-	default Object processAfterInitialization(Object bean) {
+	default Object process(Object bean) {
 		AnnotationUtil.getAnnotations(bean.getClass(), annotationType()).forEach(annotation -> {
 			processAnnotation(bean, annotation);
 		});

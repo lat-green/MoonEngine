@@ -2,11 +2,11 @@ package com.greentree.engine.moon;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ServiceLoader;
 
-import com.greentree.engine.moon.bean.annotation.ImportClassBeanFactoryProcessor;
-import com.greentree.engine.moon.bean.container.BeanContainerBuilderBase;
+import com.greentree.engine.moon.bean.ClassPathBeanScanner;
+import com.greentree.engine.moon.bean.container.ConfigurableBeanContainerBase;
 import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.module.EngineProperties;
 import com.greentree.engine.moon.module.base.EngineLoop;
 
 public final class Engine {
@@ -22,25 +22,20 @@ public final class Engine {
 		}
 	}
 	
-	public static void launch(String[] args, EngineModule... modules) {
+	public static void launch(String[] args) {
 		System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
 		System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
 		
 		var cls = getCaller();
 		
-		var context = new BeanContainerBuilderBase();
-		
-		context.addBean(ImportClassBeanFactoryProcessor.class);
+		var context = new ConfigurableBeanContainerBase();
+		var sc = (ClassPathBeanScanner) context.addBean(ClassPathBeanScanner.class);
+		sc.scan(context, Engine.class.getPackageName());
 		context.addBean(cls);
-		for(var m : modules)
-			context.addBean(m);
-		final var autoAddModules = ServiceLoader.load(EngineModule.class);
-		for(var m : autoAddModules)
-			context.addBean(m);
 		
 		var allModules = context.getBeans(EngineModule.class).toList();
 		
-		final var scenes = new EngineLoop(allModules);
+		final var scenes = new EngineLoop(allModules, context.get(EngineProperties.class).get());
 		scenes.run();
 	}
 	

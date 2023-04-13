@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.bean.definition;
+package com.greentree.engine.moon.bean;
 
 import java.io.File;
 import java.net.JarURLConnection;
@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import com.greentree.engine.moon.Engine;
 import com.greentree.engine.moon.bean.annotation.EngineBean;
+import com.greentree.engine.moon.bean.container.ConfigurableBeanContainer;
 import com.greentree.engine.moon.module.base.AnnotationUtil;
 
 public class ClassPathBeanScanner {
@@ -48,14 +49,18 @@ public class ClassPathBeanScanner {
 				.map(x -> x.replace('/', '.')).map(x -> x.replace('\\', '.')).filter(x -> x.startsWith(pkg));
 	}
 	
-	public Stream<BeanDefinition> scan(String... packages) {
+	public Stream<? extends Class<?>> scan(String... packages) {
 		return Stream.of(packages).flatMap(x -> getAllClassNames(x)).map(x -> {
 			try {
 				return Class.forName(x);
 			}catch(ClassNotFoundException e) {
 				throw new RuntimeException(e);
 			}
-		}).filter(x -> AnnotationUtil.hasAnnotation(x, EngineBean.class)).map(x -> new ClassBeanDefinition(x));
+		}).filter(x -> !x.isInterface()).filter(x -> AnnotationUtil.hasAnnotation(x, EngineBean.class));
+	}
+	
+	public void scan(ConfigurableBeanContainer context, String... packages) {
+		scan(packages).forEach(x -> context.addBean(x));
 	}
 	
 }

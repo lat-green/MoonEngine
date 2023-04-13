@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.module.EngineProperties;
 import com.greentree.engine.moon.module.ExitManager;
 import com.greentree.engine.moon.module.ExitManagerProperty;
 import com.greentree.engine.moon.module.LaunchModule;
@@ -18,9 +19,15 @@ public class EngineLoop implements ExitManager {
 	private final List<? extends UpdateModule> update_modules;
 	
 	private boolean runnable = false;
-	private EnginePropertiesBase properties;
+	private final EngineProperties properties;
 	
 	public EngineLoop(Collection<? extends EngineModule> iterable) {
+		this(iterable, new EnginePropertiesBase());
+	}
+	
+	public EngineLoop(Collection<? extends EngineModule> iterable, EngineProperties properties) {
+		this.properties = properties;
+		properties.add(new ExitManagerProperty(this));
 		final var list = new ArrayList<EngineModule>();
 		for(var m : iterable)
 			list.add(m);
@@ -54,11 +61,11 @@ public class EngineLoop implements ExitManager {
 			throw new IllegalArgumentException("SceneManagerBase already run");
 		runnable = true;
 		
-		properties = new EnginePropertiesBase();
-		properties.add(new ExitManagerProperty(this));
 		
+		System.out.println("ls");
 		for(var m : launch_modules)
 			m.launch(properties);
+		System.out.println("le");
 		
 		while(runnable)
 			for(var m : update_modules)
@@ -66,8 +73,6 @@ public class EngineLoop implements ExitManager {
 			
 		for(var m : terminate_modules)
 			m.terminate();
-		properties.clear();
-		properties = null;
 	}
 	
 	

@@ -6,6 +6,7 @@ import com.greentree.engine.moon.module.LaunchModule;
 import com.greentree.engine.moon.module.TerminateModule;
 import com.greentree.engine.moon.module.UpdateModule;
 
+@Deprecated
 public class WrapModule implements LaunchModule, UpdateModule, TerminateModule {
 	
 	private final EngineModule module;

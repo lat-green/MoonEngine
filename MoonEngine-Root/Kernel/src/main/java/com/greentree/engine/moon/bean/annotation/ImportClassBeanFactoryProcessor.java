@@ -1,31 +1,37 @@
 package com.greentree.engine.moon.bean.annotation;
 
 import java.lang.reflect.Method;
-import java.util.stream.Stream;
 
-import com.greentree.engine.moon.bean.ClassAnnotationBeanFactoryProcessor;
-import com.greentree.engine.moon.bean.MethodAnnotationBeanFactoryProcessor;
-import com.greentree.engine.moon.bean.definition.BeanDefinition;
-import com.greentree.engine.moon.bean.definition.ClassBeanDefinition;
+import com.greentree.engine.moon.bean.ClassAnnotationBeanProcessor;
+import com.greentree.engine.moon.bean.MethodAnnotationBeanProcessor;
+import com.greentree.engine.moon.bean.container.ConfigurableBeanContainer;
 
+@EngineBean
 public class ImportClassBeanFactoryProcessor
-		implements ClassAnnotationBeanFactoryProcessor<Import>, MethodAnnotationBeanFactoryProcessor<Import> {
+		implements ClassAnnotationBeanProcessor<Import>, MethodAnnotationBeanProcessor<Import> {
+	
+	private ConfigurableBeanContainer ctx;
 	
 	@Override
-	public Stream<BeanDefinition> processAnnotation(BeanDefinition definition, Method method,
-			Import annotation) {
-		return processAnnotation(definition, annotation);
+	public void processAnnotation(Object bean, Method method, Import annotation) {
+		processAnnotation(bean, annotation);
 	}
 	
 	@Override
-	public Stream<BeanDefinition> processAnnotation(BeanDefinition definition, Import annotation) {
-		return Stream.concat(Stream.of(definition), Stream.of(annotation.value()).map(x -> new ClassBeanDefinition(x)));
+	public void processAnnotation(Object bean, Import annotation) {
+		processAnnotation(annotation);
+	}
+	
+	private void processAnnotation(Import annotation) {
+		for(var imp : annotation.value())
+			ctx.addBean(imp);
 	}
 	
 	@Override
-	public Stream<BeanDefinition> processDefinitionContainer(BeanDefinition beanFactory) {
-		return Stream.concat(ClassAnnotationBeanFactoryProcessor.super.processDefinitionContainer(beanFactory),
-				MethodAnnotationBeanFactoryProcessor.super.processDefinitionContainer(beanFactory));
+	public Object process(Object bean) {
+		bean = ClassAnnotationBeanProcessor.super.process(bean);
+		bean = ClassAnnotationBeanProcessor.super.process(bean);
+		return bean;
 	}
 	
 }
