@@ -1,11 +1,11 @@
 package com.greentree.engine.moon.opengl;
 
 import com.greentree.common.graphics.sgl.SGLFW;
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.LaunchModule;
-import com.greentree.engine.moon.module.TerminateModule;
-import com.greentree.engine.moon.module.annotation.CreateProperty;
-import com.greentree.engine.moon.module.annotation.ReadProperty;
+import com.greentree.engine.moon.modules.CreateProperty;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.ReadProperty;
+import com.greentree.engine.moon.modules.TerminateModule;
 import com.greentree.engine.moon.opengl.adapter.GLFWWindowLibrary;
 import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;

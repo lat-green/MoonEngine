@@ -1,10 +1,10 @@
 package com.greentree.engine.moon.signals.device;
 
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.LaunchModule;
-import com.greentree.engine.moon.module.UpdateModule;
-import com.greentree.engine.moon.module.annotation.ReadProperty;
-import com.greentree.engine.moon.module.annotation.WriteProperty;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.ReadProperty;
+import com.greentree.engine.moon.modules.UpdateModule;
+import com.greentree.engine.moon.modules.WriteProperty;
 import com.greentree.engine.moon.signals.DevicesProperty;
 
 

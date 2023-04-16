@@ -1,24 +1,20 @@
 package com.greentree.engine.moon.render;
 
 import java.util.Properties;
-import java.util.function.Supplier;
 
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.LaunchModule;
-import com.greentree.engine.moon.module.TerminateModule;
-import com.greentree.engine.moon.module.annotation.CreateProperty;
-import com.greentree.engine.moon.module.annotation.DestroyProperty;
-import com.greentree.engine.moon.module.annotation.ReadProperty;
+import com.greentree.engine.moon.modules.CreateProperty;
+import com.greentree.engine.moon.modules.DestroyProperty;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.ReadProperty;
+import com.greentree.engine.moon.modules.TerminateModule;
 import com.greentree.engine.moon.render.window.Window;
 import com.greentree.engine.moon.render.window.WindowLibraryProperty;
 import com.greentree.engine.moon.render.window.WindowProperty;
 import com.greentree.engine.moon.render.window.callback.ButtonAction;
-import com.greentree.engine.moon.render.window.callback.KeyCallback;
-import com.greentree.engine.moon.render.window.callback.KeyMode;
 import com.greentree.engine.moon.signals.DevicesProperty;
-import com.greentree.engine.moon.signals.Key;
 import com.greentree.engine.moon.signals.keyboard.KeyBoardButton;
 import com.greentree.engine.moon.signals.mouse.MouseButtonDevice;
 import com.greentree.engine.moon.signals.mouse.MouseXDevice;
@@ -54,16 +50,12 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 			new MouseXDevice().signal(signals, (float) fx);
 			new MouseYDevice().signal(signals, (float) fy);
 		});
-		lcs[1] = window.addKeyCallback(new KeyCallback() {
-			
-			@Override
-			public void invoke(Key key, int scancode, ButtonAction action, Supplier<KeyMode[]> mods) {
-				var d = new KeyBoardButton(key);
-				switch(action) {
-					case PRESS -> d.press(signals);
-					case RELEASE -> d.release(signals);
-					default -> {
-					}
+		lcs[1] = window.addKeyCallback((key, scancode, action, mods) -> {
+			var d = new KeyBoardButton(key);
+			switch(action) {
+				case PRESS -> d.press(signals);
+				case RELEASE -> d.release(signals);
+				default -> {
 				}
 			}
 		});

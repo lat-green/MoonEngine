@@ -7,8 +7,8 @@ import static org.lwjgl.opengl.GL43.*;
 import com.greentree.common.graphics.sgl.GLFWCallback;
 import com.greentree.common.graphics.sgl.enums.gl.debug.GLDebugSeverity;
 import com.greentree.engine.moon.ecs.annotation.WriteWorldComponent;
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.LaunchModule;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.render.window.WindowProperty;
 
 public final class OpenGLInitModule implements LaunchModule {

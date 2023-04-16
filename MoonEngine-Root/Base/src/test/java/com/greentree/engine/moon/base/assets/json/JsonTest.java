@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Test;
 import com.google.gson.JsonElement;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.ExitManagerProperty;
-import com.greentree.engine.moon.module.LaunchModule;
-import com.greentree.engine.moon.module.annotation.ReadProperty;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.ExitManagerProperty;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.ReadProperty;
 
 public class JsonTest {
 	

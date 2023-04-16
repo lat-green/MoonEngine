@@ -9,7 +9,7 @@
 	
   	<artifactId>kernel</artifactId>
 	
-	<name>MoonEngine</name>
+	<name>MoonEngine Kernel</name>
 	
 	<dependencies>
 		<dependency>

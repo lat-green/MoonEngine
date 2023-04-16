@@ -1,5 +1,5 @@
 import com.greentree.engine.moon.ecs.system.ECSSystem;
-import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.modules.EngineModule;
 import com.greentree.engine.moon.render.WindowModule;
 import com.greentree.engine.moon.render.assets.RenderAssetSerializatorModule;
 import com.greentree.engine.moon.render.window.ExitOnWindowShouldClose;

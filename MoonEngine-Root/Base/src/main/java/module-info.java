@@ -5,11 +5,11 @@ import com.greentree.engine.moon.base.InitAssetManagerModule;
 import com.greentree.engine.moon.base.assets.BaseAssetSerializatorModule;
 import com.greentree.engine.moon.base.scene.SceneManagerModule;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
-import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.modules.EngineModule;
 
 open module engine.moon.base {
 	
-	requires transitive engine.moon.kernel;
+	requires transitive engine.moon.modules;
 	requires transitive engine.moon.ecs;
 	requires transitive engine.moon.assets;
 	

@@ -14,7 +14,7 @@ import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
-import com.greentree.engine.moon.module.EngineProperties;
+import com.greentree.engine.moon.modules.EngineProperties;
 
 public final class SceneManagerBase implements SceneManager {
 	

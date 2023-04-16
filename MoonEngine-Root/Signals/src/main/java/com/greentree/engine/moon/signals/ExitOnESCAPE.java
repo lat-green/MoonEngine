@@ -6,7 +6,7 @@ import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
-import com.greentree.engine.moon.module.ExitManagerProperty;
+import com.greentree.engine.moon.modules.ExitManagerProperty;
 import com.greentree.engine.moon.signals.device.EventState;
 import com.greentree.engine.moon.signals.keyboard.KeyBoardButton;
 

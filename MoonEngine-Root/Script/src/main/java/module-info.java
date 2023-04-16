@@ -1,4 +1,4 @@
-import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.modules.EngineModule;
 import com.greentree.engine.moon.script.ScriptsModule;
 
 open module engine.moon.script {

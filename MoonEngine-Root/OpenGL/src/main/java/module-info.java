@@ -1,4 +1,4 @@
-import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.modules.EngineModule;
 import com.greentree.engine.moon.opengl.CreateRenderLibraryModule;
 import com.greentree.engine.moon.opengl.CreateWindowLibraryModule;
 import com.greentree.engine.moon.opengl.OpenGLInitModule;
@@ -11,6 +11,6 @@ open module engine.moon.opengl {
 	requires transitive engine.moon.render;
 	
 	provides EngineModule with CreateRenderLibraryModule, CreateWindowLibraryModule,
-			OpenGLInitAssetManagerModule, OpenGLInitModule, OpenGLPollDelete;
+	OpenGLInitAssetManagerModule, OpenGLInitModule, OpenGLPollDelete;
 	
 }

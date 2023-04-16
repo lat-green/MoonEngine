@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.opengl;
 
 import com.greentree.common.graphics.sgl.Window;
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.LaunchModule;
-import com.greentree.engine.moon.module.UpdateModule;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.UpdateModule;
 import com.greentree.engine.moon.opengl.adapter.WindowAddapter;
 import com.greentree.engine.moon.render.window.WindowProperty;
 

@@ -154,6 +154,11 @@
 			</dependency>
 			<dependency>
   				<groupId>com.greentree.engine.moon</groupId>
+  				<artifactId>modules</artifactId>
+  				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+  				<groupId>com.greentree.engine.moon</groupId>
   				<artifactId>opengl</artifactId>
   				<version>${project.version}</version>
 			</dependency>
@@ -188,6 +193,7 @@
 		<module>ECS Cooker</module>
 		<module>Kernel</module>
 		<module>Mesh</module>
+		<module>Modules</module>
 		<module>OpenGL</module>
 		<module>Render</module>
 		<module>Replication</module>

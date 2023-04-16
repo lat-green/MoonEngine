@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.base;
 
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.LaunchModule;
-import com.greentree.engine.moon.module.annotation.CreateProperty;
+import com.greentree.engine.moon.modules.CreateProperty;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.LaunchModule;
 
 
 public class InitAssetManagerModule implements LaunchModule {

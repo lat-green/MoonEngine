@@ -1,13 +1,13 @@
 package com.greentree.engine.moon.base.scene;
 
 import com.greentree.engine.moon.base.scene.base.SceneManagerBase;
-import com.greentree.engine.moon.module.EngineProperties;
-import com.greentree.engine.moon.module.LaunchModule;
-import com.greentree.engine.moon.module.TerminateModule;
-import com.greentree.engine.moon.module.UpdateModule;
-import com.greentree.engine.moon.module.annotation.CreateProperty;
-import com.greentree.engine.moon.module.annotation.DestroyProperty;
-import com.greentree.engine.moon.module.annotation.WriteProperty;
+import com.greentree.engine.moon.modules.CreateProperty;
+import com.greentree.engine.moon.modules.DestroyProperty;
+import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.TerminateModule;
+import com.greentree.engine.moon.modules.UpdateModule;
+import com.greentree.engine.moon.modules.WriteProperty;
 
 public class SceneManagerModule implements LaunchModule, TerminateModule, UpdateModule {
 	

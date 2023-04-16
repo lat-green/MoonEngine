@@ -1,4 +1,4 @@
-import com.greentree.engine.moon.module.EngineModule;
+import com.greentree.engine.moon.modules.EngineModule;
 import com.greentree.engine.moon.signals.CreateDevicesPropertyModule;
 import com.greentree.engine.moon.signals.device.UpdateDevicesPropertyModule;
 
