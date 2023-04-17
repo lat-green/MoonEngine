@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.render.pipeline.target;
 
-import com.greentree.engine.moon.render.pipeline.material.Property;
+import com.greentree.engine.moon.render.material.Property;
 
 public interface RenderTargetTextute extends RenderTarget {
 	

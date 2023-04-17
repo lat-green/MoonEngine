@@ -6,7 +6,7 @@ import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
-import com.greentree.engine.moon.render.pipeline.material.Property;
+import com.greentree.engine.moon.render.material.Property;
 
 @RequiredComponent({Transform.class})
 public record SpriteRenderer(ValueProvider<Property> texture) implements ConstComponent {

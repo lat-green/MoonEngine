@@ -17,9 +17,9 @@ import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value6Function;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 import com.greentree.engine.moon.render.assets.texture.Texture2DAssetKey;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
-import com.greentree.engine.moon.render.pipeline.material.Property;
+import com.greentree.engine.moon.render.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
+import com.greentree.engine.moon.render.material.Property;
 import com.greentree.engine.moon.render.texture.Texture2DType;
 
 public final class PBRMaterialPropertiesAssetSerializator implements AssetSerializator<MaterialProperties> {

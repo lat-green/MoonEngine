@@ -4,7 +4,7 @@ import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.mesh.AttributeData;
 import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 public interface TargetCommandBuffer extends AutoCloseable {

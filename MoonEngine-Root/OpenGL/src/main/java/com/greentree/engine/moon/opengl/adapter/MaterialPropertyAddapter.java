@@ -4,7 +4,7 @@ import org.lwjgl.system.MemoryStack;
 
 import com.greentree.common.graphics.sgl.enums.gl.GLType;
 import com.greentree.common.graphics.sgl.shader.GLUniformLocation;
-import com.greentree.engine.moon.render.pipeline.material.PropertyLocation;
+import com.greentree.engine.moon.render.material.PropertyLocation;
 
 
 public record MaterialPropertyAddapter(GLUniformLocation location) implements PropertyLocation {

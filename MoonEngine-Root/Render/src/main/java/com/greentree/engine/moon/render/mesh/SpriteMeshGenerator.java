@@ -11,8 +11,8 @@ import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.render.MaterialUtil;
-import com.greentree.engine.moon.render.pipeline.material.Material;
-import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
+import com.greentree.engine.moon.render.material.Material;
+import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 public class SpriteMeshGenerator implements InitSystem, UpdateSystem, DestroySystem {

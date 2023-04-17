@@ -13,7 +13,7 @@ import com.greentree.engine.moon.opengl.adapter.buffer.command.CullFace;
 import com.greentree.engine.moon.opengl.adapter.buffer.command.DepthTest;
 import com.greentree.engine.moon.opengl.adapter.buffer.command.DrawMesh;
 import com.greentree.engine.moon.opengl.adapter.buffer.command.TargetCommand;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 

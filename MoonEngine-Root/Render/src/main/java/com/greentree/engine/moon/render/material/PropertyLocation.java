@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.render.pipeline.material;
+package com.greentree.engine.moon.render.material;
 
 public interface PropertyLocation {
 	

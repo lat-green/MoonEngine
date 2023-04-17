@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.render.pipeline.target;
 
 import com.greentree.engine.moon.ecs.Entity;
-import com.greentree.engine.moon.render.pipeline.material.Property;
+import com.greentree.engine.moon.render.material.Property;
 import com.greentree.engine.moon.render.pipeline.target.buffer.CameraCommandBuffer;
 
 public record CameraRenderTarget(Entity camera, RenderTargetTextute target) implements RenderTargetTextute {

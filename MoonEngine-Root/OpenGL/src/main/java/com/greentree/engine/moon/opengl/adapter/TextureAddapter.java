@@ -3,9 +3,9 @@ package com.greentree.engine.moon.opengl.adapter;
 import static org.lwjgl.opengl.GL13.*;
 
 import com.greentree.common.graphics.sgl.texture.gl.GLTexture;
-import com.greentree.engine.moon.render.pipeline.material.Property;
-import com.greentree.engine.moon.render.pipeline.material.PropertyBindContext;
-import com.greentree.engine.moon.render.pipeline.material.PropertyLocation;
+import com.greentree.engine.moon.render.material.Property;
+import com.greentree.engine.moon.render.material.PropertyBindContext;
+import com.greentree.engine.moon.render.material.PropertyLocation;
 
 
 public record TextureAddapter(GLTexture texture) implements Property {

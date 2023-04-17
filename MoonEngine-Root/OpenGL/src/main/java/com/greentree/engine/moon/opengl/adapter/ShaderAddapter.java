@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.opengl.adapter;
 
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.material.PropertyBindContext;
+import com.greentree.engine.moon.render.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.PropertyBindContext;
 
 
 public record ShaderAddapter(GLShaderProgram shader) implements Shader {

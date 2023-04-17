@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.mesh.AttributeData;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 

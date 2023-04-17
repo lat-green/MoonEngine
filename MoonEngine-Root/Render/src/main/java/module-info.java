@@ -30,14 +30,13 @@ open module engine.moon.render {
 	exports com.greentree.engine.moon.render.window.callback;
 	
 	exports com.greentree.engine.moon.render.texture;
+	exports com.greentree.engine.moon.render.material;
 	
 	exports com.greentree.engine.moon.render.light;
 	exports com.greentree.engine.moon.render.light.point;
 	exports com.greentree.engine.moon.render.light.direction;
 	
-	
 	exports com.greentree.engine.moon.render.pipeline;
-	exports com.greentree.engine.moon.render.pipeline.material;
 	exports com.greentree.engine.moon.render.pipeline.target;
 	exports com.greentree.engine.moon.render.pipeline.target.buffer;
 	

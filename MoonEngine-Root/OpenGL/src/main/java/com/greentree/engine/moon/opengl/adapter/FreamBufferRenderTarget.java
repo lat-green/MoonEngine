@@ -3,7 +3,7 @@ package com.greentree.engine.moon.opengl.adapter;
 import java.util.Objects;
 
 import com.greentree.common.graphics.sgl.freambuffer.FreamBuffer;
-import com.greentree.engine.moon.render.pipeline.material.Property;
+import com.greentree.engine.moon.render.material.Property;
 import com.greentree.engine.moon.render.pipeline.target.RenderTarget;
 import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextute;
 import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;

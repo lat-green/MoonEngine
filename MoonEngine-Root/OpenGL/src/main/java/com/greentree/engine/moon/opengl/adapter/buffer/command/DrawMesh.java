@@ -8,7 +8,7 @@ import java.util.Objects;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.opengl.adapter.RenderMesh;
 import com.greentree.engine.moon.opengl.adapter.Shader;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.MaterialProperties;
 
 public record DrawMesh(Shader shader, RenderMesh mesh, Iterable<MaterialProperties> properties)
 		implements TargetCommand {

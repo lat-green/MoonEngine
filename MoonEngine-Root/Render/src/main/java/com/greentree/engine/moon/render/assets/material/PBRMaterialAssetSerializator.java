@@ -6,8 +6,8 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value2Function;
-import com.greentree.engine.moon.render.pipeline.material.Material;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.Material;
+import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 public final class PBRMaterialAssetSerializator implements AssetSerializator<Material> {

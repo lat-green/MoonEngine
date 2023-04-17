@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.opengl.adapter;
 
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.MaterialProperties;
 
 public interface Shader {
 	

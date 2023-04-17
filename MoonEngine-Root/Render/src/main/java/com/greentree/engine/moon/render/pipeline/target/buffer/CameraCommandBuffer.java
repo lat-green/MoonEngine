@@ -11,10 +11,10 @@ import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.mesh.AttributeData;
 import com.greentree.engine.moon.render.camera.CameraComponent;
 import com.greentree.engine.moon.render.camera.CameraUtil;
+import com.greentree.engine.moon.render.material.MaterialProperties;
+import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
+import com.greentree.engine.moon.render.material.Property;
 import com.greentree.engine.moon.render.mesh.MeshUtil;
-import com.greentree.engine.moon.render.pipeline.material.MaterialProperties;
-import com.greentree.engine.moon.render.pipeline.material.MaterialPropertiesBase;
-import com.greentree.engine.moon.render.pipeline.material.Property;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 public final class CameraCommandBuffer extends ProxyCommandBuffer {

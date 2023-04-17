@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.render.pipeline.material;
+package com.greentree.engine.moon.render.material;
 
 import java.util.Iterator;
 import java.util.Objects;
