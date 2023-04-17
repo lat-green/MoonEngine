@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import com.greentree.commons.injector.Dependency;
 import com.greentree.commons.injector.InjectionContainer;
-import com.greentree.engine.moon.kernel.AnnotationUtil;
+import com.greentree.engine.moon.kernel.annotation.AnnotationUtil;
 import com.greentree.engine.moon.kernel.annotation.Autowired;
 
 public record AutowiredFieldDependency(Field field) implements Dependency {

@@ -14,14 +14,14 @@ public interface BeanContainer {
 		return getBeans(cls).findAny();
 	}
 	
-	default <T> T getBean(Class<T> cls, Supplier<T> supplier) {
-		return getBeans(cls).findAny().orElseGet(supplier);
+	default <T> T getBean(Class<T> cls, Supplier<? extends T> supplier) {
+		return getBean(cls).orElseGet(supplier);
 	}
 	
 	<T> Stream<T> getBeans(Class<T> cls);
 	
 	default boolean isBean(Object bean) {
-		return getBeans(bean.getClass()).anyMatch(x -> x.equals(bean));
+		return (bean != null) && getBeans(bean.getClass()).anyMatch(x -> x.equals(bean));
 	}
 	
 }

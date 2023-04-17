@@ -3,7 +3,6 @@ package com.greentree.engine.moon.kernel.annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.util.stream.Stream;
 
-import com.greentree.engine.moon.kernel.AnnotationUtil;
 import com.greentree.engine.moon.kernel.ClassAnnotationBeanProcessor;
 import com.greentree.engine.moon.kernel.container.ConfigurableBeanContainer;
 

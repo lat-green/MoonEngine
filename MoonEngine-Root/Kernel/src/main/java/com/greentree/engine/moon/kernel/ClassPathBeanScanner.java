@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.stream.Stream;
 
+import com.greentree.engine.moon.kernel.annotation.AnnotationUtil;
 import com.greentree.engine.moon.kernel.annotation.EngineBean;
 import com.greentree.engine.moon.kernel.container.ConfigurableBeanContainer;
 

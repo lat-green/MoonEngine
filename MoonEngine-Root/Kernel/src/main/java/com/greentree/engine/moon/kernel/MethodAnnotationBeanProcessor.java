@@ -4,6 +4,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import com.greentree.commons.util.classes.info.TypeUtil;
+import com.greentree.engine.moon.kernel.annotation.AnnotationUtil;
 
 public interface MethodAnnotationBeanProcessor<A extends Annotation> extends EngineBeanProcessor {
 	
