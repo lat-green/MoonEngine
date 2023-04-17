@@ -1,9 +1,10 @@
 package com.greentree.engine.moon.modules;
 
-import com.greentree.engine.moon.modules.container.AnnotatedModuleSorter;
 import com.greentree.engine.moon.modules.container.CollectionModuleDefenitionScanner;
-import com.greentree.engine.moon.modules.container.ModuleContainerBuilderBase;
+import com.greentree.engine.moon.modules.container.MergeModuleContainerScanner;
 import com.greentree.engine.moon.modules.container.ServiceLoaderModuleDefenitionScanner;
+import com.greentree.engine.moon.modules.phase.AnnotatedMethodModuleSorter;
+import com.greentree.engine.moon.modules.phase.LaunchEnginePhase;
 
 public final class Engine {
 	
@@ -11,13 +12,19 @@ public final class Engine {
 	}
 	
 	public static void launch(String[] args, EngineModule... modules) {
-		var builder = new ModuleContainerBuilderBase(new AnnotatedModuleSorter());
 		
-		builder.addScanner(new ServiceLoaderModuleDefenitionScanner());
-		builder.addScanner(new CollectionModuleDefenitionScanner(modules));
+		var properties = new EnginePropertiesBase();
 		
-		final var scenes = new EngineLoop(builder.build());
-		scenes.run();
+		var launch = new LaunchEnginePhase(properties, new AnnotatedMethodModuleSorter<>("launch"));
+		
+		var scanner = new MergeModuleContainerScanner();
+		scanner.addScanner(new ServiceLoaderModuleDefenitionScanner());
+		scanner.addScanner(new CollectionModuleDefenitionScanner(modules));
+		
+		var scanModules = scanner.scan().map(x -> x.build()).toList();
+		
+		launch.run(scanModules);
+		
 	}
 	
 }

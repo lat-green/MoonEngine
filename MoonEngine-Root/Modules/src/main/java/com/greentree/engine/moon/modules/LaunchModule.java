@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.modules;
 
-public non-sealed interface LaunchModule extends EngineModule {
+public interface LaunchModule extends EngineModule {
 	
 	void launch(EngineProperties properties);
 	
