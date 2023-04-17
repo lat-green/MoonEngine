@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.kernel.container;
+package com.greentree.engine.moon.kernel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -28,14 +28,14 @@ public record AutowiredFieldDependency(Field field) implements Dependency {
 	
 	@Override
 	public void set(Object host, InjectionContainer container) {
-		try {
-			var value = value(container);
-			if(value.isEmpty()) {
-				var a = AnnotationUtil.getAnnotation(field, Autowired.class);
-				var required = a != null ? a.required() : false;
-				if(required)
-					throw new IllegalArgumentException("not found value to " + field + " to host:" + host);
-			}else {
+		var value = value(container);
+		if(value.isEmpty()) {
+			var a = AnnotationUtil.getAnnotation(field, Autowired.class);
+			var required = a != null ? a.required() : false;
+			if(required)
+				throw new IllegalArgumentException("not found value to " + field + " to host:" + host);
+		}else
+			try {
 				var access = field.canAccess(host);
 				try {
 					field.setAccessible(true);
@@ -43,10 +43,9 @@ public record AutowiredFieldDependency(Field field) implements Dependency {
 				}finally {
 					field.setAccessible(access);
 				}
+			}catch(IllegalAccessException e) {
+				throw new RuntimeException(e);
 			}
-		}catch(IllegalArgumentException | IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
 	}
 	
 	private Optional<?> value(InjectionContainer container) {
