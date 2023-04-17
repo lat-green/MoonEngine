@@ -12,7 +12,7 @@ public class ServiceLoaderEngineModuleDefenitionScanner implements EngineModuleD
 	@Override
 	public Stream<EngineModuleDefenition> scan() {
 		return StreamSupport.stream(ServiceLoader.load(EngineModule.class).spliterator(), false)
-				.map(x -> new ObjectEngineModuleDefenition(x));
+				.map(ObjectEngineModuleDefenition::new);
 	}
 	
 }

@@ -1,11 +1,9 @@
 package com.greentree.engine.moon.modules;
 
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.ServiceLoader;
-
 import com.greentree.engine.moon.modules.base.EngineLoop;
+import com.greentree.engine.moon.modules.container.AnnotatedModuleContainerBuilder;
+import com.greentree.engine.moon.modules.container.CollectionEngineModuleDefenitionScanner;
+import com.greentree.engine.moon.modules.container.ServiceLoaderEngineModuleDefenitionScanner;
 
 public final class Engine {
 	
@@ -13,17 +11,12 @@ public final class Engine {
 	}
 	
 	public static void launch(String[] args, EngineModule... modules) {
-		System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
-		System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
+		var builder = new AnnotatedModuleContainerBuilder();
 		
-		var allModules = new ArrayList<EngineModule>();
+		builder.addScanner(new ServiceLoaderEngineModuleDefenitionScanner());
+		builder.addScanner(new CollectionEngineModuleDefenitionScanner(modules));
 		
-		for(var m : modules)
-			allModules.add(m);
-		for(var m : ServiceLoader.load(EngineModule.class))
-			allModules.add(m);
-		
-		final var scenes = new EngineLoop(allModules);
+		final var scenes = new EngineLoop(builder.build());
 		scenes.run();
 	}
 	
