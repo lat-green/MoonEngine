@@ -28,7 +28,9 @@ public class AnnotationUtil {
 	public static <A extends Annotation> A get(Object a, String method, Class<A> annotationClass) {
 		final var m = getMethod(a.getClass(), method);
 		if(m == null)
-			return null;
+			throw new IllegalArgumentException(a + " " + method + " " + annotationClass);
+		//		if(m == null)
+		//			return null;
 		return m.getAnnotation(annotationClass);
 	}
 	

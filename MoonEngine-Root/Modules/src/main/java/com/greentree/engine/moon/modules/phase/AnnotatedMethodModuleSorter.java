@@ -4,12 +4,13 @@ import java.util.List;
 
 import com.greentree.engine.moon.modules.AnnotationUtil;
 
-public record AnnotatedMethodModuleSorter<T>(String methodName) implements ModuleSorter<T> {
+public record AnnotatedMethodModuleSorter() implements MethodModuleSorter {
+	
+	public static MethodModuleSorter INSTANCE = new AnnotatedMethodModuleSorter();
 	
 	@Override
-	public void sort(List<? extends T> modules) {
-		AnnotationUtil.sort(modules, methodName);
-		
+	public void sort(List<?> modules, String method) {
+		AnnotationUtil.sort(modules, method);
 	}
 	
 	

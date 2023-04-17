@@ -6,7 +6,7 @@ open module engine.moon.modules {
 	
 	exports com.greentree.engine.moon.modules;
 	exports com.greentree.engine.moon.modules.phase;
-	exports com.greentree.engine.moon.modules.container;
+	exports com.greentree.engine.moon.modules.scanner;
 	
 	uses EngineModule;
 	
