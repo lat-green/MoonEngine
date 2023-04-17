@@ -1,11 +1,8 @@
-package com.greentree.engine.moon.modules.base;
+package com.greentree.engine.moon.modules;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-
-import com.greentree.engine.moon.modules.EngineProperties;
-import com.greentree.engine.moon.modules.EngineProperty;
 
 public final class EnginePropertiesBase implements EngineProperties {
 	

@@ -7,12 +7,12 @@ import java.util.stream.StreamSupport;
 import com.greentree.engine.moon.modules.EngineModule;
 
 
-public class ServiceLoaderEngineModuleDefenitionScanner implements EngineModuleDefenitionScanner {
+public class ServiceLoaderModuleDefenitionScanner implements ModuleDefenitionScanner {
 	
 	@Override
-	public Stream<EngineModuleDefenition> scan() {
+	public Stream<ModuleDefenition> scan() {
 		return StreamSupport.stream(ServiceLoader.load(EngineModule.class).spliterator(), false)
-				.map(ObjectEngineModuleDefenition::new);
+				.map(ObjectModuleDefenition::new);
 	}
 	
 }

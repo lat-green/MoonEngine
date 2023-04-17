@@ -2,7 +2,7 @@ package com.greentree.engine.moon.modules.container;
 
 import com.greentree.engine.moon.modules.EngineModule;
 
-public interface EngineModuleDefenition {
+public interface ModuleDefenition {
 	
 	EngineModule build();
 	

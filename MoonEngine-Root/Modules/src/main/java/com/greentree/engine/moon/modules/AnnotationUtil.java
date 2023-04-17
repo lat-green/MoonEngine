@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.modules.base;
+package com.greentree.engine.moon.modules;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -10,10 +10,6 @@ import java.util.List;
 import com.greentree.commons.graph.DirectedGraph;
 import com.greentree.commons.util.collection.FunctionAutoGenerateMap;
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.modules.CreateProperty;
-import com.greentree.engine.moon.modules.DestroyProperty;
-import com.greentree.engine.moon.modules.ReadProperty;
-import com.greentree.engine.moon.modules.WriteProperty;
 
 public class AnnotationUtil {
 	
