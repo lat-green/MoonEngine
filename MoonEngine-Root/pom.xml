@@ -139,11 +139,6 @@
 			</dependency>
 			<dependency>
   				<groupId>com.greentree.engine.moon</groupId>
-  				<artifactId>ecs-cooker</artifactId>
-  				<version>${project.version}</version>
-			</dependency>
-			<dependency>
-  				<groupId>com.greentree.engine.moon</groupId>
   				<artifactId>kernel</artifactId>
   				<version>${project.version}</version>
 			</dependency>
@@ -190,7 +185,6 @@
 		<module>Assimp</module>
 		<module>Base</module>
 		<module>ECS</module>
-		<module>ECS Cooker</module>
 		<module>Kernel</module>
 		<module>Mesh</module>
 		<module>Modules</module>
