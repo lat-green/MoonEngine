@@ -11,8 +11,7 @@ public final class CreateDevicesPropertyModule implements LaunchModule {
 	@CreateProperty({DevicesProperty.class})
 	@Override
 	public void launch(EngineProperties context) {
-		final var signals = new DevicesProperty();
-		context.add(signals);
+		context.add(new DevicesProperty());
 	}
 	
 }

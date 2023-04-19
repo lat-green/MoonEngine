@@ -5,7 +5,7 @@ import java.util.Objects;
 import com.greentree.commons.util.iterator.IteratorUtil;
 
 public record SumDeviceValue(Iterable<? extends DeviceValue.Float> devices)
-		implements DeviceValue.Float {
+implements DeviceValue.Float {
 	
 	public SumDeviceValue {
 		Objects.requireNonNull(devices);
@@ -18,10 +18,18 @@ public record SumDeviceValue(Iterable<? extends DeviceValue.Float> devices)
 	
 	@Override
 	public float value() {
-		float sum = 0;
+		var sum = 0F;
 		for(var v : devices)
 			sum += v.value();
 		return sum;
+	}
+	
+	@Override
+	public boolean isConst() {
+		for(var v : devices)
+			if(!v.isConst())
+				return false;
+		return true;
 	}
 	
 }

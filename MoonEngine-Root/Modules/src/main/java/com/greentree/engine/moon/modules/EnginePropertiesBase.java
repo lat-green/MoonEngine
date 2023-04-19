@@ -29,7 +29,7 @@ public final class EnginePropertiesBase implements EngineProperties {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T extends EngineProperty> Optional<T> getProperty(Class<T> cls) {
-		return Optional.of((T) properties.get(cls));
+		return Optional.ofNullable((T) properties.get(cls));
 	}
 	
 }

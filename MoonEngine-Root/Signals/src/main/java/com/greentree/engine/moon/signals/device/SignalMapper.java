@@ -1,7 +1,8 @@
 package com.greentree.engine.moon.signals.device;
 
 import com.greentree.engine.moon.signals.Key;
-import com.greentree.engine.moon.signals.device.value.DeviceValue;
+import com.greentree.engine.moon.signals.device.value.DeviceValue.Boolean;
+import com.greentree.engine.moon.signals.device.value.DeviceValue.Float;
 import com.greentree.engine.moon.signals.device.value.SumDeviceValue;
 import com.greentree.engine.moon.signals.keyboard.KeyBoardButton;
 
@@ -12,18 +13,18 @@ public final class SignalMapper {
 	
 	public static void map(DeviceCollection signals, DeviceCollection dest, FloatDevice input,
 			FloatDevice result) {
-		dest.set(result, new DeviceValue.Float.Link(signals, input));
+		dest.set(result, new Float.Link(signals, input));
 	}
 	
 	public static void map(DeviceCollection signals, DeviceCollection dest, FloatDevice input,
 			FloatDevice result, float border) {
-		dest.set(result, new DeviceValue.Float.Link(signals, input).border(border));
+		dest.set(result, new Float.Link(signals, input).border(border));
 	}
 	
 	public static void map(DeviceCollection signals, DeviceCollection dest, BooleanDevice min,
 			BooleanDevice max, FloatDevice result) {
-		final var mn = new DeviceValue.Boolean.Link(signals, min).toFloat().mult(-1);
-		final var mx = new DeviceValue.Boolean.Link(signals, max).toFloat();
+		final var mn = new Boolean.Link(signals, min).toFloat().mult(-1);
+		final var mx = new Boolean.Link(signals, max).toFloat();
 		dest.set(result, new SumDeviceValue(mx, mn));
 	}
 	

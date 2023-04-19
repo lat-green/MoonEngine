@@ -9,6 +9,10 @@ import com.greentree.engine.moon.signals.device.EventState;
 
 public interface DeviceValue extends Serializable {
 	
+	default boolean isConst() {
+		return false;
+	}
+	
 	public interface Boolean extends DeviceValue {
 		
 		default Boolean onEvent(EventState state) {
@@ -31,21 +35,23 @@ public interface DeviceValue extends Serializable {
 			private final Boolean bool;
 			private transient boolean old;
 			
-			@Override
-			public int hashCode() {
-				return Objects.hash(bool);
+			public Lazy(Boolean bool) {
+				this.bool = bool;
 			}
 			
 			@Override
 			public boolean equals(Object obj) {
 				if(this == obj)
 					return true;
-				if(obj == null)
+				if((obj == null) || (getClass() != obj.getClass()))
 					return false;
-				if(getClass() != obj.getClass())
-					return false;
-				Lazy other = (Lazy) obj;
+				var other = (Lazy) obj;
 				return Objects.equals(bool, other.bool);
+			}
+			
+			@Override
+			public int hashCode() {
+				return Objects.hash(bool);
 			}
 			
 			@Override
@@ -53,15 +59,16 @@ public interface DeviceValue extends Serializable {
 				return "Lazy [" + bool + "]";
 			}
 			
-			public Lazy(Boolean bool) {
-				this.bool = bool;
-			}
-			
 			@Override
 			public boolean value() {
 				final var result = old;
 				old = bool.value();
 				return result;
+			}
+			
+			@Override
+			public boolean isConst() {
+				return bool.isConst();
 			}
 		}
 		
@@ -79,6 +86,11 @@ public interface DeviceValue extends Serializable {
 			@Override
 			public String toString() {
 				return "const [" + value + "]";
+			}
+			
+			@Override
+			public boolean isConst() {
+				return true;
 			}
 		}
 	}
@@ -125,6 +137,11 @@ public interface DeviceValue extends Serializable {
 			@Override
 			public String toString() {
 				return "const [" + value + "]";
+			}
+			
+			@Override
+			public boolean isConst() {
+				return true;
 			}
 			
 			

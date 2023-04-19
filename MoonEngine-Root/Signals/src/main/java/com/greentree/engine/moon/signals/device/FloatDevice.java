@@ -10,7 +10,7 @@ public interface FloatDevice extends Device<DeviceValue.Float> {
 	}
 	
 	default void signal(DeviceCollection signals, float value) {
-		signals.set(this, new DeviceValue.Float.Const(value));
+		signals.set(this, value);
 	}
 	
 }

@@ -17,13 +17,6 @@ public enum EventState {
 			return current && !next;
 		}
 	},
-	ENABLE() {
-		
-		@Override
-		public boolean is(boolean current, boolean next) {
-			return current && next;
-		}
-	},
 	DISABLE() {
 		
 		@Override
