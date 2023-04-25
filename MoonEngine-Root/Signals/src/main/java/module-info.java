@@ -1,6 +1,5 @@
 import com.greentree.engine.moon.modules.EngineModule;
 import com.greentree.engine.moon.signals.CreateDevicesPropertyModule;
-import com.greentree.engine.moon.signals.device.UpdateDevicesPropertyModule;
 
 open module engine.moon.signals {
 	
@@ -12,6 +11,6 @@ open module engine.moon.signals {
 	exports com.greentree.engine.moon.signals.device.value;
 	exports com.greentree.engine.moon.signals.mouse;
 	
-	provides EngineModule with CreateDevicesPropertyModule, UpdateDevicesPropertyModule;
+	provides EngineModule with CreateDevicesPropertyModule;
 	
 }

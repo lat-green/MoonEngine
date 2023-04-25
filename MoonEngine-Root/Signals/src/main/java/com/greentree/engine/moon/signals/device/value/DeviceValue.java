@@ -5,7 +5,6 @@ import java.util.Objects;
 
 import com.greentree.engine.moon.signals.device.Device;
 import com.greentree.engine.moon.signals.device.DeviceCollection;
-import com.greentree.engine.moon.signals.device.EventState;
 
 public interface DeviceValue extends Serializable {
 	
@@ -14,10 +13,6 @@ public interface DeviceValue extends Serializable {
 	}
 	
 	public interface Boolean extends DeviceValue {
-		
-		default Boolean onEvent(EventState state) {
-			return null;
-		}
 		
 		default Float toFloat() {
 			return new ButtonToAxesDeviceValue(this);

@@ -108,7 +108,6 @@ public final class ButtonSystem implements InitSystem, UpdateSystem, DestroySyst
 			
 			glColor3f(0, 0, 0);
 			
-//			glScalef(.5f, .5f, 1);
 			FONT.drawString(0, 0, "Hello");
 			
 			glPopMatrix();
