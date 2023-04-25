@@ -41,12 +41,14 @@ public interface Devices extends Iterable<Device<?>>, Serializable {
 	}
 	
 	default ListenerCloser onPress(Device<? extends Boolean> button, Runnable listener) {
-		return opChange(button, v -> {
+		return onChange(button, v -> {
 			if(v.value())
 				listener.run();
 		});
 	}
 	
-	<V extends DeviceValue> ListenerCloser opChange(Device<? extends V> button, Consumer<? super V> listener);
+	<V extends DeviceValue> ListenerCloser onChange(Device<? extends V> button, Consumer<? super V> listener);
+	
+	
 	
 }

@@ -57,7 +57,7 @@ public class HashMapDevices implements Devices {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public <V extends DeviceValue> ListenerCloser opChange(Device<? extends V> button, Consumer<? super V> listener) {
+	public <V extends DeviceValue> ListenerCloser onChange(Device<? extends V> button, Consumer<? super V> listener) {
 		listener.accept(getValue(button));
 		return action.addListener(button, (Consumer<? super DeviceValue>) listener);
 	}
