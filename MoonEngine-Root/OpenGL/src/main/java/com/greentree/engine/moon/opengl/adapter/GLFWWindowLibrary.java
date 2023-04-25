@@ -10,11 +10,6 @@ public record GLFWWindowLibrary(GLRenderLibrary render) implements WindowLibrary
 		return new WindowAddapter(new Window(title, width, height), render);
 	}
 	
-	@Override
-	public void updateEvents() {
-		Window.updateEvents();
-	}
-	
 	
 	
 }

@@ -159,6 +159,7 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 				}
 			}
 		}
+		
 	}
 	
 	private void mapMaterial(MaterialProperties properties) {
