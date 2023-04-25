@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
-import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.opengl.adapter.RenderMesh;
 import com.greentree.engine.moon.opengl.adapter.Shader;
 import com.greentree.engine.moon.render.material.MaterialProperties;
@@ -47,7 +46,7 @@ public record DrawMesh(Shader shader, RenderMesh mesh, Iterable<MaterialProperti
 	
 	@Override
 	public String toString() {
-		return "BindShader [" + shader + ", " + IteratorUtil.size(properties) + ", " + mesh + "]";
+		return "DrawMesh [" + shader + ", " + properties + ", " + mesh + "]";
 	}
 	
 	@Override

@@ -48,6 +48,10 @@ public final class MaterialPropertiesWithParent implements MaterialProperties {
 		return IteratorUtil.union(parent, base).iterator();
 	}
 	
+	@Override
+	public String toString() {
+		return "MaterialPropertiesWithParent [" + parent + ", " + base + "]";
+	}
 	
 	@Override
 	public void put(String name, Property property) {

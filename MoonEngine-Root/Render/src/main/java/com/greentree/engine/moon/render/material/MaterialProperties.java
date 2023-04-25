@@ -58,4 +58,11 @@ public interface MaterialProperties extends Iterable<String> {
 		put(name, color.r, color.g, color.b);
 	}
 	
+	default MaterialProperties copy() {
+		var copy = new MaterialPropertiesBase();
+		for(var name : this)
+			copy.put(name, get(name));
+		return copy;
+	}
+	
 }

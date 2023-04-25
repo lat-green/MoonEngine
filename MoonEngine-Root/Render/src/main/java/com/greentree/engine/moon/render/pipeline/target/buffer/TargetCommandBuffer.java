@@ -27,7 +27,10 @@ public interface TargetCommandBuffer extends AutoCloseable {
 	
 	@Deprecated
 	@Override
-	void close();
+	default void close() {
+		execute();
+		clear();
+	}
 	
 	void disableCullFace();
 	void disableDepthTest();
