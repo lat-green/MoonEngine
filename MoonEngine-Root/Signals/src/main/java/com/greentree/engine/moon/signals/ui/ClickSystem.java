@@ -20,8 +20,7 @@ import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.MouseButton;
 import com.greentree.engine.moon.signals.device.Devices;
-import com.greentree.engine.moon.signals.mouse.MouseXDevice;
-import com.greentree.engine.moon.signals.mouse.MouseYDevice;
+import com.greentree.engine.moon.signals.device.MousePosition;
 
 
 public final class ClickSystem implements InitSystem, UpdateSystem, DestroySystem {
@@ -84,8 +83,8 @@ public final class ClickSystem implements InitSystem, UpdateSystem, DestroySyste
 	}
 	
 	private void click(MouseButton button) {
-		final var x = devices.getValue(new MouseXDevice()).value();
-		final var y = devices.getValue(new MouseYDevice()).value();
+		final var x = devices.getValue(MousePosition.X).value();
+		final var y = devices.getValue(MousePosition.Y).value();
 		
 		clickEvent.add(new Click(x, y, button));
 		

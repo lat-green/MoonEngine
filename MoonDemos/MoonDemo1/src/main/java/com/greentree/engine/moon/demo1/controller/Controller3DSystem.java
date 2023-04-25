@@ -55,10 +55,10 @@ public class Controller3DSystem implements InitSystem, UpdateSystem, DestroySyst
 			final var co = c.get(Controller3D.class);
 			final var t = c.get(Transform.class);
 			
-			final var look = new Vector2f(input.getValue(new LookX()).value(),
-					input.getValue(new LookY()).value());
-			final var move = new Vector3f(input.getValue(new MoveX()).value(),
-					input.getValue(new MoveY()).value(), input.getValue(new MoveZ()).value());
+			final var look = new Vector2f(input.getValue(PlayerInput.LookX).value(),
+					input.getValue(PlayerInput.LookY).value());
+			final var move = new Vector3f(input.getValue(PlayerInput.MoveX).value(),
+					input.getValue(PlayerInput.MoveY).value(), input.getValue(PlayerInput.MoveZ).value());
 			
 			t.rotation.identity();
 			t.rotation.rotateY(-look.x());

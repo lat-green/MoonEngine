@@ -15,8 +15,7 @@ import com.greentree.engine.moon.render.window.WindowLibraryProperty;
 import com.greentree.engine.moon.render.window.WindowProperty;
 import com.greentree.engine.moon.render.window.callback.ButtonAction;
 import com.greentree.engine.moon.signals.DevicesProperty;
-import com.greentree.engine.moon.signals.mouse.MouseXDevice;
-import com.greentree.engine.moon.signals.mouse.MouseYDevice;
+import com.greentree.engine.moon.signals.device.MousePosition;
 
 public final class WindowModule implements LaunchModule, TerminateModule {
 	
@@ -45,8 +44,8 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 		lcs[0] = window.addCursorPosCallback((x, y) -> {
 			final var fx = 2f * (x - window.getWidth() / 2f) / window.getWidth();
 			final var fy = -2f * (y - window.getHeight() / 2f) / window.getHeight();
-			new MouseXDevice().signal(signals, (float) fx);
-			new MouseYDevice().signal(signals, (float) fy);
+			MousePosition.X.signal(signals, (float) fx);
+			MousePosition.Y.signal(signals, (float) fy);
 		});
 		lcs[1] = window.addKeyCallback((key, scancode, action, mods) -> {
 			switch(action) {
