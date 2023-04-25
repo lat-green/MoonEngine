@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import com.greentree.engine.moon.signals.device.Device;
-import com.greentree.engine.moon.signals.device.DeviceCollection;
+import com.greentree.engine.moon.signals.device.Devices;
 
 public interface DeviceValue extends Serializable {
 	
@@ -67,7 +67,7 @@ public interface DeviceValue extends Serializable {
 			}
 		}
 		
-		public record Link(DeviceCollection signals, Device<? extends Boolean> device) implements Boolean {
+		public record Link(Devices signals, Device<? extends Boolean> device) implements Boolean {
 			
 			@Override
 			public boolean value() {
@@ -118,11 +118,11 @@ public interface DeviceValue extends Serializable {
 		
 		float value();
 		
-		public record Link(DeviceCollection signals, Device<? extends Float> device) implements Float {
+		public record Link(Devices signals, Device<? extends Float> device) implements Float {
 			
 			@Override
 			public float value() {
-				return signals.getValue(device).value();
+				return signals.get(device);
 			}
 			
 		}

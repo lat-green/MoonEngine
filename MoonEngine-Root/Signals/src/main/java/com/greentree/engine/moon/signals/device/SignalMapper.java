@@ -9,17 +9,17 @@ public final class SignalMapper {
 	private SignalMapper() {
 	}
 	
-	public static void map(DeviceCollection signals, DeviceCollection dest, FloatDevice input,
+	public static void map(Devices signals, Devices dest, FloatDevice input,
 			FloatDevice result) {
 		dest.set(result, new Float.Link(signals, input));
 	}
 	
-	public static void map(DeviceCollection signals, DeviceCollection dest, FloatDevice input,
+	public static void map(Devices signals, Devices dest, FloatDevice input,
 			FloatDevice result, float border) {
 		dest.set(result, new Float.Link(signals, input).border(border));
 	}
 	
-	public static void map(DeviceCollection signals, DeviceCollection dest, BooleanDevice min,
+	public static void map(Devices signals, Devices dest, BooleanDevice min,
 			BooleanDevice max, FloatDevice result) {
 		final var mn = new Boolean.Link(signals, min).toFloat().mult(-1);
 		final var mx = new Boolean.Link(signals, max).toFloat();

@@ -3,6 +3,7 @@ package com.greentree.engine.moon.signals;
 import com.greentree.engine.moon.ecs.WorldComponent;
 import com.greentree.engine.moon.modules.EngineProperty;
 import com.greentree.engine.moon.signals.device.Devices;
+import com.greentree.engine.moon.signals.device.HashMapDevices;
 
 
 public record DevicesProperty(Devices devices) implements EngineProperty, WorldComponent {
@@ -12,7 +13,7 @@ public record DevicesProperty(Devices devices) implements EngineProperty, WorldC
 	}
 	
 	public DevicesProperty() {
-		this(new Devices());
+		this(new HashMapDevices());
 	}
 	
 }

@@ -76,15 +76,14 @@ public final class ClickSystem implements InitSystem, UpdateSystem, DestroySyste
 	}
 	
 	private ListenerCloser addListener(MouseButton button) {
-		return devices.addListener(button, t -> {
-			if(t.value())
-				click(button);
+		return devices.onPress(button, () -> {
+			click(button);
 		});
 	}
 	
 	private void click(MouseButton button) {
-		final var x = devices.getValue(MousePosition.X).value();
-		final var y = devices.getValue(MousePosition.Y).value();
+		final var x = devices.get(MousePosition.X);
+		final var y = devices.get(MousePosition.Y);
 		
 		clickEvent.add(new Click(x, y, button));
 		

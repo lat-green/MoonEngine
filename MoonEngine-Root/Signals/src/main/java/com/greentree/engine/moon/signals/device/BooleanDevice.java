@@ -9,11 +9,11 @@ public interface BooleanDevice extends Device<DeviceValue.Boolean> {
 		return new DeviceValue.Boolean.Const(false);
 	}
 	
-	default void press(DeviceCollection signals) {
+	default void press(Devices signals) {
 		signals.set(this, true);
 	}
 	
-	default void release(DeviceCollection signals) {
+	default void release(Devices signals) {
 		signals.set(this, false);
 	}
 	
