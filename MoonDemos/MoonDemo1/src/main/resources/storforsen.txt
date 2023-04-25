@@ -1,0 +1,6 @@
+posx=storforsen_posx.jpg
+negx=storforsen_negx.jpg
+posy=storforsen_posy.jpg
+negy=storforsen_negy.jpg
+posz=storforsen_posz.jpg
+negz=storforsen_negz.jpg

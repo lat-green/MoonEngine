@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE scene SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+
+<scene>
+	<system type="TimeSystem"/>
+	<system type="CameraSystem"/>
+
+	<system type="LayerSystem"/>
+	<system type="NameSystem"/>
+
+	<system type="Controller3DSystem"/>
+	<system type="RectTransforUpdate"/>
+	<system type="DisableCursor"/>
+	<system type="ScriptSystem"/>
+
+	<system type="SpriteMeshGenerator"/>
+	<system type="PointLightTargetGeneratedSystem"/>
+	<system type="DirectionLightTargetGeneratedSystem"/>
+	<system type="CameraTargetGeneratedSystem"/>
+	<system type="ForvardRendering"/>
+	<system type="RenderMainCamera"/>
+
+	<entity>
+		<component type="Transform">
+			<field name="position">
+				<value>
+					<property name="x">-10</property>
+					<property name="y">0</property>
+					<property name="z">0</property>
+				</value>
+			</field>
+		</component>
+		<component type="HasShadow"/>
+		<component type="PointLightComponent">
+			<field name="intensity">
+				<value>2</value>
+			</field>
+		</component>
+	</entity>
+
+	<entity name="camera">
+		<component type="Transform"/>
+		<component type="CameraComponent">
+			<property name="width">800</property>
+			<property name="height">600</property>
+		</component>
+		<component type="SkyBoxComponent">
+			<field name="texture">
+				<value type="CubeTextureAssetKey">
+					<field name="image">
+						<value>test_SB.txt</value>
+					</field>
+				</value>
+			</field>
+		</component>
+		<component type="Controller3D">
+			<field name="speed">
+				<value>5</value>
+			</field>
+		</component>
+		<component type="MouseSensitivity">
+			<field name="sensitivityX">
+				<value>1</value>
+			</field>
+			<field name="sensitivityY">
+				<value>-1</value>
+			</field>
+		</component>
+		 <component type="MeshComponent">
+			<field name="mesh">
+				<value>box.obj</value>
+			</field>
+		</component>
+		<component type="MeshRenderer">
+			<field name="material">
+				<value>brick/brick.txt</value>
+			</field>
+		</component> 
+	</entity>
+	
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">2</property>
+		<property name="z">4</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">2</property>
+		<property name="z">2</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">2</property>
+		<property name="z">0</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">2</property>
+		<property name="z">-2</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">2</property>
+		<property name="z">-4</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">0</property>
+		<property name="z">4</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">0</property>
+		<property name="z">2</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">0</property>
+		<property name="z">0</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">0</property>
+		<property name="z">-2</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">0</property>
+		<property name="z">-4</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">-2</property>
+		<property name="z">4</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">-2</property>
+		<property name="z">2</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">-2</property>
+		<property name="z">0</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">-2</property>
+		<property name="z">-2</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	<entity_ref file="entity1.xml">
+		<property name="x">3</property>
+		<property name="y">-2</property>
+		<property name="z">-4</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	
+	<entity_ref file="wall.xml">
+		<property name="x">20</property>
+		<property name="y">0</property>
+		<property name="z">0</property>
+		<property name="sx">10</property>
+		<property name="sy">100</property>
+		<property name="sz">100</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+
+</scene>

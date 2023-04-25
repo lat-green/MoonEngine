@@ -1,0 +1,45 @@
+#version 330 core
+
+layout (location = 0) out vec3 gPosition;
+layout (location = 1) out vec3 gNormal;
+layout (location = 2) out vec3 gAlbedo;
+
+layout (location = 4) out float gMetallic;
+layout (location = 5) out float gRoughness;
+layout (location = 7) out float gAmbientOcclusion;
+
+in VS_OUT {
+    vec3 FragPos;
+    vec2 TexCoords;
+	mat3 TBN;
+} fs_in;
+
+struct Material {
+    sampler2D  albedo;
+    sampler2D  metallic;
+    sampler2D  normal;
+    sampler2D  roughness;
+    sampler2D  displacement;
+    sampler2D  ao;
+};
+
+uniform Material material;
+
+void main()
+{	
+	vec2 TexCoords = fs_in.TexCoords;
+	
+    float displacement = texture(material.displacement, TexCoords).r;
+
+    gPosition = fs_in.FragPos;
+	
+	gNormal = texture(material.normal, TexCoords).rgb;
+	gNormal = normalize(gNormal * 2.0 - 1.0);
+	gNormal = normalize(fs_in.TBN * gNormal);
+	
+	gAlbedo = texture(material.albedo, TexCoords).rgb;
+	
+    gRoughness = texture(material.roughness, TexCoords).r;
+    gMetallic = texture(material.metallic, TexCoords).r;
+    gAmbientOcclusion = texture(material.ao, TexCoords).r;
+}

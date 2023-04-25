@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entity SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+
+<entity>
+	<component type="transform.Transform">
+		<field name="position">
+			<value>
+				<property name="x">${x}</property>
+				<property name="y">${y}</property>
+				<property name="z">${z}</property>
+			</value>
+		</field>
+	</component>
+	<component type="MeshComponent">
+		<field name="mesh">
+			<value>box.obj</value>
+		</field>
+	</component>
+	<component type="MeshRenderer">
+		<field name="material">
+			<value>${material}</value>
+		</field>
+	</component>
+	<component type="Scripts">
+		<field name="scripts">
+			<value>
+				<value>move.js</value>
+			</value>
+		</field>
+	</component>
+</entity>

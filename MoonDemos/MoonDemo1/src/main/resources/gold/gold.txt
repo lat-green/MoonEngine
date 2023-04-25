@@ -1,0 +1,4 @@
+texture.albedo=gold-scuffed_basecolor
+texture.metallic=gold-scuffed_metallic
+texture.normal=gold-scuffed_normal
+texture.roughness=gold-scuffed_roughness
