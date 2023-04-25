@@ -1,6 +1,8 @@
 package com.greentree.engine.moon.signals;
 
-public enum Key {
+import com.greentree.engine.moon.signals.device.BooleanDevice;
+
+public enum Key implements BooleanDevice {
 	
 	KEY_0(),
 	KEY_1(),

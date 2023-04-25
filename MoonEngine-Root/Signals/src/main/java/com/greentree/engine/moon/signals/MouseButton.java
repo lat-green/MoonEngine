@@ -1,6 +1,8 @@
 package com.greentree.engine.moon.signals;
 
-public enum MouseButton {
+import com.greentree.engine.moon.signals.device.BooleanDevice;
+
+public enum MouseButton implements BooleanDevice {
 	
 	MOUSE_BUTTON_RIGHT(),
 	MOUSE_BUTTON_MIDDLE(),
