@@ -72,7 +72,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 		var rmesh = library.build(mesh);
 		var rshader = library.build(shader);
 		
-		TargetCommand command = new DrawMesh(rshader, rmesh, properties);
+		TargetCommand command = new DrawMesh(rshader, rmesh, properties.copy());
 		if(cullFace)
 			command = new CullFace(command);
 		if(depthTest)

@@ -32,12 +32,6 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
 		base.clearDepth(depth);
 	}
 	
-	@Deprecated
-	@Override
-	public void close() {
-		base.close();
-	}
-	
 	@Override
 	public void disableCullFace() {
 		base.disableCullFace();

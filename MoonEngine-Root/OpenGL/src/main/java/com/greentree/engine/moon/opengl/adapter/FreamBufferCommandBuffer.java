@@ -20,10 +20,10 @@ public class FreamBufferCommandBuffer extends ProxyCommandBuffer {
 	}
 	
 	@Override
-	public void close() {
+	public void execute() {
 		fb.bind();
 		glViewport(0, 0, fb.getWidth(), fb.getHeight());
-		super.close();
+		super.execute();
 		fb.unbind();
 	}
 	

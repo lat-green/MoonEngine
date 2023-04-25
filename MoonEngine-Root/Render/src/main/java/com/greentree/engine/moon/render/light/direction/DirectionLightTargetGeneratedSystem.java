@@ -14,7 +14,7 @@ import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 
 public class DirectionLightTargetGeneratedSystem implements InitSystem, UpdateSystem, DestroySystem {
 	
-	private static final int SHADOW_SIZE = 256;
+	private static final int SHADOW_SIZE = 256 * 4 * 4;
 	private static final FilterBuilder CAMERAS = new FilterBuilder().required(DirectionLightComponent.class)
 			.ignore(DirectionLightTarget.class);
 	private Filter cameras;
