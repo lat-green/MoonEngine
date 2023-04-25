@@ -9,7 +9,6 @@ import com.greentree.engine.moon.modules.TerminateModule;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.Key;
 import com.greentree.engine.moon.signals.device.EventState;
-import com.greentree.engine.moon.signals.keyboard.KeyBoardButton;
 
 public class ExitOnESCAPE implements LaunchModule, TerminateModule {
 	
@@ -27,7 +26,7 @@ public class ExitOnESCAPE implements LaunchModule, TerminateModule {
 	@Override
 	public void launch(EngineProperties properties) {
 		lc = properties.get(DevicesProperty.class).devices()
-				.addListener(new KeyBoardButton(Key.ESCAPE), EventState.ON_ENABLE, () ->
+				.addListener(Key.ESCAPE, EventState.ON_ENABLE, () ->
 				{
 					final var w = properties.get(ExitManagerProperty.class).manager();
 					w.exit();

@@ -15,8 +15,6 @@ import com.greentree.engine.moon.render.window.WindowLibraryProperty;
 import com.greentree.engine.moon.render.window.WindowProperty;
 import com.greentree.engine.moon.render.window.callback.ButtonAction;
 import com.greentree.engine.moon.signals.DevicesProperty;
-import com.greentree.engine.moon.signals.keyboard.KeyBoardButton;
-import com.greentree.engine.moon.signals.mouse.MouseButtonDevice;
 import com.greentree.engine.moon.signals.mouse.MouseXDevice;
 import com.greentree.engine.moon.signals.mouse.MouseYDevice;
 
@@ -51,19 +49,18 @@ public final class WindowModule implements LaunchModule, TerminateModule {
 			new MouseYDevice().signal(signals, (float) fy);
 		});
 		lcs[1] = window.addKeyCallback((key, scancode, action, mods) -> {
-			var d = new KeyBoardButton(key);
 			switch(action) {
-				case PRESS -> d.press(signals);
-				case RELEASE -> d.release(signals);
+				case PRESS -> key.press(signals);
+				case RELEASE -> key.release(signals);
 				default -> {
 				}
 			}
 		});
 		lcs[2] = window.addMouseButtonCallback((button, action, mods) -> {
 			if(action == ButtonAction.PRESS)
-				new MouseButtonDevice(button).press(signals);
+				button.press(signals);
 			if(action == ButtonAction.RELEASE)
-				new MouseButtonDevice(button).release(signals);
+				button.release(signals);
 		});
 	}
 	

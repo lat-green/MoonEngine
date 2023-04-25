@@ -19,7 +19,6 @@ import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.MouseButton;
 import com.greentree.engine.moon.signals.device.Devices;
-import com.greentree.engine.moon.signals.mouse.MouseButtonDevice;
 import com.greentree.engine.moon.signals.mouse.MouseXDevice;
 import com.greentree.engine.moon.signals.mouse.MouseYDevice;
 import com.greentree.engine.moon.signals.ui.Click;
@@ -77,7 +76,7 @@ public final class ClickSystem implements InitSystem, UpdateSystem, DestroySyste
 	}
 	
 	private ListenerCloser addListener(MouseButton button) {
-		return devices.addListener(new MouseButtonDevice(button), t-> {
+		return devices.addListener(button, t -> {
 			if(t.value())
 				click(button);
 		});
