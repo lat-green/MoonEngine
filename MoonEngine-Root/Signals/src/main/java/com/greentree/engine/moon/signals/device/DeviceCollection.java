@@ -2,6 +2,8 @@ package com.greentree.engine.moon.signals.device;
 
 import java.io.Serializable;
 
+import com.greentree.commons.math.vector.Vector2f;
+import com.greentree.commons.math.vector.Vector3f;
 import com.greentree.engine.moon.signals.device.value.DeviceValue;
 import com.greentree.engine.moon.signals.device.value.DeviceValue.Boolean;
 import com.greentree.engine.moon.signals.device.value.DeviceValue.Float;
@@ -9,6 +11,22 @@ import com.greentree.engine.moon.signals.device.value.DeviceValue.Float;
 public interface DeviceCollection extends Iterable<Device<?>>, Serializable {
 	
 	<V extends DeviceValue> V getValue(Device<V> device);
+	
+	default boolean get(BooleanDevice device) {
+		return getValue(device).value();
+	}
+	
+	default float get(FloatDevice device) {
+		return getValue(device).value();
+	}
+	
+	default Vector2f get(FloatDevice x, FloatDevice y) {
+		return new Vector2f(get(x), get(y));
+	}
+	
+	default Vector3f get(FloatDevice x, FloatDevice y, FloatDevice z) {
+		return new Vector3f(get(x), get(y), get(z));
+	}
 	
 	<V extends DeviceValue> void set(Device<V> device, V value);
 	

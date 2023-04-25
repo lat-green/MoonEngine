@@ -18,8 +18,8 @@ import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.MouseButton;
+import com.greentree.engine.moon.signals.MousePosition;
 import com.greentree.engine.moon.signals.device.Devices;
-import com.greentree.engine.moon.signals.device.MousePosition;
 import com.greentree.engine.moon.signals.ui.Click;
 
 

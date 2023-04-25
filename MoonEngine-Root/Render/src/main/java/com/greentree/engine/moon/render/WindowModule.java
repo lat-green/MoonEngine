@@ -15,7 +15,7 @@ import com.greentree.engine.moon.render.window.WindowLibraryProperty;
 import com.greentree.engine.moon.render.window.WindowProperty;
 import com.greentree.engine.moon.render.window.callback.ButtonAction;
 import com.greentree.engine.moon.signals.DevicesProperty;
-import com.greentree.engine.moon.signals.device.MousePosition;
+import com.greentree.engine.moon.signals.MousePosition;
 
 public final class WindowModule implements LaunchModule, TerminateModule {
 	

@@ -2,8 +2,6 @@ package com.greentree.engine.moon.demo1.controller;
 
 import org.joml.Matrix3f;
 
-import com.greentree.commons.math.vector.Vector2f;
-import com.greentree.commons.math.vector.Vector3f;
 import com.greentree.engine.moon.base.time.Time;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
@@ -55,10 +53,8 @@ public class Controller3DSystem implements InitSystem, UpdateSystem, DestroySyst
 			final var co = c.get(Controller3D.class);
 			final var t = c.get(Transform.class);
 			
-			final var look = new Vector2f(input.getValue(PlayerInput.LookX).value(),
-					input.getValue(PlayerInput.LookY).value());
-			final var move = new Vector3f(input.getValue(PlayerInput.MoveX).value(),
-					input.getValue(PlayerInput.MoveY).value(), input.getValue(PlayerInput.MoveZ).value());
+			var look = input.get(PlayerInput.LookX, PlayerInput.LookY);
+			var move = input.get(PlayerInput.MoveX, PlayerInput.MoveY, PlayerInput.MoveZ);
 			
 			t.rotation.identity();
 			t.rotation.rotateY(-look.x());

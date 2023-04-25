@@ -13,7 +13,7 @@ import com.greentree.engine.moon.modules.ReadProperty;
 import com.greentree.engine.moon.modules.WriteProperty;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.Key;
-import com.greentree.engine.moon.signals.device.MousePosition;
+import com.greentree.engine.moon.signals.MousePosition;
 import com.greentree.engine.moon.signals.device.SignalMapper;
 
 public class InitSceneModule implements LaunchModule {
