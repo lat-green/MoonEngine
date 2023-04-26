@@ -6,8 +6,6 @@ import java.util.Collection;
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.CreateComponent;
-import com.greentree.engine.moon.ecs.annotation.DestroyComponent;
 import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
@@ -62,8 +60,6 @@ public final class ClickSystem implements InitSystem, UpdateSystem, DestroySyste
 		lc3 = addListener(MouseButton.MOUSE_BUTTON_MIDDLE);
 	}
 	
-	@CreateComponent({Click.class})
-	@DestroyComponent({Click.class})
 	@Override
 	public void update() {
 		for(var c : clicks)

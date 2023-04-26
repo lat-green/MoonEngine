@@ -3,6 +3,8 @@ package com.greentree.engine.moon.base.transform;
 
 import com.greentree.commons.math.vector.Vector3f;
 import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.annotation.Use;
+import com.greentree.engine.moon.ecs.annotation.UseStage;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
@@ -21,6 +23,8 @@ public final class LookAtSystem implements InitSystem, UpdateSystem, DestroySyst
 		look_at = null;
 	}
 	
+	@Use(value = Transform.class, state = UseStage.WRITE)
+	@Use(value = LookAt.class, state = UseStage.READ)
 	@Override
 	public void update() {
 		final var joml_up = Transform.UP.toJoml();
@@ -34,6 +38,7 @@ public final class LookAtSystem implements InitSystem, UpdateSystem, DestroySyst
 			
 			joml_temp.set(temp.x, temp.y, temp.z);
 			
+			t.rotation.identity();
 			t.rotation.lookAlong(joml_temp, joml_up);
 		}
 	}

@@ -8,12 +8,12 @@ import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.editor.ui.Button;
-import com.greentree.engine.moon.editor.ui.ButtonClick;
+import com.greentree.engine.moon.signals.ui.ClickableClick;
 
 public class LogSystem implements InitSystem, UpdateSystem, DestroySystem {
 	
 	private static final FilterBuilder CLICKS = new FilterBuilder()
-			.required(ButtonClick.class);
+			.required(ClickableClick.class);
 	private Filter clicks;
 	
 	@Override
@@ -27,11 +27,11 @@ public class LogSystem implements InitSystem, UpdateSystem, DestroySystem {
 		
 	}
 	
-	@ReadComponent({ButtonClick.class})
+	@ReadComponent({ClickableClick.class})
 	@Override
 	public void update() {
 		for(var e : clicks) {
-			final var c = e.get(ButtonClick.class);
+			final var c = e.get(ClickableClick.class);
 			System.out.println(c.button().get(Button.class).name());
 		}
 	}

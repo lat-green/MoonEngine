@@ -2,9 +2,6 @@ package com.greentree.engine.moon.editor.ui;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
 
@@ -12,9 +9,7 @@ import com.greentree.common.graphics.sgl.font.BasicFont;
 import com.greentree.commons.math.vector.Vector3f;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
 import com.greentree.engine.moon.base.transform.Transform;
-import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.CreateComponent;
 import com.greentree.engine.moon.ecs.annotation.ReadComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
@@ -34,11 +29,8 @@ public final class ButtonSystem implements InitSystem, UpdateSystem, DestroySyst
 	
 	private static final FilterBuilder BUTTONS = new FilterBuilder().required(Button.class);
 	private static final FilterBuilder CLICKS = new FilterBuilder().required(Click.class);
-	private static final FilterBuilder BUTTON_CLICKS = new FilterBuilder()
-			.required(ButtonClick.class);
-	private final Collection<ButtonClick> clickEvent = new ArrayList<>();
 	
-	private Filter buttons, clicks, buttonClicks;
+	private Filter buttons, clicks;
 	
 	private EntityPool pool;
 	
@@ -48,7 +40,6 @@ public final class ButtonSystem implements InitSystem, UpdateSystem, DestroySyst
 	public void destroy() {
 		buttons.close();
 		clicks.close();
-		buttonClicks.close();
 		world = null;
 		pool.close();
 	}
@@ -59,10 +50,8 @@ public final class ButtonSystem implements InitSystem, UpdateSystem, DestroySyst
 		pool = new StackEntityPool(world, new EmptyEntityStrategy());
 		buttons = BUTTONS.build(world);
 		clicks = CLICKS.build(world);
-		buttonClicks = BUTTON_CLICKS.build(world);
 	}
 	
-	@CreateComponent({ButtonClick.class})
 	@ReadComponent({Click.class})
 	@Override
 	public void update() {
@@ -91,11 +80,6 @@ public final class ButtonSystem implements InitSystem, UpdateSystem, DestroySyst
 				vec.set(c.x(), c.y(), 0);
 				
 				vec.mul(temp);
-				
-				if(-1 <= vec.x && vec.x <= 1 && -1 <= vec.y && vec.y <= 1) {
-					click(button);
-					break;
-				}
 			}
 			
 			glColor3f(1, 1, 1);
@@ -113,20 +97,8 @@ public final class ButtonSystem implements InitSystem, UpdateSystem, DestroySyst
 			glPopMatrix();
 		}
 		
-		for(var c : buttonClicks)
-			world.deleteEntity(c);
-		for(var c : clickEvent) {
-			final var e = pool.get();
-			e.add(c);
-		}
-		clickEvent.clear();
-		
 		world.get(EnginePropertiesWorldComponent.class).properties().get(WindowProperty.class)
 				.window().swapBuffer();
-	}
-	
-	private void click(Entity button) {
-		clickEvent.add(new ButtonClick(button));
 	}
 	
 	

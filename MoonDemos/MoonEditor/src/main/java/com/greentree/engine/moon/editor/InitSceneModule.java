@@ -12,6 +12,7 @@ import com.greentree.engine.moon.base.name.NameSystem;
 import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.base.scene.SceneManagerProperty;
 import com.greentree.engine.moon.base.time.TimeSystem;
+import com.greentree.engine.moon.base.transform.RectTransforUpdate;
 import com.greentree.engine.moon.base.transform.RectTransform;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
@@ -20,13 +21,14 @@ import com.greentree.engine.moon.ecs.system.debug.DebugSystems;
 import com.greentree.engine.moon.ecs.system.debug.PrintStreamSystemsProfiler;
 import com.greentree.engine.moon.editor.ui.Button;
 import com.greentree.engine.moon.editor.ui.ButtonSystem;
-import com.greentree.engine.moon.editor.ui.ClickSystem;
-import com.greentree.engine.moon.editor.ui.RectTransforUpdate;
 import com.greentree.engine.moon.modules.EngineProperties;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.ReadProperty;
 import com.greentree.engine.moon.modules.WriteProperty;
 import com.greentree.engine.moon.render.camera.CameraSystem;
+import com.greentree.engine.moon.signals.ui.ClickSystem;
+import com.greentree.engine.moon.signals.ui.Clickable;
+import com.greentree.engine.moon.signals.ui.ClickableClickSystem;
 
 public class InitSceneModule implements LaunchModule {
 	
@@ -44,6 +46,7 @@ public class InitSceneModule implements LaunchModule {
 					lock.add(new Transform());
 					lock.add(new RectTransform(-.1f, -.1f, .1f, .1f, 0));
 					lock.add(new Button("Hello"));
+					lock.add(new Clickable());
 				}
 			}
 			
@@ -53,8 +56,8 @@ public class InitSceneModule implements LaunchModule {
 				for(var s : globalSystems)
 					systems.add(s);
 				Collections.addAll(systems, new TimeSystem(), new CameraSystem(), new LayerSystem(),
-						new NameSystem(), new LogSystem(), new RectTransforUpdate(),
-						new ButtonSystem(), new ClickSystem());
+						new NameSystem(), new LogSystem(), new RectTransforUpdate(), new ButtonSystem(),
+						new ClickSystem(), new ClickableClickSystem());
 				
 				try {
 					return new DebugSystems(new PrintStreamSystemsProfiler(

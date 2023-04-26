@@ -129,8 +129,9 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				
 				@Override
 				public void build(World world) {
+					var xml_entities = new ArrayList<XMLElement>();
 					for(var xml_entity : xml_scene.getChildrens("entity"))
-						addEntity(world, xml_entity);
+						xml_entities.add(xml_entity);
 					for(var xml_entity_ref : xml_scene.getChildrens("entity_ref")) {
 						final var file = xml_entity_ref.getAttribute("file");
 						final var res = context.loadData(Resource.class, file);
@@ -154,8 +155,19 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						final var text = builder.toString(map);
 						final var xml = context.loadData(XMLElement.class, new ResultAssetKey(text));
 						
-						addEntity(world, xml);
+						xml_entities.add(xml);
 					}
+					var iter = xml_entities.iterator();
+					while(iter.hasNext()) {
+						var xml_entity = iter.next();
+						try {
+							addEntity(world, xml_entity);
+							iter.remove();
+						}catch(RuntimeException e) {
+						}
+					}
+					for(var xml_entity : xml_entities)
+						addEntity(world, xml_entity);
 				}
 				
 				@Override

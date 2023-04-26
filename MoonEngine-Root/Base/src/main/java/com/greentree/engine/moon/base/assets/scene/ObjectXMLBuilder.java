@@ -18,6 +18,7 @@ import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.classes.info.TypeInfoBuilder;
 import com.greentree.commons.util.classes.info.TypeUtil;
 import com.greentree.commons.util.collection.AutoGenerateMap;
+import com.greentree.commons.util.exception.MultiException;
 import com.greentree.commons.xml.XMLElement;
 
 public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
@@ -46,8 +47,28 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		
 	};
 	
+	private final XMLTypeAddapter mainAddapter;
+	
 	{
 		add(new XMLTypeAddapter() {
+			
+			@Override
+			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
+				if(!Modifier.isAbstract(type.toClass().getModifiers()))
+					return null;
+				var subClasses = type_addapters.keySet().stream().filter(x -> !Modifier.isAbstract(x.getModifiers()))
+						.filter(x -> ClassUtil.isExtends(type.toClass(), x))
+						.toList();
+				for(var cls : subClasses) {
+					var c = context.newInstance(cls, element);
+					if(c != null)
+						return (Constructor<T>) c;
+				}
+				return null;
+			}
+			
+		});
+		mainAddapter = new XMLTypeAddapter() {
 			
 			@Override
 			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_element) {
@@ -71,7 +92,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 					final var xml_value = names.remove(p.getName());
 					if(xml_value == null)
 						throw new NullPointerException("constructor of " + type + " has parameter \"" + p.getName()
-								+ "\" but xml not " + names);
+						+ "\" but xml not " + names);
 					try {
 						args[i] = context.build(p_type, xml_value);
 					}catch(Exception e) {
@@ -87,7 +108,8 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 							+ " type:" + type + " names:" + names, e);
 				}
 			}
-		});
+		};
+		add(mainAddapter);
 		add(new XMLTypeAddapter() {
 			
 			@SuppressWarnings("rawtypes")
@@ -108,7 +130,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			
 			@SuppressWarnings("unchecked")
 			public <T> T newInstanceOrNull(Context context, TypeInfo<T> type, XMLElement element) {
-				if(TypeUtil.isExtends(type, ARRAY_LIST_TYPE))
+				if(!TypeUtil.isExtends(type, ARRAY_LIST_TYPE))
 					return null;
 				final var lement_type = type.getTypeArguments()[0].getBoxing();
 				final var result = new ArrayList<>();
@@ -136,11 +158,6 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		return names;
 	}
 	
-	@Deprecated
-	public static <T> TypeInfo<T> getNotPrimitive(TypeInfo<T> type) {
-		return type.getBoxing();
-	}
-	
 	public void add(XMLTypeAddapter addapter) {
 		final var type = addapter.getLoadOnly();
 		if(type == null)
@@ -153,21 +170,33 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 	public <T> Constructor<T> newInstance(TypeInfo<T> type, XMLElement xml_element) {
 		type = type.getBoxing();
 		final var typed_addapers = type_addapters.get(type.toClass());
+		var errors = new ArrayList<RuntimeException>();
 		for(var v : typed_addapers) {
-			final var c = v.newInstance(this, type, xml_element);
-			if(c != null) {
-				return c;
+			try {
+				final var c = v.newInstance(this, type, xml_element);
+				if(c != null)
+					return c;
+			}catch(RuntimeException e) {
+				errors.add(e);
 			}
 		}
 		for(var v : addapters) {
 			if(typed_addapers.contains(v))
 				continue;
-			final var c = v.newInstance(this, type, xml_element);
-			if(c != null) {
-				add(c.value().getClass(), v);
-				return c;
+			try {
+				final var c = v.newInstance(this, type, xml_element);
+				if(c != null) {
+					add(c.value().getClass(), v);
+					return c;
+				}
+			}catch(RuntimeException e) {
+				errors.add(e);
 			}
 		}
+		if(errors.size() == 1)
+			throw errors.get(0);
+		if(!errors.isEmpty())
+			throw new MultiException(errors);
 		return null;
 	}
 	
@@ -178,6 +207,10 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			add(stype, addapter);
 		for(var i : type.getInterfaces())
 			add(i, addapter);
+	}
+	
+	private void initClass(Class<?> type) {
+		add(type, mainAddapter);
 	}
 	
 	private <T> Constructor<T> newInstanceConstructor(Map<String, XMLElement> names, T newInstance) {
@@ -192,7 +225,9 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 				final var p_type = TypeInfoBuilder.getTypeInfo(field);
 				final var v = build(p_type, value);
 				ClassUtil.setField(object, field, v);
+				return;
 			}
+			initClass(field.getType());
 			final var names = getNames(value);
 			setFields(now_v, names);
 			return;

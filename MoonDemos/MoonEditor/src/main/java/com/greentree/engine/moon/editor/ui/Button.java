@@ -2,11 +2,11 @@ package com.greentree.engine.moon.editor.ui;
 
 import java.util.Objects;
 
-import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
+import com.greentree.engine.moon.signals.ui.Clickable;
 
-@RequiredComponent({Transform.class})
+@RequiredComponent({Clickable.class})
 public final class Button implements ConstComponent {
 	
 	private static final long serialVersionUID = 1L;
