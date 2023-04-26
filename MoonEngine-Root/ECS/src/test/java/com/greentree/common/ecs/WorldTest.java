@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.Duration;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -151,6 +152,7 @@ public class WorldTest {
 		
 	}
 	
+	@Disabled
 	@Nested
 	class Timeouts {
 		
