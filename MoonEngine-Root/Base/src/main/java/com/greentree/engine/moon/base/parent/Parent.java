@@ -71,7 +71,7 @@ public final class Parent implements Component {
 	
 	@Override
 	public String toString() {
-		return "Parent [" + parent + ", " + childrens + "]";
+		return "Parent [" + parent + "]";
 	}
 	
 }

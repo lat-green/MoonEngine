@@ -18,7 +18,6 @@ import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.classes.info.TypeInfoBuilder;
 import com.greentree.commons.util.classes.info.TypeUtil;
 import com.greentree.commons.util.collection.AutoGenerateMap;
-import com.greentree.commons.util.exception.MultiException;
 import com.greentree.commons.xml.XMLElement;
 
 @SuppressWarnings("rawtypes")
@@ -212,14 +211,17 @@ public class ObjectXMLBuilder implements Context {
 	public <T> Constructor<T> newInstance(TypeInfo<T> type, XMLElement xml_element) {
 		type = type.getBoxing();
 		final var typed_addapers = type_addapters.get(type.toClass());
-		var errors = new ArrayList<RuntimeException>();
+		RuntimeException error = null;
 		for(var v : typed_addapers) {
 			try {
 				final var c = v.newInstance(this, type, xml_element);
 				if(c != null)
 					return c;
 			}catch(RuntimeException e) {
-				errors.add(e);
+				if(error == null)
+					error = e;
+				else
+					error.addSuppressed(e);
 			}
 		}
 		for(var v : addapters) {
@@ -232,13 +234,14 @@ public class ObjectXMLBuilder implements Context {
 					return c;
 				}
 			}catch(RuntimeException e) {
-				errors.add(e);
+				if(error == null)
+					error = e;
+				else
+					error.addSuppressed(e);
 			}
 		}
-		if(errors.size() == 1)
-			throw errors.get(0);
-		if(!errors.isEmpty())
-			throw new MultiException(errors);
+		if(error != null)
+			throw error;
 		return null;
 	}
 	

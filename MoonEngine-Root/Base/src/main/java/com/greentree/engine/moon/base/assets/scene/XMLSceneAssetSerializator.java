@@ -23,6 +23,8 @@ import com.greentree.engine.moon.assets.value.function.Value1Function;
 import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.base.layer.Layer;
 import com.greentree.engine.moon.base.name.Name;
+import com.greentree.engine.moon.base.name.Names;
+import com.greentree.engine.moon.base.parent.Parent;
 import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
@@ -131,7 +133,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				
 				@Override
 				public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_value) {
-					System.out.println("Entity:" + xml_value);
+					var name = xml_value.getContent();
+					System.out.println("Entity:" + name);
 					return null;
 				}
 			});
@@ -147,29 +150,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					for(var xml_entity : xml_scene.getChildrens("entity"))
 						xml_entities.add(xml_entity);
 					for(var xml_entity_ref : xml_scene.getChildrens("entity_ref")) {
-						final var file = xml_entity_ref.getAttribute("file");
-						final var res = context.loadData(Resource.class, file);
-						
-						final RefStringBuilder builder;
-						try {
-							builder = RefStringBuilder.build(res.open());
-						}catch(IOException e) {
-							e.printStackTrace();
-							continue;
-						}
-						
-						final var map = new HashMap<String, String>();
-						
-						for(var xmLproperty : xml_entity_ref.getChildrens("property")) {
-							final var name = xmLproperty.getAttribute("name");
-							final var value = xmLproperty.getContent();
-							map.put(name, value);
-						}
-						
-						final var text = builder.toString(map);
-						final var xml = context.loadData(XMLElement.class, new ResultAssetKey(text));
-						
-						xml_entities.add(xml);
+						xml_entities.add(buildEntityRef(xml_entity_ref));
 					}
 					var iter = xml_entities.iterator();
 					while(iter.hasNext()) {
@@ -182,6 +163,29 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					}
 					for(var xml_entity : xml_entities)
 						addEntity(world, xml_entity);
+				}
+				
+				private XMLElement buildEntityRef(XMLElement xml_entity_ref) {
+					final var file = xml_entity_ref.getAttribute("file");
+					final var res = context.loadData(Resource.class, file);
+					
+					final RefStringBuilder builder;
+					try {
+						builder = RefStringBuilder.build(res.open());
+					}catch(IOException e) {
+						throw new RuntimeException(e);
+					}
+					
+					final var map = new HashMap<String, String>();
+					
+					for(var xmLproperty : xml_entity_ref.getChildrens("property")) {
+						final var name = xmLproperty.getAttribute("name");
+						final var value = xmLproperty.getContent();
+						map.put(name, value);
+					}
+					
+					final var text = builder.toString(map);
+					return context.loadData(XMLElement.class, new ResultAssetKey(text));
 				}
 				
 				@Override
@@ -207,9 +211,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					}
 				}
 				
-				private void addEntity(World world, XMLElement xml_entity) {
+				private Entity addEntity(World world, XMLElement xml_entity) {
 					final var name_atr = xml_entity.getAttribute("name");
 					final var layer_atr = xml_entity.getAttribute("layer");
+					final var parent_atr = xml_entity.getAttribute("parent");
 					final var entity = world.newEntity();
 					try(final var lock = entity.lock()) {
 						if(name_atr != null)
@@ -226,6 +231,17 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 								e.printStackTrace();
 							}
 					}
+					if(parent_atr != null) {
+						var parent = world.get(Names.class).get(parent_atr);
+						Parent.setParent(entity, parent);
+					}
+					for(var xml_child : xml_entity.getChildrens("entity")) {
+						Parent.setParent(addEntity(world, xml_child), entity);
+					}
+					for(var xml_child : xml_entity.getChildrens("entity_ref")) {
+						Parent.setParent(addEntity(world, buildEntityRef(xml_child)), entity);
+					}
+					return entity;
 				}
 				
 				private <T> T newFromXML(Class<T> baseClass, XMLElement xml_element) throws ClassNotFoundException {

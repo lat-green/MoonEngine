@@ -16,7 +16,7 @@ public class Texture2DAssetSerializator implements AssetSerializator<Texture2DDa
 	
 	@Override
 	public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
-		return key instanceof Texture2DAssetKey;
+		return key instanceof Texture2DAssetKey || manager.canLoad(ImageData.class, key);
 	}
 	
 	@Override
@@ -25,6 +25,10 @@ public class Texture2DAssetSerializator implements AssetSerializator<Texture2DDa
 			final var image = manager.load(ImageData.class, key.image());
 			final var type = key.textureType();
 			return manager.map(image, new Texture2DDataFunction(type));
+		}
+		if(manager.canLoad(ImageData.class, ckey)) {
+			final var image = manager.load(ImageData.class, ckey);
+			return manager.map(image, new Texture2DDataFunction());
 		}
 		return null;
 	}
@@ -43,6 +47,10 @@ public class Texture2DAssetSerializator implements AssetSerializator<Texture2DDa
 		
 		public Texture2DDataFunction(Texture2DType type) {
 			this.type = type;
+		}
+		
+		public Texture2DDataFunction() {
+			this.type = new Texture2DType();
 		}
 		
 		@Override
