@@ -14,6 +14,10 @@ public final class SignalMapper {
 		dest.set(result, new Float.Link(signals, input));
 	}
 	
+	public static void map(Devices signals, Devices dest, BooleanDevice input, BooleanDevice result) {
+		dest.set(result, new Boolean.Link(signals, input));
+	}
+	
 	public static void map(Devices signals, Devices dest, FloatDevice input,
 			FloatDevice result, float border) {
 		dest.set(result, new Float.Link(signals, input).border(border));

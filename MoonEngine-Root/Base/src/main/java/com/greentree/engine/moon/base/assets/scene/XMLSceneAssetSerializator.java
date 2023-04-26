@@ -24,6 +24,7 @@ import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.base.layer.Layer;
 import com.greentree.engine.moon.base.name.Name;
 import com.greentree.engine.moon.base.scene.Scene;
+import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.component.Component;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
@@ -118,6 +119,19 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						}
 						return new ValueConstructor<>((T) key);
 					}
+					return null;
+				}
+			});
+			builder.add(new XMLTypeAddapter() {
+				
+				@Override
+				public Class<?> getLoadOnly() {
+					return Entity.class;
+				}
+				
+				@Override
+				public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_value) {
+					System.out.println("Entity:" + xml_value);
 					return null;
 				}
 			});

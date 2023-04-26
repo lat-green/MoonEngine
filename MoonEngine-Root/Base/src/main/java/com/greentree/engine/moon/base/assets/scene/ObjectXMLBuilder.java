@@ -21,7 +21,8 @@ import com.greentree.commons.util.collection.AutoGenerateMap;
 import com.greentree.commons.util.exception.MultiException;
 import com.greentree.commons.xml.XMLElement;
 
-public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
+@SuppressWarnings("rawtypes")
+public class ObjectXMLBuilder implements Context {
 	
 	
 	private final Collection<XMLTypeAddapter> addapters = new ArrayList<>() {
@@ -47,11 +48,24 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		
 	};
 	
+	@SuppressWarnings("rawtypes")
+	private final Map<Class<?>, Collection<XMLTypeInjectAddapter>> injectAddapters = new AutoGenerateMap<>() {
+		
+		private static final long serialVersionUID = 1L;
+		
+		@Override
+		protected Collection<XMLTypeInjectAddapter> generate(Class<?> k) {
+			return new ArrayList<>();
+		}
+		
+	};
+	
 	private final XMLTypeAddapter mainAddapter;
 	
 	{
 		add(new XMLTypeAddapter() {
 			
+			@SuppressWarnings("unchecked")
 			@Override
 			public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
 				if(!Modifier.isAbstract(type.toClass().getModifiers()))
@@ -141,6 +155,21 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 				return (T) result;
 			}
 		});
+		add(new XMLTypeInjectAddapter<Collection>() {
+			
+			@SuppressWarnings("unchecked")
+			@Override
+			public boolean injectFields(Context context, TypeInfo<? extends Collection> type, Collection dest,
+					XMLElement element) {
+				var args_type = TypeUtil.getFirstAtgument(type, Collection.class);
+				for(var c : element.getChildrens("value")) {
+					final var v = context.build(args_type, c);
+					dest.add(v);
+				}
+				return true;
+			}
+			
+		});
 	}
 	
 	public static final Map<String, XMLElement> getNames(XMLElement xml_element) {
@@ -156,6 +185,19 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 			names.put(name, xml_value);
 		}
 		return names;
+	}
+	
+	private void add(XMLTypeInjectAddapter<?> injectaddapter) {
+		add(injectaddapter.getType(), injectaddapter);
+	}
+	
+	private void add(Class<?> type, XMLTypeInjectAddapter<?> injectaddapter) {
+		injectAddapters.get(type).add(injectaddapter);
+		final var stype = type.getSuperclass();
+		if(stype != null)
+			add(stype, injectaddapter);
+		for(var i : type.getInterfaces())
+			add(i, injectaddapter);
 	}
 	
 	public void add(XMLTypeAddapter addapter) {
@@ -217,6 +259,7 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 		return new SetFieldsConstructor<>(newInstance, names);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private <T> void setField(T object, Field field, XMLElement value)
 			throws IllegalArgumentException, IllegalAccessException {
 		final var now_v = ClassUtil.getField(object, field);
@@ -228,6 +271,9 @@ public class ObjectXMLBuilder implements XMLTypeAddapter.Context {
 				return;
 			}
 			initClass(field.getType());
+			for(var i : injectAddapters.get(field.getType()))
+				if(i.injectFields(this, TypeInfoBuilder.getTypeInfo(field.getGenericType()), now_v, value))
+					return;
 			final var names = getNames(value);
 			setFields(now_v, names);
 			return;

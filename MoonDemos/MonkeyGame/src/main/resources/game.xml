@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE scene SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+
+<scene>
+	<system type="TimeSystem"/>
+	<system type="CameraSystem"/>
+
+	<system type="LayerSystem"/>
+	<system type="NameSystem"/>
+
+	<system type="ControllerSystem"/>
+	<system type="RectTransforUpdate"/>
+	<system type="DisableCursor"/>
+	<system type="ScriptSystem"/>
+
+	<system type="SpriteMeshGenerator"/>
+	<system type="CameraTargetGeneratedSystem"/>
+	<system type="RenderSystem"/>
+	<system type="RenderMainCamera"/>
+
+	<entity name="player">
+		<component type="Transform"/>
+		<component type="Controller">
+			<property name="speed">5</property>
+		</component>
+		<component type="Parent">
+			<field name="childrens">
+				<value>
+					<value>camera</value>
+				</value>
+			</field>
+		</component>
+	</entity>
+
+	<entity name="camera">
+		<component type="Transform">
+			<field name="position">
+				<value>
+					<property name="x">-10</property>
+					<property name="y">0</property>
+					<property name="z">0</property>
+				</value>
+			</field>
+		</component>
+		<component type="Parent">
+			<property name="parent">player</property>
+		</component>
+		<component type="CameraComponent">
+			<property name="width">800</property>
+			<property name="height">600</property>
+		</component>
+	</entity>
+
+</scene>

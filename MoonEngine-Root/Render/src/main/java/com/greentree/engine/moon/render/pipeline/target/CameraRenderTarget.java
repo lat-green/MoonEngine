@@ -7,6 +7,11 @@ import com.greentree.engine.moon.render.pipeline.target.buffer.CameraCommandBuff
 public record CameraRenderTarget(Entity camera, RenderTargetTextute target) implements RenderTargetTextute {
 	
 	@Override
+	public String toString() {
+		return "CameraRenderTarget [" + target + "]";
+	}
+	
+	@Override
 	public CameraCommandBuffer buffer() {
 		return new CameraCommandBuffer(camera, target.buffer());
 	}
