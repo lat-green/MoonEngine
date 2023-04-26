@@ -7,11 +7,10 @@ public interface ExtendsEngineBeanProcessor<T> extends EngineBeanProcessor {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	default Object process(Object bean) {
+	default void process(Object bean) {
 		if(ClassUtil.isExtends(superType(), bean.getClass())) {
 			processExtends((T) bean);
 		}
-		return bean;
 	}
 	
 	void processExtends(T bean);

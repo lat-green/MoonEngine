@@ -11,12 +11,7 @@ public interface BeanContainer {
 	
 	default ListenerCloser enableBeanProcessors() {
 		return action().addListener(bean -> {
-			var processors = getBeans(EngineBeanProcessor.class).toList();
-			for(var p : processors) {
-				var obj = p.process(bean);
-				if(obj != bean)
-					throw new UnsupportedOperationException(bean + " " + obj);
-			}
+			getBeans(EngineBeanProcessor.class).forEach(x -> x.process(bean));
 		});
 	}
 	default boolean hasBean(Class<?> cls) {

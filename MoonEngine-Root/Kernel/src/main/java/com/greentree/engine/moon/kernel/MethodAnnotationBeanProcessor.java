@@ -9,13 +9,12 @@ import com.greentree.engine.moon.kernel.annotation.AnnotationUtil;
 public interface MethodAnnotationBeanProcessor<A extends Annotation> extends EngineBeanProcessor {
 	
 	@Override
-	default Object process(Object bean) {
+	default void process(Object bean) {
 		for(var method : bean.getClass().getMethods()) {
 			var a = AnnotationUtil.getAnnotation(method, annotationType());
 			if(a != null)
 				processAnnotation(bean, method, a);
 		}
-		return bean;
 	}
 	
 	void processAnnotation(Object bean, Method method, A annotation);

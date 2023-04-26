@@ -28,10 +28,9 @@ public class ImportClassBeanFactoryProcessor
 	}
 	
 	@Override
-	public Object process(Object bean) {
-		bean = ClassAnnotationBeanProcessor.super.process(bean);
-		bean = ClassAnnotationBeanProcessor.super.process(bean);
-		return bean;
+	public void process(Object bean) {
+		ClassAnnotationBeanProcessor.super.process(bean);
+		MethodAnnotationBeanProcessor.super.process(bean);
 	}
 	
 }
