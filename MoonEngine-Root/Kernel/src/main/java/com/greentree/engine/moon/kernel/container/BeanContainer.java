@@ -13,6 +13,9 @@ public interface BeanContainer {
 	
 	<T> Stream<T> getBeans(Class<T> cls);
 	
+	default Stream<Object> getBeans() {
+		return getBeans(Object.class);
+	}
 	default boolean hasBean(Class<?> cls) {
 		Objects.requireNonNull(cls);
 		return getBean(cls).isPresent();

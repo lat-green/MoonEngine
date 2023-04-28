@@ -2,14 +2,16 @@ package test.com.greentree.engine.moon.kernel;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 
-import com.greentree.commons.injector.InjectionContainer;
-import com.greentree.commons.injector.Injector;
-import com.greentree.engine.moon.kernel.AutowiredFieldDependencyScanner;
+import com.greentree.engine.moon.kernel.annotation.ArgumentsInjectorImpl;
 import com.greentree.engine.moon.kernel.annotation.Autowired;
+import com.greentree.engine.moon.kernel.annotation.EngineBeanFactoryProcessor;
+import com.greentree.engine.moon.kernel.annotation.EngineConfigurationProcessor;
+import com.greentree.engine.moon.kernel.annotation.ImportClassBeanFactoryProcessor;
+import com.greentree.engine.moon.kernel.annotation.InjectBeanProcessor;
+import com.greentree.engine.moon.kernel.annotation.PackageScanEngineBeanProcessor;
+import com.greentree.engine.moon.kernel.annotation.PostConstructProcessor;
 import com.greentree.engine.moon.kernel.container.ArraySetBeanContainer;
 
 public class Test1 {
@@ -29,28 +31,28 @@ public class Test1 {
 	void injectDepndency() {
 		var context = new ArraySetBeanContainer();
 		
-		context.action().addListener(bean -> {
-			var injector = new Injector(new InjectionContainer() {
-				
-				@Override
-				public <T> Optional<T> get(Class<T> cls) {
-					return context.getBean(cls);
-				}
-				
-			}, new AutowiredFieldDependencyScanner());
-			injector.inject(bean);
-		});
+		context.addBean(new InjectBeanProcessor(context));
+		context.addBean(new ArgumentsInjectorImpl());
 		
-		context.addBean(new A());
-		context.addBean(new B());
+		context.addBean(new EngineConfigurationProcessor());
+		context.addBean(new ImportClassBeanFactoryProcessor());
+		context.addBean(new PackageScanEngineBeanProcessor());
+		
+		context.addBean(new EngineBeanFactoryProcessor());
+		context.addBean(new ImportClassBeanFactoryProcessor());
+		context.addBean(new PostConstructProcessor());
+		
+		context.addBeans(new A(), new B());
 		
 		var a = context.getBean(A.class).get();
 		var b = context.getBean(B.class).get();
 		
-		assertNotNull(a);
-		assertNull(a.b);
+		System.out.println(context.getBeans().toList());
 		
+		assertNotNull(a);
 		assertNotNull(b);
+		
+		assertNull(a.b);
 		assertNotNull(b.a);
 	}
 	
