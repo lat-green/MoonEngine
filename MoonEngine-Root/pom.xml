@@ -134,6 +134,11 @@
 			</dependency>
 			<dependency>
   				<groupId>com.greentree.engine.moon</groupId>
+  				<artifactId>collision2d</artifactId>
+  				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+  				<groupId>com.greentree.engine.moon</groupId>
   				<artifactId>ecs</artifactId>
   				<version>${project.version}</version>
 			</dependency>
@@ -184,6 +189,7 @@
 		<module>Assets</module>
 		<module>Assimp</module>
 		<module>Base</module>
+		<module>Collision2D</module>
 		<module>ECS</module>
 		<module>Kernel</module>
 		<module>Mesh</module>
