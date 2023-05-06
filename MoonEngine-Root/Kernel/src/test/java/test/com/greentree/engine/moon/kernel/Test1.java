@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 
 import com.greentree.engine.moon.kernel.annotation.ArgumentsInjectorImpl;
 import com.greentree.engine.moon.kernel.annotation.Autowired;
-import com.greentree.engine.moon.kernel.annotation.EngineBeanFactoryProcessor;
-import com.greentree.engine.moon.kernel.annotation.EngineConfigurationProcessor;
-import com.greentree.engine.moon.kernel.annotation.ImportClassBeanFactoryProcessor;
-import com.greentree.engine.moon.kernel.annotation.InjectBeanProcessor;
-import com.greentree.engine.moon.kernel.annotation.PackageScanEngineBeanProcessor;
-import com.greentree.engine.moon.kernel.annotation.PostConstructProcessor;
 import com.greentree.engine.moon.kernel.container.ArraySetBeanContainer;
+import com.greentree.engine.moon.kernel.processor.EngineBeanFactoryProcessor;
+import com.greentree.engine.moon.kernel.processor.EngineConfigurationProcessor;
+import com.greentree.engine.moon.kernel.processor.ImportClassBeanFactoryProcessor;
+import com.greentree.engine.moon.kernel.processor.InjectBeanProcessor;
+import com.greentree.engine.moon.kernel.processor.PackageScanEngineBeanProcessor;
+import com.greentree.engine.moon.kernel.processor.PostConstructProcessor;
 
 public class Test1 {
 	
@@ -24,7 +24,6 @@ public class Test1 {
 		var a = context.getBean(A.class).get();
 		
 		assertNotNull(a);
-		
 	}
 	
 	@Test
@@ -47,13 +46,12 @@ public class Test1 {
 		var a = context.getBean(A.class).get();
 		var b = context.getBean(B.class).get();
 		
-		System.out.println(context.getBeans().toList());
+		//		System.out.println(context.getBeans().toList());
 		
 		assertNotNull(a);
 		assertNotNull(b);
 		
-		assertNull(a.b);
-		assertNotNull(b.a);
+		assertNotNull(a.b);
 	}
 	
 	public static final class A {
@@ -68,14 +66,6 @@ public class Test1 {
 	}
 	
 	public static final class B {
-		
-		@Override
-		public String toString() {
-			return "B [" + a + "]";
-		}
-		
-		@Autowired(required = false)
-		A a;
 	}
 	
 }

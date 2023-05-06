@@ -1,9 +1,9 @@
-package com.greentree.engine.moon.kernel.annotation;
+package com.greentree.engine.moon.kernel.processor;
 
 import java.lang.reflect.Method;
 
-import com.greentree.engine.moon.kernel.ClassAnnotationBeanProcessor;
-import com.greentree.engine.moon.kernel.MethodAnnotationBeanProcessor;
+import com.greentree.engine.moon.kernel.annotation.EngineBean;
+import com.greentree.engine.moon.kernel.annotation.Import;
 import com.greentree.engine.moon.kernel.container.ConfigurableBeanContainer;
 
 @EngineBean
@@ -13,8 +13,9 @@ public class ImportClassBeanFactoryProcessor
 	private ConfigurableBeanContainer ctx;
 	
 	@Override
-	public void processAnnotation(Object bean, Method method, Import annotation) {
+	public Object processAnnotation(Object bean, Method method, Import annotation) {
 		processAnnotation(bean, annotation);
+		return bean;
 	}
 	
 	@Override
@@ -28,9 +29,10 @@ public class ImportClassBeanFactoryProcessor
 	}
 	
 	@Override
-	public void process(Object bean) {
-		ClassAnnotationBeanProcessor.super.process(bean);
-		MethodAnnotationBeanProcessor.super.process(bean);
+	public Object process(Object bean) {
+		bean = ClassAnnotationBeanProcessor.super.process(bean);
+		bean = MethodAnnotationBeanProcessor.super.process(bean);
+		return bean;
 	}
 	
 }

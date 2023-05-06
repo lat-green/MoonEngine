@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.kernel;
+package com.greentree.engine.moon.kernel.processor;
 
 import java.lang.annotation.Annotation;
 
@@ -14,10 +14,11 @@ public interface ClassAnnotationBeanProcessor<A extends Annotation> extends Engi
 	}
 	
 	@Override
-	default void process(Object bean) {
+	default Object process(Object bean) {
 		AnnotationUtil.getAnnotations(bean.getClass(), annotationType()).forEach(annotation -> {
 			processAnnotation(bean, annotation);
 		});
+		return bean;
 	}
 	
 	void processAnnotation(Object bean, A annotation);

@@ -1,7 +1,8 @@
-package com.greentree.engine.moon.kernel.annotation;
+package com.greentree.engine.moon.kernel.processor;
 
-import com.greentree.engine.moon.kernel.ClassAnnotationBeanProcessor;
 import com.greentree.engine.moon.kernel.ClassPathBeanScanner;
+import com.greentree.engine.moon.kernel.annotation.BeanScan;
+import com.greentree.engine.moon.kernel.annotation.EngineBean;
 import com.greentree.engine.moon.kernel.container.ConfigurableBeanContainer;
 
 @EngineBean

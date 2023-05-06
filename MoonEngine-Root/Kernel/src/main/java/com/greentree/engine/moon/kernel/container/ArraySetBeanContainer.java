@@ -5,7 +5,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Stream;
 
 import com.greentree.commons.util.classes.ClassUtil;
-import com.greentree.engine.moon.kernel.EngineBeanProcessor;
+import com.greentree.engine.moon.kernel.processor.EngineBeanProcessor;
 
 
 public class ArraySetBeanContainer implements ConfigurableBeanContainer {

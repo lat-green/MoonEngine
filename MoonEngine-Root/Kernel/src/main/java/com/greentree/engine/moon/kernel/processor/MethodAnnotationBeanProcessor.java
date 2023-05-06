@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.kernel;
+package com.greentree.engine.moon.kernel.processor;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -9,15 +9,16 @@ import com.greentree.engine.moon.kernel.annotation.AnnotationUtil;
 public interface MethodAnnotationBeanProcessor<A extends Annotation> extends EngineBeanProcessor {
 	
 	@Override
-	default void process(Object bean) {
+	default Object process(Object bean) {
 		for(var method : bean.getClass().getMethods()) {
 			var a = AnnotationUtil.getAnnotation(method, annotationType());
 			if(a != null)
-				processAnnotation(bean, method, a);
+				return processAnnotation(bean, method, a);
 		}
+		return bean;
 	}
 	
-	void processAnnotation(Object bean, Method method, A annotation);
+	Object processAnnotation(Object bean, Method method, A annotation);
 	
 	@SuppressWarnings("rawtypes")
 	private Class<A> annotationType() {
