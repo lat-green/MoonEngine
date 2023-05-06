@@ -3,8 +3,8 @@ package com.greentree.engine.moon.kernel.info;
 
 public interface BeanInfo {
 	
-	boolean isDependent(Class<?> cls);
+	String getClassName();
 	
-	BeanInfo merge(BeanInfo info);
+	Class<?> getBeanClass();
 	
 }
