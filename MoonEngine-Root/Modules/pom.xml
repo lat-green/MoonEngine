@@ -16,6 +16,10 @@
 			<groupId>com.greentree.commons</groupId>
 			<artifactId>graph</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+			<artifactId>kernel</artifactId>
+		</dependency>
 	</dependencies>
 	
 </project>

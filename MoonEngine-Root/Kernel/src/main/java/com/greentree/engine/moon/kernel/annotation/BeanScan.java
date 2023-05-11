@@ -6,14 +6,13 @@ import static java.lang.annotation.RetentionPolicy.*;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import com.greentree.engine.moon.kernel.processor.PackageScanEngineBeanProcessor;
+import org.springframework.context.annotation.ComponentScan;
 
 
 @Retention(RUNTIME)
 @Target(TYPE)
-@Import(PackageScanEngineBeanProcessor.class)
 @EngineBean
-@AnnotationInherited
+@ComponentScan
 public @interface BeanScan{
 	
 }
