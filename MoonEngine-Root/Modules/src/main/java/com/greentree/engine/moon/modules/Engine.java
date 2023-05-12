@@ -19,22 +19,24 @@ public final class Engine {
 	public static void launch(String[] args, EngineModule... modules) {
 		var context = Kernel.launch(args);
 		
-		var properties = new EnginePropertiesBase();
+		var properties = context.getBean(EngineProperties.class);
 		
-		var launch = new LaunchEnginePhase(properties);
+		var scanner = new ConfigModuleContainerScanner()
+				.addScanner(context.getBean(SpringModuleDefenitionScanner.class))
+				.addScanner(new ServiceLoaderModuleDefenitionScanner())
+				.addScanner(new CollectionModuleDefenitionScanner(modules));
+		
+		var launch = context.getBean(LaunchEnginePhase.class);
 		var update = new UpdateEnginePhase(properties);
 		var terminate = new TerminateEnginePhase();
-		
-		var scanner = new ConfigModuleContainerScanner();
-		scanner.addScanner(context.getBean(SpringModuleDefenitionScanner.class));
-		scanner.addScanner(new ServiceLoaderModuleDefenitionScanner());
-		scanner.addScanner(new CollectionModuleDefenitionScanner(modules));
 		
 		var scanModules = scanner.scan().map(ModuleDefenition::build).toList();
 		
 		launch.run(scanModules);
 		update.run(scanModules);
 		terminate.run(scanModules);
+		
+		
 	}
 	
 }

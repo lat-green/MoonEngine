@@ -12,7 +12,7 @@ public record UpdateEnginePhase(EngineProperties properties, MethodModuleSorter 
 	
 	
 	public UpdateEnginePhase(EngineProperties properties) {
-		this(properties, AnnotatedMethodModuleSorter.INSTANCE);
+		this(properties, new AnnotatedMethodModuleSorter());
 	}
 	
 	@Override

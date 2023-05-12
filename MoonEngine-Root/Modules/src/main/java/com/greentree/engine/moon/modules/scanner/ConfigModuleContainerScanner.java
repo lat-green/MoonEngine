@@ -25,8 +25,9 @@ public class ConfigModuleContainerScanner implements ModuleDefenitionScanner {
 		return addModule(new ObjectModuleDefenition(module));
 	}
 	
-	public void addScanner(ModuleDefenitionScanner scanner) {
+	public ConfigModuleContainerScanner addScanner(ModuleDefenitionScanner scanner) {
 		scanner.scan().forEach(this::addModule);
+		return this;
 	}
 	
 }

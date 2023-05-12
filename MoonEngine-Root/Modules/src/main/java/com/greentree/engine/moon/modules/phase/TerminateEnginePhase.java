@@ -9,7 +9,7 @@ public record TerminateEnginePhase(MethodModuleSorter sorter)
 		implements EnginePhase {
 	
 	public TerminateEnginePhase() {
-		this(AnnotatedMethodModuleSorter.INSTANCE);
+		this(new AnnotatedMethodModuleSorter());
 	}
 	@Override
 	public void run(Iterable<? extends EngineModule> modules) {
