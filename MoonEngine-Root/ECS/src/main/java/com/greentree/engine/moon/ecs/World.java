@@ -18,7 +18,7 @@ import com.greentree.commons.action.observer.object.EventAction;
 import com.greentree.commons.action.observer.type.TypedObjectAction;
 import com.greentree.engine.moon.ecs.component.Component;
 
-public final class World implements Iterable<Entity>, Externalizable, Cloneable, AutoCloseable {
+public final class World implements Iterable<Entity>, Externalizable, AutoCloseable {
 	
 	private transient final TypedObjectAction<Class<? extends Component>, Entity> odAddComponentAction = new TypedObjectAction<>();
 	private transient final TypedObjectAction<Class<? extends Component>, Entity> onRemoveComponentAction = new TypedObjectAction<>();

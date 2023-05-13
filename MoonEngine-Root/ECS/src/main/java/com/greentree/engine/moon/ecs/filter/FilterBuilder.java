@@ -19,7 +19,7 @@ public class FilterBuilder {
 	}
 
 	private static int hash(Object obj) {
-		return obj == null ? 0 : Math.abs(obj.hashCode());
+		return obj == null ? 0 : obj.hashCode();
 	}
 
 	public <U extends Comparable<? super U>> FilterBuilder sort(Function<? super Entity, ? extends U> keyExtractor) {

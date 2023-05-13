@@ -10,7 +10,6 @@ import com.greentree.engine.moon.modules.UpdateModule;
 public record UpdateEnginePhase(EngineProperties properties, MethodModuleSorter sorter)
 		implements EnginePhase {
 	
-	
 	public UpdateEnginePhase(EngineProperties properties) {
 		this(properties, new AnnotatedMethodModuleSorter());
 	}
@@ -20,14 +19,10 @@ public record UpdateEnginePhase(EngineProperties properties, MethodModuleSorter 
 		var list = StreamSupport.stream(modules.spliterator(), false).filter(x -> x instanceof UpdateModule)
 				.map(x -> (UpdateModule) x).collect(ArrayListCollector.INSTANCE());
 		sorter.sort(list, "update");
-		var running = new boolean[] {true};
-		properties.add(new ExitManagerProperty(() -> {
-			running[0] = false;
-		}));
-		while(running[0])
+		var manager = properties.get(ExitManagerProperty.class).manager();
+		while(!manager.isShouldExit())
 			for(var module : list)
 				module.update();
-			
 	}
 	
 	

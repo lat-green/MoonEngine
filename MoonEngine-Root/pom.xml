@@ -27,6 +27,7 @@
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
         <jacoco-maven-plugin.version>0.8.8</jacoco-maven-plugin.version>
+        <pvsstudio-maven-plugin.version>7.24.70333</pvsstudio-maven-plugin.version>
 	</properties>
 	
   	<organization>
@@ -206,9 +207,30 @@
 		<module>Signals</module>
 	</modules>
 	
+	<pluginRepositories>
+	  <pluginRepository>
+	    <id>pvsstudio-maven-repo</id>
+	    <url>http://files.viva64.com/java/pvsstudio-maven-repository/</url>
+	  </pluginRepository>
+	</pluginRepositories>
+
 	<build>
-		<pluginManagement>
 			<plugins>
+				
+<!--			    <plugin>-->
+<!--				  <groupId>com.github.spotbugs</groupId>-->
+<!--				  <artifactId>spotbugs-maven-plugin</artifactId>-->
+<!--				  <version>4.7.3.4</version>-->
+<!--				  <executions>-->
+<!--				    <execution>-->
+<!--						<phase>verify</phase>-->
+<!--				      	<goals>-->
+<!--				        	<goal>gui</goal>-->
+<!--				      </goals>-->
+<!--				    </execution>-->
+<!--				  </executions>-->
+<!--				</plugin>-->
+	            
 	            <plugin>
 	                <groupId>org.apache.maven.plugins</groupId>
 	                <artifactId>maven-surefire-plugin</artifactId>
@@ -218,17 +240,18 @@
 			            <threadCount>8</threadCount>
 			        </configuration>
 	            </plugin>
-	            <plugin>
-	                <groupId>org.apache.maven.plugins</groupId>
-	                <artifactId>maven-jar-plugin</artifactId>
-					<configuration>
-						<archive>
-							<manifest>
-								<addClasspath>true</addClasspath>
-							</manifest>
-						</archive>
-					</configuration>
-	            </plugin>
+	            
+<!--	            <plugin>-->
+<!--	                <groupId>org.apache.maven.plugins</groupId>-->
+<!--	                <artifactId>maven-jar-plugin</artifactId>-->
+<!--					<configuration>-->
+<!--						<archive>-->
+<!--							<manifest>-->
+<!--								<addClasspath>true</addClasspath>-->
+<!--							</manifest>-->
+<!--						</archive>-->
+<!--					</configuration>-->
+<!--	            </plugin>-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
@@ -241,87 +264,89 @@
 				    	</compilerArgs>
 					</configuration>
 				</plugin>
-				<plugin>
-			        <groupId>org.jacoco</groupId>
-			        <artifactId>jacoco-maven-plugin</artifactId>
-	  				<version>${jacoco-maven-plugin.version}</version>
-			        <executions>
-			            <execution>
-			                <goals>
-			                    <goal>prepare-agent</goal>
-			                </goals>
-			            </execution>
-			            <execution>
-			                <id>report</id>
-			                <phase>test</phase>
-			                <goals>
-			                    <goal>report</goal>
-			                </goals>
-			            </execution>
-			             <execution>
-			                <id>jacoco-check</id>
-			                <goals>
-			                    <goal>check</goal>
-			                </goals>
-			                <configuration>
-			                	<haltOnFailure>false</haltOnFailure>
-			                    <rules>
-			                        <rule>
-			                            <element>PACKAGE</element>
-			                            <limits>
-			                                <limit>
-			                                    <counter>LINE</counter>
-			                                    <value>COVEREDRATIO</value>
-			                                    <minimum>0.75</minimum>
-			                                </limit>
-			                            </limits>
-			                        </rule>
-			                    </rules>
-			                </configuration>
-			            </execution>
-			        </executions>
-			    </plugin>
-			     <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven-shade-plugin.version}</version>
-                <configuration>
-                    <shadedArtifactAttached>true</shadedArtifactAttached>
-                    <shadedClassifierName>bin</shadedClassifierName>
-                    <createDependencyReducedPom>true</createDependencyReducedPom>
-                    <filters>
-                        <filter>
-                            <artifact>*:*</artifact>
-                            <excludes>
-                                <exclude>org/datanucleus/**</exclude>
-                                <exclude>META-INF/*.SF</exclude>
-                                <exclude>META-INF/*.DSA</exclude>
-                                <exclude>META-INF/*.RSA</exclude>
-                            </excludes>
-                        </filter>
-                    </filters>
-                </configuration>
+<!--				<plugin>-->
+<!--			        <groupId>org.jacoco</groupId>-->
+<!--			        <artifactId>jacoco-maven-plugin</artifactId>-->
+<!--	  				<version>${jacoco-maven-plugin.version}</version>-->
+<!--			        <executions>-->
+<!--			            <execution>-->
+<!--			                <goals>-->
+<!--			                    <goal>prepare-agent</goal>-->
+<!--			                </goals>-->
+<!--			            </execution>-->
+<!--			            <execution>-->
+<!--			                <id>report</id>-->
+<!--			                <phase>test</phase>-->
+<!--			                <goals>-->
+<!--			                    <goal>report</goal>-->
+<!--			                </goals>-->
+<!--			            </execution>-->
+<!--			             <execution>-->
+<!--			                <id>jacoco-check</id>-->
+<!--			                <goals>-->
+<!--			                    <goal>check</goal>-->
+<!--			                </goals>-->
+<!--			                <configuration>-->
+<!--			                	<haltOnFailure>false</haltOnFailure>-->
+<!--			                    <rules>-->
+<!--			                        <rule>-->
+<!--			                            <element>PACKAGE</element>-->
+<!--			                            <limits>-->
+<!--			                                <limit>-->
+<!--			                                    <counter>LINE</counter>-->
+<!--			                                    <value>COVEREDRATIO</value>-->
+<!--			                                    <minimum>0.75</minimum>-->
+<!--			                                </limit>-->
+<!--			                            </limits>-->
+<!--			                        </rule>-->
+<!--			                    </rules>-->
+<!--			                </configuration>-->
+<!--			            </execution>-->
+<!--			        </executions>-->
+<!--			    </plugin>-->
 
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>reference.conf</resource>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--			     <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-shade-plugin</artifactId>-->
+<!--                <version>${maven-shade-plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <shadedArtifactAttached>true</shadedArtifactAttached>-->
+<!--                    <shadedClassifierName>bin</shadedClassifierName>-->
+<!--                    <createDependencyReducedPom>true</createDependencyReducedPom>-->
+<!--                    <filters>-->
+<!--                        <filter>-->
+<!--                            <artifact>*:*</artifact>-->
+<!--                            <excludes>-->
+<!--                                <exclude>org/datanucleus/**</exclude>-->
+<!--                                <exclude>META-INF/*.SF</exclude>-->
+<!--                                <exclude>META-INF/*.DSA</exclude>-->
+<!--                                <exclude>META-INF/*.RSA</exclude>-->
+<!--                            </excludes>-->
+<!--                        </filter>-->
+<!--                    </filters>-->
+<!--                </configuration>-->
+
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>shade</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <transformers>-->
+<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+<!--                                    <resource>reference.conf</resource>-->
+<!--                                </transformer>-->
+<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>-->
+<!--                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">-->
+<!--                                </transformer>-->
+<!--                            </transformers>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 	  	</plugins>
+		<pluginManagement>
 		</pluginManagement>
   </build>
 		

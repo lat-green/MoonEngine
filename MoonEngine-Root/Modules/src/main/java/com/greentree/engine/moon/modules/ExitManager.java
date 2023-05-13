@@ -4,4 +4,6 @@ public interface ExitManager {
 	
 	void exit();
 	
+	boolean isShouldExit();
+	
 }
