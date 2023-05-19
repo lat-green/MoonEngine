@@ -2,15 +2,18 @@ package com.greentree.engine.moon.modules.phase;
 
 import java.util.stream.StreamSupport;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.greentree.engine.moon.kernel.annotation.EngineBean;
 import com.greentree.engine.moon.modules.EngineModule;
 import com.greentree.engine.moon.modules.TerminateModule;
 
-public record TerminateEnginePhase(MethodModuleSorter sorter)
-		implements EnginePhase {
+@EngineBean
+public final class TerminateEnginePhase implements EnginePhase {
 	
-	public TerminateEnginePhase() {
-		this(new AnnotatedMethodModuleSorter());
-	}
+	@Autowired
+	private MethodModuleSorter sorter;
+	
 	@Override
 	public void run(Iterable<? extends EngineModule> modules) {
 		var list = StreamSupport.stream(modules.spliterator(), false).filter(x -> x instanceof TerminateModule)

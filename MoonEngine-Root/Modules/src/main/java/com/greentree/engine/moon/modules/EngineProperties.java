@@ -7,7 +7,7 @@ public interface EngineProperties extends Iterable<EngineProperty> {
 	void add(EngineProperty property);
 	
 	default <T extends EngineProperty> T get(Class<T> cls) {
-		return getProperty(cls).get();
+		return getProperty(cls).orElseThrow(() -> new IllegalArgumentException("class: " + cls));
 	}
 	
 	default boolean has(Class<? extends EngineProperty> cls) {
