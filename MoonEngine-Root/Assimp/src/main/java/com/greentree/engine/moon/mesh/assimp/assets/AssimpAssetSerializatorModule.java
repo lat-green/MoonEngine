@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.mesh.assimp.assets;
 
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.mesh.assimp.assets.mesh.AssimpMeshAssetSerializator;
 import com.greentree.engine.moon.mesh.assimp.assets.mesh.AssimpSceneAssetSerializator;
@@ -12,7 +13,7 @@ public class AssimpAssetSerializatorModule implements LaunchModule {
 	@WriteProperty({AssetManagerProperty.class})
 	@Override
 	public void launch(EngineProperties context) {
-		final var manager = context.get(AssetManagerProperty.class).manager();
+		final var manager = context.getData(AssetManager.class);
 		
 		manager.addSerializator(new AssimpSceneAssetSerializator());
 		manager.addSerializator(new AssimpMeshAssetSerializator());

@@ -20,11 +20,6 @@ public final class SpringEngineProperties implements EngineProperties {
 	private ConfigurableApplicationContext context;
 	
 	@Override
-	public Iterator<EngineProperty> iterator() {
-		return context.getBeansOfType(EngineProperty.class).values().iterator();
-	}
-	
-	@Override
 	public void add(EngineProperty property) {
 		var beanName = property.getClass().getSimpleName();
 		factory.registerSingleton(beanName, property);
@@ -34,20 +29,30 @@ public final class SpringEngineProperties implements EngineProperties {
 	
 	@Override
 	public <T extends EngineProperty> Optional<T> getProperty(Class<T> cls) {
+		final T property;
 		if(context.getBeansOfType(cls).isEmpty()) {
-			if(cls.isRecord()) {
-				var registry = (BeanDefinitionRegistry) factory;
-				var beanName = cls.getSimpleName();
-				registry.registerBeanDefinition(beanName, new RootBeanDefinition(cls));
-				var property = factory.getBean(beanName, cls);
-				//				factory.initializeBean(property, beanName);
-				return Optional.of(property);
-			}
-			return Optional.empty();
-		}
-		return Optional.of(context.getBean(cls));
+			var registry = (BeanDefinitionRegistry) factory;
+			var beanName = cls.getSimpleName();
+			registry.registerBeanDefinition(beanName, new RootBeanDefinition(cls));
+			property = factory.getBean(beanName, cls);
+		}else
+			property = context.getBean(cls);
+		return Optional.of(property);
 	}
 	
+	@Override
+	public Iterator<EngineProperty> iterator() {
+		return context.getBeansOfType(EngineProperty.class).values().iterator();
+	}
 	
+	@Override
+	public <T> Optional<T> getPropertyData(Class<T> cls) {
+		final T propertyData;
+		if(context.getBeansOfType(cls).isEmpty()) {
+			return Optional.empty();
+		}else
+			propertyData = context.getBean(cls);
+		return Optional.of(propertyData);
+	}
 	
 }

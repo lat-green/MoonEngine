@@ -7,7 +7,23 @@ public interface EngineProperties extends Iterable<EngineProperty> {
 	void add(EngineProperty property);
 	
 	default <T extends EngineProperty> T get(Class<T> cls) {
-		return getProperty(cls).orElseThrow(() -> new IllegalArgumentException("class: " + cls));
+		final Optional<T> property;
+		try {
+			property = getProperty(cls);
+		}catch(Exception e) {
+			throw new IllegalArgumentException("not found property of class: " + cls, e);
+		}
+		return property.orElseThrow(() -> new IllegalArgumentException("not found property of class: " + cls));
+	}
+	
+	default <T> T getData(Class<T> cls) {
+		final Optional<T> property;
+		try {
+			property = getPropertyData(cls);
+		}catch(Exception e) {
+			throw new IllegalArgumentException("not found property data of class: " + cls, e);
+		}
+		return property.orElseThrow(() -> new IllegalArgumentException("not found property data of class: " + cls));
 	}
 	
 	default boolean has(Class<? extends EngineProperty> cls) {
@@ -15,5 +31,7 @@ public interface EngineProperties extends Iterable<EngineProperty> {
 	}
 	
 	<T extends EngineProperty> Optional<T> getProperty(Class<T> cls);
+	
+	<T> Optional<T> getPropertyData(Class<T> cls);
 	
 }
