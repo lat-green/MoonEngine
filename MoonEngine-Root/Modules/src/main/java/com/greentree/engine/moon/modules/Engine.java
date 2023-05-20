@@ -48,8 +48,8 @@ public final class Engine {
 	
 	private static <T extends EngineModule> void runPhase(MethodModuleSorter sorter, EnginePhase<T> phase,
 			Collection<? extends EngineModule> allModules) {
-		@SuppressWarnings("unchecked")
-		var moduleClass = (Class<T>) TypeUtil.getFirstAtgument(phase.getClass(), EnginePhase.class).toClass();
+		@SuppressWarnings("rawtypes")
+		var moduleClass = TypeUtil.<T, EnginePhase>getFirstAtgument(phase.getClass(), EnginePhase.class).toClass();
 		var filteredModules = filter(allModules, moduleClass);
 		sorter.sort(filteredModules, moduleClass.getMethods()[0].getName());
 		phase.run(filteredModules);
