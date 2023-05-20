@@ -20,7 +20,10 @@ public final class ResourceNamedValue implements Value<Resource> {
 	public static Value<Resource> newValue(ResourceLocation resources, Value<? extends String> name) {
 		if(name.hasCharacteristics(CONST)) {
 			@SuppressWarnings("deprecation")
-			final var resource = resources.getResource(name.get());
+			var nameString = name.get();
+			final var resource = resources.getResource(nameString);
+			if(resource == null)
+				throw new NullPointerException("resource " + name + "(" + nameString + ") not found");
 			return new ResourceValue(resource);
 		}
 		return new ResourceNamedValue(resources, name);

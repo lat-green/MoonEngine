@@ -8,6 +8,7 @@
 	<system type="LayerSystem"/>
 	<system type="NameSystem"/>
 
+	<system type="Controller3DSystem"/>
 	<system type="ControllerSystem"/>
 	<system type="RectTransforUpdate"/>
 	<system type="DisableCursor"/>
@@ -20,40 +21,78 @@
 
 	<system type="LookAtSystem"/>
 	
-	<entity name="player">
+	<entity>
 		<component type="Transform"/>
-		<component type="Controller">
-			<property name="speed">5</property>
+		<component type="HasShadow"/>
+		<component type="PointLightComponent">
+			<field name="intensity">
+				<value>2</value>
+			</field>
 		</component>
-		<component type="SpriteRenderer">
-			<property name="texture">monkey.png</property>
-		</component>
-		
-		<entity name="camera">
-			<component type="Transform">
-				<field name="position">
-					<value>
-						<property name="x">0</property>
-						<property name="y">0</property>
-						<property name="z">-10</property>
-					</value>
-				</field>
-			</component>
-			<component type="LookAt">
-				<field name="vec">
-					<value>
-						<property name="x">0</property>
-						<property name="y">0</property>
-						<property name="z">0</property>
-					</value>
-				</field>
-			</component>
-			<component type="CameraComponent">
-				<property name="width">800</property>
-				<property name="height">600</property>
-			</component>
-		</entity>
-		
 	</entity>
+
+	<entity name="camera">
+		<component type="Transform"/>
+		<component type="CameraComponent">
+			<property name="width">800</property>
+			<property name="height">600</property>
+		</component>
+		<component type="Controller3D">
+			<field name="speed">
+				<value>5</value>
+			</field>
+		</component>
+		<component type="MouseSensitivity">
+			<field name="sensitivityX">
+				<value>1</value>
+			</field>
+			<field name="sensitivityY">
+				<value>-1</value>
+			</field>
+		</component>
+	</entity>
+	
+	<entity_ref file="entity1.xml">
+		<property name="x">0</property>
+		<property name="y">0</property>
+		<property name="z">0</property>
+		<property name="material">brick/brick.txt</property>
+	</entity_ref>
+	
+<!--	<entity name="player">-->
+<!--		<component type="Transform"/>-->
+<!--		<component type="Controller">-->
+<!--			<property name="speed">5</property>-->
+<!--		</component>-->
+<!--		<component type="SpriteRenderer">-->
+<!--			<property name="texture">monkey.png</property>-->
+<!--		</component>-->
+		
+<!--		<entity name="camera">-->
+<!--			<component type="Transform">-->
+<!--				<field name="position">-->
+<!--					<value>-->
+<!--						<property name="x">0</property>-->
+<!--						<property name="y">0</property>-->
+<!--						<property name="z">-10</property>-->
+<!--					</value>-->
+<!--				</field>-->
+<!--			</component>-->
+<!--			<component type="LookAt">-->
+<!--				<field name="vec">-->
+<!--					<value>-->
+<!--						<property name="x">0</property>-->
+<!--						<property name="y">0</property>-->
+<!--						<property name="z">0</property>-->
+<!--					</value>-->
+<!--				</field>-->
+<!--			</component>-->
+<!--			<component type="CameraComponent">-->
+<!--				<property name="width">800</property>-->
+<!--				<property name="height">600</property>-->
+<!--			</component>-->
+<!--		</entity>-->
+		
+<!--	</entity>-->
 
 </scene>
