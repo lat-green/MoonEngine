@@ -2,7 +2,6 @@ package com.greentree.engine.moon.ecs;
 
 import com.greentree.commons.action.observable.TypedObjectObservable;
 import com.greentree.commons.util.iterator.SizedIterable;
-import com.greentree.engine.moon.ecs.ClassSet.LockClassSet;
 import com.greentree.engine.moon.ecs.component.Component;
 
 public interface Entity extends SizedIterable<Component> {
@@ -60,7 +59,7 @@ public interface Entity extends SizedIterable<Component> {
 	
 	boolean isEmpty();
 	
-	LockClassSet<Component> lock();
+	ComponentLock lock();
 	
 	default void remove(Class<? extends Component> componentClass) {
 		try(final var lock = lock()) {

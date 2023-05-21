@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import com.greentree.commons.action.observable.TypedObjectObservable;
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.ecs.ClassSet.LockClassSet;
 import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
 import com.greentree.engine.moon.ecs.component.Component;
 
@@ -68,9 +67,11 @@ public final class ClassSetEntity implements Entity, Externalizable, Cloneable {
 	}
 	
 	@Override
-	public LockClassSet<Component> lock() {
-		return components.lock();
+	public ComponentLock lock() {
+		return new ClassSetComponentLock(components.lock());
 	}
+	
+	
 	
 	@Override
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
