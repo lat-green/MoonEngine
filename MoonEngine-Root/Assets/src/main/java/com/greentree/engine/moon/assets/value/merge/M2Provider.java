@@ -25,12 +25,6 @@ public final class M2Provider<T1, T2> implements ValueProvider<Group2<T1, T2>> {
 	}
 	
 	@Override
-	public void close() {
-		provider1.close();
-		provider2.close();
-	}
-	
-	@Override
 	public Group2<T1, T2> get() {
 		final var v1 = provider1.get();
 		final var v2 = provider2.get();

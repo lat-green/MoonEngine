@@ -28,13 +28,6 @@ public final class M3Provider<T1, T2, T3> implements ValueProvider<Group3<T1, T2
 	}
 	
 	@Override
-	public void close() {
-		provider1.close();
-		provider2.close();
-		provider3.close();
-	}
-	
-	@Override
 	public Group3<T1, T2, T3> get() {
 		final var v1 = provider1.get();
 		final var v2 = provider2.get();

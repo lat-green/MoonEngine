@@ -33,14 +33,6 @@ public final class M4Provider<T1, T2, T3, T4> implements ValueProvider<Group4<T1
 	}
 	
 	@Override
-	public void close() {
-		provider1.close();
-		provider2.close();
-		provider3.close();
-		provider4.close();
-	}
-	
-	@Override
 	public Group4<T1, T2, T3, T4> get() {
 		final var v1 = provider1.get();
 		final var v2 = provider2.get();

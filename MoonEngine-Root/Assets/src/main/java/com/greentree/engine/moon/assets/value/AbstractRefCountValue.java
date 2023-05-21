@@ -56,7 +56,6 @@ public abstract class AbstractRefCountValue<T> implements Value<T> {
 	private void end() {
 		refCount--;
 		if(refCount == 0) {
-			rawProvider.close();
 			rawProvider = null;
 			lastRawGet = Long.MIN_VALUE;
 			clear();
@@ -82,12 +81,12 @@ public abstract class AbstractRefCountValue<T> implements Value<T> {
 	
 	private final class Provider implements ValueProvider<T> {
 		
-		boolean isClose;
+		boolean isFinalize;
 		
 		private long lastGet = lastRawGet;
 		
 		public Provider() {
-			isClose = false;
+			isFinalize = false;
 			begin();
 		}
 		
@@ -98,30 +97,30 @@ public abstract class AbstractRefCountValue<T> implements Value<T> {
 		
 		@Override
 		public T getNotChenge() {
-			if(isClose)
+			if(isFinalize)
 				throw new UnsupportedOperationException("getNotChenge on close " + this);
 			return raw_get();
 		}
 		
 		@Override
 		public int characteristics() {
-			if(isClose)
+			if(isFinalize)
 				throw new UnsupportedOperationException("characteristics on close " + this);
 			return rawProvider.characteristics();
 		}
 		
 		@Override
-		public void close() {
-			if(isClose) {
+		protected void finalize() throws Throwable {
+			if(isFinalize) {
 				throw new UnsupportedOperationException("double closing " + this);
 			}
-			isClose = true;
+			isFinalize = true;
 			end();
 		}
 		
 		@Override
 		public T get() {
-			if(isClose)
+			if(isFinalize)
 				throw new UnsupportedOperationException("get on close " + this);
 			lastGet = lastRawGet;
 			return raw_get();
@@ -129,14 +128,14 @@ public abstract class AbstractRefCountValue<T> implements Value<T> {
 		
 		@Override
 		public boolean isChenge() {
-			if(isClose)
+			if(isFinalize)
 				throw new UnsupportedOperationException("isChenge on close " + this);
 			return (lastGet < lastRawGet) || raw_isChenge();
 		}
 		
 		@Override
 		public String toString() {
-			if(isClose)
+			if(isFinalize)
 				throw new UnsupportedOperationException("toString on close " + this);
 			return rawProvider.toString();
 		}

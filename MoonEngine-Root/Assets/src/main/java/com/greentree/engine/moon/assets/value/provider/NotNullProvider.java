@@ -32,11 +32,6 @@ public final class NotNullProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public void close() {
-		provider.close();
-	}
-	
-	@Override
 	public boolean isChenge() {
 		return provider.tryGet(c-> {
 			if(c != null)

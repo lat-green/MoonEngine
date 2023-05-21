@@ -18,11 +18,10 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
 	
 	public static <T, R> Value<R> newValue(Value<T> value, Value1Function<? super T, R> function) {
 		if(value.hasCharacteristics(CONST)) {
-			try(final var p = value.openProvider()) {
+			final var p = value.openProvider();
 				final var v = p.get();
 				final var r = function.apply(v);
 				return ConstValue.newValue(r);
-			}
 		}
 		return new ValueFunctionMapValue<>(value, function);
 	}
@@ -54,7 +53,6 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
 				Value1Function<? super T, R> function) {
 			if(provider.hasCharacteristics(CONST)) {
 				final var v = provider.get();
-				provider.close();
 				final var r = function.apply(v);
 				return ConstProvider.newValue(r);
 			}

@@ -22,12 +22,6 @@ public abstract class ProxyProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public void close() {
-		provider.close();
-	}
-	
-	
-	@Override
 	public boolean tryGet(Consumer<? super T> action) {
 		return provider.tryGet(action);
 	}

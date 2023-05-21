@@ -100,11 +100,6 @@ public final class MapIterableAssetSerializator<T, R> implements AssetSerializat
 			}
 			
 			@Override
-			public void close() {
-				provider.close();
-			}
-			
-			@Override
 			public Iterable<Value<R>> get() {
 				final var iter = provider.get();
 				final var result = new ArrayList<Value<R>>();

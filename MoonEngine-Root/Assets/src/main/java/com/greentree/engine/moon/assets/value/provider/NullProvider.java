@@ -23,10 +23,6 @@ public final class NullProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public void close() {
-	}
-	
-	@Override
 	public ValueProvider<T> copy() {
 		return this;
 	}

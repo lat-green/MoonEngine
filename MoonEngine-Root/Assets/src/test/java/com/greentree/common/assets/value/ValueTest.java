@@ -18,13 +18,12 @@ public class ValueTest {
 		final var v1 = new MutableValue<>(TEXT_1);
 		final var v2 = new MutableValue<>(TEXT_2);
 		
-		try(final var m = new M2Value<>(v1, v2).openProvider();) {
-			assertEquals(m.get().t1(), TEXT_1);
-			
-			v1.set(TEXT_3);
-			
-			assertEquals(m.get().t1(), TEXT_3);
-		}
+		final var m = new M2Value<>(v1, v2).openProvider();
+		assertEquals(m.get().t1(), TEXT_1);
+		
+		v1.set(TEXT_3);
+		
+		assertEquals(m.get().t1(), TEXT_3);
 	}
 	
 }

@@ -13,14 +13,10 @@ public interface Value<T> extends ValueCharacteristics<T>, Serializable {
 		return openProvider();
 	}
 	
-	@Deprecated
 	default T get() {
-		try(final var provider = openGetter()) {
-			return provider.get();
-		}
+		return openGetter().get();
 	}
 	
-	@Deprecated
 	default boolean isNull() {
 		return !hasCharacteristics(NOT_NULL) && get() == null;
 	}

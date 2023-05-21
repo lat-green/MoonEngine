@@ -29,11 +29,6 @@ public final class IteratableProvider<T> implements ValueProvider<Value<Iterable
 	}
 	
 	@Override
-	public void close() {
-		providers.close();
-	}
-	
-	@Override
 	public Value<Iterable<T>> get() {
 		return new MIValue<>(providers.get());
 	}

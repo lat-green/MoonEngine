@@ -25,13 +25,22 @@ public class DefaultValueTest {
 		assertFalse(m.hasCharacteristics(Value.CONST));
 		assertFalse(m.isNull());
 		
-		try(final var p = m.openProvider()) {
-			assertEquals(p.get(), TEXT1);
-			v1.set(null);
-			assertEquals(p.get(), TEXT2);
-			v1.set(TEXT1);
-			assertEquals(p.get(), TEXT1);
-		}
+		final var p = m.openProvider();
+		assertEquals(p.get(), TEXT1);
+		v1.set(null);
+		assertEquals(p.get(), TEXT2);
+		v1.set(TEXT1);
+		assertEquals(p.get(), TEXT1);
+	}
+	
+	@Test
+	void test_NEW_of_CONST_and_MUTABLE() {
+		final var v1 = ConstValue.newValue(TEXT1);
+		final var v2 = new MutableValue<>(TEXT1);
+		
+		final var m = DefaultValue.newValue(v1, v2);
+		
+		assertTrue(m == v1);
 	}
 	
 	@Test
@@ -51,16 +60,6 @@ public class DefaultValueTest {
 		final var m = DefaultValue.newValue(v1, v2);
 		
 		assertEquals(m.get(), TEXT1);
-	}
-	
-	@Test
-	void test_NEW_of_CONST_and_MUTABLE() {
-		final var v1 = ConstValue.newValue(TEXT1);
-		final var v2 = new MutableValue<>(TEXT1);
-		
-		final var m = DefaultValue.newValue(v1, v2);
-		
-		assertTrue(m == v1);
 	}
 	
 }

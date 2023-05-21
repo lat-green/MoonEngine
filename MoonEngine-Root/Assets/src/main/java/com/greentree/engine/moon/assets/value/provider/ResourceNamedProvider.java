@@ -47,11 +47,6 @@ public final class ResourceNamedProvider implements ValueProvider<ResourceValue>
 	}
 	
 	@Override
-	public void close() {
-		name.close();
-	}
-	
-	@Override
 	public ResourceValue get() {
 		final var name = this.name.get();
 		if(name == null)

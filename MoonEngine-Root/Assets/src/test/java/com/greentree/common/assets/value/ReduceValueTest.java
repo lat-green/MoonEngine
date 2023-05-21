@@ -16,13 +16,10 @@ public class ReduceValueTest {
 		
 		final var r = new ReduceValue<>(v1);
 		
-		try(final var p = r.openProvider()) {
-			assertEquals(p.get(), 1);
-			
-			r.set(v2);
-			
-			assertEquals(p.get(), 2);
-		}
+		final var p = r.openProvider();
+		assertEquals(p.get(), 1);
+		r.set(v2);
+		assertEquals(p.get(), 2);
 	}
 	
 }

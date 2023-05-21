@@ -55,8 +55,4 @@ public final class ResourceProvider implements ValueProvider<Resource> {
 		return new ResourceProvider(resource);
 	}
 	
-	@Override
-	public void close() {
-	}
-	
 }

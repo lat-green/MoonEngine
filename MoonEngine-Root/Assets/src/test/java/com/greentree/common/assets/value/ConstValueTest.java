@@ -15,10 +15,9 @@ public class ConstValueTest {
 	void test_NEW() {
 		final var v1 = ConstValue.newValue(TEXT);
 		assertTrue(v1.hasCharacteristics(Value.CONST));
-		try(final var p = v1.openProvider()) {
-			assertEquals(p.get(), TEXT);
-			assertFalse(p.isNull());
-		}
+		final var p = v1.openProvider();
+		assertEquals(p.get(), TEXT);
+		assertFalse(p.isNull());
 	}
 	
 }

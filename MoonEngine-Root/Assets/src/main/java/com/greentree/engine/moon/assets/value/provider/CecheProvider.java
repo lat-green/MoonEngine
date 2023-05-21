@@ -39,11 +39,6 @@ public class CecheProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public void close() {
-		provider.close();
-	}
-	
-	@Override
 	public T get() {
 		provider.tryGet(c-> {
 			ceche = c;

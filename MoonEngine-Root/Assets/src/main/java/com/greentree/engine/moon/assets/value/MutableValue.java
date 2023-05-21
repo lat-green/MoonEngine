@@ -49,10 +49,6 @@ public final class MutableValue<T> implements Value<T> {
 		}
 		
 		@Override
-		public void close() {
-		}
-		
-		@Override
 		public T get() {
 			lastGet = lastSet;
 			return value;

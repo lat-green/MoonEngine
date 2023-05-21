@@ -52,12 +52,6 @@ public final class DefultProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public void close() {
-		for(var s : providers)
-			s.close();
-	}
-	
-	@Override
 	public int characteristics() {
 		return CHARACTERISTICS;
 	}

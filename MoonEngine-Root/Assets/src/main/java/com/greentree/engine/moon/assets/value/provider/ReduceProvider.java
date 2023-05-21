@@ -34,13 +34,6 @@ public final class ReduceProvider<T> implements ValueProvider<T> {
 	}
 	
 	@Override
-	public void close() {
-		if(value != null)
-			value.close();
-		in.close();
-	}
-	
-	@Override
 	public T getNotChenge() {
 		if(value == null)
 			return null;
@@ -52,7 +45,6 @@ public final class ReduceProvider<T> implements ValueProvider<T> {
 		if(value == null)
 			return null;
 		if(in.isChenge()) {
-			value.close();
 			value = this.in.get().openProvider();
 		}
 		return value.get();
@@ -70,7 +62,6 @@ public final class ReduceProvider<T> implements ValueProvider<T> {
 	public static <T> ValueProvider<T> newProvider(ValueProvider<? extends Value<T>> provider) {
 		if(provider.hasCharacteristics(CONST)) {
 			final var value = provider.get();
-			provider.close();
 			return value.openProvider();
 		}
 		return new ReduceProvider<>(provider);

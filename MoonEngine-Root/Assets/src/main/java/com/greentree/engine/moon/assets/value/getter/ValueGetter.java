@@ -2,17 +2,13 @@ package com.greentree.engine.moon.assets.value.getter;
 
 import com.greentree.engine.moon.assets.value.ValueCharacteristics;
 
-public interface ValueGetter<T> extends ValueCharacteristics<T>, AutoCloseable {
+public interface ValueGetter<T> extends ValueCharacteristics<T> {
 	
 	default T getNotChenge() {
 		return get();
 	}
 	
 	T get();
-	
-	
-	@Override
-	void close();
 	
 	ValueGetter<T> copy();
 	

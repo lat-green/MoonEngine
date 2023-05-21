@@ -33,12 +33,6 @@ public final class MIProvider<T> implements ValueProvider<Iterable<T>> {
 	}
 	
 	@Override
-	public void close() {
-		for(var p : providers)
-			p.close();
-	}
-	
-	@Override
 	public Iterable<T> get() {
 		final var result = new ArrayList<T>();
 		for(var p : providers)

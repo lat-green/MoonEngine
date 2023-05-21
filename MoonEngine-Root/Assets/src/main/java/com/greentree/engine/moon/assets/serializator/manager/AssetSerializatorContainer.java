@@ -32,8 +32,6 @@ import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 
 final class AssetSerializatorContainer {
 	
-	
-	
 	private final Map<TypeInfo<?>, AssetSerializatorInfo<?>> serializators = new HashMap<>();
 	
 	private final Collection<Function<? super TypeInfo<?>, ? extends AssetSerializator<?>>> generators = new ArrayList<>();
@@ -160,9 +158,7 @@ final class AssetSerializatorContainer {
 		
 		public T loadData(LoadContext context, AssetKey key) {
 			final var value = serializator.load(context, key);
-			try(final var p = value.openProvider()) {
-				return p.get();
-			}
+			return value.openGetter().get();
 		}
 		
 		@Override

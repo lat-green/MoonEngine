@@ -23,11 +23,6 @@ public abstract class AbstractMapProvider<IN, OUT> implements ValueProvider<OUT>
 	}
 	
 	@Override
-	public void close() {
-		input.close();
-	}
-	
-	@Override
 	public String toString() {
 		return "MapProvider [" + input + "]";
 	}
