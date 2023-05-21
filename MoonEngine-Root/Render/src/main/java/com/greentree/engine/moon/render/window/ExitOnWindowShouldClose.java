@@ -8,7 +8,7 @@ import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.modules.ExitManager;
-import com.greentree.engine.moon.modules.ExitManagerProperty;
+import com.greentree.engine.moon.modules.property.ExitManagerProperty;
 
 public class ExitOnWindowShouldClose implements InitSystem, DestroySystem, UpdateSystem {
 	

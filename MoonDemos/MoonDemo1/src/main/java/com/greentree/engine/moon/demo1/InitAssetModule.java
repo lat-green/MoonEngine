@@ -3,9 +3,9 @@ package com.greentree.engine.moon.demo1;
 import com.greentree.commons.data.resource.location.ClassLoaderResourceLocation;
 import com.greentree.commons.data.resource.location.RootFileResourceLocation;
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.base.modules.WriteProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
-import com.greentree.engine.moon.modules.WriteProperty;
+import com.greentree.engine.moon.modules.property.EngineProperties;
 
 public class InitAssetModule implements LaunchModule {
 	

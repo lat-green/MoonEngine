@@ -28,15 +28,22 @@ open module engine.moon.base {
 	exports com.greentree.engine.moon.base.assets.properties;
 	exports com.greentree.engine.moon.base.assets.scene;
 	
+	exports com.greentree.engine.moon.base.modules;
+	exports com.greentree.engine.moon.base.modules.info;
+	exports com.greentree.engine.moon.base.modules.scanner;
+	exports com.greentree.engine.moon.base.modules.sorter;
+	
 	exports com.greentree.engine.moon.base.time;
 	exports com.greentree.engine.moon.base.name;
 	exports com.greentree.engine.moon.base.layer;
 	exports com.greentree.engine.moon.base.scene;
 	exports com.greentree.engine.moon.base.transform;
 	
+	
 	provides DataSerializer with EntitySerializer;
 	
 	uses ECSSystem;
+	uses EngineModule;
 	
 	provides ECSSystem with FileWatcherPollEventsModule;
 	

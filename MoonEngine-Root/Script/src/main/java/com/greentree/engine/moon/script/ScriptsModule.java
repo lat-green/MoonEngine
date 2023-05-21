@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.script;
 
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.modules.EngineProperties;
+import com.greentree.engine.moon.base.modules.WriteProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
-import com.greentree.engine.moon.modules.WriteProperty;
+import com.greentree.engine.moon.modules.property.EngineProperties;
 import com.greentree.engine.moon.script.assets.ScriptAssetSerializator;
 
 

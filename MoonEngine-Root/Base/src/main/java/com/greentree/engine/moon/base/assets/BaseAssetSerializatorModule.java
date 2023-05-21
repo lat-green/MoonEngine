@@ -14,10 +14,10 @@ import com.greentree.engine.moon.base.assets.scene.XMLSceneAssetSerializator;
 import com.greentree.engine.moon.base.assets.text.PropertyStringAssetSerializor;
 import com.greentree.engine.moon.base.assets.text.StringAssetSerializor;
 import com.greentree.engine.moon.base.assets.xml.XMLAssetSerializator;
+import com.greentree.engine.moon.base.modules.WriteProperty;
 import com.greentree.engine.moon.base.scene.SceneManagerProperty;
-import com.greentree.engine.moon.modules.EngineProperties;
 import com.greentree.engine.moon.modules.LaunchModule;
-import com.greentree.engine.moon.modules.WriteProperty;
+import com.greentree.engine.moon.modules.property.EngineProperties;
 
 public class BaseAssetSerializatorModule implements LaunchModule {
 	
