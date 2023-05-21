@@ -12,7 +12,7 @@ import com.greentree.engine.moon.ecs.ClassSet.LockClassSet;
 import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
 import com.greentree.engine.moon.ecs.component.Component;
 
-public final class Entity implements Iterable<Component>, Externalizable, Cloneable, AutoCloseable {
+public final class Entity implements Iterable<Component>, Externalizable, Cloneable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -68,13 +68,6 @@ public final class Entity implements Iterable<Component>, Externalizable, Clonea
 					lock.add(c.copy());
 			}
 		}
-	}
-	
-	@Override
-	public void close() {
-		for(var c : components)
-			c.close();
-		clear();
 	}
 	
 	public boolean contains(Class<? extends Component> componentClass) {
