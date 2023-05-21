@@ -26,6 +26,7 @@ import com.greentree.engine.moon.base.name.Name;
 import com.greentree.engine.moon.base.name.Names;
 import com.greentree.engine.moon.base.parent.Parent;
 import com.greentree.engine.moon.base.scene.Scene;
+import com.greentree.engine.moon.base.systems.AnnotationUtil;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.component.Component;
@@ -219,6 +220,9 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 					try {
 						final var log = new File("log");
 						log.mkdirs();
+						AnnotationUtil.sortInit(initSystems);
+						AnnotationUtil.sortUpdate(updateSystems);
+						AnnotationUtil.sortDestroy(destroySystems);
 						return new DebugSystems(
 								new PrintStreamSystemsProfiler(new File(log, "systems_init.log"),
 										new File(log, "systems_update.log"), new File(log, "systems_destroy.log")),
