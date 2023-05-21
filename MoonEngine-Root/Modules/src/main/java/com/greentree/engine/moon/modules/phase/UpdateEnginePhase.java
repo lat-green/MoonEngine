@@ -1,16 +1,16 @@
 package com.greentree.engine.moon.modules.phase;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.greentree.engine.moon.kernel.annotation.EngineBean;
+import com.greentree.engine.moon.modules.EngineProperties;
 import com.greentree.engine.moon.modules.ExitManager;
+import com.greentree.engine.moon.modules.ExitManagerProperty;
 import com.greentree.engine.moon.modules.UpdateModule;
 
-@EngineBean
-public class UpdateEnginePhase implements EnginePhase<UpdateModule> {
+public record UpdateEnginePhase(ExitManager exitManager) implements EnginePhase<UpdateModule> {
 	
-	@Autowired
-	private ExitManager exitManager;
+	
+	public UpdateEnginePhase(EngineProperties properties) {
+		this(properties.get(ExitManagerProperty.class).manager());
+	}
 	
 	@Override
 	public void run(Iterable<? extends UpdateModule> modules) {

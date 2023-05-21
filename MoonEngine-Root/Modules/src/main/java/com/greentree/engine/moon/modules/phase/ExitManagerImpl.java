@@ -1,9 +1,7 @@
 package com.greentree.engine.moon.modules.phase;
 
-import com.greentree.engine.moon.kernel.annotation.EngineBean;
 import com.greentree.engine.moon.modules.ExitManager;
 
-@EngineBean
 public class ExitManagerImpl implements ExitManager {
 	
 	private boolean shouldExit = false;

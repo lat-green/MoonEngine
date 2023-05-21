@@ -46,6 +46,7 @@ public final class EnginePropertiesBase implements EngineProperties {
 		return Optional.empty();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static <T> T getPropertyDataInField(Object obj, Class<T> fieldType) {
 		var cls = obj.getClass();
 		for(var f : ClassUtil.getAllNotStaticFields(cls)) {

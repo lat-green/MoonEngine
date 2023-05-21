@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.context.ConfigurableApplicationContext;
-
 import com.greentree.commons.util.classes.info.TypeUtil;
-import com.greentree.engine.moon.kernel.Kernel;
-import com.greentree.engine.moon.kernel.annotation.BeanScan;
 import com.greentree.engine.moon.modules.phase.AnnotatedCWRDMethodModuleInfo;
 import com.greentree.engine.moon.modules.phase.EnginePhase;
 import com.greentree.engine.moon.modules.phase.FieldAnalizeCWRDMethodModuleInfo;
@@ -22,23 +18,24 @@ import com.greentree.engine.moon.modules.scanner.CollectionModuleDefenitionScann
 import com.greentree.engine.moon.modules.scanner.ConfigModuleContainerScanner;
 import com.greentree.engine.moon.modules.scanner.ModuleDefenition;
 import com.greentree.engine.moon.modules.scanner.ServiceLoaderModuleDefenitionScanner;
-import com.greentree.engine.moon.modules.scanner.SpringModuleDefenitionScanner;
 
-@BeanScan
 public final class Engine {
 	private Engine() {
 	}
 	
 	public static void launch(String[] args, EngineModule... modules) {
-		var context = Kernel.launch(args);
 		var scanner = new ConfigModuleContainerScanner()
-				.addScanner(context.getBean(SpringModuleDefenitionScanner.class))
 				.addScanner(new ServiceLoaderModuleDefenitionScanner())
 				.addScanner(new CollectionModuleDefenitionScanner(modules));
 		
 		var scanModules = scanner.scan().map(ModuleDefenition::build).toList();
 		
-		runPhases(context, scanModules, new LaunchEnginePhase(), new UpdateEnginePhase(), new TerminateEnginePhase());
+		var properties = new EnginePropertiesBase();
+		
+		properties.add(new ExitManagerProperty());
+		
+		runPhases(scanModules, new LaunchEnginePhase(properties), new UpdateEnginePhase(properties),
+				new TerminateEnginePhase());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -55,14 +52,11 @@ public final class Engine {
 		phase.run(filteredModules);
 	}
 	
-	private static void runPhases(ConfigurableApplicationContext context, Collection<? extends EngineModule> modules,
+	private static void runPhases(Collection<? extends EngineModule> modules,
 			EnginePhase<?>... phases) {
 		var sorter = new OnCWRDMethodModuleSorter(new MergeCWRDMethodModuleInfo(new AnnotatedCWRDMethodModuleInfo(),
 				new FieldAnalizeCWRDMethodModuleInfo()));
-		//		var sorter = new AnnotatedMethodModuleSorter();
-		var beanFactory = context.getAutowireCapableBeanFactory();
 		for(var phase : phases) {
-			beanFactory.autowireBean(phase);
 			runPhase(sorter, phase, modules);
 		}
 	}
