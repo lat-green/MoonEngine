@@ -10,6 +10,7 @@ import com.greentree.commons.util.collection.FunctionAutoGenerateMap;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.ecs.component.Component;
 
+@Deprecated
 public class AnnotationUtil {
 	
 	public static final String INIT = "init";
