@@ -2,7 +2,8 @@ open module engine.moon.ecs {
 	
 	requires transitive commons.action;
 	requires transitive commons.graph;
-	requires transitive commons.injector;
+	
+	requires transitive engine.moon.kernel;
 	
 	exports com.greentree.engine.moon.ecs;
 	exports com.greentree.engine.moon.ecs.pool;

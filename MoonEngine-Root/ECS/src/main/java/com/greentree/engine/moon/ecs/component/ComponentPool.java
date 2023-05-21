@@ -11,6 +11,6 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 public @interface ComponentPool{
 	
-	Class<? extends ComponentPoolBase> value();
+	Class<? extends AbstractComponentPool<?>> value();
 	
 }

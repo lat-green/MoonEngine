@@ -13,7 +13,7 @@ import com.greentree.commons.action.observable.TypedObjectObservable;
 import com.greentree.commons.action.observer.type.TypedObjectAction;
 import com.greentree.commons.util.collection.OneClassSet;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "deprecation"})
 public class ClassSet<E> implements Iterable<E>, Externalizable {
 
 	private transient final TypedObjectAction<Class<? extends E>, E> addAction = new TypedObjectAction<>();

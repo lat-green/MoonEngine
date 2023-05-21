@@ -11,7 +11,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import com.greentree.common.ecs.ACompnent;
-import com.greentree.engine.moon.ecs.Entity;
+import com.greentree.engine.moon.ecs.ClassSetEntity;
+import com.greentree.engine.moon.ecs.CollectionWorld;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.pool.EmptyEntityStrategy;
 import com.greentree.engine.moon.ecs.pool.EntityPoolStrategy;
@@ -21,7 +22,7 @@ import com.greentree.engine.moon.ecs.pool.StackEntityPool;
 public class EntityPoolTest {
 
 	static Stream<EntityPoolStrategy> strategies() {
-		final var p = new Entity();
+		final var p = new ClassSetEntity();
 		p.add(new ACompnent());
 		return Stream.of(new PrototypeEntityStrategy(p), new EmptyEntityStrategy());
 	}
@@ -30,7 +31,7 @@ public class EntityPoolTest {
 	@DisplayName("strategies")
 	@ParameterizedTest
 	void testPool(EntityPoolStrategy str) {
-		final var world = new World();
+		final var world = new CollectionWorld();
 
 		try(final var pool = new StackEntityPool(world, str);) {
 			final var e = pool.get();
@@ -45,7 +46,7 @@ public class EntityPoolTest {
 	@ParameterizedTest
 	void testPool_after_deser(EntityPoolStrategy str)
 			throws ClassNotFoundException, IOException {
-		final var world = (World) deser(ser(new World()));
+		final var world = (World) deser(ser(new CollectionWorld()));
 
 		try(final var pool = new StackEntityPool(world, str);) {
 			final var e = pool.get();

@@ -7,6 +7,7 @@ import java.io.IOException;
 import com.greentree.commons.data.file.DataFileReader;
 import com.greentree.commons.data.file.DataFileWriter;
 import com.greentree.commons.data.file.serializer.AbstractSerializer;
+import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.component.Component;
 
@@ -26,7 +27,7 @@ public class EntitySerializer extends AbstractSerializer {
 
 	@Override
 	public Object read(Class<?> cls, DataInput in, DataFileReader file) throws IOException {
-		final var e = new Entity();
+		final var e = new ClassSetEntity();
 		var t = in.readInt();
 		try(final var lock = e.lock()) {
     		while(t-- > 0)

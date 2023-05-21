@@ -8,6 +8,7 @@ import java.util.ServiceLoader;
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
 import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.base.scene.SceneManager;
+import com.greentree.engine.moon.ecs.CollectionWorld;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.WorldComponent;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
@@ -69,7 +70,7 @@ public final class SceneManagerBase implements SceneManager {
 		
 		clearScene();
 		
-		currentWorld = new World();
+		currentWorld = new CollectionWorld();
 		currentWorld.add(new EnginePropertiesWorldComponent(properties));
 		
 		for(var property : properties)

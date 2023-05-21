@@ -9,10 +9,15 @@ import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.component.Component;
 
-public class FilterBuilder {
+public class FilterBuilder implements AbstractFilterBuilder {
 	
 	private final List<Class<? extends Component>> required = new ArrayList<>(), ignore = new ArrayList<>();
 	private final List<Comparator<? super Entity>> sort = new ArrayList<>();
+	
+	/** @deprecated {@link World#newFilter()} */
+	@Deprecated
+	public FilterBuilder() {
+	}
 	
 	public FilterBuilder group(Class<? extends Component> cls) {
 		return sort(e -> hash(e.get(cls)));
@@ -31,12 +36,14 @@ public class FilterBuilder {
 		return this;
 	}
 	
+	@Override
 	public FilterBuilder ignore(Class<? extends Component> cls) {
 		if(!ignore.contains(cls))
 			ignore.add(cls);
 		return this;
 	}
 	
+	@Override
 	public FilterBuilder required(Class<? extends Component> cls) {
 		if(!required.contains(cls))
 			required.add(cls);

@@ -42,7 +42,7 @@ public class PrototypeEntityStrategy implements EntityPoolStrategy {
     				lock.remove(cls);
     		}
 		}
-		prototype.cloneTo(entity);
+		prototype.copyTo(entity);
 	}
 
 }

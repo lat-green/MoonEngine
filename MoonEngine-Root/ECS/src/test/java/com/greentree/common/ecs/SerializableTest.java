@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.Entity;
 
 public class SerializableTest {
@@ -35,7 +36,7 @@ public class SerializableTest {
 	void Entity_ser_deser(int value) throws IOException, ClassNotFoundException {
 		final var a = new ACompnent();
 		a.value = value;
-		final var entity = new Entity();
+		final var entity = new ClassSetEntity();
 		entity.add(a);
 		final var ser = ser(entity);
 		final var c = deser(ser);
@@ -46,7 +47,7 @@ public class SerializableTest {
 	@DisplayName("Entity Actions After Serialization")
 	@Test
 	void test1() throws ClassNotFoundException, IOException {
-		final var e = (Entity) deser(ser(new Entity()));
+		final var e = (Entity) deser(ser(new ClassSetEntity()));
 		final var isCall = new boolean[1];
 		final var c = new ACompnent();
 		e.getAddAction().addListener(c0 -> {

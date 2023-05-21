@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.CollectionWorld;
 import com.greentree.engine.moon.ecs.pool.ArrayLimitEntityPool;
 import com.greentree.engine.moon.ecs.pool.EmptyEntityStrategy;
 
@@ -12,7 +12,7 @@ public class LimitEntityPoolTest {
 	
 	@Test
 	void test0() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		
 		final var lc = world.onAddEntity(c-> {
 			assertTrue(false);
@@ -26,7 +26,7 @@ public class LimitEntityPoolTest {
 	
 	@Test
 	void test1() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		try(final var pool = new ArrayLimitEntityPool(world, 3,
 				new EmptyEntityStrategy())) {
 			
@@ -44,7 +44,7 @@ public class LimitEntityPoolTest {
 	
 	@Test
 	void test2() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		try(final var pool = new ArrayLimitEntityPool(world, 3,
 				new EmptyEntityStrategy())) {
 			final var e1 = pool.get();
@@ -69,7 +69,7 @@ public class LimitEntityPoolTest {
 	
 	@Test
 	void test3() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		try(final var pool = new ArrayLimitEntityPool(world, 1,
 				new EmptyEntityStrategy())) {
 			
@@ -83,7 +83,7 @@ public class LimitEntityPoolTest {
 	
 	@Test
 	void test4() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		try(final var pool = new ArrayLimitEntityPool(world, 1,
 				new EmptyEntityStrategy())) {
 			

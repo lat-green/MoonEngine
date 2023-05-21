@@ -1,51 +1,29 @@
 package com.greentree.engine.moon.ecs;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.util.Iterator;
-
 import com.greentree.commons.action.observable.TypedObjectObservable;
-import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.commons.util.iterator.SizedIterable;
 import com.greentree.engine.moon.ecs.ClassSet.LockClassSet;
-import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
 import com.greentree.engine.moon.ecs.component.Component;
 
-public final class Entity implements Iterable<Component>, Externalizable, Cloneable {
+public interface Entity extends SizedIterable<Component> {
 	
-	private static final long serialVersionUID = 1L;
-	
-	private final ClassSet<Component> components = new ComponentClassSet();
-	
-	public Entity() {
-	}
-	
-	public void add(Component component) {
+	default void add(Component component) {
 		try(final var lock = lock()) {
 			lock.add(component);
 		}
 	}
 	
+	void clear();
 	
-	public void clear() {
-		components.clear();
+	Entity copy();
+	
+	default Entity copy(World world) {
+		final var copy = world.newEntity();
+		copyTo(copy);
+		return copy;
 	}
 	
-	@Override
-	public Entity clone() {
-		final var clone = new Entity();
-		cloneTo(clone);
-		return clone;
-	}
-	
-	public Entity clone(World world) {
-		final var clone = world.newEntity();
-		cloneTo(clone);
-		return clone;
-	}
-	
-	public void cloneTo(Entity clone) {
+	default void copyTo(Entity clone) {
 		try(var lock = clone.lock()) {
 			for(var c : clone) {
 				final var cls = c.getClass();
@@ -54,7 +32,7 @@ public final class Entity implements Iterable<Component>, Externalizable, Clonea
 			}
 		}
 		try(var lock = clone.lock()) {
-			for(var c : components) {
+			for(var c : this) {
 				final var cls = c.getClass();
 				if(clone.contains(cls))
 					if(!c.copyTo(clone.get(cls)))
@@ -62,7 +40,7 @@ public final class Entity implements Iterable<Component>, Externalizable, Clonea
 			}
 		}
 		try(var lock = clone.lock()) {
-			for(var c : components) {
+			for(var c : this) {
 				final var cls = c.getClass();
 				if(!clone.contains(cls))
 					lock.add(c.copy());
@@ -70,87 +48,24 @@ public final class Entity implements Iterable<Component>, Externalizable, Clonea
 		}
 	}
 	
-	public boolean contains(Class<? extends Component> componentClass) {
-		return components.contains(componentClass);
-	}
+	boolean contains(Class<? extends Component> componentClass);
 	
-	public boolean contains(Component component) {
-		return components.contains(component);
-	}
+	boolean contains(Component component);
 	
-	public <T extends Component> T get(Class<T> componentClass) {
-		return components.get(componentClass);
-	}
+	<T extends Component> T get(Class<T> componentClass);
 	
-	public TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getAddAction() {
-		return components.getAddAction();
-	}
+	TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getAddAction();
 	
-	public TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getRemoveAction() {
-		return components.getRemoveAction();
-	}
+	TypedObjectObservable<? extends Class<? extends Component>, ? extends Component> getRemoveAction();
 	
-	public boolean isEmpty() {
-		return components.isEmpty();
-	}
+	boolean isEmpty();
 	
-	@Override
-	public Iterator<Component> iterator() {
-		return components.iterator();
-	}
+	LockClassSet<Component> lock();
 	
-	public LockClassSet<Component> lock() {
-		return components.lock();
-	}
-	
-	@Override
-	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-		var size = in.readInt();
-		try(final var lock = lock()) {
-			while(size-- > 0) {
-				final var c = (Component) in.readObject();
-				lock.add(c);
-			}
-		}
-	}
-	
-	public void remove(Class<? extends Component> componentClass) {
+	default void remove(Class<? extends Component> componentClass) {
 		try(final var lock = lock()) {
 			lock.remove(componentClass);
 		}
-	}
-	
-	public int size() {
-		return components.size();
-	}
-	
-	
-	@Override
-	public String toString() {
-		return "Entity " + IteratorUtil.toString(components);
-	}
-	
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		out.writeInt(components.size());
-		for(var c : this)
-			out.writeObject(c);
-	}
-	
-	
-	public static final class ComponentClassSet extends ClassSet<Component> {
-		
-		private static final long serialVersionUID = 1L;
-		
-		public ComponentClassSet() {
-		}
-		
-		@Override
-		protected Iterable<? extends Class<? extends Component>> getClassRequired(
-				Class<? extends Component> cls) {
-			return AnnotationUtil.getRequiredComponent(cls);
-		}
-		
 	}
 	
 }

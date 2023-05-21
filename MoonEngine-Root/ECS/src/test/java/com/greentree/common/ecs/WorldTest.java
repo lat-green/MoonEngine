@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.ecs.Entity;
-import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.ClassSetEntity;
+import com.greentree.engine.moon.ecs.CollectionWorld;
 import com.greentree.engine.moon.ecs.filter.OneRequiredFilter;
 
 public class WorldTest {
@@ -19,7 +19,7 @@ public class WorldTest {
 	
 	@Test
 	void event_AddEntity_on_newDeactiveEntity() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		
 		world.onAddEntity(e-> {
 			assertTrue(false);
@@ -30,14 +30,14 @@ public class WorldTest {
 	
 	@Test
 	void newDeactiveEntity_deleteEntity() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		final var e = world.newDeactiveEntity();
 		world.deleteEntity(e);
 	}
 	
 	@Test
 	void newEntity_deactive_deleteEntity() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		final var e = world.newEntity();
 		world.deactive(e);
 		world.deleteEntity(e);
@@ -45,8 +45,8 @@ public class WorldTest {
 	
 	@Test
 	void test_delete_not_my_Entity() {
-		final var world = new World();
-		final var e = new Entity();
+		final var world = new CollectionWorld();
+		final var e = new ClassSetEntity();
 		assertThrows(IllegalArgumentException.class, ()-> {
 			world.deleteEntity(e);
 		});
@@ -54,7 +54,7 @@ public class WorldTest {
 	
 	@Test
 	void test1() {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		final var e = world.newEntity();
 		
 		final var filter = new OneRequiredFilter(world, ACompnent.class);
@@ -79,7 +79,7 @@ public class WorldTest {
 		
 		@Test
 		void isActive_isDeactive_deleteEntity() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			final var e = world.newEntity();
 			world.deleteEntity(e);
 			assertFalse(world.isDeactive(e));
@@ -88,15 +88,15 @@ public class WorldTest {
 		
 		@Test
 		void isActive_isDeactive_new_Entity() {
-			final var world = new World();
-			final var e = new Entity();
+			final var world = new CollectionWorld();
+			final var e = new ClassSetEntity();
 			assertFalse(world.isDeactive(e));
 			assertFalse(world.isActive(e));
 		}
 		
 		@Test
 		void isActive_isDeactive_newDeactiveEntity() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			final var e = world.newDeactiveEntity();
 			assertTrue(world.isDeactive(e));
 			assertFalse(world.isActive(e));
@@ -104,7 +104,7 @@ public class WorldTest {
 		
 		@Test
 		void isActive_isDeactive_newEntity() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			final var e = world.newEntity();
 			assertFalse(world.isDeactive(e));
 			assertTrue(world.isActive(e));
@@ -112,7 +112,7 @@ public class WorldTest {
 		
 		@Test
 		void isActive_isDeactive_newEntity_da() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			final var e = world.newEntity();
 			world.deactive(e);
 			world.active(e);
@@ -127,7 +127,7 @@ public class WorldTest {
 		
 		@Test
 		void onAddComponent_on_deactiveEntity() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			
 			world.onAddComponent(c-> {
 				assertTrue(false, "event World.onAddComponent after deactive");
@@ -140,7 +140,7 @@ public class WorldTest {
 		
 		@Test
 		void onAddComponent_on_newDeactiveEntity() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			
 			world.onAddComponent(c-> {
 				assertTrue(false);
@@ -158,7 +158,7 @@ public class WorldTest {
 		
 		@Test
 		void timeout_isActive() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			final var e = world.newEntity();
 			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
@@ -170,7 +170,7 @@ public class WorldTest {
 		
 		@Test
 		void timeout_newDeactiveEntity() {
-			final var world = new World(1_000_000);
+			final var world = new CollectionWorld(1_000_000);
 			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0)
@@ -181,7 +181,7 @@ public class WorldTest {
 		
 		@Test
 		void timeout_newDeactiveEntity_deleteEntity() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0) {
@@ -194,7 +194,7 @@ public class WorldTest {
 		
 		@Test
 		void timeout_newEntity() {
-			final var world = new World(1_000_000);
+			final var world = new CollectionWorld(1_000_000);
 			assertTimeout(Duration.ofSeconds(4), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0)
@@ -205,7 +205,7 @@ public class WorldTest {
 		
 		@Test
 		void timeout_newEntity_chunck() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000;
 				while(t-- > 0) {
@@ -219,7 +219,7 @@ public class WorldTest {
 		
 		@Test
 		void timeout_newEntity_deleteEntity() {
-			final var world = new World();
+			final var world = new CollectionWorld();
 			assertTimeout(Duration.ofSeconds(2), ()-> {
 				var t = 1_000_000;
 				while(t-- > 0) {

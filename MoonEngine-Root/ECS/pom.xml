@@ -20,9 +20,10 @@
 			<groupId>com.greentree.commons</groupId>
 			<artifactId>action</artifactId>
 		</dependency>
+		
 		<dependency>
-			<groupId>com.greentree.commons</groupId>
-			<artifactId>injector</artifactId>
+	  		<groupId>com.greentree.engine.moon</groupId>
+			<artifactId>kernel</artifactId>
 		</dependency>
 	</dependencies>
  	

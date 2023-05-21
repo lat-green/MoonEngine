@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.CollectionWorld;
 
 public class CopyTest {
 
@@ -30,13 +30,13 @@ public class CopyTest {
 	@MethodSource("ints")
 	@ParameterizedTest
 	void Entity(int value) throws IOException, ClassNotFoundException {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		final var entity = world.newEntity();
 		
 		final var a = new ACompnent();
 		entity.add(a);
 		a.value = value;
-		final var c = entity.clone();
+		final var c = entity.copy();
 		
 		assertComponentEquals(entity, c);
 	}
@@ -44,23 +44,23 @@ public class CopyTest {
 	@MethodSource("ints")
 	@ParameterizedTest
 	void PrototypeEntity(int value) throws IOException, ClassNotFoundException {
-		final var world = new World();
+		final var world = new CollectionWorld();
 		final var entity = world.newEntity();
 		{
     		final var a = new ACompnent();
     		entity.add(a);
     		a.value = value;
 		}
-		final var prototype = entity.clone();
+		final var prototype = entity.copy();
 		
 		assertComponentEquals(entity, prototype);
 		assertTrue(world.isActive(entity));
 		assertFalse(world.isActive(prototype));
 
-		final var ec = entity.clone(world);
+		final var ec = entity.copy(world);
 		assertComponentEquals(entity, ec);
 		assertTrue(world.isActive(ec));
-		final var pc = prototype.clone(world);
+		final var pc = prototype.copy(world);
 		assertComponentEquals(prototype, pc);
 		assertTrue(world.isActive(pc));
 	}
