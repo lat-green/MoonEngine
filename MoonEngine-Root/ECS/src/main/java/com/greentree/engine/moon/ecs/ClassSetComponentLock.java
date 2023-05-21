@@ -20,5 +20,10 @@ public record ClassSetComponentLock(LockClassSet<Component> lock) implements Com
 		lock.add(component);
 	}
 	
+	@Override
+	public <C extends Component> C get(Class<C> componentClass) {
+		return lock.get(componentClass);
+	}
+	
 	
 }

@@ -11,4 +11,6 @@ public interface ComponentLock extends AutoCloseable {
 	
 	void add(Component component);
 	
+	<C extends Component> C get(Class<C> componentClass);
+	
 }
