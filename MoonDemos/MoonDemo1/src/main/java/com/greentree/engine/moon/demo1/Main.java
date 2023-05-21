@@ -5,10 +5,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.greentree.engine.moon.base.modules.info.AnnotatedCWRDMethodModuleInfo;
+import com.greentree.engine.moon.base.modules.info.FieldAnalizeCWRDMethodModuleInfo;
+import com.greentree.engine.moon.base.modules.info.MergeCWRDMethodModuleInfo;
 import com.greentree.engine.moon.base.modules.scanner.ConfigModuleContainerScanner;
 import com.greentree.engine.moon.base.modules.scanner.ModuleDefenition;
 import com.greentree.engine.moon.base.modules.scanner.ServiceLoaderModuleDefenitionScanner;
-import com.greentree.engine.moon.base.modules.sorter.AnnotatedMethodModuleSorter;
+import com.greentree.engine.moon.base.modules.sorter.OnCWRDMethodModuleSorter;
 import com.greentree.engine.moon.modules.Engine;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.TerminateModule;
@@ -27,7 +30,8 @@ public class Main {
 		
 		var scanModules = scanner.scan().map(ModuleDefenition::build).toList();
 		
-		var sorter = new AnnotatedMethodModuleSorter();
+		var sorter = new OnCWRDMethodModuleSorter(new MergeCWRDMethodModuleInfo(new FieldAnalizeCWRDMethodModuleInfo(),
+				new AnnotatedCWRDMethodModuleInfo()));
 
 		var launchModules = new ArrayList<LaunchModule>(
 				(List) scanModules.stream().filter(x -> x instanceof LaunchModule).toList());

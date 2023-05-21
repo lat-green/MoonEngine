@@ -1,22 +1,23 @@
 package com.greentree.engine.moon.base.modules.info;
 
-import com.greentree.commons.util.iterator.IteratorUtil;
+import java.util.stream.Stream;
+
 import com.greentree.engine.moon.modules.EngineModule;
 
 public record FieldAnalizeCWRDMethodModuleInfo() implements CWRDMethodModuleInfo {
 	
 	@Override
-	public Iterable<Class<?>> getCreate(EngineModule module, String method) {
-		return IteratorUtil.empty();
+	public Stream<Class<?>> getCreate(EngineModule module, String method) {
+		return Stream.empty();
 	}
 	
 	@Override
-	public Iterable<Class<?>> getWrite(EngineModule module, String method) {
-		return IteratorUtil.empty();
+	public Stream<Class<?>> getWrite(EngineModule module, String method) {
+		return Stream.empty();
 	}
 	
 	@Override
-	public Iterable<Class<?>> getRead(EngineModule module, String method) {
+	public Stream<Class<?>> getRead(EngineModule module, String method) {
 		//		if(!"launch".equals(method))
 		//			return IteratorUtil.empty();
 		//		var cls = AnnotationUtil.getRead(module, method);
@@ -29,7 +30,7 @@ public record FieldAnalizeCWRDMethodModuleInfo() implements CWRDMethodModuleInfo
 		//		for(var e : c)
 		//			System.out.println("\t" + e);
 		//		System.out.println();
-		return IteratorUtil.empty();
+		return Stream.empty();
 	}
 	
 	//	private Iterable<Field> getCandidateReadProprty(EngineModule module) {
@@ -42,8 +43,8 @@ public record FieldAnalizeCWRDMethodModuleInfo() implements CWRDMethodModuleInfo
 	//	}
 	
 	@Override
-	public Iterable<Class<?>> getDestroy(EngineModule module, String method) {
-		return IteratorUtil.empty();
+	public Stream<Class<?>> getDestroy(EngineModule module, String method) {
+		return Stream.empty();
 	}
 	
 }

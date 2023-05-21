@@ -25,14 +25,10 @@ public record OnCWRDMethodModuleSorter(CWRDMethodModuleInfo info) implements Met
 		final var destroy = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(() -> new ArrayList<>());
 		
 		for(var v : modules) {
-			for(var c : info.getCreate(v, method))
-				create.get(c).add(v);
-			for(var c : info.getWrite(v, method))
-				write.get(c).add(v);
-			for(var c : info.getRead(v, method))
-				read.get(c).add(v);
-			for(var c : info.getDestroy(v, method))
-				destroy.get(c).add(v);
+			info.getCreate(v, method).forEach(c -> create.get(c).add(v));
+			info.getWrite(v, method).forEach(c -> write.get(c).add(v));
+			info.getRead(v, method).forEach(c -> read.get(c).add(v));
+			info.getDestroy(v, method).forEach(c -> destroy.get(c).add(v));
 		}
 		
 		for(var entry : create.entrySet()) {
