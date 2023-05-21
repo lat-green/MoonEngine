@@ -19,6 +19,7 @@ import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.commons.web.protocol.ConnectionInputStream;
 import com.greentree.commons.web.protocol.ConnectionOutputStream;
 import com.greentree.commons.web.protocol.StreamableConnection;
+import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.replication.event.AddComponentEvent;
 import com.greentree.engine.moon.replication.event.AddEntityEvent;
@@ -172,7 +173,7 @@ public class ConnectionInfo implements AutoCloseable {
 		final var es = new ArrayList<Entity>();
 		for(var r : replication) {
 			final var rep = r.get(ReplicationComponent.class);
-			final var e = new Entity();
+			final var e = new ClassSetEntity();
 			es.add(e);
 			try(final var lock = e.lock()) {
 				for(var cls : rep)
