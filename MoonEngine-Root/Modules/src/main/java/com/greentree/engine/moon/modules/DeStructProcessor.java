@@ -11,7 +11,6 @@ import com.greentree.engine.moon.kernel.annotation.EngineBean;
 public class DeStructProcessor implements BeanPostProcessor {
 	
 	private final ConfigurableListableBeanFactory beanFactory;
-	
 	public DeStructProcessor(ConfigurableListableBeanFactory beanFactory) {
 		this.beanFactory = beanFactory;
 	}
