@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.render.light.point;
 
+import com.greentree.engine.moon.base.systems.CreateComponent;
+import com.greentree.engine.moon.base.systems.ReadComponent;
+import com.greentree.engine.moon.base.systems.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.CreateComponent;
-import com.greentree.engine.moon.ecs.annotation.ReadComponent;
-import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;

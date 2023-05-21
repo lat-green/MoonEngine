@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.base.transform;
 
+import com.greentree.engine.moon.base.systems.ReadComponent;
+import com.greentree.engine.moon.base.systems.WriteComponent;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.ReadComponent;
-import com.greentree.engine.moon.ecs.annotation.WriteComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;

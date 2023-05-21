@@ -2,12 +2,12 @@ package com.greentree.engine.moon.demo1.controller;
 
 import org.joml.Matrix3f;
 
+import com.greentree.engine.moon.base.systems.ReadComponent;
+import com.greentree.engine.moon.base.systems.ReadWorldComponent;
+import com.greentree.engine.moon.base.systems.WriteComponent;
 import com.greentree.engine.moon.base.time.Time;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.ReadComponent;
-import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
-import com.greentree.engine.moon.ecs.annotation.WriteComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;

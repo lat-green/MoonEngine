@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.render;
 
+import com.greentree.engine.moon.base.systems.ReadComponent;
+import com.greentree.engine.moon.base.systems.ReadWorldComponent;
+import com.greentree.engine.moon.base.systems.WriteWorldComponent;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.ReadComponent;
-import com.greentree.engine.moon.ecs.annotation.ReadWorldComponent;
-import com.greentree.engine.moon.ecs.annotation.WriteWorldComponent;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;

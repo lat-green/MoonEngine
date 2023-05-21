@@ -1,14 +1,14 @@
 package com.greentree.engine.moon.monkey;
 
 import com.greentree.engine.moon.base.AssetManagerProperty;
+import com.greentree.engine.moon.base.modules.ReadProperty;
+import com.greentree.engine.moon.base.modules.WriteProperty;
 import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.base.scene.SceneManagerProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
-import com.greentree.engine.moon.modules.EngineProperties;
 import com.greentree.engine.moon.modules.LaunchModule;
-import com.greentree.engine.moon.modules.ReadProperty;
-import com.greentree.engine.moon.modules.WriteProperty;
+import com.greentree.engine.moon.modules.property.EngineProperties;
 import com.greentree.engine.moon.monkey.input.PlayerButton;
 import com.greentree.engine.moon.monkey.input.PlayerInput;
 import com.greentree.engine.moon.signals.DevicesProperty;

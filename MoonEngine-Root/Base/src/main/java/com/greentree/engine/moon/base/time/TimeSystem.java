@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.base.time;
 
+import com.greentree.engine.moon.base.systems.CreateWorldComponent;
+import com.greentree.engine.moon.base.systems.WriteWorldComponent;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.CreateWorldComponent;
-import com.greentree.engine.moon.ecs.annotation.WriteWorldComponent;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 

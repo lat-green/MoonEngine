@@ -29,7 +29,10 @@ import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.component.Component;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.ecs.system.debug.DebugSystems;
 import com.greentree.engine.moon.ecs.system.debug.PrintStreamSystemsProfiler;
 
@@ -190,12 +193,26 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 				
 				@Override
 				public ECSSystem getSystems(Iterable<? extends ECSSystem> globalSystems) {
-					final var systems = new ArrayList<ECSSystem>();
-					for(var system : globalSystems)
-						systems.add(system);
+					final var initSystems = new ArrayList<InitSystem>();
+					final var updateSystems = new ArrayList<UpdateSystem>();
+					final var destroySystems = new ArrayList<DestroySystem>();
+					for(var system : globalSystems) {
+						if(system instanceof InitSystem s)
+							initSystems.add(s);
+						if(system instanceof UpdateSystem s)
+							updateSystems.add(s);
+						if(system instanceof DestroySystem s)
+							destroySystems.add(s);
+					}
 					for(var xml_system : xml_scene.getChildrens("system"))
 						try {
-							systems.add(newFromXML(ECSSystem.class, xml_system));
+							var system = newFromXML(ECSSystem.class, xml_system);
+							if(system instanceof InitSystem s)
+								initSystems.add(s);
+							if(system instanceof UpdateSystem s)
+								updateSystems.add(s);
+							if(system instanceof DestroySystem s)
+								destroySystems.add(s);
 						}catch(ClassNotFoundException e1) {
 							e1.printStackTrace();
 						}
@@ -205,7 +222,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 						return new DebugSystems(
 								new PrintStreamSystemsProfiler(new File(log, "systems_init.log"),
 										new File(log, "systems_update.log"), new File(log, "systems_destroy.log")),
-								systems);
+								initSystems, updateSystems, destroySystems);
 					}catch(FileNotFoundException e) {
 						throw new WrappedException(e);
 					}

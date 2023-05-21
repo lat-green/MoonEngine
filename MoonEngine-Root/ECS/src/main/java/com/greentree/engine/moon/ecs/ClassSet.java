@@ -12,6 +12,7 @@ import java.util.Objects;
 import com.greentree.commons.action.observable.TypedObjectObservable;
 import com.greentree.commons.action.observer.type.TypedObjectAction;
 import com.greentree.commons.util.collection.OneClassSet;
+import com.greentree.commons.util.iterator.IteratorUtil;
 
 @SuppressWarnings({"unchecked", "deprecation"})
 public class ClassSet<E> implements Iterable<E>, Externalizable {
@@ -92,7 +93,7 @@ public class ClassSet<E> implements Iterable<E>, Externalizable {
 	}
 
 	protected Iterable<? extends Class<? extends E>> getClassRequired(Class<? extends E> cls) {
-		return null;
+		return IteratorUtil.empty();
 	}
 
 	public static final class LockClassSet<E> implements AutoCloseable {
@@ -130,10 +131,10 @@ public class ClassSet<E> implements Iterable<E>, Externalizable {
 				if(_this.contains(cls))
 					throw new IllegalArgumentException("componenet "+cls.getName()+" already added to " + _this);
 				final var requiredComponents = _this.getClassRequired(cls);
-				if(requiredComponents != null)
-					for(var rc : requiredComponents)
-						if(!_this.contains(rc) && !containsClass(addedComponent, rc))
-							throw new IllegalArgumentException("add componet " + c + " required " + rc.getName() + " to " + _this + ", also added " + addedComponent);
+				for(var rc : requiredComponents)
+					if(!_this.contains(rc) && !containsClass(addedComponent, rc))
+						throw new IllegalArgumentException("add componet " + c + " required " + rc.getName() + " to "
+								+ _this + ", also added " + addedComponent);
 			}
 			_this.components.addAll(addedComponent);
 			for(E c : addedComponent) {

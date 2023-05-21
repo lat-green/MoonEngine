@@ -1,34 +1,23 @@
 package com.greentree.engine.moon.ecs.system;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
 
-public class Systems
-		implements InitSystem, UpdateSystem, DestroySystem, Serializable {
-	private static final long serialVersionUID = 1L;
+public class Systems implements InitSystem, UpdateSystem, DestroySystem {
 
-	private final List<ECSSystem> systems = new ArrayList<>();
-	private final List<InitSystem> initSystems = new ArrayList<>();
-	private final List<UpdateSystem> updateSystems = new ArrayList<>();
-	private final List<DestroySystem> destroySystems = new ArrayList<>();
+	private final List<InitSystem> initSystems;
+	private final List<UpdateSystem> updateSystems;
+	private final List<DestroySystem> destroySystems;
 
-	public Systems(ECSSystem...systems) {
-		this(IteratorUtil.iterable(systems));
+	public Systems(List<? extends InitSystem> initSystems, List<? extends UpdateSystem> updateSystems,
+			List<? extends DestroySystem> destroySystems) {
+		this.initSystems = new ArrayList<>(initSystems);
+		this.updateSystems = new ArrayList<>(updateSystems);
+		this.destroySystems = new ArrayList<>(destroySystems);
 	}
-	public Systems(Iterable<? extends ECSSystem> systems) {
-		for(var s : systems)
-			add(s);
-		AnnotationUtil.sort(initSystems, AnnotationUtil.INIT);
-		AnnotationUtil.sort(updateSystems, AnnotationUtil.UPDATE);
-		AnnotationUtil.sort(destroySystems, AnnotationUtil.DESTROY);
-		this.systems.sort(Comparator.comparing(x -> initSystems.indexOf(x)));
-	}
+	
 	@Override
 	public void destroy() {
 		final var iter = destroySystems.iterator();
@@ -62,16 +51,6 @@ public class Systems
 
 	public Iterable<? extends UpdateSystem> updateSystems() {
 		return updateSystems;
-	}
-
-	private void add(ECSSystem system) {
-		systems.add(system);
-		if(system instanceof InitSystem s)
-			initSystems.add(s);
-		if(system instanceof UpdateSystem s)
-			updateSystems.add(s);
-		if(system instanceof DestroySystem s)
-			destroySystems.add(s);
 	}
 
 }

@@ -1,10 +1,10 @@
 package com.greentree.engine.moon.render.camera;
 
+import com.greentree.engine.moon.base.systems.CreateSystem;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.WorldComponent;
-import com.greentree.engine.moon.ecs.annotation.CreateSystem;
 
 @CreateSystem(CameraSystem.class)
 public final class Cameras implements WorldComponent {

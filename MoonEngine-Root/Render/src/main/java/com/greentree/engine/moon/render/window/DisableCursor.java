@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.render.window;
 
 import com.greentree.engine.moon.base.scene.EnginePropertiesWorldComponent;
+import com.greentree.engine.moon.base.systems.Use;
+import com.greentree.engine.moon.base.systems.UseStage;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.Use;
-import com.greentree.engine.moon.ecs.annotation.UseStage;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 

@@ -33,6 +33,8 @@ open module engine.moon.base {
 	exports com.greentree.engine.moon.base.modules.scanner;
 	exports com.greentree.engine.moon.base.modules.sorter;
 	
+	exports com.greentree.engine.moon.base.systems;
+	
 	exports com.greentree.engine.moon.base.time;
 	exports com.greentree.engine.moon.base.name;
 	exports com.greentree.engine.moon.base.layer;

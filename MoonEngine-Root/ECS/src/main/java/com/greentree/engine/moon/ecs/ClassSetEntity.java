@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 import com.greentree.commons.action.observable.TypedObjectObservable;
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.ecs.annotation.AnnotationUtil;
 import com.greentree.engine.moon.ecs.component.Component;
+import com.greentree.engine.moon.kernel.AnnotationUtil;
 
 public final class ClassSetEntity implements Entity, Externalizable, Cloneable {
 	
@@ -25,13 +26,6 @@ public final class ClassSetEntity implements Entity, Externalizable, Cloneable {
 	}
 	
 	@Override
-	public ClassSetEntity copy() {
-		final var clone = new ClassSetEntity();
-		copyTo(clone);
-		return clone;
-	}
-	
-	@Override
 	public boolean contains(Class<? extends Component> componentClass) {
 		return components.contains(componentClass);
 	}
@@ -39,6 +33,13 @@ public final class ClassSetEntity implements Entity, Externalizable, Cloneable {
 	@Override
 	public boolean contains(Component component) {
 		return components.contains(component);
+	}
+	
+	@Override
+	public ClassSetEntity copy() {
+		final var clone = new ClassSetEntity();
+		copyTo(clone);
+		return clone;
 	}
 	
 	@Override
@@ -110,12 +111,16 @@ public final class ClassSetEntity implements Entity, Externalizable, Cloneable {
 		public ComponentClassSet() {
 		}
 		
+		public static Stream<? extends Class<? extends Component>> getRequiredComponent(Class<?> cls) {
+			final var requiredComponents = AnnotationUtil.getAnnotation(cls, RequiredComponent.class);
+			return requiredComponents.stream().flatMap(x -> Stream.of(x.value()));
+		}
+		
 		@Override
 		protected Iterable<? extends Class<? extends Component>> getClassRequired(
 				Class<? extends Component> cls) {
-			return AnnotationUtil.getRequiredComponent(cls);
+			return getRequiredComponent(cls).toList();
 		}
-		
 	}
 	
 }

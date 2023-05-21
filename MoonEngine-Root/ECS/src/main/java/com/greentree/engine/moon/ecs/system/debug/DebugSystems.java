@@ -1,24 +1,21 @@
 package com.greentree.engine.moon.ecs.system.debug;
 
+import java.util.List;
+
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.system.ECSSystem;
+import com.greentree.engine.moon.ecs.system.DestroySystem;
+import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.Systems;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
 
 public class DebugSystems extends Systems {
 
 
-
-	private static final long serialVersionUID = 1L;
-
 	private final SystemsProfiler profiler;
 
-	public DebugSystems(SystemsProfiler profiler, ECSSystem... systems) {
-		super(systems);
-		this.profiler = profiler;
-	}
-
-	public DebugSystems(SystemsProfiler profiler, Iterable<? extends ECSSystem> systems) {
-		super(systems);
+	public DebugSystems(SystemsProfiler profiler, List<? extends InitSystem> initSystems,
+			List<? extends UpdateSystem> updateSystems, List<? extends DestroySystem> destroySystems) {
+		super(initSystems, updateSystems, destroySystems);
 		this.profiler = profiler;
 	}
 

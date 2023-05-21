@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.render.camera;
 
 import com.greentree.commons.action.ListenerCloser;
+import com.greentree.engine.moon.base.systems.CreateWorldComponent;
+import com.greentree.engine.moon.base.systems.DestroyWorldComponent;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.CreateWorldComponent;
-import com.greentree.engine.moon.ecs.annotation.DestroyWorldComponent;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 

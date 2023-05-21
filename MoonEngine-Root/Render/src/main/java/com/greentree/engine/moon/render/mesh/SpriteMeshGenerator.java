@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.render.mesh;
 
 import com.greentree.engine.moon.assets.value.provider.ConstProvider;
+import com.greentree.engine.moon.base.systems.CreateComponent;
+import com.greentree.engine.moon.base.systems.ReadComponent;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.annotation.CreateComponent;
-import com.greentree.engine.moon.ecs.annotation.ReadComponent;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
 import com.greentree.engine.moon.ecs.system.DestroySystem;

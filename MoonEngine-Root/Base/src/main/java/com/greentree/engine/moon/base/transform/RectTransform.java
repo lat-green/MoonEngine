@@ -3,7 +3,7 @@ package com.greentree.engine.moon.base.transform;
 import com.greentree.commons.math.Mathf;
 import com.greentree.commons.math.vector.AbstractVector2f;
 import com.greentree.commons.math.vector.Vector2f;
-import com.greentree.engine.moon.ecs.annotation.RequiredComponent;
+import com.greentree.engine.moon.ecs.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 @RequiredComponent({Transform.class})
