@@ -14,9 +14,4 @@ public record MeshRenderer(ValueProvider<Material> material) implements ConstCom
 		Objects.requireNonNull(material);
 	}
 	
-	@Override
-	public void close() {
-		material.close();
-	}
-	
 }

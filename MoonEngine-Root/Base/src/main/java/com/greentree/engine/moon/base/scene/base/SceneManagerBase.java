@@ -60,8 +60,6 @@ public final class SceneManagerBase implements SceneManager {
 	public void clearScene() {
 		if(currentSystems instanceof DestroySystem dsystem)
 			dsystem.destroy();
-		if(currentWorld != null)
-			currentWorld.close();
 	}
 	
 	private synchronized void loadScene() {

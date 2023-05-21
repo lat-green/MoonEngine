@@ -15,9 +15,4 @@ public record SpriteRenderer(ValueProvider<Property> texture) implements ConstCo
 		Objects.requireNonNull(texture);
 	}
 	
-	@Override
-	public void close() {
-		texture.close();
-	}
-	
 }

@@ -22,10 +22,4 @@ public record Scripts(Iterable<? extends ValueProvider<? extends Script>> script
 		Objects.requireNonNull(scripts);
 	}
 	
-	@Override
-	public void close() {
-		for(var s : scripts)
-			s.close();
-	}
-	
 }

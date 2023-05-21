@@ -6,8 +6,4 @@ import com.greentree.engine.moon.render.material.Property;
 
 public record SkyBoxComponent(ValueProvider<Property> texture) implements ConstComponent {
 	
-	@Override
-	public void close() {
-		texture.close();
-	}
 }

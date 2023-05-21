@@ -24,9 +24,4 @@ public record MeshComponent(ValueProvider<? extends StaticMesh> mesh) implements
 		return builder.toString();
 	}
 	
-	@Override
-	public void close() {
-		mesh.close();
-	}
-	
 }
