@@ -2,8 +2,8 @@ package com.greentree.engine.moon.base.transform;
 
 
 import com.greentree.commons.math.vector.Vector3f;
-import com.greentree.engine.moon.base.systems.Use;
-import com.greentree.engine.moon.base.systems.UseStage;
+import com.greentree.engine.moon.base.component.UseComponent;
+import com.greentree.engine.moon.base.component.UseStage;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
@@ -23,8 +23,8 @@ public final class LookAtSystem implements InitSystem, UpdateSystem, DestroySyst
 		look_at = null;
 	}
 	
-	@Use(value = Transform.class, state = UseStage.WRITE)
-	@Use(value = LookAt.class, state = UseStage.READ)
+	@UseComponent(value = Transform.class, state = UseStage.WRITE)
+	@UseComponent(value = LookAt.class, state = UseStage.READ)
 	@Override
 	public void update() {
 		final var joml_up = Transform.UP.toJoml();

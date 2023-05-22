@@ -14,7 +14,7 @@ import com.greentree.engine.moon.base.assets.scene.XMLSceneAssetSerializator;
 import com.greentree.engine.moon.base.assets.text.PropertyStringAssetSerializor;
 import com.greentree.engine.moon.base.assets.text.StringAssetSerializor;
 import com.greentree.engine.moon.base.assets.xml.XMLAssetSerializator;
-import com.greentree.engine.moon.base.modules.WriteProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.base.scene.SceneManagerProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;

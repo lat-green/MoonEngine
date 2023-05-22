@@ -28,12 +28,16 @@ open module engine.moon.base {
 	exports com.greentree.engine.moon.base.assets.properties;
 	exports com.greentree.engine.moon.base.assets.scene;
 	
-	exports com.greentree.engine.moon.base.modules;
-	exports com.greentree.engine.moon.base.modules.info;
+	exports com.greentree.engine.moon.base.info;
+	exports com.greentree.engine.moon.base.sorter;
+	exports com.greentree.engine.moon.base.property.modules;
+	exports com.greentree.engine.moon.base.property.modules.info;
+	exports com.greentree.engine.moon.base.property.world;
+	exports com.greentree.engine.moon.base.property.world.info;
 	exports com.greentree.engine.moon.base.modules.scanner;
-	exports com.greentree.engine.moon.base.modules.sorter;
+	exports com.greentree.engine.moon.base.component.info;
+	exports com.greentree.engine.moon.base.component;
 	
-	exports com.greentree.engine.moon.base.systems;
 	
 	exports com.greentree.engine.moon.base.time;
 	exports com.greentree.engine.moon.base.name;

@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.demo1;
 
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.base.modules.ReadProperty;
-import com.greentree.engine.moon.base.modules.WriteProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.base.scene.Scene;
 import com.greentree.engine.moon.base.scene.SceneManagerProperty;
 import com.greentree.engine.moon.demo1.controller.Controller3D;

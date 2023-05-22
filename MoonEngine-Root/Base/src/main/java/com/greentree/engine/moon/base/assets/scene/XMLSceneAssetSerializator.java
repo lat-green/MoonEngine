@@ -21,12 +21,12 @@ import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
 import com.greentree.engine.moon.assets.value.provider.ValueProvider;
+import com.greentree.engine.moon.base.component.AnnotationUtil;
 import com.greentree.engine.moon.base.layer.Layer;
 import com.greentree.engine.moon.base.name.Name;
 import com.greentree.engine.moon.base.name.Names;
 import com.greentree.engine.moon.base.parent.Parent;
 import com.greentree.engine.moon.base.scene.Scene;
-import com.greentree.engine.moon.base.systems.AnnotationUtil;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.component.Component;

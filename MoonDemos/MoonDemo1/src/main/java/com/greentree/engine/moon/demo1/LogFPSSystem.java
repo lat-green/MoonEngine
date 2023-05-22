@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.demo1;
 
-import com.greentree.engine.moon.base.systems.ReadWorldComponent;
+import com.greentree.engine.moon.base.property.world.ReadWorldComponent;
 import com.greentree.engine.moon.base.time.Time;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.system.InitSystem;

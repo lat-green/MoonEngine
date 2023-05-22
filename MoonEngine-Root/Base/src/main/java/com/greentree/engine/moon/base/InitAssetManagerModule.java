@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.base;
 
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
-import com.greentree.engine.moon.base.modules.CreateProperty;
+import com.greentree.engine.moon.base.property.modules.CreateProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
 

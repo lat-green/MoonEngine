@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.mesh.assimp.assets;
 
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.base.modules.WriteProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.mesh.assimp.assets.mesh.AssimpMeshAssetSerializator;
 import com.greentree.engine.moon.mesh.assimp.assets.mesh.AssimpSceneAssetSerializator;
 import com.greentree.engine.moon.modules.LaunchModule;

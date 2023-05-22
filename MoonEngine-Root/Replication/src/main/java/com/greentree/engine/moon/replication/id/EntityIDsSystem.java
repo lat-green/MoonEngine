@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.replication.id;
 
 import com.greentree.commons.action.ListenerCloser;
-import com.greentree.engine.moon.base.systems.CreateWorldComponent;
+import com.greentree.engine.moon.base.property.world.CreateWorldComponent;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;

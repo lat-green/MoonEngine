@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.render.light.direction;
 
-import com.greentree.engine.moon.base.systems.CreateComponent;
-import com.greentree.engine.moon.base.systems.ReadComponent;
-import com.greentree.engine.moon.base.systems.ReadWorldComponent;
+import com.greentree.engine.moon.base.component.CreateComponent;
+import com.greentree.engine.moon.base.component.ReadComponent;
+import com.greentree.engine.moon.base.property.world.ReadWorldComponent;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
@@ -34,7 +34,7 @@ public class DirectionLightTargetGeneratedSystem implements InitSystem, UpdateSy
 		context = null;
 	}
 	
-	@ReadComponent({DirectionLightComponent.class})
+	@ReadComponent(DirectionLightComponent.class)
 	@CreateComponent({DirectionLightTarget.class})
 	@Override
 	public void update() {

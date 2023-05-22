@@ -5,7 +5,7 @@ import com.greentree.commons.util.classes.info.TypeInfo;
 import com.greentree.commons.util.classes.info.TypeInfoBuilder;
 import com.greentree.engine.moon.assets.serializator.IterableAssetSerializator;
 import com.greentree.engine.moon.base.AssetManagerProperty;
-import com.greentree.engine.moon.base.modules.WriteProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderAssetSerializator;

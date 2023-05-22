@@ -4,8 +4,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import com.greentree.commons.image.Color;
-import com.greentree.engine.moon.base.systems.ReadComponent;
-import com.greentree.engine.moon.base.systems.WriteComponent;
+import com.greentree.engine.moon.base.component.ReadComponent;
+import com.greentree.engine.moon.base.component.WriteComponent;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
@@ -93,8 +93,13 @@ public final class ForvardRendering implements InitSystem, UpdateSystem, Destroy
 		renderer = RENDERER.build(world);
 	}
 	
-	@ReadComponent({MeshComponent.class,Transform.class,SkyBoxComponent.class,CameraComponent.class,
-			PointLightComponent.class,DirectionLightComponent.class,HasShadow.class})
+	@ReadComponent(MeshComponent.class)
+	@ReadComponent(Transform.class)
+	@ReadComponent(SkyBoxComponent.class)
+	@ReadComponent(CameraComponent.class)
+	@ReadComponent(PointLightComponent.class)
+	@ReadComponent(DirectionLightComponent.class)
+	@ReadComponent(HasShadow.class)
 	@WriteComponent({CameraTarget.class,DirectionLightTarget.class,PointLightTarget.class,CameraTarget.class})
 	@Override
 	public void update() {

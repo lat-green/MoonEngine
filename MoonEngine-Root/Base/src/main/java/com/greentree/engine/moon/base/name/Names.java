@@ -11,7 +11,7 @@ import com.greentree.commons.action.ListenerCloser;
 import com.greentree.commons.action.observer.object.EventAction;
 import com.greentree.commons.action.observer.type.TypedObjectAction;
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.base.systems.CreateSystem;
+import com.greentree.engine.moon.base.component.CreateSystem;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.WorldComponent;
 

@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.commons.web.protocol.StreamableConnection;
 import com.greentree.commons.web.protocol.tcp.TCP;
-import com.greentree.engine.moon.base.systems.CreateWorldComponent;
+import com.greentree.engine.moon.base.property.world.CreateWorldComponent;
 import com.greentree.engine.moon.base.time.Time;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;

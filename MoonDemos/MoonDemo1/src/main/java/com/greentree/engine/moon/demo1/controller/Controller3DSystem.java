@@ -2,9 +2,9 @@ package com.greentree.engine.moon.demo1.controller;
 
 import org.joml.Matrix3f;
 
-import com.greentree.engine.moon.base.systems.ReadComponent;
-import com.greentree.engine.moon.base.systems.ReadWorldComponent;
-import com.greentree.engine.moon.base.systems.WriteComponent;
+import com.greentree.engine.moon.base.component.ReadComponent;
+import com.greentree.engine.moon.base.component.WriteComponent;
+import com.greentree.engine.moon.base.property.world.ReadWorldComponent;
 import com.greentree.engine.moon.base.time.Time;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
@@ -46,7 +46,7 @@ public class Controller3DSystem implements InitSystem, UpdateSystem, DestroySyst
 	
 	@ReadWorldComponent({Time.class})
 	@WriteComponent({Transform.class})
-	@ReadComponent({Controller3D.class})
+	@ReadComponent(Controller3D.class)
 	@Override
 	public void update() {
 		for(var c : filter) {

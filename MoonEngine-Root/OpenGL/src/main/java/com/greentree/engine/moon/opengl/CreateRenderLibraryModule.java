@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.opengl;
 
-import com.greentree.engine.moon.base.modules.CreateProperty;
+import com.greentree.engine.moon.base.property.modules.CreateProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
 import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;

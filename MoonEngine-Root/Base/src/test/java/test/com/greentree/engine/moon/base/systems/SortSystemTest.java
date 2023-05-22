@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.greentree.engine.moon.base.systems.AnnotationUtil;
+import com.greentree.engine.moon.base.component.info.AnnotatedCWRDMethodComponentInfo;
+import com.greentree.engine.moon.base.sorter.MergeSorter;
+import com.greentree.engine.moon.base.sorter.OnCWRDMethodSorter;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
 
 import test.com.greentree.engine.moon.base.IterAssertions;
@@ -26,7 +28,8 @@ public class SortSystemTest {
 		list.add(b);
 		list.add(d);
 		
-		AnnotationUtil.sort(list, AnnotationUtil.INIT);
+		var sorter = new MergeSorter(new OnCWRDMethodSorter(new AnnotatedCWRDMethodComponentInfo()));
+		sorter.sort(list, "init");
 		
 		
 		IterAssertions.assertEqualsAsList(list, List.of(a, b, c, d));

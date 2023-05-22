@@ -11,7 +11,7 @@ import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.assets.json.JSONToObjectGenerator;
 import com.greentree.engine.moon.base.assets.json.ObjectToJsonKey;
-import com.greentree.engine.moon.base.modules.ReadProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
 import com.greentree.engine.moon.modules.property.ExitManagerProperty;

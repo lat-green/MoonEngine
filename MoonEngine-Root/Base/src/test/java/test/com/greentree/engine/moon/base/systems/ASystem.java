@@ -1,6 +1,6 @@
 package test.com.greentree.engine.moon.base.systems;
 
-import com.greentree.engine.moon.base.systems.CreateComponent;
+import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.system.InitSystem;
 

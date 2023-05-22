@@ -6,8 +6,8 @@ import java.util.Collection;
 import org.joml.Matrix4f;
 
 import com.greentree.commons.math.vector.Vector3f;
-import com.greentree.engine.moon.base.systems.CreateComponent;
-import com.greentree.engine.moon.base.systems.ReadComponent;
+import com.greentree.engine.moon.base.component.CreateComponent;
+import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.Entity;
 import com.greentree.engine.moon.ecs.World;

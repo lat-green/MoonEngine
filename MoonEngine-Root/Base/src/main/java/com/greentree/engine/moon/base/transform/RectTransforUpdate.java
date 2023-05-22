@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.base.transform;
 
-import com.greentree.engine.moon.base.systems.ReadComponent;
-import com.greentree.engine.moon.base.systems.WriteComponent;
+import com.greentree.engine.moon.base.component.ReadComponent;
+import com.greentree.engine.moon.base.component.WriteComponent;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.FilterBuilder;
@@ -15,7 +15,7 @@ public class RectTransforUpdate implements InitSystem, DestroySystem, UpdateSyst
 	private Filter filter;
 	
 	@WriteComponent({Transform.class})
-	@ReadComponent({RectTransform.class})
+	@ReadComponent(RectTransform.class)
 	@Override
 	public void update() {
 		for(var e : filter) {
