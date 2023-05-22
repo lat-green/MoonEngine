@@ -3,7 +3,7 @@ import com.greentree.engine.moon.base.EntitySerializer;
 import com.greentree.engine.moon.base.FileWatcherPollEventsModule;
 import com.greentree.engine.moon.base.InitAssetManagerModule;
 import com.greentree.engine.moon.base.assets.BaseAssetSerializatorModule;
-import com.greentree.engine.moon.base.scene.SceneManagerModule;
+import com.greentree.engine.moon.base.scene.SceneModule;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
 import com.greentree.engine.moon.modules.EngineModule;
 
@@ -54,7 +54,7 @@ open module engine.moon.base {
 	provides ECSSystem with FileWatcherPollEventsModule;
 	
 	provides EngineModule
-			with InitAssetManagerModule, SceneManagerModule, BaseAssetSerializatorModule;
+			with InitAssetManagerModule, SceneModule, BaseAssetSerializatorModule;
 	
 	
 }

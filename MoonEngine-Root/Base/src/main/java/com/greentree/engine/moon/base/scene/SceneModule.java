@@ -9,7 +9,7 @@ import com.greentree.engine.moon.modules.TerminateModule;
 import com.greentree.engine.moon.modules.UpdateModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
 
-public class SceneManagerModule implements LaunchModule, TerminateModule, UpdateModule {
+public class SceneModule implements LaunchModule, TerminateModule, UpdateModule {
 	
 	private SceneManagerBase manager;
 	
