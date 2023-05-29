@@ -20,7 +20,7 @@ public final class Engine {
 		properties.add(new ExitManagerProperty(exitManager));
 		logger.info(() -> "Engine.launch");
 		launchModule.launch(properties);
-		if(!exitManager.isShouldExit()) {
+		while(!exitManager.isShouldExit()) {
 			logger.info(() -> "Engine.update");
 			updateModule.update();
 		}
