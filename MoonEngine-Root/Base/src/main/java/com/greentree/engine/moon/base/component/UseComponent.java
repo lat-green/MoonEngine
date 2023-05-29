@@ -10,7 +10,7 @@ import java.lang.annotation.Target;
 import com.greentree.engine.moon.ecs.component.Component;
 import com.greentree.engine.moon.kernel.AnnotationInherited;
 
-@AnnotationInherited
+@AnnotationInherited(UseComponentClass.class)
 @Retention(RUNTIME)
 @Target({METHOD, ANNOTATION_TYPE})
 @Repeatable(UseComponentRepeatable.class)

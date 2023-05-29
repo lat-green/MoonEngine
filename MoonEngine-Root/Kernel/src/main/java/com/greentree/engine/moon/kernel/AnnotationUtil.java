@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class AnnotationUtil {
-	
 	public static <A extends Annotation> SmartAnnotation<A> toSmart(A annotation) {
 		return new SmartAnnotationRecord<>(annotation);
 	}

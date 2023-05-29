@@ -8,14 +8,19 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public record AnnotatedSmartElementRecord(AnnotatedElement annotatedElement) implements AnnotatedSmartElement {
 	
+	private static Logger log = LogManager.getLogger(AnnotatedSmartElementRecord.class);
 	
 	public AnnotatedSmartElementRecord {
 		//		if(annotatedElement instanceof Class<?> cls && cls.isAnnotation())
@@ -65,6 +70,7 @@ public record AnnotatedSmartElementRecord(AnnotatedElement annotatedElement) imp
 		return repeatable.get().value() == annotationType;
 	}
 	
+	
 	@SuppressWarnings("unchecked")
 	private static <A extends Annotation> A makeAliases(Annotation baseAnnotation, A annotation) {
 		if(hasReflectiveAlias(annotation))
@@ -73,13 +79,8 @@ public record AnnotatedSmartElementRecord(AnnotatedElement annotatedElement) imp
 		if(!getPath(baseAnnotation, annotation).anyMatch(x -> hasAlias(x, annotation)))
 			return annotation;
 		
-		final Class<?> cls;
-		try {
-			cls = Class.forName(annotation.annotationType().getName() + "Class");
-		}catch(ClassNotFoundException e) {
-			throw new RuntimeException("Please create class " + annotation.annotationType().getName() + "Class extends "
-					+ annotation.getClass().getName(), e);
-		}
+		var cls = annotation.annotationType().getAnnotation(AnnotationInherited.class).value();
+		
 		Constructor<?> constructor;
 		try {
 			constructor = cls.getConstructor(Map.class);
@@ -113,6 +114,9 @@ public record AnnotatedSmartElementRecord(AnnotatedElement annotatedElement) imp
 		if(map.isEmpty())
 			return annotation;
 		var annotationType = annotation.annotationType();
+		
+		log.debug(() -> "new annatation " + cls.getSimpleName() + " " + toString(map));
+		
 		for(var method : annotationType.getMethods()) {
 			var methodName = method.getName();
 			if(!map.containsKey(methodName) && method.getParameterCount() == 0) {
@@ -148,6 +152,19 @@ public record AnnotatedSmartElementRecord(AnnotatedElement annotatedElement) imp
 		});
 	}
 	
+	private static String toString(Map<? extends String, ? extends Object> map) {
+		var stringMap = new HashMap<String, String>();
+		for(var entry : map.entrySet()) {
+			stringMap.put(entry.getKey(), toString(entry.getValue()));
+		}
+		return stringMap.toString();
+	}
+	
+	private static String toString(Object value) {
+		if(value instanceof Object[] arr)
+			return Arrays.toString(arr);
+		return value.toString();
+	}
 	
 	private static Stream<Annotation> getNotRepeatableAnnotations(Object object) {
 		return getNotRepeatableAnnotations(object.getClass());

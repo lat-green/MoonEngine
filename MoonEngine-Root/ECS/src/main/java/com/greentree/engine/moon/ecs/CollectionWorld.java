@@ -18,7 +18,6 @@ import com.greentree.commons.action.observer.object.EventAction;
 import com.greentree.commons.action.observer.type.TypedObjectAction;
 import com.greentree.engine.moon.ecs.component.Component;
 
-@SuppressWarnings({"deprecation"})
 public final class CollectionWorld implements World, Externalizable {
 	
 	private transient final TypedObjectAction<Class<? extends Component>, Entity> odAddComponentAction = new TypedObjectAction<>();

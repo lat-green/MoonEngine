@@ -1,16 +1,18 @@
-package com.greentree.engine.moon.kernel;
+package com.greentree.engine.moon.ecs;
 
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
 
-import java.lang.annotation.Annotation;
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+
+@Documented
 @Retention(RUNTIME)
-@Target(ANNOTATION_TYPE)
-public @interface AnnotationInherited{
+@Target({TYPE, ANNOTATION_TYPE})
+public @interface RequiredComponentRepeatable{
 	
-	Class<? extends Annotation> value();
+	RequiredComponent[] value();
 	
 }

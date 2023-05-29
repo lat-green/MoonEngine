@@ -11,13 +11,13 @@ import com.greentree.engine.moon.base.component.UseStage;
 import com.greentree.engine.moon.ecs.WorldComponent;
 import com.greentree.engine.moon.kernel.AnnotationInherited;
 
-@AnnotationInherited
+@AnnotationInherited(UseWorldComponentClass.class)
 @Retention(RUNTIME)
 @Target({METHOD, ANNOTATION_TYPE})
 @Repeatable(UseWorldComponentRepeatable.class)
 public @interface UseWorldComponent{
 
-	Class<? extends WorldComponent> value();
+	Class<? extends WorldComponent>[] value() default {};
 	
 	UseStage state();
 	

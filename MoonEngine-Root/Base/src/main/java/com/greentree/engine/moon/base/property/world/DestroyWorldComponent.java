@@ -6,13 +6,17 @@ import static java.lang.annotation.RetentionPolicy.*;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+import com.greentree.engine.moon.base.component.UseComponent;
+import com.greentree.engine.moon.base.component.UseStage;
 import com.greentree.engine.moon.ecs.WorldComponent;
+import com.greentree.engine.moon.kernel.AliasFor;
 
-
+@UseWorldComponent(state = UseStage.DESTROY)
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface DestroyWorldComponent{
 	
+	@AliasFor(annotation = UseComponent.class, value = "value")
 	Class<? extends WorldComponent>[] value();
 	
 }
