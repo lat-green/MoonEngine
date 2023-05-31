@@ -26,7 +26,7 @@ public class SerializableTest {
         a.value = value;
         final var ser = ser(a);
         final var c = deser(ser);
-		assertNotSame(a, c);
+        assertNotSame(a, c);
         assertEquals(a, c);
     }
 
@@ -48,7 +48,7 @@ public class SerializableTest {
         final var e = (Entity) deser(ser(new ClassSetEntity()));
         final var isCall = new boolean[1];
         final var c = new ACompnent();
-        e.addAction.addListener(c0 -> {
+        e.getAddAction().addListener(c0 -> {
             assertFalse(isCall[0]);
             isCall[0] = true;
             assertEquals(c0, c);
