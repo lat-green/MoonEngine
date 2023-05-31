@@ -1,0 +1,8 @@
+<Configuration>
+    <Appenders>
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+        </Root>
+    </Loggers>
+</Configuration>

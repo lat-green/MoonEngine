@@ -1,17 +1,23 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
 	<parent>
 		<groupId>com.greentree.engine.moon</groupId>
 		<artifactId>root</artifactId>
 		<version>0.3.1</version>
 	</parent>
-  
+
 	<artifactId>assets</artifactId>
-	
+
 	<name>Assets</name>
-	  
+
 	<dependencies>
+		<dependency>
+			<groupId>com.greentree.engine.moon</groupId>
+			<artifactId>kernel</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>com.greentree.commons</groupId>
 			<artifactId>action</artifactId>
@@ -25,5 +31,5 @@
 			<artifactId>tests</artifactId>
 		</dependency>
 	</dependencies>
- 	
+
 </project>
