@@ -1,21 +1,15 @@
-
 <Configuration>
-   <Appenders>
-     <Console name="ColorAppender" target="SYSTEM_OUT">
-      <PatternLayout disableAnsi="false" pattern="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=green bold, TRACE=blue} %style{}{magenta} [%M] %style{%40C}{cyan} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%xEx}" />
-     </Console>	
-   </Appenders>
-   
-   <Loggers>
-	 <Logger name="log-trace" level="trace">
-	 	<AppenderRef ref="ColorAppender"/>
-	 </Logger>
-	 <Logger name="log-error" level="error">
-	 	<AppenderRef ref="ColorAppender"/>
-	 </Logger>
-	 <Logger name="log-warn" level="warn">
-	 	<AppenderRef ref="ColorAppender"/>
-	 </Logger>
-   </Loggers>
-   
- </Configuration>
+    <Appenders>
+        <Console name="ColorAppender" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false"
+                           pattern="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=green bold, TRACE=blue} %style{}{magenta} [%M] %style{%40C}{cyan} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%xEx}"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="ColorAppender"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
