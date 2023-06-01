@@ -36,7 +36,7 @@ public final class ArrayLimitEntityPool implements EntityPool {
 			if(entity == e.entity) {
 				if(!world.isActive(e.entity))
 					e.entity = world.newDeactiveEntity();
-				world.deactive(entity);
+				world.deactivate(entity);
 				e.use = false;
 				return;
 			}

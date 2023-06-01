@@ -4,7 +4,6 @@ import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.CollectionWorld;
 import com.greentree.engine.moon.ecs.filter.OneRequiredFilter;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +53,7 @@ public class WorldTest {
         void isActive_isDeactive_newEntity_da() {
             final var world = new CollectionWorld();
             final var e = world.newEntity();
-            world.deactive(e);
+            world.deactivate(e);
             world.active(e);
             assertFalse(world.isDeactive(e));
             assertTrue(world.isActive(e));
@@ -69,10 +68,10 @@ public class WorldTest {
         void onAddComponent_on_deactiveEntity() {
             final var world = new CollectionWorld();
             world.onAddComponent(c -> {
-				fail("event World.onAddComponent after deactive");
+                fail("event World.onAddComponent after deactive");
             });
             final var e = world.newEntity();
-            world.deactive(e);
+            world.deactivate(e);
             e.add(new ACompnent());
         }
 
@@ -80,7 +79,7 @@ public class WorldTest {
         void onAddComponent_on_newDeactiveEntity() {
             final var world = new CollectionWorld();
             world.onAddComponent(c -> {
-				fail();
+                fail();
             });
             final var e = world.newDeactiveEntity();
             e.add(new ACompnent());
@@ -88,7 +87,7 @@ public class WorldTest {
 
     }
 
-    @Disabled
+    //    @Disabled
     @Nested
     class Timeouts {
 
@@ -172,7 +171,7 @@ public class WorldTest {
     void event_AddEntity_on_newDeactiveEntity() {
         final var world = new CollectionWorld();
         world.onAddEntity(e -> {
-			fail();
+            fail();
         });
         world.newDeactiveEntity();
     }
@@ -188,7 +187,7 @@ public class WorldTest {
     void newEntity_deactive_deleteEntity() {
         final var world = new CollectionWorld();
         final var e = world.newEntity();
-        world.deactive(e);
+        world.deactivate(e);
         world.deleteEntity(e);
     }
 
@@ -209,7 +208,7 @@ public class WorldTest {
         assertEquals(IteratorUtil.size(filter), 0, "OneRequiredFilter not work");
         e.add(new ACompnent());
         assertEquals(IteratorUtil.size(filter), 1, "OneRequiredFilter after add not work");
-        world.deactive(e);
+        world.deactivate(e);
         assertEquals(IteratorUtil.size(filter), 0, "World.deactive not work");
         world.active(e);
         assertEquals(IteratorUtil.size(filter), 1, "World.active not work");

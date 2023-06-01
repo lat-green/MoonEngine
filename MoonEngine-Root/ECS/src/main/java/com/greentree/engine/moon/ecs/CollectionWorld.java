@@ -84,7 +84,7 @@ public final class CollectionWorld implements World, Externalizable {
 	}
 	
 	@Override
-	public void deactive(Entity entity) {
+	public void deactivate(Entity entity) {
 		if(isDeactive(entity))
 			return;
 		if(!isActive(entity))

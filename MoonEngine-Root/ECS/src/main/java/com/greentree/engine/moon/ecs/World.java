@@ -44,7 +44,7 @@ public interface World extends Iterable<Entity>, Serializable {
 	@Deprecated
 	boolean contains(Class<? extends WorldComponent> componentClass);
 	
-	void deactive(Entity entity);
+	void deactivate(Entity entity);
 	
 	void deleteEntity(Entity entity);
 	@Deprecated

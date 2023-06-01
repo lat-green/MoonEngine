@@ -35,7 +35,7 @@ public final class StackEntityPool implements EntityPool {
 	@Override
 	public void free(Entity entity) {
 		if(world.isActive(entity))
-			world.deactive(entity);
+			world.deactivate(entity);
 		pool.add(entity);
 	}
 	
