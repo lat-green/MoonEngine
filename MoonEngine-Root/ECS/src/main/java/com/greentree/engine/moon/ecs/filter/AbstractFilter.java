@@ -9,13 +9,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public abstract class AbstractFilter implements Filter {
+public abstract class AbstractFilter<E extends Entity> implements Filter<E> {
 
     private final Collection<ListenerCloser> lcs = new ArrayList<>();
     private final World world;
-    private EntityCollection filteredEntities;
+    private EntityCollection<E> filteredEntities;
 
-    public AbstractFilter(World world, EntityCollection filteredEntities) {
+    public AbstractFilter(World world, EntityCollection<E> filteredEntities) {
         this.world = world;
         this.filteredEntities = filteredEntities;
     }
@@ -31,17 +31,17 @@ public abstract class AbstractFilter implements Filter {
     }
 
     @Override
-    public Iterator<Entity> iterator() {
+    public Iterator<E> iterator() {
         return filteredEntities.iterator();
     }
 
     @Override
-    public Filter sort(Comparator<? super Entity> comparator) {
+    public Filter sort(Comparator<? super E> comparator) {
         filteredEntities = filteredEntities.sort(comparator);
         return this;
     }
 
-    protected boolean addFilteredEntity(Entity e) {
+    protected boolean addFilteredEntity(E e) {
         return filteredEntities.add(e);
     }
 
@@ -49,7 +49,7 @@ public abstract class AbstractFilter implements Filter {
         lcs.add(lc);
     }
 
-    protected boolean removeFilteredEntity(Entity e) {
+    protected boolean removeFilteredEntity(E e) {
         return filteredEntities.remove(e);
     }
 

@@ -7,19 +7,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public final class SortFilter implements Filter {
+public final class SortFilter<E extends Entity> implements Filter<E> {
 
-    private final Filter filter;
-    private final Comparator<? super Entity> comparator;
+    private final Filter<E> filter;
+    private final Comparator<? super E> comparator;
 
-    public SortFilter(Filter filter, Comparator<? super Entity> comparator) {
+    public SortFilter(Filter<E> filter, Comparator<? super E> comparator) {
         this.filter = filter;
         this.comparator = comparator;
     }
 
     @Override
-    public Iterator<Entity> iterator() {
-        final var list = new ArrayList<Entity>();
+    public Iterator<E> iterator() {
+        final var list = new ArrayList<E>();
         for (var e : filter)
             list.add(e);
         Collections.sort(list, comparator);

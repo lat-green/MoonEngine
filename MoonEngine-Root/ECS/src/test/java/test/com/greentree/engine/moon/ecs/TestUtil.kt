@@ -1,4 +1,4 @@
-package com.greentree.common.ecs
+package test.com.greentree.engine.moon.ecs
 
 import com.greentree.engine.moon.ecs.Entity
 import org.junit.jupiter.api.Assertions

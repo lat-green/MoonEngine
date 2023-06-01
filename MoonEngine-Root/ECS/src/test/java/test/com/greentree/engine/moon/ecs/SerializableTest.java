@@ -1,4 +1,4 @@
-package com.greentree.common.ecs;
+package test.com.greentree.engine.moon.ecs;
 
 import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.Entity;
@@ -10,8 +10,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.io.IOException;
 import java.util.stream.Stream;
 
-import static com.greentree.common.ecs.TestUtil.*;
 import static org.junit.jupiter.api.Assertions.*;
+import static test.com.greentree.engine.moon.ecs.TestUtil.*;
 
 public class SerializableTest {
 
