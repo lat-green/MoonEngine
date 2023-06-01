@@ -7,12 +7,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public final class SortFilter<E extends Entity> implements Filter<E> {
+public class SortFilter<E extends Entity> implements FilterBase<E> {
 
-    private final Filter<E> filter;
+    private final FilterBase<? extends E> filter;
     private final Comparator<? super E> comparator;
 
-    public SortFilter(Filter<E> filter, Comparator<? super E> comparator) {
+    public SortFilter(FilterBase<? extends E> filter, Comparator<? super E> comparator) {
         this.filter = filter;
         this.comparator = comparator;
     }
