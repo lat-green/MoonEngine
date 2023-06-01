@@ -1,7 +1,6 @@
 package com.greentree.engine.moon.ecs
 
 import com.greentree.engine.moon.ecs.component.Component
-import com.greentree.engine.moon.ecs.filter.Filter1Builder
 import com.greentree.engine.moon.ecs.filter.FilterBuilder
 import java.io.ByteArrayInputStream
 import java.io.InputStream
@@ -22,14 +21,25 @@ class CollectionWorld(activeInitialCapacity: Int, deactivateInitialCapacity: Int
 		deactivateEntities = HashSet(deactivateInitialCapacity)
 	}
 
-	override fun newFilter(): FilterBuilder {
+	override fun newFilterBuilder(): FilterBuilder {
 		return CollectionFilterBuilder()
 	}
 
-	class CollectionFilterBuilder : FilterBuilder {
+	inner class CollectionFilterBuilder : FilterBuilder {
 
-		override fun <C : Component> required(componentClass: Class<C>): Filter1Builder<C> {
-			TODO("Not yet implemented")
+		override fun isIgnore(componentClass: Class<out Component>) = false
+		override fun isRequired(componentClass: Class<out Component>): Boolean = false
+
+		override fun build(): Iterable<WorldEntity> {
+			return CollectionFilter()
+		}
+	}
+
+	inner class CollectionFilter :
+		Iterable<WorldEntity> {
+
+		override fun iterator(): Iterator<WorldEntity> {
+			return activeEntities.iterator()
 		}
 	}
 

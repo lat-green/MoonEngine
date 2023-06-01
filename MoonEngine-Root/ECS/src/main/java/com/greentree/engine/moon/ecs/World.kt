@@ -29,7 +29,7 @@ interface World : Iterable<WorldEntity> {
 	@Throws(IOException::class)
 	fun save(output: ObjectOutput)
 
-	fun newFilter(): FilterBuilder
+	fun newFilterBuilder(): FilterBuilder
 
 	fun clear()
 

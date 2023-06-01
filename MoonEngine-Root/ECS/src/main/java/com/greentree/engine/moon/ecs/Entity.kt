@@ -24,7 +24,7 @@ sealed interface Entity : SizedIterable<Component>, Copiable<Entity> {
 		return copy
 	}
 
-	override fun copyTo(clone: Entity) {
+	override fun copyTo(clone: Entity): Boolean {
 		clone.lock {
 			for (c in clone) {
 				val cls = c.javaClass
@@ -44,6 +44,7 @@ sealed interface Entity : SizedIterable<Component>, Copiable<Entity> {
 				if (!clone.contains(cls)) lock.add(c.copy())
 			}
 		}
+		return true
 	}
 
 	operator fun contains(componentClass: Class<out Component>): Boolean
