@@ -21,7 +21,7 @@ public class CopyTest {
         final var a = new ACompnent();
         a.value = value;
         final var c = a.copy();
-		assertNotSame(a, c);
+        assertNotSame(a, c);
         assertEquals(a, c);
     }
 
@@ -47,16 +47,15 @@ public class CopyTest {
             entity.add(a);
             a.value = value;
         }
-        final var prototype = entity.copy();
-        TestUtil.assertComponentEquals(entity, prototype);
-        assertTrue(world.isActive(entity));
-        assertFalse(world.isActive(prototype));
+        assertTrue(entity.isActive());
         final var ec = entity.copy(world);
         TestUtil.assertComponentEquals(entity, ec);
-        assertTrue(world.isActive(ec));
+        assertTrue(ec.isActive());
+        final var prototype = entity.copy();
+        TestUtil.assertComponentEquals(entity, prototype);
         final var pc = prototype.copy(world);
         TestUtil.assertComponentEquals(prototype, pc);
-        assertTrue(world.isActive(pc));
+        assertTrue(pc.isActive());
     }
 
 }

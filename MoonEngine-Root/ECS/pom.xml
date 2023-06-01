@@ -14,6 +14,7 @@
 
     <properties>
         <kotlin.version>1.9.0-Beta</kotlin.version>
+        <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
     </properties>
 
     <dependencies>
@@ -25,6 +26,10 @@
             <groupId>com.greentree.commons</groupId>
             <artifactId>action</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.greentree.commons</groupId>
+            <artifactId>tests</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.greentree.engine.moon</groupId>
@@ -35,12 +40,6 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
@@ -49,6 +48,11 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
+                <configuration>
+                    <args>
+                        <arg>-Xjvm-default=all</arg>
+                    </args>
+                </configuration>
                 <executions>
                     <execution>
                         <id>compile</id>

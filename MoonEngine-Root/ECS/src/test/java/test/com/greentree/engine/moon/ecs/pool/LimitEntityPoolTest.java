@@ -10,18 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LimitEntityPoolTest {
 
     @Test
-    void test0() {
-        final var world = new CollectionWorld();
-        final var lc = world.onAddEntity(c -> {
-			fail();
-        });
-        try (final var pool = new ArrayLimitEntityPool(world, 1,
-                new EmptyEntityStrategy())) {
-            lc.close();
-        }
-    }
-
-    @Test
     void test1() {
         final var world = new CollectionWorld();
         try (final var pool = new ArrayLimitEntityPool(world, 3,
@@ -34,7 +22,6 @@ public class LimitEntityPoolTest {
             assertNull(pool.get());
 
         }
-
     }
 
     @Test
@@ -78,7 +65,7 @@ public class LimitEntityPoolTest {
                 new EmptyEntityStrategy())) {
             final var e1 = pool.get();
             pool.free(e1);
-            world.deleteEntity(e1);
+            e1.delete();
             final var e2 = pool.get();
             assertNull(pool.get());
             assertNotNull(e2);

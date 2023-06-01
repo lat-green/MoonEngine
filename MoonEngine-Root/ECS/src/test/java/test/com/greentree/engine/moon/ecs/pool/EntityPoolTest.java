@@ -2,7 +2,6 @@ package test.com.greentree.engine.moon.ecs.pool;
 
 import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.CollectionWorld;
-import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.pool.EmptyEntityStrategy;
 import com.greentree.engine.moon.ecs.pool.EntityPoolStrategy;
 import com.greentree.engine.moon.ecs.pool.PrototypeEntityStrategy;
@@ -44,7 +43,7 @@ public class EntityPoolTest {
     @ParameterizedTest
     void testPool_after_deser(EntityPoolStrategy str)
             throws ClassNotFoundException, IOException {
-        final var world = (World) TestUtil.deser(TestUtil.ser(new CollectionWorld()));
+        final var world = CollectionWorld.load(TestUtil.ser(new CollectionWorld()));
         try (final var pool = new StackEntityPool(world, str)) {
             final var e = pool.get();
             pool.free(e);
