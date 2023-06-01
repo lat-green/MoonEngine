@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.greentree.engine.moon</groupId>
         <artifactId>root</artifactId>
-        <version>0.3.1</version>
+        <version>0.3.2</version>
     </parent>
 
     <artifactId>ecs</artifactId>
@@ -34,7 +34,9 @@
         <dependency>
             <groupId>com.greentree.engine.moon</groupId>
             <artifactId>kernel</artifactId>
+            <version>0.3.1</version>
         </dependency>
+
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
