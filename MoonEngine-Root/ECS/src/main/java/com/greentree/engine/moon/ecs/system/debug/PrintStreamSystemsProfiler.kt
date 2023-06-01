@@ -14,15 +14,15 @@ class PrintStreamSystemsProfiler : SystemsProfiler {
 	private val out_update: Supplier<out PrintStream>
 
 	constructor(out_init: File, out_update: File, out_destroy: File) : this(
-		cerateSupplier(out_init),
-		cerateSupplier(out_update),
-		cerateSupplier(out_destroy)
+		createSupplier(out_init),
+		createSupplier(out_update),
+		createSupplier(out_destroy)
 	)
 
 	constructor(
 		out_init: Supplier<out PrintStream>,
 		out_update: Supplier<out PrintStream>,
-		out_destroy: Supplier<out PrintStream>
+		out_destroy: Supplier<out PrintStream>,
 	) {
 		this.out_init = out_init
 		this.out_update = out_update
@@ -32,7 +32,7 @@ class PrintStreamSystemsProfiler : SystemsProfiler {
 	constructor(
 		out_init: CheckedSupplier<out PrintStream>,
 		out_update: CheckedSupplier<out PrintStream>,
-		out_destroy: CheckedSupplier<out PrintStream>
+		out_destroy: CheckedSupplier<out PrintStream>,
 	) {
 		this.out_init = out_init
 		this.out_update = out_update
@@ -97,12 +97,11 @@ class PrintStreamSystemsProfiler : SystemsProfiler {
 		}
 	}
 
-	@JvmRecord
 	private data class ResultCall(val system: ECSSystem, val start: Long, val finish: Long)
 	companion object {
 
 		private const val serialVersionUID = 1L
-		private fun cerateSupplier(file: File): CheckedSupplier<out PrintStream> {
+		private fun createSupplier(file: File): CheckedSupplier<out PrintStream> {
 			file.delete()
 			return CheckedSupplier { PrintStream(FileOutputStream(file, true)) }
 		}
