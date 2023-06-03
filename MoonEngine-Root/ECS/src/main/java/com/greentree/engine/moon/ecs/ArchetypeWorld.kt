@@ -12,14 +12,6 @@ class ArchetypeWorld : World {
 		return root
 	}
 
-	private fun getArchetype(cls: Class<out Component>): BranchArchetype {
-		return getArchetype(setOf(), cls)
-	}
-
-	private fun getArchetype(classes: Set<out Class<out Component>>, cls: Class<out Component>): BranchArchetype {
-		return getArchetype(setOf(cls, *(classes.toTypedArray()))) as BranchArchetype
-	}
-
 	private fun getArchetype(classes: Set<out Class<out Component>>): Archetype {
 		var result: Archetype = root
 		val iter = classes.iterator()
@@ -28,11 +20,6 @@ class ArchetypeWorld : World {
 			result = result.child(cls)
 		}
 		return result
-	}
-
-	companion object {
-
-		fun newPrototypeEntity(): PrototypeEntity = ClassSetEntity()
 	}
 
 	private abstract inner class Archetype : Filter<ArchetypeEntity>, WorldFilterBuilderBase {
@@ -100,14 +87,12 @@ class ArchetypeWorld : World {
 	private inner class BranchArchetype(override val requiredClasses: Set<out Class<out Component>>) : Archetype() {
 
 		constructor(requiredClasses: Set<out Class<out Component>>, requiredClass: Class<out Component>) : this(
-			setOf(
-				requiredClass,
-				*(requiredClasses.toTypedArray())
-			)
+			requiredClasses + requiredClasses
 		)
 
-		override fun parent(componentClass: Class<out Component>): Archetype =
-			getArchetype(requiredClasses.filter { it != componentClass }.toSet())
+		override fun parent(componentClass: Class<out Component>): Archetype {
+			return getArchetype(requiredClasses - componentClass)
+		}
 
 		override fun isRequired(requiredClass: Class<out Component>): Boolean {
 			return requiredClass in requiredClasses
@@ -117,13 +102,13 @@ class ArchetypeWorld : World {
 	private inner class RootArchetype : Archetype() {
 
 		fun newEntity(): WorldEntity {
-			val result = ArchetypeEntity(this)
+			val result = ArchetypeEntity(ActiveArchetypeState(this))
 			activatedEntities.add(result)
 			return result
 		}
 
 		fun newDeactivateEntity(): WorldEntity {
-			val result = ArchetypeEntity(this)
+			val result = ArchetypeEntity(DeactiveArchetypesState(this))
 			deactivatedEntities.add(result)
 			return result
 		}
@@ -273,20 +258,14 @@ class ArchetypeWorld : World {
 		}
 	}
 
-	private inner class ArchetypeEntity private constructor(
+	private inner class ArchetypeEntity(
 		var state: State,
-		val prototype: PrototypeEntity,
+		val prototype: PrototypeEntity = ClassSetEntity(),
 	) : WorldEntity {
 
 		override fun toString(): String {
 			return prototype.toString()
 		}
-
-		constructor(archetype: Archetype, prototype: PrototypeEntity = newPrototypeEntity()) : this(
-			ActiveArchetypeState(
-				archetype
-			), prototype
-		)
 
 		override fun world() = this@ArchetypeWorld
 

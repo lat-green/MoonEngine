@@ -30,12 +30,5 @@ public final class StackEntityPool implements EntityPool {
         strategy.toInstance(e);
         return e;
     }
-
-    @Override
-    public void free(WorldEntity entity) {
-        if (entity.isActive())
-            entity.deactivate();
-        pool.add(entity);
-    }
-
+    
 }
