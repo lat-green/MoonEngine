@@ -1,22 +1,23 @@
 package com.greentree.engine.moon.ecs
 
-import com.greentree.commons.util.iterator.SizedIterable
 import com.greentree.engine.moon.ecs.component.Component
+import com.greentree.engine.moon.kernel.runUse
+import com.greentree.engine.moon.kernel.use
 import java.io.IOException
 import java.io.ObjectOutput
 import java.io.ObjectOutputStream
 import java.io.OutputStream
 
 @JvmDefaultWithoutCompatibility
-sealed interface Entity : SizedIterable<Component>, Copiable<Entity> {
+sealed interface Entity : Iterable<Component>, Copiable<Entity> {
 
-	fun add(component: Component) {
-		lock { add(component) }
-	}
+	fun add(component: Component)
 
 	override fun copy(): PrototypeEntity
 
 	fun clear()
+
+	fun size(): Int
 
 	fun copy(world: World): WorldEntity {
 		val copy = world.newEntity()
@@ -52,19 +53,24 @@ sealed interface Entity : SizedIterable<Component>, Copiable<Entity> {
 
 	operator fun <T : Component> get(componentClass: Class<T>): T
 
-	fun isEmpty(): Boolean
+	fun isEmpty(): Boolean = size() == 0
 
-	fun <R> lock(function: ComponentLock.() -> R): R {
-		return lock().use(function)
-	}
+	fun lock(): ComponentLock {
+		return object : ComponentLock {
+			override fun close() {
+			}
 
-	fun lock(): ComponentLock
+			override fun remove(componentClass: Class<out Component>) {
+				this@Entity.remove(componentClass)
+			}
 
-	fun remove(componentClass: Class<out Component>) {
-		lock {
-			remove(componentClass)
+			override fun add(component: Component) {
+				this@Entity.add(component)
+			}
 		}
 	}
+
+	fun remove(componentClass: Class<out Component>)
 
 	@Throws(IOException::class)
 	fun save(output: OutputStream) {
@@ -88,7 +94,11 @@ interface WorldEntity : Entity {
 	fun deactivate()
 
 	fun isActive(): Boolean
-	fun isDeactivate() = !isActive()
+	fun isDeactivate() = !isDeleted() && !isActive()
 }
 
 interface PrototypeEntity : Entity
+
+fun <R> Entity.lock(function: ComponentLock.() -> R): R {
+	return use(lock(), function)
+}

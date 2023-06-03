@@ -1,13 +1,12 @@
 package com.greentree.engine.moon.replication.event;
 
-import java.io.Serializable;
-import java.util.function.Consumer;
-
 import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.scene.SceneProperties;
 
-public interface EntityEvent extends Serializable, Consumer<World> {
+import java.io.Serializable;
 
-	@Override
-	void accept(World world);
-	
+public interface EntityEvent extends Serializable {
+
+    void accept(World world, SceneProperties properties);
+
 }

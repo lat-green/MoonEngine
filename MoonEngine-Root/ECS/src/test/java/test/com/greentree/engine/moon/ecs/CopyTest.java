@@ -18,7 +18,7 @@ public class CopyTest {
     @MethodSource("ints")
     @ParameterizedTest
     void ACompnent(int value) throws IOException, ClassNotFoundException {
-        final var a = new ACompnent();
+        final var a = new AComponent();
         a.value = value;
         final var c = a.copy();
         assertNotSame(a, c);
@@ -30,7 +30,7 @@ public class CopyTest {
     void Entity(int value) throws IOException, ClassNotFoundException {
         final var world = new CollectionWorld();
         final var entity = world.newEntity();
-        final var a = new ACompnent();
+        final var a = new AComponent();
         entity.add(a);
         a.value = value;
         final var c = entity.copy();
@@ -43,7 +43,7 @@ public class CopyTest {
         final var world = new CollectionWorld();
         final var entity = world.newEntity();
         {
-            final var a = new ACompnent();
+            final var a = new AComponent();
             entity.add(a);
             a.value = value;
         }

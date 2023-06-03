@@ -16,8 +16,4 @@ data class ClassSetComponentLock(val lock: LockClassSet<Component>) : ComponentL
 	override fun add(component: Component) {
 		lock.add(component)
 	}
-
-	override operator fun <C : Component> get(componentClass: Class<C>): C {
-		return lock.get(componentClass)
-	}
 }

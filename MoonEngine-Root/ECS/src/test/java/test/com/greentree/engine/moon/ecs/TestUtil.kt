@@ -3,8 +3,8 @@ package test.com.greentree.engine.moon.ecs
 import com.greentree.engine.moon.ecs.Entity
 import com.greentree.engine.moon.ecs.World
 import com.greentree.engine.moon.ecs.WorldEntity
-import com.greentree.engine.moon.ecs.use
-import com.greentree.engine.moon.ecs.withUse
+import com.greentree.engine.moon.kernel.use
+import com.greentree.engine.moon.kernel.withUse
 import org.junit.jupiter.api.Assertions.*
 import org.opentest4j.AssertionFailedError
 import java.io.ByteArrayInputStream

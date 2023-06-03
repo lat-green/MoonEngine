@@ -1,36 +1,20 @@
 package com.greentree.engine.moon.base.layer;
 
-import com.greentree.commons.action.ListenerCloser;
-import com.greentree.engine.moon.base.property.world.CreateWorldComponent;
+import com.greentree.engine.moon.base.property.world.CreateSceneProperty;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.system.DestroySystem;
-import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
+import com.greentree.engine.moon.ecs.scene.SceneProperties;
+import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 
-public class LayerSystem implements InitSystem, DestroySystem {
-	
-	
-	private Layers layers;
-	private ListenerCloser lc1, lc2;
-	
-	@CreateWorldComponent({Layers.class})
-	@Override
-	public void init(World world) {
-		this.layers = new Layers();
-		world.add(layers);
-		for(var e : world)
-			if(e.contains(Layer.class))
-				layers.add(e);
-		this.lc1 = world.onAddComponent(Layer.class, e->layers.add(e));
-		this.lc2 = world.onRemoveComponent(Layer.class, e->layers.remove(e));
-	}
-	
-	@Override
-	public void destroy() {
-		lc1.close();
-		lc2.close();
-		layers = null;
-		lc1 = null;
-		lc2 = null;
-	}
-	
+public class LayerSystem implements WorldInitSystem {
+
+    private static final FilterBuilder BUILDER = new FilterBuilder().require(Layer.class);
+
+    @CreateSceneProperty({Layers.class})
+    @Override
+    public void init(World world, SceneProperties sceneProperties) {
+        var layers = new Layers(BUILDER.build(world));
+        sceneProperties.add(layers);
+    }
+
 }

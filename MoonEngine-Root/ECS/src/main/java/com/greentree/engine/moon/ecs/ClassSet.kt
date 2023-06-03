@@ -129,29 +129,21 @@ open class ClassSet<E : Any> : Iterable<E>, Externalizable {
 			_this.components.removeAll(removedComponent)
 		}
 
-		operator fun <T : E> get(componentClass: Class<T>): T {
-			return _this.get(componentClass)
-		}
-
 		fun <T : E> remove(componentClass: Class<T>): T {
 			val component = _this.get(componentClass)
 			if (addedComponent.contains(component)) addedComponent.remove(component) else {
-				require(!removedComponent.contains(component)) { "$componentClass aready remove" }
+				require(!removedComponent.contains(component)) { "$componentClass already remove" }
 				removedComponent.add(component)
 			}
 			return component
-		}
-
-		companion object {
-
-			private fun containsClass(iter: Iterable<*>, cls: Class<*>): Boolean {
-				for (i in iter) if (cls.isInstance(i)) return true
-				return false
-			}
 		}
 	}
 
 	protected open fun getClassRequired(cls: Class<out E>): Iterable<Class<out E>> {
 		return IteratorUtil.empty()
 	}
+}
+
+private inline fun containsClass(iter: Iterable<*>, cls: Class<*>): Boolean {
+	return iter.any { cls.isInstance(it) }
 }

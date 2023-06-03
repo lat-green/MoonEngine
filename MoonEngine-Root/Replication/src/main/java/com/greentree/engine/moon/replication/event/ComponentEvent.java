@@ -1,13 +1,12 @@
 package com.greentree.engine.moon.replication.event;
 
-import java.io.Serializable;
-import java.util.function.Consumer;
-
 import com.greentree.engine.moon.ecs.ComponentLock;
+import com.greentree.engine.moon.ecs.Entity;
 
-public interface ComponentEvent extends Serializable, Consumer<ComponentLock> {
+import java.io.Serializable;
 
-	@Override
-	void accept(ComponentLock lock);
-	
+public interface ComponentEvent extends Serializable {
+
+    void accept(Entity entity, ComponentLock lock);
+
 }

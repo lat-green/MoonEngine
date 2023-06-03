@@ -18,6 +18,8 @@
         <!--            <AppenderRef ref="Console"/>-->
         <!--        </Logger>-->
         <Root level="all">
+            <!--            <AppenderRef ref="Console" level="warn"/>-->
+            <AppenderRef ref="Console" level="warn"/>
             <AppenderRef ref="File"/>
         </Root>
     </Loggers>

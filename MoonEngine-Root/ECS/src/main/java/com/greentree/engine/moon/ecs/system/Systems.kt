@@ -1,10 +1,10 @@
 package com.greentree.engine.moon.ecs.system
 
-import com.greentree.engine.moon.ecs.World
+import com.greentree.engine.moon.ecs.scene.SceneProperties
 
 open class Systems(
 	initSystems: List<InitSystem>?, updateSystems: List<UpdateSystem>?,
-	destroySystems: List<DestroySystem>?
+	destroySystems: List<DestroySystem>?,
 ) : InitSystem, UpdateSystem, DestroySystem {
 
 	private val initSystems: List<InitSystem>
@@ -26,11 +26,11 @@ open class Systems(
 		return destroySystems
 	}
 
-	override fun init(world: World?) {
+	override fun init(properties: SceneProperties) {
 		val iter = initSystems.iterator()
 		while (iter.hasNext()) {
 			val s = iter.next()
-			s.init(world)
+			s.init(properties)
 		}
 	}
 

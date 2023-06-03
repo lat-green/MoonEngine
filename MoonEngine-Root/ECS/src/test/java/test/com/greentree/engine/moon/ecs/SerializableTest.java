@@ -20,7 +20,7 @@ public class SerializableTest {
     @MethodSource("ints")
     @ParameterizedTest
     void ACompnent_ser_deser(int value) throws IOException, ClassNotFoundException {
-        final var a = new ACompnent();
+        final var a = new AComponent();
         a.value = value;
         final var ser = ser(a);
         final var c = deser(ser);
@@ -31,7 +31,7 @@ public class SerializableTest {
     @MethodSource("ints")
     @ParameterizedTest
     void Entity_ser_deser(int value) throws IOException, ClassNotFoundException {
-        final var a = new ACompnent();
+        final var a = new AComponent();
         a.value = value;
         final var entity = new ClassSetEntity();
         entity.add(a);

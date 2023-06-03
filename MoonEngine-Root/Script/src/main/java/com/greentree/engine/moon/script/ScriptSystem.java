@@ -2,51 +2,43 @@ package com.greentree.engine.moon.script;
 
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
-import com.greentree.engine.moon.ecs.filter.FilterBuilder;
-import com.greentree.engine.moon.ecs.system.DestroySystem;
-import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
+import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
+import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 
-public final class ScriptSystem implements InitSystem, DestroySystem, UpdateSystem {
-	
-	private static final FilterBuilder SCRIPTS = new FilterBuilder().required(Scripts.class);
-	
-	private Filter scripts;
-	
-	private World world;
-	
-	@Override
-	public void update() {
-		for(var entity : scripts) {
-			final var scripts = entity.get(Scripts.class).scripts();
-			for(var value : scripts) {
-				final var s = value.get();
-				
-				for(var c : world.components())
-					s.setConst(c.getClass().getSimpleName(), c);
-				for(var c : entity)
-					s.set(c.getClass().getSimpleName(), c);
-				
-				try {
-					s.run();
-				}catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-	
-	@Override
-	public void destroy() {
-		scripts.close();
-		scripts = null;
-		world = null;
-	}
-	
-	@Override
-	public void init(World world) {
-		this.world = world;
-		scripts = SCRIPTS.build(world);
-	}
-	
+public final class ScriptSystem implements WorldInitSystem, UpdateSystem {
+
+    private static final FilterBuilder SCRIPTS = new FilterBuilder().require(Scripts.class);
+
+    private Filter<?> scripts;
+    private World world;
+    private SceneProperties sceneProperties;
+
+    @Override
+    public void update() {
+        for (var entity : scripts) {
+            final var scripts = entity.get(Scripts.class).scripts();
+            for (var value : scripts) {
+                final var s = value.get();
+                for (var c : sceneProperties)
+                    s.setConst(c.getClass().getSimpleName(), c);
+                for (var c : entity)
+                    s.set(c.getClass().getSimpleName(), c);
+                try {
+                    s.run();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void init(World world, SceneProperties sceneProperties) {
+        this.world = world;
+        this.sceneProperties = sceneProperties;
+        scripts = SCRIPTS.build(world);
+    }
+
 }

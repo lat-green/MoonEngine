@@ -1,35 +1,20 @@
 package com.greentree.engine.moon.replication.id;
 
-import com.greentree.commons.action.ListenerCloser;
-import com.greentree.engine.moon.base.property.world.CreateWorldComponent;
+import com.greentree.engine.moon.base.property.world.CreateSceneProperty;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.system.DestroySystem;
-import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
+import com.greentree.engine.moon.ecs.scene.SceneProperties;
+import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 
-public class EntityIDsSystem implements InitSystem, DestroySystem {
-	
-	private EntityIDs ids;
-	private ListenerCloser lc1, lc2;
-	
-	@Override
-	public void destroy() {
-		lc1.close();
-		lc2.close();
-	}
-	
-	@CreateWorldComponent({EntityIDs.class})
-	@Override
-	public void init(World world) {
-		ids = new EntityIDs();
-		world.add(ids);
-		lc1 = world.onAddComponent(EntityID.class, e-> {
-			ids.add(e);
-		});
-		lc2 = world.onRemoveComponent(EntityID.class, e-> {
-			ids.remove(e);
-		});
-	}
-	
-	
-	
+public class EntityIDsSystem implements WorldInitSystem {
+
+    private static final FilterBuilder EntityIDs = new FilterBuilder().require(EntityID.class);
+
+    @CreateSceneProperty({EntityIDs.class})
+    @Override
+    public void init(World world, SceneProperties sceneProperties) {
+        var ids = new EntityIDs(EntityIDs.build(world));
+        sceneProperties.add(ids);
+    }
+
 }

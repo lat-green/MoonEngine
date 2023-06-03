@@ -3,6 +3,7 @@ package com.greentree.engine.moon.ecs
 import com.greentree.commons.util.iterator.IteratorUtil
 import com.greentree.engine.moon.ecs.component.Component
 import com.greentree.engine.moon.kernel.AnnotationUtil
+import com.greentree.engine.moon.kernel.use
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.io.ObjectInput
@@ -30,6 +31,12 @@ class ClassSetEntity : PrototypeEntity, Cloneable {
 		return components[componentClass]
 	}
 
+	override fun add(component: Component) {
+		lock {
+			add(component)
+		}
+	}
+
 	override fun copy(): ClassSetEntity {
 		val clone = ClassSetEntity()
 		copyTo(clone)
@@ -46,6 +53,12 @@ class ClassSetEntity : PrototypeEntity, Cloneable {
 
 	override fun lock(): ComponentLock {
 		return ClassSetComponentLock(components.lock())
+	}
+
+	override fun remove(componentClass: Class<out Component>) {
+		lock {
+			remove(componentClass)
+		}
 	}
 
 	override fun size(): Int {

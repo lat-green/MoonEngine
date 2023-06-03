@@ -1,36 +1,20 @@
 package com.greentree.engine.moon.base.name;
 
-import com.greentree.commons.action.ListenerCloser;
-import com.greentree.engine.moon.base.property.world.CreateWorldComponent;
+import com.greentree.engine.moon.base.property.world.CreateSceneProperty;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.system.DestroySystem;
-import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
+import com.greentree.engine.moon.ecs.scene.SceneProperties;
+import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 
-public class NameSystem implements InitSystem, DestroySystem {
-	
-	
-	private Names layers;
-	private ListenerCloser lc1, lc2;
-	
-	@CreateWorldComponent({Names.class})
-	@Override
-	public void init(World world) {
-		this.layers = new Names();
-		world.add(layers);
-		for(var e : world)
-			if(e.contains(Name.class))
-				layers.add(e);
-		this.lc1 = world.onAddComponent(Name.class, e->layers.add(e));
-		this.lc2 = world.onRemoveComponent(Name.class, e->layers.remove(e));
-	}
-	
-	@Override
-	public void destroy() {
-		lc1.close();
-		lc2.close();
-		layers = null;
-		lc1 = null;
-		lc2 = null;
-	}
-	
+public class NameSystem implements WorldInitSystem {
+
+    private static final FilterBuilder BUILDER = new FilterBuilder().require(Name.class);
+
+    @CreateSceneProperty({Names.class})
+    @Override
+    public void init(World world, SceneProperties properties) {
+        var names = new Names(BUILDER.build(world));
+        properties.add(names);
+    }
+
 }

@@ -1,52 +1,41 @@
 package com.greentree.engine.moon.render.camera;
 
-import com.greentree.commons.action.ListenerCloser;
-import com.greentree.engine.moon.base.property.world.CreateWorldComponent;
-import com.greentree.engine.moon.base.property.world.DestroyWorldComponent;
+import com.greentree.engine.moon.base.component.WriteComponent;
+import com.greentree.engine.moon.base.property.world.CreateSceneProperty;
+import com.greentree.engine.moon.base.property.world.WriteSceneProperty;
 import com.greentree.engine.moon.ecs.World;
-import com.greentree.engine.moon.ecs.system.DestroySystem;
-import com.greentree.engine.moon.ecs.system.InitSystem;
+import com.greentree.engine.moon.ecs.WorldEntity;
+import com.greentree.engine.moon.ecs.filter.Filter;
+import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
+import com.greentree.engine.moon.ecs.scene.SceneProperties;
+import com.greentree.engine.moon.ecs.system.UpdateSystem;
+import com.greentree.engine.moon.ecs.system.WorldInitSystem;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class CameraSystem implements InitSystem, DestroySystem {
-	
-	private Cameras cameras;
-	private ListenerCloser lc;
-	
-	@CreateWorldComponent({Cameras.class})
-	@Override
-	public void init(World world) {
-		cameras = new Cameras();
-		world.add(cameras);
-		
-		setMainCamera(world);
-		
-		lc = world.onRemoveComponent(CameraComponent.class, e-> {
-			if(e.equals(cameras.main()))
-				setMainCamera(world);
-		});
-		
-	}
-	
-	private void setMainCamera(World world) {
-		for(var e : world)
-			if(e.contains(CameraComponent.class))
-				cameras.setMainCamera(e);
-			
-		final var lc = new ListenerCloser[1];
-		lc[0] = world.onAddComponent(CameraComponent.class, e-> {
-			cameras.setMainCamera(e);
-			lc[0].close();
-		});
-		
-	}
-	
-	@DestroyWorldComponent({Cameras.class})
-	@Override
-	public void destroy() {
-		lc.close();
-		lc = null;
-		cameras.setMainCamera(null);
-		cameras = null;
-	}
-	
+public class CameraSystem implements WorldInitSystem, UpdateSystem {
+
+    private static final Logger LOG = LogManager.getLogger(Cameras.class);
+
+    private static final FilterBuilder CAMERAS = new FilterBuilder().require(CameraComponent.class);
+    private Cameras cameras;
+    private Filter<? extends WorldEntity> camerasFilter;
+
+    @CreateSceneProperty({Cameras.class})
+    public void init(World world, SceneProperties properties) {
+        camerasFilter = CAMERAS.build(world);
+        cameras = new Cameras();
+        properties.add(cameras);
+        update();
+    }
+
+    @WriteComponent({CameraComponent.class})
+    @WriteSceneProperty(Cameras.class)
+    @Override
+    public void update() {
+        var iter = camerasFilter.iterator();
+        if (iter.hasNext())
+            cameras.setMainCamera(iter.next());
+    }
+
 }

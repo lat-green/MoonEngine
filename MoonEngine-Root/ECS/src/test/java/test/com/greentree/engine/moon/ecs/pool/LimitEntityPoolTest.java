@@ -13,7 +13,7 @@ public class LimitEntityPoolTest {
     void test1() {
         final var world = new CollectionWorld();
         try (final var pool = new ArrayLimitEntityPool(world, 3,
-                new EmptyEntityStrategy())) {
+                EmptyEntityStrategy.INSTANCE)) {
             assertNotNull(pool.get());
             assertNotNull(pool.get());
             assertNotNull(pool.get());
@@ -28,7 +28,7 @@ public class LimitEntityPoolTest {
     void test2() {
         final var world = new CollectionWorld();
         try (final var pool = new ArrayLimitEntityPool(world, 3,
-                new EmptyEntityStrategy())) {
+                EmptyEntityStrategy.INSTANCE)) {
             final var e1 = pool.get();
             final var e2 = pool.get();
             final var e3 = pool.get();
@@ -50,7 +50,7 @@ public class LimitEntityPoolTest {
     void test3() {
         final var world = new CollectionWorld();
         try (final var pool = new ArrayLimitEntityPool(world, 1,
-                new EmptyEntityStrategy())) {
+                EmptyEntityStrategy.INSTANCE)) {
             final var e1 = pool.get();
             pool.free(e1);
             final var e2 = pool.get();
@@ -62,7 +62,7 @@ public class LimitEntityPoolTest {
     void test4() {
         final var world = new CollectionWorld();
         try (final var pool = new ArrayLimitEntityPool(world, 1,
-                new EmptyEntityStrategy())) {
+                EmptyEntityStrategy.INSTANCE)) {
             final var e1 = pool.get();
             pool.free(e1);
             e1.delete();

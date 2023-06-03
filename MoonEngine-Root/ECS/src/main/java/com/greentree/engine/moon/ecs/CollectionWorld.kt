@@ -1,7 +1,6 @@
 package com.greentree.engine.moon.ecs
 
-import com.greentree.engine.moon.ecs.component.Component
-import com.greentree.engine.moon.ecs.filter.FilterBuilder
+import com.greentree.engine.moon.kernel.use
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.io.ObjectInput
@@ -19,28 +18,6 @@ class CollectionWorld(activeInitialCapacity: Int, deactivateInitialCapacity: Int
 	init {
 		activeEntities = HashSet(activeInitialCapacity)
 		deactivateEntities = HashSet(deactivateInitialCapacity)
-	}
-
-	override fun newFilterBuilder(): FilterBuilder {
-		return CollectionFilterBuilder()
-	}
-
-	inner class CollectionFilterBuilder : FilterBuilder {
-
-		override fun isIgnore(componentClass: Class<out Component>) = false
-		override fun isRequired(componentClass: Class<out Component>): Boolean = false
-
-		override fun build(): Iterable<WorldEntity> {
-			return CollectionFilter()
-		}
-	}
-
-	inner class CollectionFilter :
-		Iterable<WorldEntity> {
-
-		override fun iterator(): Iterator<WorldEntity> {
-			return activeEntities.iterator()
-		}
 	}
 
 	override fun clear() {
@@ -99,9 +76,7 @@ class CollectionWorld(activeInitialCapacity: Int, deactivateInitialCapacity: Int
 				return this@CollectionWorld
 			}
 
-			open fun delete() {
-				state = DeletedEntityState()
-			}
+			abstract fun delete()
 
 			open fun isDeleted(): Boolean = false
 
@@ -136,9 +111,18 @@ class CollectionWorld(activeInitialCapacity: Int, deactivateInitialCapacity: Int
 			override fun deactivate() {
 				throw UnsupportedOperationException("delete")
 			}
+
+			override fun toString(): String {
+				return "Deleted"
+			}
 		}
 
 		inner class ActiveEntityState : CollectionEntity.EntityState() {
+
+			override fun delete() {
+				activeEntities.remove(this@CollectionEntity)
+				state = DeletedEntityState()
+			}
 
 			override fun activate() {
 				throw UnsupportedOperationException("already activated")
@@ -149,13 +133,26 @@ class CollectionWorld(activeInitialCapacity: Int, deactivateInitialCapacity: Int
 			}
 
 			override fun deactivate() {
+				activeEntities.remove(this@CollectionEntity)
+				deactivateEntities.add(this@CollectionEntity)
 				state = DeactivatedEntityState()
+			}
+
+			override fun toString(): String {
+				return "Actived"
 			}
 		}
 
 		inner class DeactivatedEntityState : CollectionEntity.EntityState() {
 
+			override fun delete() {
+				deactivateEntities.remove(this@CollectionEntity)
+				state = DeletedEntityState()
+			}
+
 			override fun activate() {
+				activeEntities.add(this@CollectionEntity)
+				deactivateEntities.remove(this@CollectionEntity)
 				state = ActiveEntityState()
 			}
 
@@ -165,6 +162,10 @@ class CollectionWorld(activeInitialCapacity: Int, deactivateInitialCapacity: Int
 
 			override fun deactivate() {
 				throw UnsupportedOperationException("already deactivate")
+			}
+
+			override fun toString(): String {
+				return "Deactivated"
 			}
 		}
 
@@ -199,12 +200,17 @@ class CollectionWorld(activeInitialCapacity: Int, deactivateInitialCapacity: Int
 		override fun isActive(): Boolean {
 			return state.isActive()
 		}
+
+		override fun toString(): String {
+			return "CollectionEntity($state, $origin)"
+		}
 	}
 
 	companion object {
 
 		private const val K = 16
 
+		@JvmStatic
 		private fun save(output: ObjectOutput, entities: Collection<WorldEntity>) {
 			output.writeInt(entities.size)
 			for (e in entities)

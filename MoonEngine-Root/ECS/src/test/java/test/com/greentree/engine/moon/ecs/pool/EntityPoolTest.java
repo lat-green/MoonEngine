@@ -9,7 +9,7 @@ import com.greentree.engine.moon.ecs.pool.StackEntityPool;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import test.com.greentree.engine.moon.ecs.ACompnent;
+import test.com.greentree.engine.moon.ecs.AComponent;
 import test.com.greentree.engine.moon.ecs.TestUtil;
 
 import java.io.IOException;
@@ -21,8 +21,8 @@ public class EntityPoolTest {
 
     static Stream<EntityPoolStrategy> strategies() {
         final var p = new ClassSetEntity();
-        p.add(new ACompnent());
-        return Stream.of(new PrototypeEntityStrategy(p), new EmptyEntityStrategy());
+        p.add(new AComponent());
+        return Stream.of(new PrototypeEntityStrategy(p), EmptyEntityStrategy.INSTANCE);
     }
 
     @MethodSource("strategies")
