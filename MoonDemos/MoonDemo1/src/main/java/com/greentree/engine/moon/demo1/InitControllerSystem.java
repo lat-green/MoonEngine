@@ -17,7 +17,7 @@ public class InitControllerSystem implements InitSystem {
     public void init(SceneProperties sceneProperties) {
         final var signals = sceneProperties.get(DevicesProperty.class).devices();
         SignalMapper.map(signals, signals, Key.S, Key.W, PlayerInput.MoveZ);
-        SignalMapper.map(signals, signals, Key.A, Key.D, PlayerInput.MoveX);
+        SignalMapper.map(signals, signals, Key.D, Key.A, PlayerInput.MoveX);
         SignalMapper.map(signals, signals, Key.LEFT_SHIFT, Key.SPACE, PlayerInput.MoveY);
         SignalMapper.map(signals, signals, MousePosition.X, PlayerInput.LookX);
         SignalMapper.map(signals, signals, MousePosition.Y, PlayerInput.LookY, Controller3D.BORDER);
