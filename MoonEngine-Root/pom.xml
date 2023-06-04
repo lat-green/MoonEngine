@@ -66,69 +66,10 @@
         <dependencies>
             <dependency>
                 <groupId>com.greentree.commons</groupId>
-                <artifactId>reflection</artifactId>
+                <artifactId>commons</artifactId>
                 <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>action</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>data</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>geometry</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>graph</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>image</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>injector</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>logger</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>math</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>util</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>web</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>xml</artifactId>
-                <version>${commons.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.greentree.commons</groupId>
-                <artifactId>tests</artifactId>
-                <version>${commons.version}</version>
-                <scope>test</scope>
+                <scope>import</scope>
+                <type>pom</type>
             </dependency>
 
             <dependency>
