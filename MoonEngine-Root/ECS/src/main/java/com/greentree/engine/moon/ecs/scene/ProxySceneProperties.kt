@@ -30,7 +30,7 @@ class ProxySceneProperties(
 		return engineProperties.getProperty(cls)
 	}
 
-	override fun iterator(): MutableIterator<EngineProperty> {
-		return (engineProperties + sceneProperties).toMutableList().iterator()
+	override fun iterator(): Iterator<EngineProperty> {
+		return (engineProperties + sceneProperties).iterator()
 	}
 }

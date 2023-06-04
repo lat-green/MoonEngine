@@ -24,7 +24,7 @@ class MapSceneProperties : SceneProperties {
 		return store.getProperty(cls)
 	}
 
-	override fun iterator(): MutableIterator<EngineProperty> {
+	override fun iterator(): Iterator<EngineProperty> {
 		return store.iterator()
 	}
 }
