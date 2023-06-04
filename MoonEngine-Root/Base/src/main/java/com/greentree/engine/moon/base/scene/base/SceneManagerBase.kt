@@ -2,7 +2,7 @@ package com.greentree.engine.moon.base.scene.base
 
 import com.greentree.engine.moon.base.scene.EnginePropertiesSceneProperty
 import com.greentree.engine.moon.base.scene.SceneManager
-import com.greentree.engine.moon.ecs.ArchetypeWorld
+import com.greentree.engine.moon.ecs.CollectionWorld
 import com.greentree.engine.moon.ecs.scene.MapSceneProperties
 import com.greentree.engine.moon.ecs.scene.Scene
 import com.greentree.engine.moon.ecs.scene.SceneProperty
@@ -42,7 +42,7 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 	private fun loadScene() {
 		clearScene()
 		val sceneProperties = MapSceneProperties()
-		val currentWorld = ArchetypeWorld()
+		val currentWorld = CollectionWorld()
 		sceneProperties.add(WorldProperty(currentWorld))
 		sceneProperties.add(EnginePropertiesSceneProperty(properties))
 		for (property in properties) if (property is SceneProperty) sceneProperties.add(property)
