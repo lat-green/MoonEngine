@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.render.camera;
 
 import com.greentree.engine.moon.base.component.WriteComponent;
-import com.greentree.engine.moon.base.property.world.CreateSceneProperty;
-import com.greentree.engine.moon.base.property.world.WriteSceneProperty;
+import com.greentree.engine.moon.base.property.modules.CreateProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.WorldEntity;
 import com.greentree.engine.moon.ecs.filter.Filter;
@@ -21,7 +21,7 @@ public class CameraSystem implements WorldInitSystem, UpdateSystem {
     private Cameras cameras;
     private Filter<? extends WorldEntity> camerasFilter;
 
-    @CreateSceneProperty({Cameras.class})
+    @CreateProperty({Cameras.class})
     public void init(World world, SceneProperties properties) {
         camerasFilter = CAMERAS.build(world);
         cameras = new Cameras();
@@ -29,7 +29,7 @@ public class CameraSystem implements WorldInitSystem, UpdateSystem {
     }
 
     @WriteComponent({CameraComponent.class})
-    @WriteSceneProperty(Cameras.class)
+    @WriteProperty(Cameras.class)
     @Override
     public void update() {
         var iter = camerasFilter.iterator();

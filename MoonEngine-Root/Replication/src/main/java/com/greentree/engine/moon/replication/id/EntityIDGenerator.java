@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.replication.id;
 
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
@@ -28,7 +28,7 @@ public class EntityIDGenerator implements WorldInitSystem, UpdateSystem, Destroy
             ids.addID(e);
     }
 
-    @ReadSceneProperty({EntityIDs.class})
+    @ReadProperty({EntityIDs.class})
     @Override
     public void init(World world, SceneProperties sceneProperties) {
         createID = CREATE_ID.build(world);

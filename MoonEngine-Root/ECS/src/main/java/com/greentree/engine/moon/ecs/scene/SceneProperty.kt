@@ -1,6 +1,5 @@
 package com.greentree.engine.moon.ecs.scene
 
-interface SceneProperty
+import com.greentree.engine.moon.modules.property.EngineProperty
 
-@Deprecated("", replaceWith = ReplaceWith("SceneProperty"))
-interface WorldComponent : SceneProperty
+interface SceneProperty : EngineProperty

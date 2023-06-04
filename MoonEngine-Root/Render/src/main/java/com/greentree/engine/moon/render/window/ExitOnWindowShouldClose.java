@@ -1,8 +1,7 @@
 package com.greentree.engine.moon.render.window;
 
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
-import com.greentree.engine.moon.base.property.world.WriteSceneProperty;
-import com.greentree.engine.moon.base.scene.EnginePropertiesSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
 import com.greentree.engine.moon.ecs.system.InitSystem;
@@ -21,15 +20,14 @@ public class ExitOnWindowShouldClose implements InitSystem, DestroySystem, Updat
         manager = null;
     }
 
-    @WriteSceneProperty({EnginePropertiesSceneProperty.class})
-    @ReadSceneProperty({WindowProperty.class})
+    @ReadProperty({WindowProperty.class, ExitManagerProperty.class})
     @Override
     public void init(SceneProperties properties) {
         window = properties.get(WindowProperty.class).window();
-        manager = properties.get(EnginePropertiesSceneProperty.class).properties().get(ExitManagerProperty.class).manager();
+        manager = properties.get(ExitManagerProperty.class).manager();
     }
 
-    @WriteSceneProperty({EnginePropertiesSceneProperty.class})
+    @WriteProperty({ExitManagerProperty.class})
     @Override
     public void update() {
         if (window.isShouldClose())

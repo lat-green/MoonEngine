@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.render;
 
 import com.greentree.engine.moon.base.component.ReadComponent;
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
-import com.greentree.engine.moon.base.property.world.WriteSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.DestroySystem;
@@ -30,7 +30,7 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         buffer.close();
     }
 
-    @ReadSceneProperty({WindowProperty.class, Cameras.class})
+    @ReadProperty({WindowProperty.class, Cameras.class})
     @ReadComponent(CameraTarget.class)
     @Override
     public void init(World world, SceneProperties sceneProperties) {
@@ -45,8 +45,8 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         buffer.drawMesh(rmesh, shader, properties);
     }
 
-    @WriteSceneProperty({RenderLibraryProperty.class, WindowProperty.class})
-    @ReadSceneProperty({Cameras.class})
+    @WriteProperty({RenderLibraryProperty.class, WindowProperty.class})
+    @ReadProperty({Cameras.class})
     @ReadComponent(CameraTarget.class)
     @Override
     public void update() {

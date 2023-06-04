@@ -1,7 +1,7 @@
 open module engine.moon.ecs {
     requires transitive commons.action;
     requires transitive commons.graph;
-    requires transitive engine.moon.kernel;
+    requires transitive engine.moon.modules;
     requires transitive kotlin.stdlib;
     exports com.greentree.engine.moon.ecs;
     exports com.greentree.engine.moon.ecs.scene;

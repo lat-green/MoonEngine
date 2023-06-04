@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.demo1;
 
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.time.Time;
 import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.InitSystem;
@@ -13,7 +13,7 @@ public class LogFPSSystem implements InitSystem, UpdateSystem {
     private float t;
     private int fps;
 
-    @ReadSceneProperty({Time.class})
+    @ReadProperty({Time.class})
     @Override
     public void update() {
         t += time.delta();
@@ -25,7 +25,7 @@ public class LogFPSSystem implements InitSystem, UpdateSystem {
         }
     }
 
-    @ReadSceneProperty({Time.class})
+    @ReadProperty({Time.class})
     @Override
     public void init(SceneProperties properties) {
         time = properties.get(Time.class);

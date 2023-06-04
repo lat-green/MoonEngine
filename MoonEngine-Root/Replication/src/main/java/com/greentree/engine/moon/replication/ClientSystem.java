@@ -3,7 +3,7 @@ package com.greentree.engine.moon.replication;
 import com.greentree.commons.util.exception.WrappedException;
 import com.greentree.commons.web.protocol.StreamableConnection;
 import com.greentree.commons.web.protocol.tcp.TCP;
-import com.greentree.engine.moon.base.property.world.CreateSceneProperty;
+import com.greentree.engine.moon.base.property.modules.CreateProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
@@ -44,7 +44,7 @@ public class ClientSystem implements WorldInitSystem, UpdateSystem, DestroySyste
         evs.clear();
     }
 
-    @CreateSceneProperty({OwnerIDWorldComponent.class})
+    @CreateProperty({OwnerIDWorldComponent.class})
     @Override
     public void init(World world, SceneProperties sceneProperties) {
         this.world = world;

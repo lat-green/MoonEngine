@@ -2,8 +2,6 @@ package com.greentree.engine.moon.signals.ui;
 
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
-import com.greentree.engine.moon.base.scene.EnginePropertiesSceneProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.WorldEntity;
 import com.greentree.engine.moon.ecs.filter.Filter;
@@ -53,15 +51,13 @@ public final class ClickSystem implements WorldInitSystem, UpdateSystem, Destroy
         clickEvent.clear();
     }
 
-    @ReadSceneProperty({EnginePropertiesSceneProperty.class})
-    @ReadProperty({DevicesProperty.class})
+    @ReadProperty({DevicesProperty.class, DevicesProperty.class})
     @Override
     public void init(World world, SceneProperties properties) {
         this.world = world;
         pool = new StackEntityPool(world, EmptyEntityStrategy.INSTANCE);
         clicks = CLICKS.build(world);
-        devices = properties.get(EnginePropertiesSceneProperty.class).properties()
-                .get(DevicesProperty.class).devices();
+        devices = properties.get(DevicesProperty.class).devices();
         lc1 = addListener(MouseButton.MOUSE_BUTTON_LEFT);
         lc2 = addListener(MouseButton.MOUSE_BUTTON_RIGHT);
         lc3 = addListener(MouseButton.MOUSE_BUTTON_MIDDLE);

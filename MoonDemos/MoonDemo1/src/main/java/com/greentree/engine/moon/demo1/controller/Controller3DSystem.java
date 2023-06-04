@@ -3,7 +3,7 @@ package com.greentree.engine.moon.demo1.controller;
 import com.greentree.commons.math.vector.AbstractVector3fKt;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.component.WriteComponent;
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.time.Time;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
@@ -25,7 +25,7 @@ public class Controller3DSystem implements WorldInitSystem, UpdateSystem {
 
     private Devices input;
 
-    @ReadSceneProperty({Time.class})
+    @ReadProperty({Time.class})
     @Override
     public void init(World world, SceneProperties sceneProperties) {
         filter = BUILDER.build(world);
@@ -33,7 +33,7 @@ public class Controller3DSystem implements WorldInitSystem, UpdateSystem {
         input = sceneProperties.get(DevicesProperty.class).devices();
     }
 
-    @ReadSceneProperty({Time.class})
+    @ReadProperty({Time.class})
     @WriteComponent({Transform.class})
     @ReadComponent(Controller3D.class)
     @Override

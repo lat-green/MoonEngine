@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.base.property.world;
+package com.greentree.engine.moon.base.property.modules;
 
 import com.greentree.engine.moon.base.component.UseStage;
 import com.greentree.engine.moon.ecs.scene.SceneProperty;
@@ -12,11 +12,11 @@ import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@AnnotationInherited(UseScenePropertyClass.class)
+@AnnotationInherited(UsePropertyClass.class)
 @Retention(RUNTIME)
 @Target({METHOD, ANNOTATION_TYPE})
-@Repeatable(UseWorldComponentRepeatable.class)
-public @interface UseSceneProperty {
+@Repeatable(UsePropertyRepeatable.class)
+public @interface UseProperty {
 
     Class<? extends SceneProperty>[] value() default {};
 

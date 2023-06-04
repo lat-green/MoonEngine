@@ -11,29 +11,29 @@ import com.greentree.engine.moon.signals.Key;
 import com.greentree.engine.moon.signals.device.Devices;
 
 public class ExitOnESCAPE implements LaunchModule, TerminateModule {
-	
-	private Devices devices;
-	
-	private ListenerCloser lc;
-	
-	@Override
-	public void terminate() {
-		if(lc != null) {
-			lc.close();
-			lc = null;
-		}
-	}
-	
-	@ReadProperty({DevicesProperty.class})
-	@Override
-	public void launch(EngineProperties properties) {
-		devices = properties.get(DevicesProperty.class).devices();
-		lc = devices
-				.onPress(Key.ESCAPE, () ->
-				{
-					final var w = properties.get(ExitManagerProperty.class).manager();
-					w.exit();
-				});
-	}
-	
+
+    private Devices devices;
+
+    private ListenerCloser lc;
+
+    @Override
+    public void terminate() {
+        if (lc != null) {
+            lc.close();
+            lc = null;
+        }
+    }
+
+    @ReadProperty({DevicesProperty.class})
+    @Override
+    public void launch(EngineProperties properties) {
+        devices = properties.get(DevicesProperty.class).devices();
+        lc = devices
+                .onPress(Key.ESCAPE, () ->
+                {
+                    final var w = properties.get(ExitManagerProperty.class).manager();
+                    w.exit();
+                });
+    }
+
 }

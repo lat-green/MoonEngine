@@ -1,5 +1,8 @@
 package com.greentree.engine.moon.ecs.scene
 
-import com.greentree.engine.moon.kernel.ClassProperties
+interface SceneProperties : ReadOnlySceneProperties {
 
-interface SceneProperties : ClassProperties<SceneProperty>
+	fun add(property: SceneProperty)
+	fun <T : SceneProperty> remove(propertyClass: Class<out T>): T
+	fun clear()
+}

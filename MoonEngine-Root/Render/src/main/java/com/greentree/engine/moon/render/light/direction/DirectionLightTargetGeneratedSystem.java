@@ -2,7 +2,7 @@ package com.greentree.engine.moon.render.light.direction;
 
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
@@ -32,7 +32,7 @@ public class DirectionLightTargetGeneratedSystem implements WorldInitSystem, Upd
         }
     }
 
-    @ReadSceneProperty({RenderLibraryProperty.class})
+    @ReadProperty({RenderLibraryProperty.class})
     @Override
     public void init(World world, SceneProperties properties) {
         cameras = CAMERAS.build(world);

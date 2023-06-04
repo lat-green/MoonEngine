@@ -1,11 +1,10 @@
 package com.greentree.engine.moon.base.scene.base
 
-import com.greentree.engine.moon.base.scene.EnginePropertiesSceneProperty
 import com.greentree.engine.moon.base.scene.SceneManager
 import com.greentree.engine.moon.ecs.CollectionWorld
 import com.greentree.engine.moon.ecs.scene.MapSceneProperties
+import com.greentree.engine.moon.ecs.scene.ProxySceneProperties
 import com.greentree.engine.moon.ecs.scene.Scene
-import com.greentree.engine.moon.ecs.scene.SceneProperty
 import com.greentree.engine.moon.ecs.scene.WorldProperty
 import com.greentree.engine.moon.ecs.system.ECSSystem
 import com.greentree.engine.moon.ecs.system.FullSystem
@@ -21,7 +20,7 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 
 	init {
 		val autoAddGlobalSystems = ServiceLoader.load(ECSSystem::class.java)
-		for (system in autoAddGlobalSystems) globalSystems.add(system)
+		for(system in autoAddGlobalSystems) globalSystems.add(system)
 	}
 
 	@Synchronized
@@ -34,18 +33,16 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 	}
 
 	fun update() {
-		if (nextScene != null) loadScene()
+		if(nextScene != null) loadScene()
 		currentSystems!!.update()
 	}
 
 	@Synchronized
 	private fun loadScene() {
 		clearScene()
-		val sceneProperties = MapSceneProperties()
+		val sceneProperties = ProxySceneProperties(properties, MapSceneProperties())
 		val currentWorld = CollectionWorld()
 		sceneProperties.add(WorldProperty(currentWorld))
-		sceneProperties.add(EnginePropertiesSceneProperty(properties))
-		for (property in properties) if (property is SceneProperty) sceneProperties.add(property)
 		currentSystems = nextScene!!.getSystem(globalSystems).toFull()
 		nextScene = null
 		currentSystems!!.init(sceneProperties)

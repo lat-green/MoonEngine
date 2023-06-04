@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.demo1;
 
-import com.greentree.engine.moon.base.property.world.WriteSceneProperty;
+import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.demo1.controller.Controller3D;
 import com.greentree.engine.moon.demo1.controller.PlayerInput;
 import com.greentree.engine.moon.ecs.scene.SceneProperties;
@@ -12,7 +12,7 @@ import com.greentree.engine.moon.signals.device.SignalMapper;
 
 public class InitControllerSystem implements InitSystem {
 
-    @WriteSceneProperty({DevicesProperty.class})
+    @WriteProperty({DevicesProperty.class})
     @Override
     public void init(SceneProperties sceneProperties) {
         final var signals = sceneProperties.get(DevicesProperty.class).devices();

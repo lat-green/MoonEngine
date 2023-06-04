@@ -2,7 +2,7 @@ package com.greentree.engine.moon.render.light.point;
 
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
@@ -20,7 +20,7 @@ public class PointLightTargetGeneratedSystem implements WorldInitSystem, UpdateS
     private Filter<?> cameras;
     private RenderLibrary context;
 
-    @ReadSceneProperty({RenderLibraryProperty.class})
+    @ReadProperty({RenderLibraryProperty.class})
     @Override
     public void init(World world, SceneProperties properties) {
         cameras = CAMERAS.build(world);

@@ -2,7 +2,7 @@ package com.greentree.engine.moon.render.camera;
 
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
-import com.greentree.engine.moon.base.property.world.ReadSceneProperty;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.WorldEntity;
 import com.greentree.engine.moon.ecs.filter.Filter;
@@ -39,7 +39,7 @@ public class CameraTargetGeneratedSystem implements WorldInitSystem, UpdateSyste
         }
     }
 
-    @ReadSceneProperty({RenderLibraryProperty.class})
+    @ReadProperty({RenderLibraryProperty.class})
     @Override
     public void init(World world, SceneProperties properties) {
         cameras = CAMERAS.build(world);

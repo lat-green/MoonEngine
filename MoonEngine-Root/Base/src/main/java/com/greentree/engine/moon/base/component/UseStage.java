@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.base.component;
 
-import com.greentree.engine.moon.base.property.world.UseSceneProperty;
+import com.greentree.engine.moon.base.property.modules.UseProperty;
 import com.greentree.engine.moon.ecs.component.Component;
 import com.greentree.engine.moon.ecs.scene.SceneProperty;
 import com.greentree.engine.moon.kernel.AnnotationUtil;
@@ -35,16 +35,16 @@ public enum UseStage {
         throw new RuntimeException("no such method " + cls + " name: " + method);
     }
 
-    public Stream<Class<? extends SceneProperty>> getWorldComponent(Object obj, String method) {
-        return getWorldComponent(obj.getClass(), method);
+    public Stream<Class<? extends SceneProperty>> getProperty(Object obj, String method) {
+        return getProperty(obj.getClass(), method);
     }
 
-    public Stream<Class<? extends SceneProperty>> getWorldComponent(Class<?> cls, String method) {
-        return getWorldComponent(getMethod(cls, method));
+    public Stream<Class<? extends SceneProperty>> getProperty(Class<?> cls, String method) {
+        return getProperty(getMethod(cls, method));
     }
 
-    public Stream<Class<? extends SceneProperty>> getWorldComponent(Method method) {
-        return AnnotationUtil.getAnnotations(method, UseSceneProperty.class).filter(x -> x.state() == this)
+    public Stream<Class<? extends SceneProperty>> getProperty(Method method) {
+        return AnnotationUtil.getAnnotations(method, UseProperty.class).filter(x -> x.state() == this)
                 .flatMap(x -> Stream.of(x.value()));
     }
 }
