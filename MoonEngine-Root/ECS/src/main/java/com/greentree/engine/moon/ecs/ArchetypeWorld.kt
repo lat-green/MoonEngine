@@ -7,9 +7,11 @@ import java.io.ObjectInput
 import java.io.ObjectOutput
 
 class ArchetypeWorld : World {
-//	override fun newFilterBuilder(): WorldFilterBuilderBase {
-//		return root
-//	}
+
+	override fun newFilterBuilder(): WorldFilterBuilderBase {
+		return root
+	}
+
 	private fun getArchetype(classes: Set<out Class<out Component>>): Archetype {
 		var result: Archetype = root
 		val iter = classes.iterator()
@@ -68,9 +70,16 @@ class ArchetypeWorld : World {
 		override fun isRequired(componentClass: Class<out Component>): Boolean = componentClass in requiredClasses
 		override fun isIgnored(componentClass: Class<out Component>): Boolean = false
 
+		fun subtree(): List<Archetype> {
+			val result = ArrayList<Archetype>()
+			result.add(this)
+			for (c in children.values)
+				result.addAll(c.subtree())
+			return result
+		}
+
 		override fun iterator(): Iterator<ArchetypeEntity> {
-			return sequenceOf(activatedEntities, *(children.values.toTypedArray())).flatten().distinct()
-				.iterator() // TODO optimize
+			return subtree().flatMap { it.activatedEntities }.distinct().iterator()
 		}
 
 		override fun toString(): String {
