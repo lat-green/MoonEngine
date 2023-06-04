@@ -256,8 +256,8 @@ abstract class WorldTest {
 					add(CComponent())
 				}
 				val e4 = world.create {
-					add(AComponent())
 					add(BComponent())
+					add(AComponent())
 				}
 				val e5 = world.create {
 					add(AComponent())

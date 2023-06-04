@@ -7,11 +7,9 @@ import java.io.ObjectInput
 import java.io.ObjectOutput
 
 class ArchetypeWorld : World {
-
-	override fun newFilterBuilder(): WorldFilterBuilderBase {
-		return root
-	}
-
+//	override fun newFilterBuilder(): WorldFilterBuilderBase {
+//		return root
+//	}
 	private fun getArchetype(classes: Set<out Class<out Component>>): Archetype {
 		var result: Archetype = root
 		val iter = classes.iterator()
@@ -34,9 +32,7 @@ class ArchetypeWorld : World {
 		fun child(cls: Class<out Component>): BranchArchetype {
 			if (cls in children)
 				return children[cls]!!
-			val child = BranchArchetype(requiredClasses, cls)
-			children[cls] = child
-			return child
+			return BranchArchetype(requiredClasses + cls)
 		}
 
 		fun removeActivated(entity: ArchetypeEntity) {
@@ -73,7 +69,8 @@ class ArchetypeWorld : World {
 		override fun isIgnored(componentClass: Class<out Component>): Boolean = false
 
 		override fun iterator(): Iterator<ArchetypeEntity> {
-			return sequenceOf(activatedEntities, *(children.values.toTypedArray())).flatten().iterator()
+			return sequenceOf(activatedEntities, *(children.values.toTypedArray())).flatten().distinct()
+				.iterator() // TODO optimize
 		}
 
 		override fun toString(): String {
@@ -86,9 +83,12 @@ class ArchetypeWorld : World {
 
 	private inner class BranchArchetype(override val requiredClasses: Set<out Class<out Component>>) : Archetype() {
 
-		constructor(requiredClasses: Set<out Class<out Component>>, requiredClass: Class<out Component>) : this(
-			requiredClasses + requiredClasses
-		)
+		init {
+			for (cls in requiredClasses) {
+				val p = getArchetype(requiredClasses - cls)
+				p.children[cls] = this
+			}
+		}
 
 		override fun parent(componentClass: Class<out Component>): Archetype {
 			return getArchetype(requiredClasses - componentClass)
@@ -132,11 +132,6 @@ class ArchetypeWorld : World {
 
 		abstract fun delete(entity: ArchetypeEntity)
 		abstract fun isDeleted(entity: ArchetypeEntity): Boolean
-
-		open fun clear(entity: ArchetypeEntity) {
-			entity.prototype.clear()
-			entity.state = DeactiveArchetypesState(root)
-		}
 	}
 
 	private inner class ActiveArchetypeState(val archetype: Archetype) : State() {
@@ -249,10 +244,6 @@ class ArchetypeWorld : World {
 			throw UnsupportedOperationException("deactivate already deleted entity $entity")
 		}
 
-		override fun clear(entity: ArchetypeEntity) {
-			throw UnsupportedOperationException("clear already deleted entity $entity")
-		}
-
 		override fun toString(): String {
 			return "DeletedState()"
 		}
@@ -295,10 +286,6 @@ class ArchetypeWorld : World {
 
 		override fun copy(): PrototypeEntity {
 			return prototype.copy()
-		}
-
-		override fun clear() {
-			return state.clear(this)
 		}
 
 		override fun size(): Int {

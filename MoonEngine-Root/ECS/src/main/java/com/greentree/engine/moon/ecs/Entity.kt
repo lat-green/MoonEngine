@@ -15,7 +15,12 @@ sealed interface Entity : Iterable<Component>, Copiable<Entity> {
 
 	override fun copy(): PrototypeEntity
 
-	fun clear()
+	fun clear() {
+		lock {
+			for (c in this@Entity)
+				remove(c::class.java)
+		}
+	}
 
 	fun size(): Int
 

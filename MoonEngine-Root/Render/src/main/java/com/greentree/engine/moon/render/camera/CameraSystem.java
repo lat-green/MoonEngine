@@ -26,7 +26,6 @@ public class CameraSystem implements WorldInitSystem, UpdateSystem {
         camerasFilter = CAMERAS.build(world);
         cameras = new Cameras();
         properties.add(cameras);
-        update();
     }
 
     @WriteComponent({CameraComponent.class})
