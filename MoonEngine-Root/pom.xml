@@ -12,7 +12,7 @@
 
     <properties>
         <kotlin.version>1.9.0-Beta</kotlin.version>
-        
+
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -155,13 +155,6 @@
         <module>Script</module>
         <module>Signals</module>
     </modules>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>pvsstudio-maven-repo</id>
-            <url>http://files.viva64.com/java/pvsstudio-maven-repository/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
 
     <build>
@@ -363,8 +356,6 @@
             <!--                </executions>-->
             <!--            </plugin>-->
         </plugins>
-        <pluginManagement>
-        </pluginManagement>
     </build>
 
 </project>
