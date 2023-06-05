@@ -1,6 +1,5 @@
 package com.greentree.engine.moon.demo1.controller;
 
-import com.greentree.commons.math.vector.AbstractVector3fKt;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.component.WriteComponent;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
@@ -46,8 +45,8 @@ public class Controller3DSystem implements WorldInitSystem, UpdateSystem {
             t.rotation.identity();
             t.rotation.rotateY(-look.x());
             t.rotation.rotateX(-look.y());
-            var direction = AbstractVector3fKt.toMath(t.rotation.transform(move.magnitude(1).toJoml()));
-            t.position.plusAssign(direction.times(co.speed() * time.delta()));
+            var direction = t.rotation.times(move.magnitude(co.speed() * time.delta()));
+            t.position.plusAssign(direction);
         }
     }
 

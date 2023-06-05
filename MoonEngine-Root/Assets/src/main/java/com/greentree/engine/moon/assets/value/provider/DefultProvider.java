@@ -74,4 +74,9 @@ public final class DefultProvider<T> implements ValueProvider<T> {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "DefaultProvider [" + providers + ']';
+    }
+
 }

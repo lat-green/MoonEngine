@@ -19,15 +19,12 @@ public final class LookAtSystem implements SimpleWorldInitSystem, UpdateSystem {
     @ReadComponent(LookAt.class)
     @Override
     public void update() {
-        final var joml_up = Transform.UP.toJoml();
-        final var joml_temp = new org.joml.Vector3f();
         for (var e : look_at) {
             final var t = e.get(Transform.class);
             final var l = e.get(LookAt.class).vec();
             var temp = l.minus(t.position);
-            joml_temp.set(temp.x(), temp.y(), temp.z());
             t.rotation.identity();
-            t.rotation.lookAlong(joml_temp, joml_up);
+            t.rotation.lookAlong(temp, Transform.UP);
         }
     }
 

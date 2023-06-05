@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 public final class ResourceProvider implements ValueProvider<Resource> {
 
-    public static final int CHARACTERISTICS = BLANCK_CLOSE | NOT_NULL | CECHED;
+    public static final int CHARACTERISTICS = NOT_NULL | CECHED;
     private final Resource resource;
     private transient long lastModified;
 
@@ -23,7 +23,7 @@ public final class ResourceProvider implements ValueProvider<Resource> {
 
     @Override
     public String toString() {
-        return "ResourceProvider [" + resource + "]";
+        return resource.toString();
     }
 
     @Override

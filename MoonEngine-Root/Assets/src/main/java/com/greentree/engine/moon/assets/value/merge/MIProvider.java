@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public final class MIProvider<T> implements ValueProvider<Iterable<T>> {
 
-    public static final int CHARACTERISTICS = NOT_NULL;
+    public static final int CHARACTERISTICS = NOT_NULL | CECHED;
     private final Iterable<? extends ValueProvider<? extends T>> providers;
 
     private MIProvider(Iterable<? extends ValueProvider<? extends T>> providers) {
@@ -40,14 +40,6 @@ public final class MIProvider<T> implements ValueProvider<Iterable<T>> {
     }
 
     @Override
-    public boolean isChenge() {
-        for (var p : providers)
-            if (p.isChenge())
-                return p.isChenge();
-        return false;
-    }
-
-    @Override
     public ValueProvider<Iterable<T>> copy() {
         final var copies = new ArrayList<ValueProvider<? extends T>>();
         for (var p : providers)
@@ -56,8 +48,16 @@ public final class MIProvider<T> implements ValueProvider<Iterable<T>> {
     }
 
     @Override
+    public boolean isChenge() {
+        for (var p : providers)
+            if (p.isChenge())
+                return p.isChenge();
+        return false;
+    }
+
+    @Override
     public String toString() {
-        return "MIProvider " + providers;
+        return providers.toString();
     }
 
 }

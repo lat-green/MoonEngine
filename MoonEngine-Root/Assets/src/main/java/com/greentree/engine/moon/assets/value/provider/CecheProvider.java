@@ -10,16 +10,22 @@ public class CecheProvider<T> implements ValueProvider<T> {
 
     private final ValueProvider<T> provider;
 
-    private transient T ceche;
+    private transient T cache;
 
     private CecheProvider(ValueProvider<T> provider) {
         this.provider = provider;
-        ceche = provider.get();
+        cache = provider.get();
     }
 
-    public static <T> ValueProvider<T> ceche(Value<T> Value) {
-        final var provider = Value.openProvider();
-        return ceche(provider);
+    public static <T> ValueProvider<T> newProvider(Value<T> value) {
+        final var provider = value.openProvider();
+        return newProvider(provider);
+    }
+
+    public static <T> ValueProvider<T> newProvider(ValueProvider<T> provider) {
+        if (provider.hasCharacteristics(CONST) || provider.hasCharacteristics(CECHED))
+            return provider;
+        return new CecheProvider<>(provider);
     }
 
     @Override
@@ -30,9 +36,22 @@ public class CecheProvider<T> implements ValueProvider<T> {
     @Override
     public T get() {
         provider.tryGet(c -> {
-            ceche = c;
+            cache = c;
         });
-        return ceche;
+        return cache;
+    }
+
+    @Override
+    public ValueProvider<T> copy() {
+        return newProvider(provider.copy());
+    }
+
+    @Override
+    public boolean tryGet(Consumer<? super T> action) {
+        return provider.tryGet(c -> {
+            cache = c;
+            action.accept(cache);
+        });
     }
 
     @Override
@@ -41,32 +60,13 @@ public class CecheProvider<T> implements ValueProvider<T> {
     }
 
     @Override
-    public boolean tryGet(Consumer<? super T> action) {
-        return provider.tryGet(c -> {
-            ceche = c;
-            action.accept(ceche);
-        });
-    }
-
-    @Override
-    public ValueProvider<T> copy() {
-        return ceche(provider.copy());
-    }
-
-    public static <T> ValueProvider<T> ceche(ValueProvider<T> provider) {
-        if (provider.hasCharacteristics(CONST) || provider.hasCharacteristics(CECHED))
-            return provider;
-        return new CecheProvider<>(provider);
-    }
-
-    @Override
     public T getNotChenge() {
-        return ceche;
+        return cache;
     }
 
     @Override
     public String toString() {
-        return "Ceche [" + provider + "]";
+        return provider.toString();
     }
 
 }

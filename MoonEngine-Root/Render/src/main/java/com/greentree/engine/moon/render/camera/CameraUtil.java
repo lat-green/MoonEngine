@@ -1,10 +1,10 @@
 package com.greentree.engine.moon.render.camera;
 
+import com.greentree.commons.math.quaternion.AbstractQuaternion;
 import com.greentree.commons.math.vector.AbstractVector3f;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.Entity;
 import org.joml.Matrix4f;
-import org.joml.Quaternionfc;
 
 public class CameraUtil {
 
@@ -21,7 +21,7 @@ public class CameraUtil {
         return getView(camera.position, camera.rotation);
     }
 
-    public static Matrix4f getView(AbstractVector3f position, Quaternionfc rotation) {
+    public static Matrix4f getView(AbstractVector3f position, AbstractQuaternion rotation) {
         return new Matrix4f().lookAt(position.toJoml(),
                 Transform.direction(rotation).plus(position).toJoml(), Transform.UP.toJoml());
     }

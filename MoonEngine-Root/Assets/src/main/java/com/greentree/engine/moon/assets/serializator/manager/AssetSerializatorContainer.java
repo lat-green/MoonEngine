@@ -190,7 +190,7 @@ final class AssetSerializatorContainer {
                 try {
                     var value = serializator.load(context, key);
                     value = new CechedValue<>(value, close);
-                    value = CecheValue.ceche(value);
+                    value = CecheValue.newValue(value);
                     return value;
                 } catch (Exception e) {
                     throw new IllegalArgumentException("type:" + TYPE + " key:" + key, e);
