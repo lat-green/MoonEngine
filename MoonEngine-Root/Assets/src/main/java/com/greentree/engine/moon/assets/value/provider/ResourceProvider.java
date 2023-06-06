@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 public final class ResourceProvider implements ValueProvider<Resource> {
 
-    public static final int CHARACTERISTICS = NOT_NULL | CECHED;
+    public static final int CHARACTERISTICS = NOT_NULL | CACHED;
     private final Resource resource;
     private transient long lastModified;
 

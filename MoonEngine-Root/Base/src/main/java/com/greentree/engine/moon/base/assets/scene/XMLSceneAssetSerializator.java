@@ -13,6 +13,7 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.value.getter.ValueGetter;
 import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.base.component.AnnotationUtil;
 import com.greentree.engine.moon.base.layer.Layer;
@@ -32,6 +33,8 @@ import com.greentree.engine.moon.ecs.system.InitSystem;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.ecs.system.debug.DebugSystems;
 import com.greentree.engine.moon.ecs.system.debug.PrintStreamSystemsProfiler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +42,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
+
+    private static final Logger LOG = LogManager.getLogger(XMLSceneAssetSerializator.class);
 
     @Override
     public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
@@ -85,7 +90,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 @SuppressWarnings("unchecked")
                 @Override
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
-                    if (ClassUtil.isExtends(ValueProvider.class, type.toClass())) {
+                    if (ClassUtil.isExtends(ValueGetter.class, type.toClass())) {
                         final var value_type = type.getTypeArguments()[0].getBoxing();
                         try (final var key = c.newInstance(AssetKey.class, xml_value)) {
                             final var value = context.load(value_type, key.value()).openProvider();
@@ -196,8 +201,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                                 updateSystems.add(s);
                             if (system instanceof DestroySystem s)
                                 destroySystems.add(s);
-                        } catch (ClassNotFoundException e1) {
-                            e1.printStackTrace();
+                        } catch (RuntimeException | ClassNotFoundException e) {
+                            LOG.error(e);
                         }
                     final var log = new File("log");
                     log.mkdirs();
@@ -254,8 +259,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                                 final var c = newFromXML(Component.class, xml_component);
                                 if (c != null)
                                     lock.add(c);
-                            } catch (ClassNotFoundException e) {
-                                e.printStackTrace();
+                            } catch (RuntimeException | ClassNotFoundException e) {
+                                LOG.error(e);
                             }
                     }
                     if (parent_atr != null) {

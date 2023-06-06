@@ -4,7 +4,7 @@ import com.greentree.engine.moon.assets.value.function.Value1Function;
 import com.greentree.engine.moon.assets.value.provider.ValueFunctionMapProvider;
 import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 
-public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> {
+public final class ValueFunctionMapValue<T, R> implements Value<R> {
 
     private static final long serialVersionUID = 1L;
     private final Value<T> value;
@@ -31,8 +31,13 @@ public final class ValueFunctionMapValue<T, R> extends AbstractRefCountValue<R> 
     }
 
     @Override
-    protected ValueProvider<R> openRawProvider() {
+    public ValueProvider<R> openProvider() {
         return ValueFunctionMapProvider.newProvider(value, function);
+    }
+
+    @Override
+    public int characteristics() {
+        return ValueFunctionMapProvider.CHARACTERISTICS;
     }
 
 }

@@ -9,13 +9,10 @@ import com.greentree.engine.moon.assets.key.AssetKeyType;
 import com.greentree.engine.moon.assets.location.AssetLocation;
 import com.greentree.engine.moon.assets.serializator.*;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.value.AbstractRefCountValue;
+import com.greentree.engine.moon.assets.value.CacheProviderValue;
 import com.greentree.engine.moon.assets.value.CecheValue;
 import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 
-import java.io.ObjectStreamException;
-import java.io.Serial;
 import java.util.*;
 import java.util.function.Function;
 
@@ -90,60 +87,6 @@ final class AssetSerializatorContainer {
             addSerializator(s);
     }
 
-    private static final class CechedValue<T> extends AbstractRefCountValue<T> {
-
-        private static final long serialVersionUID = 1L;
-
-        private final Value<T> value;
-
-        private final Runnable onClose;
-
-        public CechedValue(Value<T> Value, Runnable close) {
-            this.value = Value;
-            this.onClose = close;
-        }
-
-        @Deprecated
-        @Override
-        public T get() {
-            return value.get();
-        }
-
-        @Deprecated
-        @Override
-        public boolean isNull() {
-            if (!hasCharacteristics(NOT_NULL))
-                return false;
-            return value.isNull();
-        }
-
-        @Override
-        protected int rawCharacteristics() {
-            return value.characteristics();
-        }
-
-        @Override
-        protected void clear() {
-            onClose.run();
-        }
-
-        @Override
-        public ValueProvider<T> openRawProvider() {
-            return value.openProvider();
-        }
-
-        @Override
-        public String toString() {
-            return value.toString();
-        }
-
-        @Serial
-        private Object writeReplace() throws ObjectStreamException {
-            return value;
-        }
-
-    }
-
     public final class AssetSerializatorInfo<T> extends TypedAssetSerializator<T> {
 
         private final List<AssetSerializatorInfo<T>> serializatorInfos = new ArrayList<>();
@@ -186,11 +129,11 @@ final class AssetSerializatorContainer {
 
         @Override
         public Value<T> load(LoadContext context, AssetKey key) {
-            final var v = cache.set(key, close -> {
+            final var v = cache.set(key, () -> {
                 try {
                     var value = serializator.load(context, key);
-                    value = new CechedValue<>(value, close);
                     value = CecheValue.newValue(value);
+                    value = CacheProviderValue.newValue(value);
                     return value;
                 } catch (Exception e) {
                     throw new IllegalArgumentException("type:" + TYPE + " key:" + key, e);

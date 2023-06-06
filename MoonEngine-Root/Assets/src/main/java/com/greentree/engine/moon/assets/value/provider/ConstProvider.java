@@ -2,7 +2,7 @@ package com.greentree.engine.moon.assets.value.provider;
 
 public final class ConstProvider<T> implements ValueProvider<T> {
 
-    public static final int CHARACTERISTICS = CONST | NOT_NULL | DISTINCT_CHANGE | CECHED;
+    public static final int CHARACTERISTICS = CONST | NOT_NULL | DISTINCT_CHANGE | CACHED;
 
     private final T value;
 

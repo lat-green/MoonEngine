@@ -6,7 +6,7 @@ import java.util.function.Consumer;
 
 public class CecheProvider<T> implements ValueProvider<T> {
 
-    public static final int CHARACTERISTICS = CECHED;
+    public static final int CHARACTERISTICS = CACHED;
 
     private final ValueProvider<T> provider;
 
@@ -23,7 +23,7 @@ public class CecheProvider<T> implements ValueProvider<T> {
     }
 
     public static <T> ValueProvider<T> newProvider(ValueProvider<T> provider) {
-        if (provider.hasCharacteristics(CONST) || provider.hasCharacteristics(CECHED))
+        if (provider.hasCharacteristics(CONST) || provider.hasCharacteristics(CACHED))
             return provider;
         return new CecheProvider<>(provider);
     }

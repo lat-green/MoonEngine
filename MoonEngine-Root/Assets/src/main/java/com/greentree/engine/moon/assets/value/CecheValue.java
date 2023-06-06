@@ -14,7 +14,7 @@ public final class CecheValue<T> implements Value<T> {
     }
 
     public static <T> Value<T> newValue(Value<T> value) {
-        if (value.hasCharacteristics(CONST) || value.hasCharacteristics(CECHED))
+        if (value.hasCharacteristics(CONST) || value.hasCharacteristics(CACHED))
             return value;
         return new CecheValue<>(value);
     }

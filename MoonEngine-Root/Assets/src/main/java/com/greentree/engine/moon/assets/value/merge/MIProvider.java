@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public final class MIProvider<T> implements ValueProvider<Iterable<T>> {
 
-    public static final int CHARACTERISTICS = NOT_NULL | CECHED;
+    public static final int CHARACTERISTICS = NOT_NULL | CACHED;
     private final Iterable<? extends ValueProvider<? extends T>> providers;
 
     private MIProvider(Iterable<? extends ValueProvider<? extends T>> providers) {

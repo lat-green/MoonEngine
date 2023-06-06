@@ -1,54 +1,35 @@
 package com.greentree.engine.moon.assets.serializator.manager;
 
-import java.util.HashMap;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Map;
-import java.util.function.Function;
+import java.util.WeakHashMap;
+import java.util.function.Supplier;
 
+import static org.apache.logging.log4j.LogManager.getLogger;
 
+@Deprecated
 public final class Ceche<K, T> {
-	
-	private static final class CachedValue<T> {
-		
-		private T value;
-		
-		public T get() {
-			return value;
-		}
-		
-		public void set(T value) {
-			this.value = value;
-		}
-		
-	}
-	
-	private final Map<K, CachedValue<T>> cache = new HashMap<>();
-	
-	public synchronized T get(K key) {
-		final var value = cache.get(key);
-		if(value != null)
-			return value.get();
-		return null;
-	}
-	
-	public synchronized boolean has(K key) {
-		return get(key) != null;
-	}
-	
-	public synchronized T set(K key, Function<Runnable, T> create) {
-		var value = cache.get(key);
-		if(value == null) {
-			value = new CachedValue<>();
-			cache.put(key, value);
-			try {
-				value.set(create.apply(()-> {
-					cache.remove(key);
-				}));
-			}catch(Exception e) {
-				cache.remove(key);
-				throw e;
-			}
-		}
-		return value.get();
-	}
-	
+
+    private static final Logger LOG = getLogger(Ceche.class);
+    private final Map<K, T> cache = new WeakHashMap<>();
+
+    public synchronized boolean has(K key) {
+        return cache.containsKey(key);
+    }
+
+    public synchronized T get(K key) {
+        if (cache.containsKey(key))
+            return cache.get(key);
+        return null;
+    }
+
+    public synchronized T set(K key, Supplier<T> create) {
+        if (cache.containsKey(key))
+            return cache.get(key);
+        var value = create.get();
+        cache.put(key, value);
+        return value;
+    }
+
 }

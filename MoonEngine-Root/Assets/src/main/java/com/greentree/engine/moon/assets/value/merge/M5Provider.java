@@ -5,7 +5,7 @@ import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 
 public final class M5Provider<T1, T2, T3, T4, T5> implements ValueProvider<Group5<T1, T2, T3, T4, T5>> {
 
-    public static final int CHARACTERISTICS = NOT_NULL | CECHED;
+    public static final int CHARACTERISTICS = NOT_NULL | CACHED;
     private final ValueProvider<T1> provider1;
     private final ValueProvider<T2> provider2;
     private final ValueProvider<T3> provider3;

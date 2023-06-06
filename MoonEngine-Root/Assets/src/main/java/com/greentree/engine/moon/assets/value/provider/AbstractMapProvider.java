@@ -19,7 +19,7 @@ public abstract class AbstractMapProvider<IN, OUT> implements ValueProvider<OUT>
 
     @Override
     public final int characteristics() {
-        return input.characteristics() & ~CECHED;
+        return input.characteristics() & ~CACHED;
     }
 
     @Override

@@ -12,7 +12,9 @@ public interface ValueProvider<T> extends ValueGetter<T> {
 
     T get();
 
-    ValueProvider<T> copy();
+    default ValueProvider<T> copy() {
+        throw new UnsupportedOperationException();
+    }
 
     default boolean tryGet(Consumer<? super T> action) {
         if (!isChenge())
