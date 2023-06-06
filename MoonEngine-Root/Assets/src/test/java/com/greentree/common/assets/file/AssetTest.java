@@ -28,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AssetTest {
 
-    private static final long SLEPP_ON_LOAD = 40;
-    private static final long TIMEOUT = 2 * SLEPP_ON_LOAD - 1;
+    private static final long SLEEP_ON_LOAD = 40;
+    private static final long TIMEOUT = 2 * SLEEP_ON_LOAD - 1;
     private AssetManager manager;
 
     static Stream<Pair<KeyLoadRequestImpl<?>, ?>> map_requests() {
@@ -37,8 +37,8 @@ public class AssetTest {
         for (var n : new int[]{56, 89, -4}) {
             final var key = new StringAssetKey(n + "");
             res.add(new Pair<>(new KeyLoadRequestImpl<>(Integer.class, key), n));
-            res.add(new Pair<>(new KeyLoadRequestImpl<>(Integer.class, new ResultAssetKey(n)),
-                    n));
+            res.add(new Pair<>(new KeyLoadRequestImpl<>(Integer.class, new ResultAssetKey("" + n)), n));
+            res.add(new Pair<>(new KeyLoadRequestImpl<>(Integer.class, new ResultAssetKey(n)), n));
         }
         return res.stream();
     }
@@ -100,7 +100,7 @@ public class AssetTest {
         @Override
         public Value<String> load(LoadContext context, AssetKey key) {
             try {
-                Thread.sleep(SLEPP_ON_LOAD);
+                Thread.sleep(SLEEP_ON_LOAD);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -178,7 +178,7 @@ public class AssetTest {
         final var res1 = manager.load(request);
         final var res2 = manager.load(request);
         assertEquals(res1, res2);
-		assertSame(res1, res2);
+        assertSame(res1, res2);
         assertEquals(res1.get(), result);
         assertEquals(res2.get(), result);
     }
@@ -194,7 +194,7 @@ public class AssetTest {
         final var res1 = manager.loadAsync(request.loadType(), request.key());
         final var res2 = manager.loadAsync(request.loadType(), request.key());
         assertEquals(res1, res2);
-		assertSame(res1, res2);
+        assertSame(res1, res2);
         assertEquals(res1.get(), result);
         assertEquals(res2.get(), result);
     }

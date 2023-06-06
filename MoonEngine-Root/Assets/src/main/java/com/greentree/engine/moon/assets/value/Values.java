@@ -8,19 +8,19 @@ public class Values {
     private Values() {
     }
 
-    public static <IN, OUT> Value<OUT> map(Value<IN> Value,
-                                           Value1Function<? super IN, OUT> mapFunction) {
-        return ValueFunctionMapValue.newValue(Value, mapFunction);
-    }
-
     public static <T1, T2, OUT> Value<OUT> map(Value<T1> value1, Value<T2> value2,
                                                Value1Function<? super Group2<? extends T1, ? extends T2>, OUT> mapFunction) {
         final var m = merge(value1, value2);
-        return ValueFunctionMapValue.newValue(m, mapFunction);
+        return map(m, mapFunction);
     }
 
     public static <T1, T2> Value<Group2<T1, T2>> merge(Value<T1> Value1, Value<T2> Value2) {
         return new M2Value<>(Value1, Value2);
+    }
+
+    public static <IN, OUT> Value<OUT> map(Value<IN> value,
+                                           Value1Function<? super IN, OUT> mapFunction) {
+        return ValueFunctionMapValue.newValue(value, mapFunction);
     }
 
     public static <T1, T2, T3> Value<Group3<T1, T2, T3>> merge(Value<T1> Value1, Value<T2> Value2,

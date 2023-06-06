@@ -11,7 +11,6 @@ public final class ValueFunctionMapProvider<IN, OUT> extends AbstractMapProvider
     private ValueFunctionMapProvider(ValueProvider<IN> provider, Value1Function<? super IN, OUT> function) {
         super(provider);
         this.function = function;
-        System.out.println(provider);
     }
 
     public static <T, R> ValueProvider<R> newProvider(Value<T> value, Value1Function<? super T, R> function) {
