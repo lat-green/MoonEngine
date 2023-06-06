@@ -94,7 +94,7 @@ final class AssetSerializatorContainer {
         private final AssetSerializator<T> serializator = new MultiAssetSerializator<>(
                 IteratorUtil.union(serializators, serializatorInfos));
 
-        private final Ceche<AssetKey, Value<T>> cache = new Ceche<>();
+        private final Cache<AssetKey, Value<T>> cache = new WeakHashMapCache<>();
 
         public AssetSerializatorInfo(TypeInfo<T> type) {
             super(type);

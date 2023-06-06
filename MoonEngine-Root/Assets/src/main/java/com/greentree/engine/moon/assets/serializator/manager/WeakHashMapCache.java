@@ -1,17 +1,11 @@
 package com.greentree.engine.moon.assets.serializator.manager;
 
-import org.apache.logging.log4j.Logger;
-
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.function.Supplier;
 
-import static org.apache.logging.log4j.LogManager.getLogger;
+public final class WeakHashMapCache<K, T> implements Cache<K, T> {
 
-@Deprecated
-public final class Ceche<K, T> {
-
-    private static final Logger LOG = getLogger(Ceche.class);
     private final Map<K, T> cache = new WeakHashMap<>();
 
     public synchronized boolean has(K key) {
