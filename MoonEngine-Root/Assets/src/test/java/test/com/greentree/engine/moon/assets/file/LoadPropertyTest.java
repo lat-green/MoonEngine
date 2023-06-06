@@ -1,4 +1,4 @@
-package com.greentree.common.assets.file;
+package test.com.greentree.engine.moon.assets.file;
 
 import com.greentree.engine.moon.assets.serializator.LoadProperty;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,4 +1,4 @@
-package com.greentree.common.assets.value;
+package test.com.greentree.engine.moon.assets.value;
 
 import com.greentree.engine.moon.assets.value.MutableValue;
 import com.greentree.engine.moon.assets.value.ReduceValue;

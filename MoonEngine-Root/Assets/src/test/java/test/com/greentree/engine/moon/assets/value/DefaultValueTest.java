@@ -1,4 +1,4 @@
-package com.greentree.common.assets.value;
+package test.com.greentree.engine.moon.assets.value;
 
 import com.greentree.engine.moon.assets.value.*;
 import org.junit.jupiter.api.Test;
@@ -30,14 +30,14 @@ public class DefaultValueTest {
         final var v1 = ConstValue.newValue(TEXT1);
         final var v2 = new MutableValue<>(TEXT1);
         final var m = DefaultValue.newValue(v1, v2);
-		assertSame(m, v1);
+        assertSame(m, v1);
     }
 
     @Test
     void test_NEW_of_ONE() {
         final var v1 = new MutableValue<>(TEXT1);
         final var m = DefaultValue.newValue(v1);
-		assertSame(m, v1);
+        assertSame(m, v1);
     }
 
     @Test
