@@ -23,11 +23,11 @@ public final class CacheProviderValue<T> implements Value<T> {
 
     @Override
     public int characteristics() {
-        return provider.characteristics();
+        return provider.characteristics() | ONE_PROVIDER;
     }
 
     public static <T> Value<T> newValue(Value<T> value) {
-        if (value.hasCharacteristics(CONST))
+        if (value.hasCharacteristics(CONST) || value.hasCharacteristics(ONE_PROVIDER))
             return value;
         if (value instanceof CacheProviderValue result)
             return result;
@@ -44,7 +44,7 @@ public final class CacheProviderValue<T> implements Value<T> {
 
         @Override
         public int characteristics() {
-            return provider.characteristics();
+            return provider.characteristics() | ONE_PROVIDER;
         }
 
         @Override

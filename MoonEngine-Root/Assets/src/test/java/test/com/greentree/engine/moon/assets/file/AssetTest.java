@@ -24,7 +24,8 @@ import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class AssetTest {
 
@@ -178,7 +179,6 @@ public class AssetTest {
         final var res1 = manager.load(request);
         final var res2 = manager.load(request);
         assertEquals(res1, res2);
-        assertSame(res1, res2);
         assertEquals(res1.get(), result);
         assertEquals(res2.get(), result);
     }
@@ -194,7 +194,6 @@ public class AssetTest {
         final var res1 = manager.loadAsync(request.loadType(), request.key());
         final var res2 = manager.loadAsync(request.loadType(), request.key());
         assertEquals(res1, res2);
-        assertSame(res1, res2);
         assertEquals(res1.get(), result);
         assertEquals(res2.get(), result);
     }

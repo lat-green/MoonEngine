@@ -10,7 +10,7 @@ public class CecheProvider<T> implements ValueProvider<T> {
 
     private final ValueProvider<T> provider;
 
-    private transient T cache;
+    private T cache;
 
     private CecheProvider(ValueProvider<T> provider) {
         this.provider = provider;

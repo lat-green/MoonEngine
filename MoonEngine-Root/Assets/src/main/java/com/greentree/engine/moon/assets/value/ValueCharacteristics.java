@@ -8,6 +8,7 @@ public interface ValueCharacteristics<T> {
     int DISTINCT_CHANGE = 0x00000004;
     int CACHED = 0x00000008;
     int CONST = 0x00000010 | CACHED;
+    int ONE_PROVIDER = 0x00000020;
 
     default boolean hasCharacteristics(int characteristics) {
         return (characteristics() & characteristics) == characteristics;

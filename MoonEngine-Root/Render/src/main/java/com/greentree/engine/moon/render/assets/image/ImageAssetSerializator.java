@@ -8,7 +8,6 @@ import com.greentree.commons.image.loader.ImageIOImageLoader;
 import com.greentree.commons.image.loader.PNGImageData;
 import com.greentree.commons.image.loader.TGAImageData;
 import com.greentree.commons.util.exception.MultiException;
-import com.greentree.commons.util.time.PointTimer;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.AssetKeyType;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
@@ -64,26 +63,18 @@ public class ImageAssetSerializator implements AssetSerializator<ImageData> {
         public ImageData apply(Resource res) {
             if (res == null)
                 return null;
-            var timer = new PointTimer();
-            timer.point();
-            try {
+            try (final var in = res.open()) {
+                return ImageIOImageLoader.IMAGE_DATA_LOADER.loadImage(in);
+            } catch (IOException e1) {
                 try (final var in = res.open()) {
-                    return ImageIOImageLoader.IMAGE_DATA_LOADER.loadImage(in);
-                } catch (IOException e1) {
+                    return PNGImageData.IMAGE_DATA_LOADER.loadImage(in);
+                } catch (IOException e2) {
                     try (final var in = res.open()) {
-                        return PNGImageData.IMAGE_DATA_LOADER.loadImage(in);
-                    } catch (IOException e2) {
-                        try (final var in = res.open()) {
-                            return TGAImageData.IMAGE_DATA_LOADER.loadImage(in);
-                        } catch (IOException e3) {
-                            throw new MultiException(e1, e2, e3);
-                        }
+                        return TGAImageData.IMAGE_DATA_LOADER.loadImage(in);
+                    } catch (IOException e3) {
+                        throw new MultiException(e1, e2, e3);
                     }
                 }
-            } finally {
-                timer.point();
-                System.out.println(res);
-                System.out.println(timer);
             }
         }
 

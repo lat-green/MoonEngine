@@ -77,6 +77,10 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
         return info.isDeepValid(this, key);
     }
 
+    private <T> AssetSerializatorContainer.AssetSerializatorInfo<T> get(TypeInfo<T> type) {
+        return container.get(type);
+    }
+
     @Override
     public boolean isValid(TypeInfo<?> type, AssetKey key) {
         final var info = get(type);
@@ -87,10 +91,6 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
     public boolean canLoad(TypeInfo<?> type, AssetKey key) {
         final var info = get(type);
         return info.canLoad(this, key);
-    }
-
-    private <T> AssetSerializatorContainer.AssetSerializatorInfo<T> get(TypeInfo<T> type) {
-        return container.get(type);
     }
 
     @Override
@@ -216,7 +216,7 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
                 }}));
                 return result;
             } catch (Exception e) {
-                LOG.warn(ASSETS, "asset loader throw. info: {}", e, info);
+                LOG.warn(ASSETS, "asset loader throw. info: " + info, e);
                 if (def != null) {
                     e.printStackTrace();
                     return ConstValue.newValue(def);

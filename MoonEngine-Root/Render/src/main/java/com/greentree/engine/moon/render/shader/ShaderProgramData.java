@@ -1,9 +1,13 @@
 package com.greentree.engine.moon.render.shader;
 
-public interface ShaderProgramData extends Iterable<ShaderData> {
-	
-	ShaderData vert();
-	ShaderData frag();
-	ShaderData geom();
-	
+import java.io.Serializable;
+
+public interface ShaderProgramData extends Iterable<ShaderData>, Serializable {
+
+    ShaderData vert();
+
+    ShaderData frag();
+
+    ShaderData geom();
+
 }
