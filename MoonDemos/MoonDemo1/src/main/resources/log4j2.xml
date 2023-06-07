@@ -5,7 +5,10 @@
             <PatternLayout>
                 <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
             </PatternLayout>
-            <TimeBasedTriggeringPolicy/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
         </RollingFile>
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout disableAnsi="false"
