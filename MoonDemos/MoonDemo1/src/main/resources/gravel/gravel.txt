@@ -1,5 +1,0 @@
-texture.albedo=Gravel023_1K_Color
-texture.normal=Gravel023_1K_NormalGL
-texture.roughness=Gravel023_1K_Roughness
-texture.displacement=Gravel023_1K_Displacement
-texture.ambient_occlusion=Gravel023_1K_AmbientOcclusion

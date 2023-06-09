@@ -1,5 +1,0 @@
-texture.albedo=grass/Grass004_1K_Color.jpg
-texture.normal=grass/Grass004_1K_NormalGL.jpg
-texture.roughness=grass/Grass004_1K_Roughness.jpg
-texture.displacement=grass/Grass004_1K_Displacement.jpg
-texture.ambient_occlusion=grass/Grass004_1K_AmbientOcclusion.jpg

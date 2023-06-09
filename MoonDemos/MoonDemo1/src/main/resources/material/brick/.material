@@ -1,0 +1,5 @@
+texture.albedo=material/brick/Bricks071_1K_Color.jpg
+texture.normal=material/brick/Bricks071_1K_NormalGL.jpg
+texture.displacement=material/brick/Bricks071_1K_Displacement.jpg
+texture.roughness=material/brick/Bricks071_1K_Roughness.jpg
+texture.ambient_occlusion=material/brick/Bricks071_1K_AmbientOcclusion.jpg

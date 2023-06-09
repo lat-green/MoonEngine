@@ -9,12 +9,12 @@ import com.greentree.engine.moon.modules.property.EngineProperties;
 
 public class InitAssetModule implements LaunchModule {
 
-	@WriteProperty({AssetManagerProperty.class})
-	@Override
-	public void launch(EngineProperties context) {
-		final var manager = context.get(AssetManagerProperty.class).manager();
-		manager.addResourceLocation(new RootFileResourceLocation("src/main/resources"));
-		manager.addResourceLocation(new ClassLoaderResourceLocation(InitSceneModule.class));
-	}
+    @WriteProperty({AssetManagerProperty.class})
+    @Override
+    public void launch(EngineProperties context) {
+        final var manager = context.get(AssetManagerProperty.class).manager();
+        manager.addResourceLocation(new RootFileResourceLocation("src/main/resources"));
+        manager.addResourceLocation(new ClassLoaderResourceLocation(InitSceneModule.class));
+    }
 
 }

@@ -1,4 +1,0 @@
-texture.albedo=rustediron2_basecolor-min
-texture.normal=rustediron2_normal-min
-texture.metallic=rustediron2_metallic-min
-texture.roughness=rustediron2_roughness-min

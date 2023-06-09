@@ -1,6 +1,0 @@
-posx=test_right.jpg
-negx=test_left.jpg
-posy=test_top.jpg
-negy=test_bottom.jpg
-posz=test_front.jpg
-negz=test_back.jpg

@@ -4,7 +4,6 @@ import com.greentree.commons.data.resource.location.ResourceLocation;
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeUtil;
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.assets.Assets;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.AssetKeyType;
 import com.greentree.engine.moon.assets.location.AssetLocation;
@@ -95,7 +94,8 @@ final class AssetSerializatorContainer {
         private final AssetSerializator<T> serializator = new MultiAssetSerializator<>(
                 IteratorUtil.union(serializators, serializatorInfos));
 
-        private final Cache<AssetKey, Value<T>> cache = new DirectoryCache<>(Assets.getTempCacheDirectory(TYPE));
+        private final Cache<AssetKey, Value<T>> cache = new WeakHashMapCache<>();
+//        private final Cache<AssetKey, Value<T>> cache = new DirectoryCache<>(Assets.getTempCacheDirectory(TYPE));
 
         public AssetSerializatorInfo(TypeInfo<T> type) {
             super(type);

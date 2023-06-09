@@ -40,7 +40,7 @@
             <field name="texture">
                 <value type="CubeTextureAssetKey">
                     <field name="image">
-                        <value>test_SB.txt</value>
+                        <value>skybox/test_SB/.skybox</value>
                     </field>
                 </value>
             </field>
@@ -60,115 +60,115 @@
         </component>
         <component type="MeshComponent">
             <field name="mesh">
-                <value>box.obj</value>
+                <value>mesh/box.obj</value>
             </field>
         </component>
         <component type="MeshRenderer">
             <field name="material">
-                <value>brick/brick.txt</value>
+                <value>material/brick/.material</value>
             </field>
         </component>
     </entity>
 
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">2</property>
         <property name="z">4</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/gold/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">2</property>
         <property name="z">2</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/grass/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">2</property>
         <property name="z">0</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/gravel/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">2</property>
         <property name="z">-2</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/rustediron2/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">2</property>
         <property name="z">-4</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/rustediron2/min/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">0</property>
         <property name="z">4</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">0</property>
         <property name="z">2</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">0</property>
         <property name="z">0</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">0</property>
         <property name="z">-2</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">0</property>
         <property name="z">-4</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">-2</property>
         <property name="z">4</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">-2</property>
         <property name="z">2</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">-2</property>
         <property name="z">0</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">-2</property>
         <property name="z">-2</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
-    <entity_ref file="entity1.xml">
+    <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">-2</property>
         <property name="z">-4</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
 
-    <entity_ref file="wall.xml">
+    <entity_ref file="scene/wall.xml">
         <property name="x">20</property>
         <property name="y">0</property>
         <property name="z">0</property>
         <property name="sx">10</property>
         <property name="sy">100</property>
         <property name="sz">100</property>
-        <property name="material">brick/brick.txt</property>
+        <property name="material">material/brick/.material</property>
     </entity_ref>
 
 </scene>

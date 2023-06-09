@@ -27,7 +27,6 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
     public void destroy() {
         window = null;
         buffer.clear();
-        buffer.close();
     }
 
     @ReadProperty({WindowProperty.class, Cameras.class})
@@ -42,7 +41,10 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         properties.put("render_texture",
                 new LazyProperty(() -> cameras.main().get(CameraTarget.class).target().getColorTexture()));
         buffer = window.screanRenderTarget().buffer();
-        buffer.drawMesh(rmesh, shader, properties);
+        buffer.bindMesh(rmesh);
+        buffer.bindShader(shader);
+        buffer.bindMaterial(properties);
+        buffer.draw();
     }
 
     @WriteProperty({RenderLibraryProperty.class, WindowProperty.class})

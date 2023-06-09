@@ -82,61 +82,74 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
                     SUPER_POINT_SHADOW.put("lightPos", light.get(Transform.class).position);
                     final var target = light.get(PointLightTarget.class).target();
                     skybox = target.getDepthTexture();
-                    try (final var buffer = target.buffer()) {
-                        buffer.clearDepth(1);
-                        buffer.enableCullFace();
-                        buffer.enableDepthTest();
-                        for (var m : renderer) {
-                            final var mesh = m.get(MeshComponent.class).mesh().get();
-                            final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
-                            SUPER_POINT_SHADOW.put("model", model);
-                            for (var properties : POINT_SHADOW)
-                                buffer.drawMesh(mesh, shader, properties);
+                    final var buffer = target.buffer();
+                    buffer.clearDepth(1);
+                    buffer.enableCullFace();
+                    buffer.enableDepthTest();
+                    buffer.bindShader(shader);
+                    for (var m : renderer) {
+                        final var mesh = m.get(MeshComponent.class).mesh().get();
+                        buffer.bindMesh(mesh);
+                        final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
+                        SUPER_POINT_SHADOW.put("model", model);
+                        for (var properties : POINT_SHADOW) {
+                            buffer.bindMaterial(properties);
+                            buffer.draw();
                         }
                     }
+                    buffer.execute();
+                    buffer.clear();
                 }
         }
         for (var light : dir_ligth)
             if (light.contains(HasShadow.class)) {
                 final var target = light.get(DirectionLightTarget.class).target();
-                try (final var buffer = target.buffer()) {
-                    buffer.clearDepth(1);
-                    buffer.enableCullFace();
-                    buffer.enableDepthTest();
-                    for (var m : renderer) {
-                        final var mesh = m.get(MeshComponent.class).mesh().get();
-                        final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
-                        final var shader = MaterialUtil.getDefaultShadowShader();
-                        final var properties = new MaterialPropertiesBase();
-                        mapShadowMaterial(properties);
-                        properties.put("model", model);
-                        buffer.drawMesh(mesh, shader, properties);
-                    }
-                }
-            }
-        for (var camera : cameras) {
-            final var target = camera.get(CameraTarget.class).target();
-            try (final var buffer = target.buffer()) {
+                final var buffer = target.buffer();
+                final var shader = MaterialUtil.getDefaultShadowShader();
+                buffer.bindShader(shader);
                 buffer.clearDepth(1);
-                if (camera.contains(SkyBoxComponent.class)) {
-                    final var texture = camera.get(SkyBoxComponent.class).texture().get();
-                    final var shader = MaterialUtil.getDefaultSkyBoxShader();
-                    buffer.drawSkyBox(shader, texture);
-                    //					buffer.drawSkyBox(shader, skybox);
-                } else
-                    buffer.clearColor(Color.gray);
                 buffer.enableCullFace();
                 buffer.enableDepthTest();
                 for (var m : renderer) {
                     final var mesh = m.get(MeshComponent.class).mesh().get();
+                    buffer.bindMesh(mesh);
                     final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
-                    final var material = m.get(MeshRenderer.class).material().get();
-                    final var properties = material.properties().newChildren();
-                    mapMaterial(properties);
+                    final var properties = new MaterialPropertiesBase();
+                    mapShadowMaterial(properties);
                     properties.put("model", model);
-                    buffer.drawMesh(mesh, material.shader(), properties);
+                    buffer.bindMaterial(properties);
+                    buffer.draw();
                 }
+                buffer.execute();
+                buffer.clear();
             }
+        for (var camera : cameras) {
+            final var target = camera.get(CameraTarget.class).target();
+            final var buffer = target.buffer();
+            buffer.clearDepth(1);
+            if (camera.contains(SkyBoxComponent.class)) {
+                final var texture = camera.get(SkyBoxComponent.class).texture().get();
+                final var shader = MaterialUtil.getDefaultSkyBoxShader();
+                buffer.drawSkyBox(shader, texture);
+                //					buffer.drawSkyBox(shader, skybox);
+            } else
+                buffer.clearColor(Color.gray);
+            buffer.enableCullFace();
+            buffer.enableDepthTest();
+            for (var m : renderer) {
+                final var mesh = m.get(MeshComponent.class).mesh().get();
+                buffer.bindMesh(mesh);
+                final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
+                final var material = m.get(MeshRenderer.class).material().get();
+                buffer.bindShader(material.shader());
+                final var properties = material.properties().newChildren();
+                mapMaterial(properties);
+                properties.put("model", model);
+                buffer.bindMaterial(properties);
+                buffer.draw();
+            }
+            buffer.execute();
+            buffer.clear();
         }
 
     }
