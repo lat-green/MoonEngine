@@ -12,7 +12,6 @@ public final class ScriptSystem implements WorldInitSystem, UpdateSystem {
     private static final FilterBuilder SCRIPTS = new FilterBuilder().require(Scripts.class);
 
     private Filter<?> scripts;
-    private World world;
     private SceneProperties sceneProperties;
 
     @Override
@@ -36,7 +35,6 @@ public final class ScriptSystem implements WorldInitSystem, UpdateSystem {
 
     @Override
     public void init(World world, SceneProperties sceneProperties) {
-        this.world = world;
         this.sceneProperties = sceneProperties;
         scripts = SCRIPTS.build(world);
     }
