@@ -27,6 +27,10 @@ data class AllEntityFilter(private val world: World) : Filter<WorldEntity> {
 
 fun <T, R> Iterable<T>.toMap(function: (T) -> R): Map<T, R> {
 	return object : AbstractMap<T, R>() {
+		override fun get(key: T): R? {
+			return function(key)
+		}
+
 		override val entries: Set<Map.Entry<T, R>>
 			get() = this@toMap.map { SimpleEntry(it, function(it)) }.toSet()
 	}
@@ -35,9 +39,7 @@ fun <T, R> Iterable<T>.toMap(function: (T) -> R): Map<T, R> {
 fun <T, R> Map<T, R>.inverse(): Map<R, Collection<T>> {
 	return object : AbstractMap<R, Collection<T>>() {
 		override val entries: Set<Map.Entry<R, Collection<T>>>
-			get() {
-				TODO()
-			}
+			get() = this@inverse.entries.map { SimpleEntry(it.value, setOf(it.key) as Collection<T>) }.toSet()
 	}
 }
 

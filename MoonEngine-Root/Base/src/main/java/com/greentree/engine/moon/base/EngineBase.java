@@ -1,27 +1,27 @@
-package com.greentree.engine.moon.monkey;
+package com.greentree.engine.moon.base;
 
+import com.greentree.engine.moon.base.modules.scanner.CollectionModuleDefenitionScanner;
 import com.greentree.engine.moon.base.modules.scanner.ConfigModuleContainerScanner;
 import com.greentree.engine.moon.base.modules.scanner.ModuleDefenition;
 import com.greentree.engine.moon.base.modules.scanner.ServiceLoaderModuleDefenitionScanner;
 import com.greentree.engine.moon.base.property.modules.info.AnnotatedCWRDMethodPropertyInfo;
 import com.greentree.engine.moon.base.sorter.OnCWRDMethodSorter;
-import com.greentree.engine.moon.modules.Engine;
-import com.greentree.engine.moon.modules.LaunchModule;
-import com.greentree.engine.moon.modules.TerminateModule;
-import com.greentree.engine.moon.modules.UpdateModule;
+import com.greentree.engine.moon.modules.*;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class EngineBase {
 
-    public static void main(String[] args) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static void launch(String[] args, EngineModule... modules) throws Exception {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
-        var scanner = new ConfigModuleContainerScanner().addScanner(new ServiceLoaderModuleDefenitionScanner())
-                .addModule(new InitSceneModule()).addModule(new InitAssetModule()).addModule(new ExitOnESCAPE());
+        var scanner = new ConfigModuleContainerScanner()
+                .addScanner(new ServiceLoaderModuleDefenitionScanner())
+                .addScanner(new CollectionModuleDefenitionScanner(modules));
         var scanModules = scanner.scan().map(ModuleDefenition::build).toList();
         var sorter = new OnCWRDMethodSorter(new AnnotatedCWRDMethodPropertyInfo());
         var launchModules = new ArrayList<LaunchModule>(
