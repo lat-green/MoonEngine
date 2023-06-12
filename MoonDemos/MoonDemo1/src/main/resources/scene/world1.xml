@@ -70,6 +70,13 @@
         </component>
     </entity>
 
+    <entity>
+        <component type="Transform"/>
+        <component type="SpriteRenderer">
+            <property name="texture">texture/box.jpg</property>
+        </component>
+    </entity>
+
     <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">2</property>
