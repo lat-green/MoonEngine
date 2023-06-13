@@ -19,6 +19,7 @@
     <system type="CameraTargetGeneratedSystem"/>
     <system type="ForvardRendering"/>
     <system type="RenderMainCamera"/>
+    <system type="com.greentree.engine.moon.demo1.LogFPSSystem"/>
 
     <entity>
         <component type="Transform"/>
@@ -35,6 +36,7 @@
         <component type="CameraComponent">
             <property name="width">800</property>
             <property name="height">600</property>
+            <property name="projection">ORTHO</property>
         </component>
         <component type="SkyBoxComponent">
             <field name="texture">
@@ -67,13 +69,6 @@
             <field name="material">
                 <value>material/brick/.material</value>
             </field>
-        </component>
-    </entity>
-
-    <entity>
-        <component type="Transform"/>
-        <component type="SpriteRenderer">
-            <property name="texture">texture/box.jpg</property>
         </component>
     </entity>
 

@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 
@@ -69,6 +70,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
         private static final long serialVersionUID = 1L;
         private final ObjectXMLBuilder builder = new ObjectXMLBuilder();
         private final LoadContext context;
+        private final Map<String, Entity> names = new HashMap<>();
 
         public XMLWorldFunction(LoadContext context) {
             this.context = context;
@@ -78,6 +80,18 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
                     final var xml_value_text = xml_value.getContent();
                     final var key = new ResultAssetKey(xml_value_text);
+                    if (context.isDeepValid(type, key)) {
+                        final var v = context.loadData(type, key);
+                        return new ValueConstructor<>(v);
+                    }
+                    return null;
+                }
+            });
+            builder.add(new XMLTypeAddapter() {
+
+                @Override
+                public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
+                    final var key = new ResultAssetKey(xml_value.getChildrens().iterator().next());
                     if (context.isDeepValid(type, key)) {
                         final var v = context.loadData(type, key);
                         return new ValueConstructor<>(v);
@@ -141,20 +155,18 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 
                 @Override
                 public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_value) {
+                    if (!ClassUtil.isExtends(Entity.class, type.toClass()))
+                        return null;
                     var name = xml_value.getContent();
-                    System.out.println("Entity:" + name);
-                    return null;
+                    return () -> (T) names.get(name);
                 }
 
-                @Override
-                public Class<?> getLoadOnly() {
-                    return Entity.class;
-                }
             });
         }
 
         @Override
         public Scene apply(XMLElement xml_scene) {
+            names.clear();
             return new SimpleScene() {
 
                 @Override
@@ -202,7 +214,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                             if (system instanceof DestroySystem s)
                                 destroySystems.add(s);
                         } catch (RuntimeException | ClassNotFoundException e) {
-                            LOG.error(e);
+                            LOG.error("", e);
                         }
                     final var log = new File("log");
                     log.mkdirs();
@@ -250,8 +262,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                     final var parent_atr = xml_entity.getAttribute("parent");
                     final var entity = world.newEntity();
                     try (final var lock = entity.lock()) {
-                        if (name_atr != null)
+                        if (name_atr != null) {
+                            names.put(name_atr, entity);
                             lock.add(new Name(name_atr));
+                        }
                         if (layer_atr != null)
                             lock.add(new Layer(layer_atr));
                         for (var xml_component : xml_entity.getChildrens("component"))
@@ -260,7 +274,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                                 if (c != null)
                                     lock.add(c);
                             } catch (RuntimeException | ClassNotFoundException e) {
-                                LOG.error(e);
+                                LOG.error("", e);
                             }
                     }
                     if (parent_atr != null) {

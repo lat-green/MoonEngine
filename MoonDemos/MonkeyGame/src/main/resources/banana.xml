@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entity SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+
+<entity>
+    <component type="Transform">
+        <field name="position">
+            <value>
+                <property name="x">${x}</property>
+                <property name="y">${y}</property>
+                <property name="z">-1</property>
+            </value>
+        </field>
+        <field name="scale">
+            <value>
+                <property name="x">.1</property>
+                <property name="y">.1</property>
+            </value>
+        </field>
+    </component>
+    <component type="ColliderComponent">
+        <field name="shape">
+            <value>
+                <shape type="Circle">
+                    <radius>.05</radius>
+                </shape>
+            </value>
+        </field>
+    </component>
+    <component type="SpriteRenderer">
+        <property name="texture">banana.png</property>
+    </component>
+</entity>

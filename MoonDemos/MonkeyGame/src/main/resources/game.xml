@@ -2,97 +2,106 @@
 <!DOCTYPE scene SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
 
 <scene>
-	<system type="TimeSystem"/>
-	<system type="CameraSystem"/>
+    <system type="TimeSystem"/>
+    <system type="CameraSystem"/>
 
-	<system type="LayerSystem"/>
-	<system type="NameSystem"/>
+    <system type="LayerSystem"/>
+    <system type="NameSystem"/>
 
-	<system type="Controller3DSystem"/>
-	<system type="ControllerSystem"/>
-	<system type="RectTransforUpdate"/>
-	<system type="DisableCursor"/>
-	<system type="ScriptSystem"/>
+    <system type="ControllerSystem"/>
+    <system type="ScriptSystem"/>
 
-	<system type="SpriteMeshGenerator"/>
-	<system type="CameraTargetGeneratedSystem"/>
-	<system type="RenderSystem"/>
-	<system type="RenderMainCamera"/>
+    <system type="SpriteMeshGenerator"/>
+    <system type="CameraTargetGeneratedSystem"/>
+    <system type="RenderSystem"/>
+    <system type="ForvardRendering"/>
+    <system type="RenderMainCamera"/>
 
-	<system type="LookAtSystem"/>
-	
-	<entity>
-		<component type="Transform"/>
-		<component type="HasShadow"/>
-		<component type="PointLightComponent">
-			<field name="intensity">
-				<value>2</value>
-			</field>
-		</component>
-	</entity>
+    <system type="LookAtSystem"/>
+    <system type="ColliderSystem"/>
+    <system type="FollowSystem"></system>
+    <system type="VelocitySystem"></system>
+    <system type="GravitySystem">
+        <property name="value">3</property>
+    </system>
+    <system type="MinYSystem"></system>
+    <system type="BackGroundSystem"></system>
 
-	<entity name="camera">
-		<component type="Transform"/>
-		<component type="CameraComponent">
-			<property name="width">800</property>
-			<property name="height">600</property>
-		</component>
-		<component type="Controller3D">
-			<field name="speed">
-				<value>5</value>
-			</field>
-		</component>
-		<component type="MouseSensitivity">
-			<field name="sensitivityX">
-				<value>1</value>
-			</field>
-			<field name="sensitivityY">
-				<value>-1</value>
-			</field>
-		</component>
-	</entity>
-	
-	<entity_ref file="entity1.xml">
-		<property name="x">0</property>
-		<property name="y">0</property>
-		<property name="z">0</property>
-		<property name="material">brick/brick.txt</property>
-	</entity_ref>
-	
-<!--	<entity name="player">-->
-<!--		<component type="Transform"/>-->
-<!--		<component type="Controller">-->
-<!--			<property name="speed">5</property>-->
-<!--		</component>-->
-<!--		<component type="SpriteRenderer">-->
-<!--			<property name="texture">monkey.png</property>-->
-<!--		</component>-->
-		
-<!--		<entity name="camera">-->
-<!--			<component type="Transform">-->
-<!--				<field name="position">-->
-<!--					<value>-->
-<!--						<property name="x">0</property>-->
-<!--						<property name="y">0</property>-->
-<!--						<property name="z">-10</property>-->
-<!--					</value>-->
-<!--				</field>-->
-<!--			</component>-->
-<!--			<component type="LookAt">-->
-<!--				<field name="vec">-->
-<!--					<value>-->
-<!--						<property name="x">0</property>-->
-<!--						<property name="y">0</property>-->
-<!--						<property name="z">0</property>-->
-<!--					</value>-->
-<!--				</field>-->
-<!--			</component>-->
-<!--			<component type="CameraComponent">-->
-<!--				<property name="width">800</property>-->
-<!--				<property name="height">600</property>-->
-<!--			</component>-->
-<!--		</entity>-->
-		
-<!--	</entity>-->
+    <entity>
+        <component type="Transform"/>
+        <component type="HasShadow"/>
+        <component type="PointLightComponent">
+            <field name="intensity">
+                <value>2</value>
+            </field>
+        </component>
+    </entity>
+
+    <entity name="player">
+        <component type="Transform">
+            <field name="scale">
+                <value>
+                    <property name="x">.1</property>
+                    <property name="y">.1</property>
+                </value>
+            </field>
+        </component>
+        <component type="ColliderComponent">
+            <field name="shape">
+                <value>
+                    <shape type="Circle">
+                        <radius>.05</radius>
+                    </shape>
+                </value>
+            </field>
+        </component>
+        <component type="SpriteRenderer">
+            <property name="texture">monkey.png</property>
+        </component>
+        <component type="Controller">
+            <field name="speed">
+                <value>1</value>
+            </field>
+        </component>
+        <component type="MinY">
+            <property name="value">-.63</property>
+        </component>
+        <component type="Gravity"/>
+        <component type="Velocity"/>
+    </entity>
+
+    <entity_ref file="jungle.xml">
+        <property name="name">bg1</property>
+        <property name="x">0</property>
+    </entity_ref>
+    <entity_ref file="jungle.xml">
+        <property name="name">bg2</property>
+        <property name="x">2</property>
+    </entity_ref>
+
+    <entity_ref file="banana.xml">
+        <property name="x">0</property>
+        <property name="y">0</property>
+    </entity_ref>
+
+    <entity name="camera">
+        <component type="com.greentree.engine.moon.base.transform.Transform">
+            <field name="rotation">
+                <value>
+                    <property name="y">1</property>
+                    <property name="w">0</property>
+                </value>
+            </field>
+        </component>
+        <component type="Follow">
+            <property name="target">player</property>
+            <property name="speed">5</property>
+        </component>
+        <component type="CameraComponent">
+            <property name="width">800</property>
+            <property name="height">600</property>
+            <property name="size">1</property>
+        </component>
+    </entity>
 
 </scene>

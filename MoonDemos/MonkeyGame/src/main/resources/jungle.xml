@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entity SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+
+<entity name="${name}">
+    <component type="Transform">
+        <field name="position">
+            <value>
+                <property name="x">${x}</property>
+                <property name="z">-2</property>
+            </value>
+        </field>
+    </component>
+    <component type="SpriteRenderer">
+        <property name="texture">jungle.jpg</property>
+    </component>
+</entity>

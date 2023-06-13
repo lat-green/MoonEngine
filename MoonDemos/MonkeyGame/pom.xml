@@ -35,6 +35,10 @@
             <groupId>com.greentree.engine.moon</groupId>
             <artifactId>opengl</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.greentree.engine.moon</groupId>
+            <artifactId>collision2d</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

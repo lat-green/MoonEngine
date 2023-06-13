@@ -70,10 +70,10 @@ public final class MeshUtil {
             v.plusAssign(new FinalVector3f(-.5f, -.5f, 0));
             v.timesAssign(2);
         }, v01, v00, v10, v11);
-        final var i01 = new ValueVertexIndex(v01, null, t01);
-        final var i00 = new ValueVertexIndex(v00, null, t00);
-        final var i10 = new ValueVertexIndex(v10, null, t10);
-        final var i11 = new ValueVertexIndex(v11, null, t11);
+        final var i01 = new ValueVertexIndex(v01, null, t00);
+        final var i00 = new ValueVertexIndex(v00, null, t01);
+        final var i10 = new ValueVertexIndex(v10, null, t11);
+        final var i11 = new ValueVertexIndex(v11, null, t10);
         builder.addFaces(i00, i11, i01);
         builder.addFaces(i00, i10, i11);
         QUAD_SPRITE = builder.build();

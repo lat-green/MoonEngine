@@ -58,6 +58,17 @@ public class ObjectXMLBuilder implements Context {
 
     {
         add(new XMLTypeAddapter() {
+//            @Override
+//            public Class<?> getLoadOnly() {
+//                return Enum.class;
+//            }
+
+            @Override
+            public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
+                return () -> (T) Enum.valueOf((Class) type.toClass(), element.getContent());
+            }
+        });
+        add(new XMLTypeAddapter() {
 
             @SuppressWarnings("unchecked")
             @Override

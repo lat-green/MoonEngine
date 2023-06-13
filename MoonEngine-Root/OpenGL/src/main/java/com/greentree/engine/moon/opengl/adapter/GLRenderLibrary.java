@@ -59,7 +59,8 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
     @Override
     public Property build(Texture2DData texture) {
         final var gl = toGLTexture(texture);
-        return new TextureAddapter(gl);
+        TextureAddapter textureAddapter = new TextureAddapter(gl);
+        return textureAddapter;
     }
 
     private GLTexture toGLTexture(Texture2DData texture) {
@@ -70,7 +71,7 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
         textures.put(texture, tex);
         tex.bind();
         final var image = texture.image();
-        tex.setData(GLPixelFormat.RGB, image.getWidth(), image.getHeight(), GLPixelFormat.gl(image.getFormat()),
+        tex.setData(GLPixelFormat.RGBA, image.getWidth(), image.getHeight(), GLPixelFormat.gl(image.getFormat()),
                 image.getData());
         final var type = texture.type();
         tex.setMagFilter(GLEnums.get(type.filteringMag()));

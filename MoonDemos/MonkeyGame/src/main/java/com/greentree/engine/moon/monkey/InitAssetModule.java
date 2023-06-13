@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.monkey;
 
+import com.greentree.commons.data.resource.location.ClassLoaderResourceLocation;
 import com.greentree.commons.data.resource.location.RootFileResourceLocation;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
@@ -13,7 +14,7 @@ public class InitAssetModule implements LaunchModule {
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager();
         manager.addResourceLocation(new RootFileResourceLocation("src/main/resources"));
-        //		manager.addResourceLocation(new ClassLoaderResourceLocation(InitSceneModule.class));
+        manager.addResourceLocation(new ClassLoaderResourceLocation(InitSceneModule.class));
     }
 
 }
