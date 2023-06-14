@@ -7,7 +7,12 @@ import com.greentree.engine.moon.ecs.component.Component
 import java.util.AbstractMap.*
 import java.util.function.Predicate
 
+@JvmDefaultWithoutCompatibility
 interface Filter<T : WorldEntity> : Iterable<T> {
+
+	fun safe(): Iterable<T> {
+		return toList()
+	}
 
 	fun filter(predicate: (T) -> Boolean) = (this as Iterable<T>).filterLazy(predicate).toFilter()
 

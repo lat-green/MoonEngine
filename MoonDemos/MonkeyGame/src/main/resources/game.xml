@@ -8,7 +8,8 @@
     <system type="LayerSystem"/>
     <system type="NameSystem"/>
 
-    <system type="ControllerSystem"/>
+    <system type="ControllerSystem1"/>
+    <system type="ControllerSystem2"/>
     <system type="ScriptSystem"/>
 
     <system type="SpriteMeshGenerator"/>
@@ -24,51 +25,20 @@
     <system type="GravitySystem">
         <property name="value">3</property>
     </system>
-    <system type="MinYSystem"></system>
-    <system type="BackGroundSystem"></system>
+    <system type="MinYSystem"/>
+    <system type="BackGroundSystem"/>
+    <system type="BananaGetSystem"/>
+    <system type="LogPlayerScore"/>
+    <system type="BananaSpawnSystem"/>
+    <system type="BananaDeleteSystem"></system>
 
-    <entity>
-        <component type="Transform"/>
-        <component type="HasShadow"/>
-        <component type="PointLightComponent">
-            <field name="intensity">
-                <value>2</value>
-            </field>
-        </component>
-    </entity>
 
-    <entity name="player">
-        <component type="Transform">
-            <field name="scale">
-                <value>
-                    <property name="x">.1</property>
-                    <property name="y">.1</property>
-                </value>
-            </field>
-        </component>
-        <component type="ColliderComponent">
-            <field name="shape">
-                <value>
-                    <shape type="Circle">
-                        <radius>.05</radius>
-                    </shape>
-                </value>
-            </field>
-        </component>
-        <component type="SpriteRenderer">
-            <property name="texture">monkey.png</property>
-        </component>
-        <component type="Controller">
-            <field name="speed">
-                <value>1</value>
-            </field>
-        </component>
-        <component type="MinY">
-            <property name="value">-.63</property>
-        </component>
-        <component type="Gravity"/>
-        <component type="Velocity"/>
-    </entity>
+    <entity_ref file="player.xml">
+        <property name="number">1</property>
+    </entity_ref>
+    <entity_ref file="player.xml">
+        <property name="number">2</property>
+    </entity_ref>
 
     <entity_ref file="jungle.xml">
         <property name="name">bg1</property>
@@ -80,6 +50,7 @@
     </entity_ref>
 
     <entity_ref file="banana.xml">
+        <property name="name">banana-prototype</property>
         <property name="x">0</property>
         <property name="y">0</property>
     </entity_ref>
@@ -93,8 +64,13 @@
                 </value>
             </field>
         </component>
-        <component type="Follow">
-            <property name="target">player</property>
+        <component type="com.greentree.engine.moon.monkey.input.Follow">
+            <field name="targets">
+                <value>
+                    <value>player1</value>
+                    <value>player2</value>
+                </value>
+            </field>
             <property name="speed">5</property>
         </component>
         <component type="CameraComponent">
@@ -103,5 +79,4 @@
             <property name="size">1</property>
         </component>
     </entity>
-
 </scene>

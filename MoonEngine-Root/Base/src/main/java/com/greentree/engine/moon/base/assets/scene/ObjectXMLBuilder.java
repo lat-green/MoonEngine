@@ -76,12 +76,14 @@ public class ObjectXMLBuilder implements Context {
                 if (!Modifier.isAbstract(type.toClass().getModifiers()))
                     return null;
                 var subClasses = type_addapters.keySet().stream().filter(x -> !Modifier.isAbstract(x.getModifiers()))
-                        .filter(x -> ClassUtil.isExtends(type.toClass(), x))
+                        .filter(x -> TypeUtil.isExtends(type.toClass(), x))
+                        .map(x -> TypeInfoBuilder.getTypeInfo(x))
+                        .map(x -> x.asExtends(type))
                         .toList();
                 for (var cls : subClasses) {
                     var c = context.newInstance(cls, element);
                     if (c != null)
-                        return (Constructor<T>) c;
+                        return c;
                 }
                 return null;
             }
@@ -147,12 +149,10 @@ public class ObjectXMLBuilder implements Context {
 
             @SuppressWarnings("unchecked")
             public <T> T newInstanceOrNull(Context context, TypeInfo<T> type, XMLElement element) {
-                if (!TypeUtil.isExtends(type, ARRAY_LIST_TYPE))
-                    return null;
-                final var lement_type = type.getTypeArguments()[0].getBoxing();
+                final var element_type = type.getTypeArguments()[0].getBoxing();
                 final var result = new ArrayList<>();
                 for (var c : element.getChildrens("value")) {
-                    final var v = context.build(lement_type, c);
+                    final var v = context.build(element_type, c);
                     result.add(v);
                 }
                 return (T) result;

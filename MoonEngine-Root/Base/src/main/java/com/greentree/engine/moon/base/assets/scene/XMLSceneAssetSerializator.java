@@ -173,11 +173,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 public void build(SceneProperties properties) {
                     var world = properties.get(WorldProperty.class).getWorld();
                     var xml_entities = new ArrayList<XMLElement>();
+                    for (var xml_entity_ref : xml_scene.getChildrens("entity_ref"))
+                        xml_entities.add(buildEntityRef(xml_entity_ref));
                     for (var xml_entity : xml_scene.getChildrens("entity"))
                         xml_entities.add(xml_entity);
-                    for (var xml_entity_ref : xml_scene.getChildrens("entity_ref")) {
-                        xml_entities.add(buildEntityRef(xml_entity_ref));
-                    }
                     var iter = xml_entities.iterator();
                     while (iter.hasNext()) {
                         var xml_entity = iter.next();

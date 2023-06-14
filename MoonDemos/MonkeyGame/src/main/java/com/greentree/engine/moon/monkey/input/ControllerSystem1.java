@@ -17,10 +17,10 @@ import com.greentree.engine.moon.monkey.Velocity;
 import com.greentree.engine.moon.signals.DevicesProperty;
 import com.greentree.engine.moon.signals.device.Devices;
 
-public class ControllerSystem implements WorldInitSystem, UpdateSystem {
+public class ControllerSystem1 implements WorldInitSystem, UpdateSystem {
 
     private static final FilterBuilder BUILDER = new FilterBuilder()
-            .require(Controller.class).require(MinY.class);
+            .require(Controller1.class).require(MinY.class);
 
     private Filter<?> filter;
 
@@ -38,15 +38,15 @@ public class ControllerSystem implements WorldInitSystem, UpdateSystem {
 
     @ReadProperty({Time.class})
     @WriteComponent({Transform.class})
-    @ReadComponent({Controller.class})
+    @ReadComponent({Controller1.class})
     @Override
     public void update() {
         for (var c : filter) {
-            final var co = c.get(Controller.class);
+            final var co = c.get(Controller1.class);
             final var t = c.get(Transform.class).position;
             final var minY = c.get(MinY.class).value();
-            var move = input.get(PlayerInput.Move);
-            var jump = input.get(PlayerButton.Jump);
+            var move = input.get(PlayerInput1.Move);
+            var jump = input.get(PlayerButton1.Jump);
             t.x(t.x() + co.speed() * move * time.delta());
             if (jump && Mathf.equals(t.y(), minY)) {
                 c.get(Velocity.class).value.set(0, 2.5f, 0);

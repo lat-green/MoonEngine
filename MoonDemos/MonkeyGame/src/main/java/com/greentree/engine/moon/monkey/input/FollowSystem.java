@@ -23,11 +23,13 @@ public class FollowSystem implements WorldInitSystem, UpdateSystem {
     public void update() {
         for (var e : filter) {
             var my_t = e.get(Transform.class).position;
-            var target_t = e.get(Follow.class).target().get(Transform.class).position;
-            var speed = e.get(Follow.class).speed();
-            if (my_t.x() < target_t.x()) {
-                var t = Mathf.lerp(my_t.x(), target_t.x(), speed * time.delta());
-                my_t.x(t);
+            for (var target : e.get(Follow.class).targets()) {
+                var target_t = target.get(Transform.class).position;
+                var speed = e.get(Follow.class).speed();
+                if (my_t.x() < target_t.x()) {
+                    var t = Mathf.lerp(my_t.x(), target_t.x(), speed * time.delta());
+                    my_t.x(t);
+                }
             }
         }
     }

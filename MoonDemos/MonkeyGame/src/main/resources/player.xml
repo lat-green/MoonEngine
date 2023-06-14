@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE entity SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
 
-<entity name="${name}">
+<entity name="player${number}">
     <component type="Transform">
-        <field name="position">
-            <value>
-                <property name="x">${x}</property>
-                <property name="y">${y}</property>
-                <property name="z">-1</property>
-            </value>
-        </field>
         <field name="scale">
             <value>
                 <property name="x">.1</property>
@@ -21,13 +14,23 @@
         <field name="shape">
             <value>
                 <shape type="Circle">
-                    <radius>.1</radius>
+                    <radius>.05</radius>
                 </shape>
             </value>
         </field>
     </component>
     <component type="SpriteRenderer">
-        <property name="texture">banana.png</property>
+        <property name="texture">monkey.png</property>
     </component>
-    <component type="Banana"/>
+    <component type="Controller${number}">
+        <field name="speed">
+            <value>1</value>
+        </field>
+    </component>
+    <component type="MinY">
+        <property name="value">-.63</property>
+    </component>
+    <component type="Gravity"/>
+    <component type="Velocity"/>
+    <component type="Player"/>
 </entity>

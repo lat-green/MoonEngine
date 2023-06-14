@@ -1,12 +1,12 @@
 package com.greentree.engine.moon.collision2d;
 
-import com.greentree.commons.geometry.geom2d.collision.Collidable2D;
 import com.greentree.commons.geometry.geom2d.collision.strategy.CollisionStrategy;
 import com.greentree.commons.geometry.geom2d.collision.strategy.SortCollisionStrategy;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.PrototypeEntity;
 import com.greentree.engine.moon.ecs.World;
+import com.greentree.engine.moon.ecs.WorldEntity;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
 import com.greentree.engine.moon.ecs.pool.EntityPool;
@@ -16,7 +16,7 @@ import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 
-import java.util.stream.StreamSupport;
+import java.util.ArrayList;
 
 public class ColliderSystem implements WorldInitSystem, UpdateSystem {
 
@@ -35,16 +35,21 @@ public class ColliderSystem implements WorldInitSystem, UpdateSystem {
 
     @Override
     public void update() {
+        var world = new ArrayList<Collidable2DEntity>();
         for (var e : filter) {
             var t = e.get(Transform.class);
             var c = e.get(ColliderComponent.class).shape();
-            c.moveTo(t.position.x(), t.position.y());
+            var shape = c.clone();
+            shape.moveTo(t.position.x(), t.position.y());
+            world.add(new Collidable2DEntity(e, shape));
         }
-        var a = StreamSupport.stream(filter.spliterator(), false).map(e -> new Collidable2DEntity(e)).toList();
-        var c = new Collidable2D[a.size()];
-        a.toArray(c);
+        var c = new Collidable2DEntity[world.size()];
+        world.toArray(c);
         var cEvent = strategy.getCollisions(c);
+        var copy_filter_event = new ArrayList<WorldEntity>();
         for (var e : filter_event)
+            copy_filter_event.add(e);
+        for (var e : copy_filter_event)
             e.delete();
         for (var event : cEvent) {
             var e = pool_event.get();
