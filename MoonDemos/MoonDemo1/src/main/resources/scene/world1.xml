@@ -36,7 +36,6 @@
         <component type="CameraComponent">
             <property name="width">800</property>
             <property name="height">600</property>
-            <property name="projection">ORTHO</property>
         </component>
         <component type="SkyBoxComponent">
             <field name="texture">

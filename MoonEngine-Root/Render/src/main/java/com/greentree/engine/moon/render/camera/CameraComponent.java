@@ -14,16 +14,12 @@ public record CameraComponent(int width, int height, Matrix4fc projection)
         this(width, height, projectionEnum.getMatrix(width, height));
     }
 
-    public CameraComponent(int width, int height, int size) {
-        this(width, height, new OrthoCameraMatrix(size));
+    public CameraComponent(int width, int height) {
+        this(width, height, FrustumCameraMatrix.INSTANCE);
     }
 
     public CameraComponent(int width, int height, ProjectionMatrix matrix) {
         this(width, height, matrix.getMatrix(width, height));
-    }
-
-    public CameraComponent(int width, int height) {
-        this(width, height, FrustumCameraMatrix.INSTANCE);
     }
 
     public Matrix4f getProjectionMatrix() {

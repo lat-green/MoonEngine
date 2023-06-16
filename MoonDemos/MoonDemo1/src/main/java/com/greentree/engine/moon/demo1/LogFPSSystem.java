@@ -3,7 +3,6 @@ package com.greentree.engine.moon.demo1;
 import com.greentree.engine.moon.base.name.Names;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.time.Time;
-import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.WorldEntity;
 import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.InitSystem;
@@ -20,15 +19,13 @@ public class LogFPSSystem implements InitSystem, UpdateSystem {
     @ReadProperty({Time.class})
     @Override
     public void update() {
-        System.out.println(camera.get(Transform.class).rotation);
-        System.out.println();
-//        t += time.delta();
-//        fps++;
-//        while (t > UPDATE_TIME) {
-//            t -= UPDATE_TIME;
-//            System.out.println(fps / UPDATE_TIME);
-//            fps = 0;
-//        }
+        t += time.delta();
+        fps++;
+        while (t > UPDATE_TIME) {
+            t -= UPDATE_TIME;
+            System.out.println(fps / UPDATE_TIME);
+            fps = 0;
+        }
     }
 
     @ReadProperty({Time.class})
