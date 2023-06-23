@@ -1,0 +1,37 @@
+<Configuration>
+    <Appenders>
+        <RollingFile name="File" fileName="log/main.log" filePattern="log/main/log-%d{MM-dd-yyyy}.log.gz"
+                     ignoreExceptions="false">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout disableAnsi="false"
+                           pattern="%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}} [%t] %highlight{${LOG_LEVEL_PATTERN:-%5p}}{FATAL=red blink, ERROR=red, WARN=yellow bold, INFO=green, DEBUG=green bold, TRACE=blue} %style{}{magenta} [%M] %style{%40C}{cyan} : %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%xEx}"/>
+        </Console>
+        <RollingFile name="Html" fileName="log/main.log.html" filePattern="log/main/log-%d{MM-dd-yyyy}.log.html.gz"
+                     ignoreExceptions="false">
+            <HTMLLayout charset="UTF-8" title="Howtodoinjava Info Logs" locationInfo="true"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!--        <Logger name="com.greentree.engine.moon.assets" level="all">-->
+        <!--            <MarkerFilter marker="assets" onMatch="ACCEPT" onMismatch="DENY"/>-->
+        <!--            <AppenderRef ref="Console"/>-->
+        <!--        </Logger>-->
+        <Root level="all">
+            <AppenderRef ref="Console" level="warn"/>
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="Html"/>
+        </Root>
+    </Loggers>
+</Configuration>
