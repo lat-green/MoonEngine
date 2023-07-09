@@ -1,7 +1,10 @@
 package com.greentree.engine.moon.collision2d;
 
+import com.greentree.commons.geometry.geom2d.IMovableShape2D;
+import com.greentree.commons.geometry.geom2d.IShape2D;
 import com.greentree.commons.geometry.geom2d.collision.strategy.CollisionStrategy;
 import com.greentree.commons.geometry.geom2d.collision.strategy.SortCollisionStrategy;
+import com.greentree.commons.geometry.geom2d.shape.Circle2D;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.ClassSetEntity;
 import com.greentree.engine.moon.ecs.PrototypeEntity;
@@ -39,7 +42,7 @@ public class ColliderSystem implements WorldInitSystem, UpdateSystem {
         for (var e : filter) {
             var t = e.get(Transform.class);
             var c = e.get(ColliderComponent.class).shape();
-            var shape = c.clone();
+            var shape = clone(c);
             shape.moveTo(t.position.x(), t.position.y());
             world.add(new Collidable2DEntity(e, shape));
         }
@@ -55,6 +58,14 @@ public class ColliderSystem implements WorldInitSystem, UpdateSystem {
             var e = pool_event.get();
             e.get(ColliderEventComponent.class).set(event);
         }
+    }
+
+    private static IMovableShape2D clone(IShape2D shape) {
+        if (shape instanceof Circle2D c) {
+            var center = c.getCenter();
+            return new Circle2D(center.x(), center.y(), c.getRadius());
+        }
+        throw new UnsupportedOperationException("shape:" + shape);
     }
 
     @Override
