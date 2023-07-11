@@ -1,6 +1,5 @@
 package com.greentree.engine.moon.assets.value;
 
-import com.greentree.engine.moon.assets.value.getter.ValueGetter;
 import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 
 import java.io.Serializable;
@@ -12,11 +11,7 @@ public interface Value<T> extends ValueCharacteristics<T>, Serializable {
     }
 
     default T get() {
-        return openGetter().get();
-    }
-
-    default ValueGetter<T> openGetter() {
-        return openProvider();
+        return openProvider().get();
     }
 
     ValueProvider<T> openProvider();
