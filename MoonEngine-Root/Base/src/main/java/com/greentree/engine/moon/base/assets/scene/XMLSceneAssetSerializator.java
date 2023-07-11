@@ -13,7 +13,6 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
-import com.greentree.engine.moon.assets.value.getter.ValueGetter;
 import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 import com.greentree.engine.moon.base.component.AnnotationUtil;
 import com.greentree.engine.moon.base.layer.Layer;
@@ -89,22 +88,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
             });
             builder.add(new XMLTypeAddapter() {
 
-                @Override
-                public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
-                    final var key = new ResultAssetKey(xml_value.getChildrens().iterator().next());
-                    if (context.isDeepValid(type, key)) {
-                        final var v = context.loadData(type, key);
-                        return new ValueConstructor<>(v);
-                    }
-                    return null;
-                }
-            });
-            builder.add(new XMLTypeAddapter() {
-
                 @SuppressWarnings("unchecked")
                 @Override
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
-                    if (ClassUtil.isExtends(ValueGetter.class, type.toClass())) {
+                    if (ClassUtil.isExtends(ValueProvider.class, type.toClass())) {
                         final var value_type = type.getTypeArguments()[0].getBoxing();
                         try (final var key = c.newInstance(AssetKey.class, xml_value)) {
                             final var value = context.load(value_type, key.value()).openProvider();
@@ -117,6 +104,21 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 @Override
                 public Class<?> getLoadOnly() {
                     return ValueProvider.class;
+                }
+            });
+            builder.add(new XMLTypeAddapter() {
+
+                @Override
+                public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
+                    var iter = xml_value.getChildrens();
+                    if (iter.isEmpty())
+                        return null;
+                    final var key = new ResultAssetKey(xml_value.getChildrens().iterator().next());
+                    if (context.isDeepValid(type, key)) {
+                        final var v = context.loadData(type, key);
+                        return new ValueConstructor<>(v);
+                    }
+                    return null;
                 }
             });
             builder.add(new XMLTypeAddapter() {
