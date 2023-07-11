@@ -2,7 +2,6 @@ package com.greentree.engine.moon.assets.serializator.context;
 
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.serializator.manager.AssetManagerBase;
-import com.greentree.engine.moon.assets.serializator.manager.ParallelAssetManger;
 import com.greentree.engine.moon.assets.value.Value;
 import com.greentree.engine.moon.assets.value.Values;
 import com.greentree.engine.moon.assets.value.function.Value1Function;
@@ -55,7 +54,5 @@ public interface LoadContext extends DefaultLoadContext, AssetManagerBase {
     default <T> Value<? extends Iterable<T>> merge(Iterable<? extends Value<? extends T>> values) {
         return Values.merge(values);
     }
-
-    ParallelAssetManger parallel();
 
 }

@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.assets.serializator.manager;
+package com.greentree.engine.moon.assets.serializator.manager.cache;
 
 import java.util.function.Supplier;
 

@@ -9,6 +9,8 @@ import com.greentree.engine.moon.assets.key.AssetKeyType;
 import com.greentree.engine.moon.assets.location.AssetLocation;
 import com.greentree.engine.moon.assets.serializator.*;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
+import com.greentree.engine.moon.assets.serializator.manager.cache.Cache;
+import com.greentree.engine.moon.assets.serializator.manager.cache.WeakHashMapCache;
 import com.greentree.engine.moon.assets.value.CacheProviderValue;
 import com.greentree.engine.moon.assets.value.CecheValue;
 import com.greentree.engine.moon.assets.value.Value;

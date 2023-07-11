@@ -18,14 +18,10 @@ import org.apache.logging.log4j.Marker;
 import org.apache.logging.log4j.MarkerManager;
 import org.apache.logging.log4j.message.MapMessage;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import java.util.function.Function;
 
 public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
@@ -246,55 +242,8 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
         }
 
         @Override
-        public ParallelAssetManger parallel() {
-            return new ParallelAssetMangerImpl();
-        }
-
-        @Override
         public String toString() {
             return "PropWrapAssetLoader " + Arrays.toString(LoadProperty.getArray(properties));
-        }
-
-        public final class ParallelAssetMangerImpl implements ParallelAssetManger {
-
-            private final Collection<Future<?>> tasks = new ArrayList<>();
-
-            public ParallelAssetMangerImpl() {
-            }
-
-            @Override
-            public boolean canLoad(TypeInfo<?> type, AssetKey key) {
-                return LoadContextImpl.this.canLoad(type, key);
-            }
-
-            @Override
-            public void close() {
-                for (var task : tasks)
-                    try {
-                        task.get();
-                    } catch (InterruptedException | ExecutionException e) {
-                        e.printStackTrace();
-                    }
-            }
-
-            @Override
-            public <T> Value<T> load(TypeInfo<T> type, AssetKey key, T def) {
-                //				final var result = new ReduceValue<>(NullValue.<T>instance());
-                //				final var task = executor.submit(()-> {
-                //					final var v = LoadContextImpl.this.load(type, key, def);
-                //					result.set(v);
-                //				});
-                //				tasks.add(task);
-                //				return result;
-                final var v = LoadContextImpl.this.load(type, key, def);
-                return v;
-            }
-
-            @Override
-            public <T> T loadDefault(TypeInfo<T> type, AssetKeyType asset_type) {
-                return LoadContextImpl.this.loadDefault(type, asset_type);
-            }
-
         }
 
     }
