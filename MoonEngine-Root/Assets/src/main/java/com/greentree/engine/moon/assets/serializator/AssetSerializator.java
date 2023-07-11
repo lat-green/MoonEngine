@@ -18,28 +18,13 @@ public interface AssetSerializator<T> {
     }
 
     default boolean isDeepValid(DeepValidAssetManagerBase manager, AssetKey key) {
-        return isValid(new ValidAssetManagerBase() {
-
-            @Override
-            public boolean isValid(TypeInfo<?> type, AssetKey key) {
-                return manager.isDeepValid(type, key);
-            }
-
-        }, key);
+        return isValid((type, key1) -> manager.isDeepValid(type, key1), key);
     }
 
     default boolean isValid(ValidAssetManagerBase manager, AssetKey key) {
         if (manager instanceof CanLoadAssetManager c)
             return canLoad(c, key);
-        final var c = new CanLoadAssetManager() {
-
-            @Override
-            public boolean canLoad(TypeInfo<?> type, AssetKey key) {
-                return manager.isValid(type, key);
-            }
-
-        };
-        return canLoad(c, key);
+        return canLoad((type, key1) -> manager.isValid(type, key1), key);
     }
 
     boolean canLoad(CanLoadAssetManager manager, AssetKey key);
