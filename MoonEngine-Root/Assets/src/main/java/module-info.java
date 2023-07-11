@@ -1,6 +1,5 @@
 open module engine.moon.assets {
     requires transitive commons.data;
-    requires transitive commons.action;
     requires transitive commons.reflection;
     requires transitive engine.moon.kernel;
     exports com.greentree.engine.moon.assets;

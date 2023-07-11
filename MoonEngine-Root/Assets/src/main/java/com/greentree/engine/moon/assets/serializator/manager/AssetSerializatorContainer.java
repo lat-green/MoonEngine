@@ -152,7 +152,7 @@ final class AssetSerializatorContainer {
 
         public T loadData(LoadContext context, AssetKey key) {
             final var value = serializator.load(context, key);
-            return value.openGetter().get();
+            return value.get();
         }
 
         @Override
