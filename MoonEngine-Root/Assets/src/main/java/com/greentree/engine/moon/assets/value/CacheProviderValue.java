@@ -18,7 +18,7 @@ public final class CacheProviderValue<T> implements Value<T> {
 
     @Override
     public ValueProvider<T> openProvider() {
-        return new Provider();
+        return new Provider(this);
     }
 
     @Override
@@ -29,51 +29,67 @@ public final class CacheProviderValue<T> implements Value<T> {
     public static <T> Value<T> newValue(Value<T> value) {
         if (value.hasCharacteristics(CONST) || value.hasCharacteristics(ONE_PROVIDER))
             return value;
-        if (value instanceof CacheProviderValue result)
-            return result;
         return newValue(value.openProvider());
     }
 
     public static <T> Value<T> newValue(ValueProvider<T> provider) {
+        if (provider instanceof Provider<T> p)
+            return p.value;
         return new CacheProviderValue<>(provider);
     }
 
-    private class Provider implements ValueProvider<T> {
+    @Override
+    public String toString() {
+        return "CacheProviderValue[" + provider + ']';
+    }
 
-        private long localLastUpdate = lastUpdate;
+    private static final class Provider<T> implements ValueProvider<T> {
+
+        private final CacheProviderValue<T> value;
+        private long localLastUpdate;
+
+        private Provider(CacheProviderValue<T> value) {
+            this.value = value;
+            localLastUpdate = value.lastUpdate;
+        }
+
+        @Override
+        public String toString() {
+            return "Provider of " + value;
+        }
 
         @Override
         public int characteristics() {
-            return provider.characteristics() | ONE_PROVIDER;
+            return value.provider.characteristics() | ONE_PROVIDER;
         }
 
         @Override
         public T get() {
-            if (provider.isChenge())
-                lastUpdate++;
-            localLastUpdate = lastUpdate;
-            return provider.get();
+            if (value.provider.isChenge())
+                value.lastUpdate++;
+            localLastUpdate = value.lastUpdate;
+            return value.provider.get();
+        }
+
+        @Override
+        public T getNotChenge() {
+            return value.provider.getNotChenge();
         }
 
         @Override
         public boolean tryGet(Consumer<? super T> action) {
-            return provider.tryGet(x -> {
-                lastUpdate++;
-                localLastUpdate = lastUpdate;
+            return value.provider.tryGet(x -> {
+                value.lastUpdate++;
+                localLastUpdate = value.lastUpdate;
                 action.accept(x);
             });
         }
 
         @Override
         public boolean isChenge() {
-            if (provider.isChenge())
-                lastUpdate++;
-            return localLastUpdate < lastUpdate;
-        }
-
-        @Override
-        public T getNotChenge() {
-            return provider.getNotChenge();
+            if (value.provider.isChenge())
+                value.lastUpdate++;
+            return localLastUpdate < value.lastUpdate;
         }
 
     }

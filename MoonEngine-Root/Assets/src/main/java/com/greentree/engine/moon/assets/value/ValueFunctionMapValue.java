@@ -7,6 +7,7 @@ import com.greentree.engine.moon.assets.value.provider.ValueProvider;
 public final class ValueFunctionMapValue<T, R> implements Value<R> {
 
     private static final long serialVersionUID = 1L;
+    private static final int PLUS = ONE_PROVIDER | CONST;
     private final Value<T> value;
     private final Value1Function<? super T, R> function;
 
@@ -37,7 +38,7 @@ public final class ValueFunctionMapValue<T, R> implements Value<R> {
 
     @Override
     public int characteristics() {
-        return ValueFunctionMapProvider.CHARACTERISTICS;
+        return ValueFunctionMapProvider.CHARACTERISTICS | ((PLUS & value.characteristics()));
     }
 
 }
