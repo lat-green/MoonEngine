@@ -8,6 +8,7 @@ import com.greentree.engine.moon.assets.key.AssetKey;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Optional;
 
 public class KeyResourceAssetLocation implements AssetLocation {
 
@@ -18,7 +19,7 @@ public class KeyResourceAssetLocation implements AssetLocation {
     }
 
     @Override
-    public AssetKey getKey(String name) {
+    public Optional<AssetKey> getKeyOptional(String name) {
         AssetKey key = null;
         try {
             key = get0(name + ".key");
@@ -35,7 +36,7 @@ public class KeyResourceAssetLocation implements AssetLocation {
             } catch (Exception e) {
                 throw new WrappedException(e);
             }
-        return key;
+        return Optional.ofNullable(key);
     }
 
     private AssetKey get0(String name) throws ClassNotFoundException, IOException {
@@ -59,9 +60,9 @@ public class KeyResourceAssetLocation implements AssetLocation {
 
     @Override
     public String toString() {
-		String builder = "KeyResourceAssetLocation [resources=" +
-				resources +
-				"]";
+        String builder = "KeyResourceAssetLocation [resources=" +
+                resources +
+                "]";
         return builder;
     }
 
