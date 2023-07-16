@@ -96,6 +96,7 @@ final class AssetSerializatorContainer {
         private final AssetSerializator<T> serializator = new MultiAssetSerializator<>(
                 IteratorUtil.union(serializators, serializatorInfos));
 
+        //                private final Cache<AssetKey, Value<T>> cache = new HashMapCache<>();
         private final Cache<AssetKey, Value<T>> cache = new WeakHashMapCache<>();
 //        private final Cache<AssetKey, Value<T>> cache = new DirectoryCache<>(Assets.getTempCacheDirectory(TYPE));
 

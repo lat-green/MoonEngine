@@ -60,8 +60,8 @@ public final class MultiAssetSerializator<T> implements AssetSerializator<T> {
 
     @Override
     public T loadDefault(DefaultAssetManager manager, AssetKeyType type) {
-        for (var serializator : iterable) {
-            final var v = serializator.loadDefault(manager, type);
+        for (var serializer : iterable) {
+            final var v = serializer.loadDefault(manager, type);
             if (v != null)
                 return v;
         }

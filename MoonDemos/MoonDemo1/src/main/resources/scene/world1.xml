@@ -19,7 +19,6 @@
     <system type="CameraTargetGeneratedSystem"/>
     <system type="ForvardRendering"/>
     <system type="RenderMainCamera"/>
-    <system type="com.greentree.engine.moon.demo1.LogFPSSystem"/>
 
     <entity>
         <component type="Transform"/>
