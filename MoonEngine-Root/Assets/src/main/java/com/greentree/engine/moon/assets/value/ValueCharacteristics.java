@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.assets.value;
 
-import java.util.ArrayList;
+import java.util.StringJoiner;
 
 public interface ValueCharacteristics<T> {
 
@@ -11,21 +11,28 @@ public interface ValueCharacteristics<T> {
     int ONE_PROVIDER = 0x00000020;
 
     default boolean hasCharacteristics(int characteristics) {
-        return (characteristics() & characteristics) == characteristics;
+        return hasCharacteristics(characteristics(), characteristics);
+    }
+
+    static boolean hasCharacteristics(int characteristicsMask, int characteristics) {
+        return (characteristicsMask & characteristics) == characteristics;
+
     }
 
     int characteristics();
 
     static String toString(int characteristics) {
-        final var result = new ArrayList<>(5);
-        if ((characteristics & CONST) != 0)
+        final var result = new StringJoiner(", ", "[", "]");
+        if (hasCharacteristics(characteristics, CONST))
             result.add("CONST");
-        if ((characteristics & CACHED) != 0)
-            result.add("CECHED");
-        if ((characteristics & DISTINCT_CHANGE) != 0)
+        if (hasCharacteristics(characteristics, CACHED))
+            result.add("CACHED");
+        if (hasCharacteristics(characteristics, DISTINCT_CHANGE))
             result.add("DISTINCT_CHANGE");
-        if ((characteristics & NOT_NULL) != 0)
+        if (hasCharacteristics(characteristics, NOT_NULL))
             result.add("NOT_NULL");
+        if (hasCharacteristics(characteristics, ONE_PROVIDER))
+            result.add("ONE_PROVIDER");
         return result.toString();
     }
 
