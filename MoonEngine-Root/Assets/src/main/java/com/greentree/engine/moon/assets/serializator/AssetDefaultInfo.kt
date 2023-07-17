@@ -12,7 +12,8 @@ interface AssetDefaultInfo<T> {
 
 	interface Context {
 
-		fun <T> getDefault(cls: TypeInfo<T>, type: AssetKeyType): T
-		fun <T> getDefault(cls: Class<T>, type: AssetKeyType): T = getDefault(TypeInfoBuilder.getTypeInfo(cls), type)
+		fun <T> getDefault(cls: TypeInfo<T>, type: AssetKeyType = AssetKeyType.DEFAULT): T
+		fun <T> getDefault(cls: Class<T>, type: AssetKeyType = AssetKeyType.DEFAULT): T =
+			getDefault(TypeInfoBuilder.getTypeInfo(cls), type)
 	}
 }
