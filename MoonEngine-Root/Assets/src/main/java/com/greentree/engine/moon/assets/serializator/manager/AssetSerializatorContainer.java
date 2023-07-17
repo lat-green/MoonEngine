@@ -151,11 +151,6 @@ final class AssetSerializatorContainer {
             return serializator.loadDefault(manager, asset_type);
         }
 
-        public T loadData(LoadContext context, AssetKey key) {
-            final var value = serializator.load(context, key);
-            return value.get();
-        }
-
         @Override
         public String toString() {
             return "AssetSerializatorInfo [" + TYPE + "]";

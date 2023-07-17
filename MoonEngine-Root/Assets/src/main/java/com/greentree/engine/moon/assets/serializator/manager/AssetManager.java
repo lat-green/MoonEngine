@@ -97,13 +97,6 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
     }
 
     @Override
-    public <T> T loadData(TypeInfo<T> type, AssetKey key, T def) {
-        final var wrapper = new BaseLoadContext();
-        final var result = wrapper.loadData(type, key, def);
-        return result;
-    }
-
-    @Override
     public <T> T loadDefault(TypeInfo<T> type, AssetKeyType asset_type) {
         final var info = get(type);
         return info.loadDefault(this, asset_type);
@@ -165,21 +158,6 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
                 if (def != null) {
                     e.printStackTrace();
                     return ConstValue.newValue(def);
-                }
-                throw e;
-            }
-        }
-
-        @Override
-        public <T> T loadData(TypeInfo<T> type, AssetKey key, T def) {
-            final var info = get(type);
-            try {
-                final var v = info.loadData(this, key);
-                return v;
-            } catch (Exception e) {
-                if (def != null) {
-                    e.printStackTrace();
-                    return def;
                 }
                 throw e;
             }
