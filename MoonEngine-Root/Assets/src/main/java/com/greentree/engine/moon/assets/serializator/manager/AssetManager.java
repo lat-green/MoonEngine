@@ -45,7 +45,7 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
     }
 
     public void addAssetLocation(AssetLocation location) {
-        container.addAssetLoction(location);
+        container.addAssetLocation(location);
     }
 
     public void addGenerator(

@@ -30,7 +30,7 @@ final class AssetSerializatorContainer {
         addGenerator(ResultSerializator::new);
     }
 
-    public void addAssetLoction(AssetLocation location) {
+    public void addAssetLocation(AssetLocation location) {
         addGenerator(t -> new NamedAssetSerializator<>(location, t));
     }
 
