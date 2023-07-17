@@ -25,13 +25,18 @@ public final class NullValue<T> implements Value<T> {
     }
 
     @Override
-    public ValueProvider<T> openProvider() {
-        return NullProvider.instance();
+    public int characteristics() {
+        return NullProvider.CHARACTERISTICS;
     }
 
     @Override
-    public int characteristics() {
-        return NullProvider.CHARACTERISTICS;
+    public T get() {
+        return null;
+    }
+
+    @Override
+    public ValueProvider<T> openProvider() {
+        return NullProvider.instance();
     }
 
     private Object readResolve() throws ObjectStreamException {
