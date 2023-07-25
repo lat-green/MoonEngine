@@ -9,7 +9,6 @@ import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.value.ConstValue;
 import com.greentree.engine.moon.assets.value.DefaultValue;
-import com.greentree.engine.moon.assets.value.ReduceValue;
 import com.greentree.engine.moon.assets.value.Value;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,8 +21,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Function;
 
-public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
-        ValidAssetManagerBase, DeepValidAssetManagerBase {
+public final class AssetManager implements AssetManagerBase, ValidAssetManagerBase, DeepValidAssetManagerBase {
 
     private static final Logger LOG = LogManager.getLogger(AssetManager.class);
     private static final Marker ASSETS = MarkerManager.getMarker("assets");
@@ -32,12 +30,12 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
     private final ExecutorService executor;
 
     public AssetManager() {
-        executor = Executors.newFixedThreadPool(4, r -> {
+        this(Executors.newFixedThreadPool(4, r -> {
             final var thread = new Thread(r, "AssetManager");
             thread.setDaemon(true);
             thread.setPriority(Thread.MAX_PRIORITY);
             return thread;
-        });
+        }));
     }
 
     public AssetManager(ExecutorService executor) {
@@ -63,23 +61,23 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
 
     @Override
     public boolean isDeepValid(TypeInfo<?> type, AssetKey key) {
-        final var info = get(type);
+        final var info = getInfo(type);
         return info.isDeepValid(this, key);
     }
 
-    private <T> AssetSerializatorContainer.AssetSerializatorInfo<T> get(TypeInfo<T> type) {
+    private <T> AssetSerializatorContainer.AssetSerializatorInfo<T> getInfo(TypeInfo<T> type) {
         return container.get(type);
     }
 
     @Override
     public boolean isValid(TypeInfo<?> type, AssetKey key) {
-        final var info = get(type);
+        final var info = getInfo(type);
         return info.isValid(this, key);
     }
 
     @Override
     public boolean canLoad(TypeInfo<?> type, AssetKey key) {
-        final var info = get(type);
+        final var info = getInfo(type);
         return info.canLoad(this, key);
     }
 
@@ -90,44 +88,9 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
     }
 
     @Override
-    public <T> Value<T> loadAsync(TypeInfo<T> type, AssetKey key, T def) {
-        final var wrapper = new AsyncLoadContext();
-        final var result = wrapper.load(type, key, def);
-        return result;
-    }
-
-    @Override
     public <T> T loadDefault(TypeInfo<T> type, AssetKeyType asset_type) {
-        final var info = get(type);
+        final var info = getInfo(type);
         return info.loadDefault(this, asset_type);
-    }
-
-    private final class AsyncLoadContext extends AbstractLoadContext {
-
-        protected <T> Value<T> tryLoadAsync(TypeInfo<T> type, AssetKey key, T in_def) {
-            final var info = get(type);
-            final T def;
-            if (in_def == null)
-                def = info.loadDefault(this, key.type());
-            else
-                def = in_def;
-            if (def != null) {
-                final var async_result = new ReduceValue<>(ConstValue.newValue(def));
-                executor.execute(() -> {
-                    try {
-                        final var v = loadForward(type, key, def);
-                        if (v == null)
-                            throw new RuntimeException("TYPE: " + info.TYPE);
-                        async_result.set(v);
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
-                    }
-                });
-                return async_result;
-            }
-            return loadForward(type, key, in_def);
-        }
-
     }
 
     private abstract class AbstractLoadContext implements LoadContext {
@@ -143,7 +106,7 @@ public final class AssetManager implements AssetManagerBase, AsyncAssetManager,
         }
 
         protected <T> Value<T> loadForward(TypeInfo<T> type, AssetKey key, T def) {
-            final var info = get(type);
+            final var info = getInfo(type);
             try {
                 final var result = info.load(this, key);
                 LOG.debug(ASSETS, () -> new MapMessage<>(new HashMap<>() {{

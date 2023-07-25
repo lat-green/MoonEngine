@@ -183,21 +183,6 @@ public class AssetTest {
         assertEquals(res2.get(), result);
     }
 
-    @Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    @MethodSource(value = "requests")
-    @ParameterizedTest
-    <T> void AssetManager_double_loadAsync(
-            Pair<KeyLoadRequestImpl<? extends T>, ? extends T> pair) {
-        final var request = pair.first;
-        final var result = pair.seconde;
-        manager.addSerializator(new StringAssetSerializator(null));
-        final var res1 = manager.loadAsync(request.loadType(), request.key());
-        final var res2 = manager.loadAsync(request.loadType(), request.key());
-        assertEquals(res1, res2);
-        assertEquals(res1.get(), result);
-        assertEquals(res2.get(), result);
-    }
-
     @MethodSource(value = "requests")
     @ParameterizedTest
     <T> void AssetManager_isDeepValid(Pair<KeyLoadRequestImpl<? extends T>, ? extends T> pair) {
@@ -256,29 +241,6 @@ public class AssetTest {
         manager.addSerializator(new StringAssetSerializator(DEF_STR));
         final var res = manager.load(request);
         assertEquals(res.get(), result);
-    }
-
-    @Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    @MethodSource(value = "requests")
-    @ParameterizedTest
-    <T> void AssetManager_loadAsync(Pair<KeyLoadRequestImpl<? extends T>, ? extends T> pair) {
-        final var request = pair.first;
-        final var result = pair.seconde;
-        manager.addSerializator(new StringAssetSerializator(null));
-        final var res = manager.loadAsync(request.loadType(), request.key());
-        assertEquals(res.get(), result);
-    }
-
-    @Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
-    @MethodSource(value = "requests")
-    @ParameterizedTest
-    <T> void AssetManager_loadAsync_with_Default(
-            Pair<KeyLoadRequestImpl<? extends T>, ? extends T> pair) {
-        final var request = pair.first;
-        final var DEF_STR = "DEF_STR";
-        manager.addSerializator(new StringAssetSerializator(DEF_STR));
-        final var res = manager.loadAsync(request.loadType(), request.key());
-        assertEquals(res.get(), DEF_STR);
     }
 
     @Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
