@@ -2,7 +2,7 @@ package com.greentree.engine.moon.assets.asset
 
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	asset: Asset<T>,
-	override val function: Value1Function<T, R>,
+	val function: Value1Function<T, R>,
 ) :
 	AbstractMapAsset<T, R>(asset) {
 
@@ -17,4 +17,6 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 			return ValueFunctionAsset(asset, function)
 		}
 	}
+
+	override fun map(value: T) = function(value)
 }

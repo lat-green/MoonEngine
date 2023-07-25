@@ -4,9 +4,11 @@ import java.io.Serializable
 
 class MapAsset<T : Any, R : Any, F> private constructor(
 	asset: Asset<T>,
-	override val function: F,
+	val function: F,
 ) :
 	AbstractMapAsset<T, R>(asset) where F : (T) -> R, F : Serializable {
+
+	override fun map(value: T) = function(value)
 
 	companion object {
 

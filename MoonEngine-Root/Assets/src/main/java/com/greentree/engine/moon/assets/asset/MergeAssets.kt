@@ -2,6 +2,29 @@ package com.greentree.engine.moon.assets.asset
 
 private inline fun max(vararg elements: Long) = elements.max()
 
+inline fun <T1 : Any, T2 : Any> merge(t1: Asset<T1>, t2: Asset<T2>) = M2Asset(t1, t2)
+inline fun <T1 : Any, T2 : Any, T3 : Any> merge(t1: Asset<T1>, t2: Asset<T2>, t3: Asset<T3>) = M3Asset(t1, t2, t3)
+inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any> merge(t1: Asset<T1>, t2: Asset<T2>, t3: Asset<T3>, t4: Asset<T4>) =
+	M4Asset(t1, t2, t3, t4)
+
+inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any> merge(
+	t1: Asset<T1>,
+	t2: Asset<T2>,
+	t3: Asset<T3>,
+	t4: Asset<T4>,
+	t5: Asset<T5>,
+) = M5Asset(t1, t2, t3, t4, t5)
+
+inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any> merge(
+	t1: Asset<T1>,
+	t2: Asset<T2>,
+	t3: Asset<T3>,
+	t4: Asset<T4>,
+	t5: Asset<T5>,
+	t6: Asset<T6>,
+) =
+	M6Asset(t1, t2, t3, t4, t5, t6)
+
 data class M2Asset<T1 : Any, T2 : Any>(val source1: Asset<T1>, val source2: Asset<T2>) :
 	Asset<Group2<T1, T2>> {
 
