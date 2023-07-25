@@ -10,37 +10,21 @@ import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
-import com.greentree.engine.moon.assets.serializator.request.*
+import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequest
+import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequestImpl
+import com.greentree.engine.moon.assets.serializator.request.canLoad
+import com.greentree.engine.moon.assets.serializator.request.load
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Timeout
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import java.util.concurrent.AbstractExecutorService
 import java.util.concurrent.TimeUnit
 import java.util.stream.Stream
 
 class AssetTest {
 
 	private lateinit var manager: AssetManager
-
-	class NullExecutorService : AbstractExecutorService() {
-
-		override fun shutdown() {}
-		override fun shutdownNow(): List<Runnable> {
-			return ArrayList()
-		}
-
-		override fun isShutdown() = false
-		override fun isTerminated() = false
-
-		@Throws(InterruptedException::class)
-		override fun awaitTermination(timeout: Long, unit: TimeUnit): Boolean {
-			return true
-		}
-
-		override fun execute(command: Runnable) {}
-	}
 
 	class StringAssetSerializator : AssetSerializator<String> {
 
@@ -154,7 +138,7 @@ class AssetTest {
 
 	@BeforeEach
 	fun setup() {
-		manager = BaseAssetManager(NullExecutorService())
+		manager = BaseAssetManager()
 	}
 
 	companion object {

@@ -3,25 +3,25 @@ package com.greentree.engine.moon.collision2d.assets;
 import com.greentree.commons.geometry.geom2d.IMovableShape2D;
 import com.greentree.commons.geometry.geom2d.shape.Circle2D;
 import com.greentree.commons.xml.XMLElement;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 
 public class XMLtoShape implements AssetSerializator<IMovableShape2D> {
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return manager.canLoad(XMLElement.class, key);
     }
 
     @Override
-    public Value<IMovableShape2D> load(LoadContext context, AssetKey key) {
-        if (context.canLoad(XMLElement.class, key)) {
-            var v = context.load(XMLElement.class, key);
-            return context.map(v, new XMLtoShapeFunction());
+    public Asset<IMovableShape2D> load(AssetManager manager, AssetKey key) {
+        if (manager.canLoad(XMLElement.class, key)) {
+            var v = manager.load(XMLElement.class, key);
+            return AssetKt.map(v, new XMLtoShapeFunction());
         }
         return null;
     }

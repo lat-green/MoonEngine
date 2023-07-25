@@ -1,13 +1,13 @@
 package com.greentree.engine.moon.render.assets.shader;
 
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value2Function;
+import com.greentree.engine.moon.assets.asset.Value3Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value2Function;
-import com.greentree.engine.moon.assets.value.function.Value3Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 import com.greentree.engine.moon.render.shader.ShaderData;
 import com.greentree.engine.moon.render.shader.ShaderLanguage;
@@ -19,12 +19,12 @@ import java.util.Properties;
 public class ShaderProgramDataAssetSerializator implements AssetSerializator<ShaderProgramDataImpl> {
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return manager.canLoad(Properties.class, key);
     }
 
     @Override
-    public Value<ShaderProgramDataImpl> load(LoadContext manager, AssetKey ckey) {
+    public Asset<ShaderProgramDataImpl> load(AssetManager manager, AssetKey ckey) {
         if (manager.canLoad(Properties.class, ckey)) {
             final var vertProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "vert"));
             final var fragProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "frag"));
@@ -37,11 +37,11 @@ public class ShaderProgramDataAssetSerializator implements AssetSerializator<Sha
                     ShaderLanguage.GLSL);
             final var vert = manager.load(ShaderData.class, vertKey);
             final var frag = manager.load(ShaderData.class, fragKey);
-            if (manager.isDeepValid(ShaderData.class, geomKey)) {
+            if (manager.canLoad(ShaderData.class, geomKey)) {
                 final var geom = manager.load(ShaderData.class, geomKey);
-                return manager.map(vert, frag, geom, new f3());
+                return AssetKt.map(vert, frag, geom, new f3());
             }
-            return manager.map(vert, frag, new f2());
+            return AssetKt.map(vert, frag, new f2());
         }
         return null;
     }

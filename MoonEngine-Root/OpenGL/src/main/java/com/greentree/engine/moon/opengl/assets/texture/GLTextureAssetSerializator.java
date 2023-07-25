@@ -3,27 +3,27 @@ package com.greentree.engine.moon.opengl.assets.texture;
 import com.greentree.common.graphics.sgl.enums.gl.GLPixelFormat;
 import com.greentree.common.graphics.sgl.texture.builder.TextureBuilder;
 import com.greentree.common.graphics.sgl.texture.gl.GLTexture2DImpl;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.opengl.GLEnums;
 import com.greentree.engine.moon.render.texture.Texture2DData;
 
 public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2DImpl> {
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return manager.canLoad(Texture2DData.class, key);
     }
 
     @Override
-    public Value<GLTexture2DImpl> load(LoadContext manager, AssetKey ckey) {
+    public Asset<GLTexture2DImpl> load(AssetManager manager, AssetKey ckey) {
         if (manager.canLoad(Texture2DData.class, ckey)) {
             final var texture = manager.load(Texture2DData.class, ckey);
-            return manager.map(texture, new GLTextureAsset());
+            return AssetKt.map(texture, new GLTextureAsset());
         }
         return null;
     }

@@ -5,12 +5,12 @@ import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeInfoBuilder;
 import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 
 public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLShaderProgram> {
 
@@ -18,15 +18,15 @@ public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLS
             .getTypeInfo(Iterable.class, GLSLShader.class);
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return manager.canLoad(TYPE, key);
     }
 
     @Override
-    public Value<GLShaderProgram> load(LoadContext manager, AssetKey key) {
+    public Asset<GLShaderProgram> load(AssetManager manager, AssetKey key) {
         if (manager.canLoad(TYPE, key)) {
             final var program = manager.load(TYPE, key);
-            return manager.map(program, new GLShaderProgramFunction());
+            return AssetKt.map(program, new GLShaderProgramFunction());
         }
         return null;
     }

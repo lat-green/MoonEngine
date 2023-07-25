@@ -2,13 +2,15 @@ package com.greentree.engine.moon.render.assets.material;
 
 import com.greentree.commons.image.Color;
 import com.greentree.commons.image.image.ColorImageData;
-import com.greentree.engine.moon.assets.key.*;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value6Function;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.DefaultAssetKey;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
+import com.greentree.engine.moon.assets.key.ResultAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.serializator.manager.DefaultAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value6Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 import com.greentree.engine.moon.render.assets.texture.Texture2DAssetKey;
 import com.greentree.engine.moon.render.material.MaterialProperties;
@@ -33,12 +35,12 @@ public final class PBRMaterialPropertiesAssetSerializator implements AssetSerial
     private final static AssetKey DEFAULT_AMBIENT_OCCLUSION = new ResultAssetKey(new ColorImageData(Color.white));
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return manager.canLoad(Properties.class, key);
     }
 
     @Override
-    public Value<MaterialProperties> load(LoadContext manager, AssetKey key) {
+    public Asset<MaterialProperties> load(AssetManager manager, AssetKey key) {
         if (manager.canLoad(Properties.class, key)) {
             final var albedo = new DefaultAssetKey(new ResourceAssetKey(new PropertyAssetKey(key, "texture.albedo")),
                     DEFAULT_ALBEDO);
@@ -59,7 +61,7 @@ public final class PBRMaterialPropertiesAssetSerializator implements AssetSerial
             final var texture_roughness = new Texture2DAssetKey(roughness, new Texture2DType());
             final var texture_displacement = new Texture2DAssetKey(displacement, new Texture2DType());
             final var texture_ambient_occlusion = new Texture2DAssetKey(ambient_occlusion, new Texture2DType());
-            final Value<Property> albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
+            final Asset<Property> albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
                     ambient_occlusionAsset;
             //			try(final var parallel = manager.parallel()) {
             //    			albedoAsset = parallel.load(Property.class, texture_albedo);
@@ -75,15 +77,10 @@ public final class PBRMaterialPropertiesAssetSerializator implements AssetSerial
             roughnessAsset = manager.load(Property.class, texture_roughness);
             displacementAsset = manager.load(Property.class, texture_displacement);
             ambient_occlusionAsset = manager.load(Property.class, texture_ambient_occlusion);
-            return manager.map(albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
+            return AssetKt.map(albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
                     ambient_occlusionAsset, new MaterialPropertiesAssetSerializatorFunction());
         }
         return null;
-    }
-
-    @Override
-    public MaterialProperties loadDefault(DefaultAssetManager manager, AssetKeyType type) {
-        return new MaterialPropertiesBase();
     }
 
     private final static class MaterialPropertiesAssetSerializatorFunction

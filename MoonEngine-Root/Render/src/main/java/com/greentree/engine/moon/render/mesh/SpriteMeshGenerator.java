@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.render.mesh;
 
-import com.greentree.engine.moon.assets.value.provider.ConstProvider;
+import com.greentree.engine.moon.assets.asset.ConstAsset;
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.ecs.World;
@@ -33,14 +33,14 @@ public class SpriteMeshGenerator implements SimpleWorldInitSystem, UpdateSystem 
     @Override
     public void update() {
         for (var e : sprite_meshes) {
-            final var mesh = ConstProvider.newValue(MeshUtil.QUAD_SPRITE);
+            final var mesh = new ConstAsset<>(MeshUtil.QUAD_SPRITE);
             final var c = new MeshComponent(mesh);
             e.add(c);
         }
         for (var e : sprite_renders) {
             final var m = new Material(MaterialUtil.getDefaultSpriteShader(), new MaterialPropertiesBase());
-            m.properties().put("render_texture", e.get(SpriteRenderer.class).texture().get());
-            final var c = new MeshRenderer(ConstProvider.newValue(m));
+            m.properties().put("render_texture", e.get(SpriteRenderer.class).texture().getValue());
+            final var c = new MeshRenderer(new ConstAsset<>(m));
             e.add(c);
         }
     }

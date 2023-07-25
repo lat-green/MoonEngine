@@ -5,15 +5,14 @@ import com.greentree.commons.reflection.ClassUtil;
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.util.string.RefStringBuilder;
 import com.greentree.commons.xml.XMLElement;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.key.ResultAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value1Function;
-import com.greentree.engine.moon.assets.value.provider.ValueProvider;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.base.component.AnnotationUtil;
 import com.greentree.engine.moon.base.layer.Layer;
 import com.greentree.engine.moon.base.name.Name;
@@ -46,15 +45,15 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
     private static final Logger LOG = LogManager.getLogger(XMLSceneAssetSerializator.class);
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return manager.canLoad(XMLElement.class, key);
     }
 
     @Override
-    public Value<Scene> load(LoadContext context, AssetKey ckey) {
-        if (context.canLoad(XMLElement.class, ckey)) {
-            final var res = context.load(XMLElement.class, ckey);
-            return context.map(res, new XMLWorldFunction(context));
+    public Asset<Scene> load(AssetManager manager, AssetKey ckey) {
+        if (manager.canLoad(XMLElement.class, ckey)) {
+            final var res = manager.load(XMLElement.class, ckey);
+            return AssetKt.map(res, new XMLWorldFunction(manager));
         }
         return null;
     }
@@ -68,10 +67,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 
         private static final long serialVersionUID = 1L;
         private final ObjectXMLBuilder builder = new ObjectXMLBuilder();
-        private final LoadContext context;
+        private final AssetManager context;
         private final Map<String, Entity> names = new HashMap<>();
 
-        public XMLWorldFunction(LoadContext context) {
+        public XMLWorldFunction(AssetManager context) {
             this.context = context;
             builder.add(new XMLTypeAddapter() {
 
@@ -79,8 +78,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
                     final var xml_value_text = xml_value.getContent();
                     final var key = new ResultAssetKey(xml_value_text);
-                    if (context.isDeepValid(type, key)) {
-                        final var v = context.loadData(type, key);
+                    if (context.canLoad(type, key)) {
+                        final var v = context.load(type, key).getValue();
                         return new ValueConstructor<>(v);
                     }
                     return null;
@@ -91,10 +90,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 @SuppressWarnings("unchecked")
                 @Override
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
-                    if (ClassUtil.isExtends(ValueProvider.class, type.toClass())) {
+                    if (ClassUtil.isExtends(Asset.class, type.toClass())) {
                         final var value_type = type.getTypeArguments()[0].getBoxing();
                         try (final var key = c.newInstance(AssetKey.class, xml_value)) {
-                            final var value = context.load(value_type, key.value()).openProvider();
+                            final var value = context.load(value_type, key.value());
                             return new ValueConstructor<>((T) value);
                         }
                     }
@@ -103,7 +102,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 
                 @Override
                 public Class<?> getLoadOnly() {
-                    return ValueProvider.class;
+                    return Asset.class;
                 }
             });
             builder.add(new XMLTypeAddapter() {
@@ -114,8 +113,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                     if (iter.isEmpty())
                         return null;
                     final var key = new ResultAssetKey(xml_value.getChildrens().iterator().next());
-                    if (context.isDeepValid(type, key)) {
-                        final var v = context.loadData(type, key);
+                    if (context.canLoad(type, key)) {
+                        final var v = context.load(type, key).getValue();
                         return new ValueConstructor<>(v);
                     }
                     return null;
@@ -240,7 +239,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
 
                 private XMLElement buildEntityRef(XMLElement xml_entity_ref) {
                     final var file = xml_entity_ref.getAttribute("file");
-                    final var res = context.loadData(Resource.class, file);
+                    final var res = context.load(Resource.class, file).getValue();
                     final RefStringBuilder builder;
                     try {
                         builder = RefStringBuilder.build(res.open());
@@ -254,7 +253,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                         map.put(name, value);
                     }
                     final var text = builder.toString(map);
-                    return context.loadData(XMLElement.class, new ResultAssetKey(text));
+                    return context.load(XMLElement.class, new ResultAssetKey(text)).getValue();
                 }
 
                 private Entity addEntity(SceneProperties properties, World world, XMLElement xml_entity) {

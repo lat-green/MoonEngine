@@ -2,12 +2,12 @@ package com.greentree.engine.moon.base.assets.json;
 
 import com.google.gson.JsonElement;
 import com.greentree.commons.reflection.info.TypeInfo;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 
 @Deprecated
 public final class JSONToObjectSerializator<T> implements AssetSerializator<T> {
@@ -24,16 +24,16 @@ public final class JSONToObjectSerializator<T> implements AssetSerializator<T> {
     }
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return manager.canLoad(JsonElement.class, key);
     }
 
     @Override
-    public Value<T> load(LoadContext context, AssetKey ckey) {
+    public Asset<T> load(AssetManager manager, AssetKey ckey) {
         {
-            final var json = context.load(JsonElement.class, ckey);
+            final var json = manager.load(JsonElement.class, ckey);
             if (json != null)
-                return context.map(json, INSTANCE);
+                return AssetKt.map(json, INSTANCE);
         }
         return null;
     }

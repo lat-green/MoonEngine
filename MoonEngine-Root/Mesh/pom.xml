@@ -1,21 +1,22 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-	
-	<parent>
-		<groupId>com.greentree.engine.moon</groupId>
-		<artifactId>root</artifactId>
-		<version>0.3.2</version>
-	</parent>
-	
-  	<artifactId>mesh</artifactId>
-	
-	<name>MoonEngine Mesh</name>
-	
-	<dependencies>
-		<dependency>
-			<groupId>com.greentree.commons</groupId>
-			<artifactId>math</artifactId>
-		</dependency>
-	</dependencies>
-	
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.greentree.engine.moon</groupId>
+        <artifactId>root</artifactId>
+        <version>0.3.3</version>
+    </parent>
+
+    <artifactId>mesh</artifactId>
+
+    <name>MoonEngine Mesh</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.greentree.commons</groupId>
+            <artifactId>math</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

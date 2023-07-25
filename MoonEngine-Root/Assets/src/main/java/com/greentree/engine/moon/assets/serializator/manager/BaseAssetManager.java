@@ -11,8 +11,6 @@ import org.apache.logging.log4j.MarkerManager;
 import org.apache.logging.log4j.message.MapMessage;
 
 import java.util.HashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 public final class BaseAssetManager implements AssetManager {
@@ -21,20 +19,6 @@ public final class BaseAssetManager implements AssetManager {
     private static final Marker ASSETS = MarkerManager.getMarker("assets");
 
     private final AssetSerializatorContainer container = new AssetSerializatorContainer();
-    private final ExecutorService executor;
-
-    public BaseAssetManager() {
-        this(Executors.newFixedThreadPool(4, r -> {
-            final var thread = new Thread(r, "AssetManager");
-            thread.setDaemon(true);
-            thread.setPriority(Thread.MAX_PRIORITY);
-            return thread;
-        }));
-    }
-
-    public BaseAssetManager(ExecutorService executor) {
-        this.executor = executor;
-    }
 
     public <T> Asset<T> load(TypeInfo<T> type, AssetKey key) {
         final var info = getInfo(type);

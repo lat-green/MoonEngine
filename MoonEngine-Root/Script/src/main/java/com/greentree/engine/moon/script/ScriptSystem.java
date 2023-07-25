@@ -19,7 +19,7 @@ public final class ScriptSystem implements WorldInitSystem, UpdateSystem {
         for (var entity : scripts) {
             final var scripts = entity.get(Scripts.class).scripts();
             for (var value : scripts) {
-                final var s = value.get();
+                final var s = value.getValue();
                 for (var c : sceneProperties)
                     s.setConst(c.getClass().getSimpleName(), c);
                 for (var c : entity)

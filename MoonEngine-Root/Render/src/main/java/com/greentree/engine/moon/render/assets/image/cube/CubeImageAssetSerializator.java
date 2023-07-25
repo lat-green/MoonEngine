@@ -2,15 +2,13 @@ package com.greentree.engine.moon.render.assets.image.cube;
 
 import com.greentree.commons.image.image.ImageData;
 import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value6Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
-import com.greentree.engine.moon.assets.key.AssetKeyType;
 import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.serializator.manager.DefaultAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value6Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 import com.greentree.engine.moon.render.texture.CubeImageData;
 
@@ -19,12 +17,12 @@ import java.util.Properties;
 public class CubeImageAssetSerializator implements AssetSerializator<CubeImageData> {
 
     @Override
-    public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+    public boolean canLoad(AssetManager manager, AssetKey key) {
         return key instanceof CubeImageAssetKey || manager.canLoad(Properties.class, key);
     }
 
     @Override
-    public Value<CubeImageData> load(LoadContext context, AssetKey ckey) {
+    public Asset<CubeImageData> load(AssetManager context, AssetKey ckey) {
         if (ckey instanceof CubeImageAssetKey key) {
             final var posx = context.load(ImageData.class, key.posx());
             final var negx = context.load(ImageData.class, key.negx());
@@ -32,7 +30,7 @@ public class CubeImageAssetSerializator implements AssetSerializator<CubeImageDa
             final var negy = context.load(ImageData.class, key.negy());
             final var posz = context.load(ImageData.class, key.posz());
             final var negz = context.load(ImageData.class, key.negz());
-            return context.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
+            return AssetKt.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
         }
         if (context.canLoad(Properties.class, ckey)) {
             final var posx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posx"));
@@ -41,22 +39,16 @@ public class CubeImageAssetSerializator implements AssetSerializator<CubeImageDa
             final var negy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negy"));
             final var posz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posz"));
             final var negz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negz"));
-            final Value<ImageData> posx, negx, posy, negy, posz, negz;
+            final Asset<ImageData> posx, negx, posy, negy, posz, negz;
             posx = context.load(ImageData.class, posx_res);
             negx = context.load(ImageData.class, negx_res);
             posy = context.load(ImageData.class, posy_res);
             negy = context.load(ImageData.class, negy_res);
             posz = context.load(ImageData.class, posz_res);
             negz = context.load(ImageData.class, negz_res);
-            return context.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
+            return AssetKt.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
         }
         return null;
-    }
-
-    @Override
-    public CubeImageData loadDefault(DefaultAssetManager manager, AssetKeyType type) {
-        final var DEFAULT = manager.loadDefault(ImageData.class);
-        return new CubeImageData(DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT);
     }
 
     private static final class CubeImageAsset implements

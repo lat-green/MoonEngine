@@ -1,63 +1,55 @@
 package com.greentree.engine.moon.render.assets.texture;
 
 import com.greentree.commons.image.image.ImageData;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.asset.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
-import com.greentree.engine.moon.assets.key.AssetKeyType;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
-import com.greentree.engine.moon.assets.serializator.manager.DefaultAssetManager;
-import com.greentree.engine.moon.assets.value.Value;
-import com.greentree.engine.moon.assets.value.function.Value1Function;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.render.texture.Texture2DData;
 import com.greentree.engine.moon.render.texture.Texture2DType;
 
 public class Texture2DAssetSerializator implements AssetSerializator<Texture2DData> {
-	
-	@Override
-	public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
-		return key instanceof Texture2DAssetKey || manager.canLoad(ImageData.class, key);
-	}
-	
-	@Override
-	public Value<Texture2DData> load(LoadContext manager, AssetKey ckey) {
-		if(ckey instanceof Texture2DAssetKey key) {
-			final var image = manager.load(ImageData.class, key.image());
-			final var type = key.textureType();
-			return manager.map(image, new Texture2DDataFunction(type));
-		}
-		if(manager.canLoad(ImageData.class, ckey)) {
-			final var image = manager.load(ImageData.class, ckey);
-			return manager.map(image, new Texture2DDataFunction());
-		}
-		return null;
-	}
-	
-	@Override
-	public Texture2DData loadDefault(DefaultAssetManager manager, AssetKeyType type) {
-		final var img = manager.loadDefault(ImageData.class);
-		return new Texture2DData(img, new Texture2DType());
-	}
-	
-	private static final class Texture2DDataFunction
-			implements Value1Function<ImageData, Texture2DData> {
-		
-		private static final long serialVersionUID = 1L;
-		private final Texture2DType type;
-		
-		public Texture2DDataFunction(Texture2DType type) {
-			this.type = type;
-		}
-		
-		public Texture2DDataFunction() {
-			this.type = new Texture2DType();
-		}
-		
-		@Override
-		public Texture2DData apply(ImageData value) {
-			return new Texture2DData(value, type);
-		}
-		
-	}
-	
+
+    @Override
+    public boolean canLoad(AssetManager manager, AssetKey key) {
+        return key instanceof Texture2DAssetKey || manager.canLoad(ImageData.class, key);
+    }
+
+    @Override
+    public Asset<Texture2DData> load(AssetManager manager, AssetKey ckey) {
+        if (ckey instanceof Texture2DAssetKey key) {
+            final var image = manager.load(ImageData.class, key.image());
+            final var type = key.textureType();
+            return AssetKt.map(image, new Texture2DDataFunction(type));
+        }
+        if (manager.canLoad(ImageData.class, ckey)) {
+            final var image = manager.load(ImageData.class, ckey);
+            return AssetKt.map(image, new Texture2DDataFunction());
+        }
+        return null;
+    }
+
+    private static final class Texture2DDataFunction
+            implements Value1Function<ImageData, Texture2DData> {
+
+        private static final long serialVersionUID = 1L;
+        private final Texture2DType type;
+
+        public Texture2DDataFunction(Texture2DType type) {
+            this.type = type;
+        }
+
+        public Texture2DDataFunction() {
+            this.type = new Texture2DType();
+        }
+
+        @Override
+        public Texture2DData apply(ImageData value) {
+            return new Texture2DData(value, type);
+        }
+
+    }
+
 }

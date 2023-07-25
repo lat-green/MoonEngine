@@ -88,7 +88,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
                     buffer.enableDepthTest();
                     buffer.bindShader(shader);
                     for (var m : renderer) {
-                        final var mesh = m.get(MeshComponent.class).mesh().get();
+                        final var mesh = m.get(MeshComponent.class).mesh().getValue();
                         buffer.bindMesh(mesh);
                         final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
                         SUPER_POINT_SHADOW.put("model", model);
@@ -111,7 +111,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
                 buffer.enableCullFace();
                 buffer.enableDepthTest();
                 for (var m : renderer) {
-                    final var mesh = m.get(MeshComponent.class).mesh().get();
+                    final var mesh = m.get(MeshComponent.class).mesh().getValue();
                     buffer.bindMesh(mesh);
                     final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
                     final var properties = new MaterialPropertiesBase();
@@ -128,7 +128,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
             final var buffer = target.buffer();
             buffer.clearDepth(1);
             if (camera.contains(SkyBoxComponent.class)) {
-                final var texture = camera.get(SkyBoxComponent.class).texture().get();
+                final var texture = camera.get(SkyBoxComponent.class).texture().getValue();
                 final var shader = MaterialUtil.getDefaultSkyBoxShader();
                 buffer.drawSkyBox(shader, texture);
                 //					buffer.drawSkyBox(shader, skybox);
@@ -137,10 +137,10 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
             buffer.enableCullFace();
             buffer.enableDepthTest();
             for (var m : renderer) {
-                final var mesh = m.get(MeshComponent.class).mesh().get();
+                final var mesh = m.get(MeshComponent.class).mesh().getValue();
                 buffer.bindMesh(mesh);
                 final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
-                final var material = m.get(MeshRenderer.class).material().get();
+                final var material = m.get(MeshRenderer.class).material().getValue();
                 buffer.bindShader(material.shader());
                 final var properties = material.properties().newChildren();
                 mapMaterial(properties);
