@@ -14,6 +14,7 @@ public record KeyLoadRequestImpl<T>(TypeInfo<T> loadType, AssetKey key)
     }
 
     public KeyLoadRequestImpl {
+        loadType = loadType.getBoxing();
         Objects.requireNonNull(loadType);
         Objects.requireNonNull(key);
     }

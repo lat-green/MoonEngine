@@ -1,19 +1,14 @@
 package com.greentree.engine.moon.assets.serializator.manager;
 
-import com.greentree.commons.data.resource.location.ResourceLocation;
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeUtil;
 import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.CacheAsset;
 import com.greentree.engine.moon.assets.key.AssetKey;
-import com.greentree.engine.moon.assets.key.AssetKeyType;
-import com.greentree.engine.moon.assets.location.AssetLocation;
 import com.greentree.engine.moon.assets.serializator.*;
-import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.cache.Cache;
 import com.greentree.engine.moon.assets.serializator.manager.cache.WeakHashMapCache;
-import com.greentree.engine.moon.assets.value.CacheProviderValue;
-import com.greentree.engine.moon.assets.value.CecheValue;
-import com.greentree.engine.moon.assets.value.Value;
 
 import java.util.*;
 import java.util.function.Function;
@@ -30,10 +25,6 @@ final class AssetSerializatorContainer {
         addGenerator(ResultSerializator::new);
     }
 
-    public void addAssetLocation(AssetLocation location) {
-        addGenerator(t -> new NamedAssetSerializator<>(location, t));
-    }
-
     public void addGenerator(
             Function<? super TypeInfo<?>, ? extends AssetSerializator<?>> generator) {
         generators.add(generator);
@@ -41,10 +32,6 @@ final class AssetSerializatorContainer {
             for (var t : serializators.keySet())
                 runGenerator(t, generator);
         }
-    }
-
-    public void addResourceLocation(ResourceLocation location) {
-        addSerializator(new ResourceAssetSerializator(location));
     }
 
     public <T> void addSerializator(AssetSerializator<T> serializator) {
@@ -95,9 +82,9 @@ final class AssetSerializatorContainer {
         private final AssetSerializator<T> serializator = new MultiAssetSerializator<>(
                 IteratorUtil.union(serializators, serializatorInfos));
 
-        //                private final Cache<AssetKey, Value<T>> cache = new HashMapCache<>();
-        private final Cache<AssetKey, Value<T>> cache = new WeakHashMapCache<>();
-//        private final Cache<AssetKey, Value<T>> cache = new DirectoryCache<>(Assets.getTempCacheDirectory(TYPE));
+        //                private final Cache<AssetKey, Asset<T>> cache = new HashMapCache<>();
+        private final Cache<AssetKey, Asset<T>> cache = new WeakHashMapCache<>();
+//        private final Cache<AssetKey, Asset<T>> cache = new DirectoryCache<>(Assets.getTempCacheDirectory(TYPE));
 
         public AssetSerializatorInfo(TypeInfo<T> type) {
             super(type);
@@ -108,51 +95,29 @@ final class AssetSerializatorContainer {
         }
 
         @Override
-        public boolean isDeepValid(DeepValidAssetManagerBase manager, AssetKey key) {
-            final var value = cache.get(key);
-            if (value != null)
-                return !value.isNull();
-            return serializator.isDeepValid(manager, key);
-        }
-
-        @Override
-        public boolean isValid(ValidAssetManagerBase manager, AssetKey key) {
-            final var value = cache.get(key);
-            if (value != null)
-                return !value.isNull();
-            return serializator.isValid(manager, key);
-        }
-
-        @Override
-        public boolean canLoad(CanLoadAssetManager manager, AssetKey key) {
+        public boolean canLoad(AssetManager manager, AssetKey key) {
             if (cache.has(key))
                 return true;
             return serializator.canLoad(manager, key);
         }
 
         @Override
-        public Value<T> load(LoadContext context, AssetKey key) {
+        public Asset<T> load(AssetManager manager, AssetKey key) {
             final var v = cache.set(key, () -> {
                 try {
-                    var value = serializator.load(context, key);
-                    value = CecheValue.newValue(value);
-                    value = CacheProviderValue.newValue(value);
+                    var value = serializator.load(manager, key);
+                    value = CacheAsset.Companion.newAsset(value);
                     return value;
                 } catch (Exception e) {
-                    throw new IllegalArgumentException("type:" + TYPE + " key:" + key, e);
+                    throw new IllegalArgumentException("type:" + getType() + " key:" + key, e);
                 }
             });
             return v;
         }
 
         @Override
-        public T loadDefault(DefaultAssetManager manager, AssetKeyType asset_type) {
-            return serializator.loadDefault(manager, asset_type);
-        }
-
-        @Override
         public String toString() {
-            return "AssetSerializatorInfo [" + TYPE + "]";
+            return "AssetSerializatorInfo [" + getType() + "]";
         }
 
     }

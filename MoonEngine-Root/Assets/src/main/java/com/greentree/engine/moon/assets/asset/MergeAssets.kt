@@ -1,12 +1,5 @@
 package com.greentree.engine.moon.assets.asset
 
-import com.greentree.engine.moon.assets.value.merge.Group2
-import com.greentree.engine.moon.assets.value.merge.Group3
-import com.greentree.engine.moon.assets.value.merge.Group4
-import com.greentree.engine.moon.assets.value.merge.Group5
-import com.greentree.engine.moon.assets.value.merge.Group6
-import com.greentree.engine.moon.assets.value.merge.group
-
 private inline fun max(vararg elements: Long) = elements.max()
 
 data class M2Asset<T1 : Any, T2 : Any>(val source1: Asset<T1>, val source2: Asset<T2>) :
@@ -108,4 +101,21 @@ data class M6Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any>(
 
 	override fun isConst() =
 		source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst() && source5.isConst() && source6.isConst()
+}
+
+data class MIAsset<T : Any>(
+	val source: Iterable<out Asset<T>>,
+) :
+	Asset<Iterable<T>> {
+
+	override val value
+		get() = source.map { it.value }
+	override val lastModified
+		get() = source.maxOf { it.lastModified }
+
+	override fun isCache() =
+		source.all { it.isCache() }
+
+	override fun isConst() =
+		source.all { it.isConst() }
 }
