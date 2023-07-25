@@ -9,6 +9,7 @@ import com.greentree.engine.moon.assets.serializator.context.LoadContext;
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.assets.serializator.manager.CanLoadAssetManager;
 import com.greentree.engine.moon.assets.serializator.manager.DefaultAssetManager;
+import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequest;
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequestImpl;
 import com.greentree.engine.moon.assets.value.ConstValue;
 import com.greentree.engine.moon.assets.value.Value;
@@ -152,10 +153,10 @@ public class AssetTest {
 
     @MethodSource(value = "requests")
     @ParameterizedTest
-    <T> void AssetManager_canLoad(Pair<KeyLoadRequestImpl<? extends T>, ? extends T> pair) {
+    <T> void AssetManager_canLoad(Pair<KeyLoadRequest<? extends T>, ? extends T> pair) {
         final var request = pair.first;
         manager.addSerializator(new StringAssetSerializator(null));
-        assertTrue(manager.canLoad(request.loadType(), request.key()));
+        assertTrue(manager.canLoad(request));
     }
 
     @Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)

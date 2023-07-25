@@ -13,6 +13,11 @@ public final class DefaultValue<T> implements Value<T> {
         this.values = values;
     }
 
+    @Deprecated
+    public static <T> Value<T> newValue(Value<T> value) {
+        return value;
+    }
+
     @SafeVarargs
     public static <T> Value<T> newValue(Value<T>... values) {
         return newValue(IteratorUtil.iterable(values));

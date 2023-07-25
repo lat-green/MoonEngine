@@ -18,59 +18,36 @@ public interface ValueAssetManager extends DefaultAssetManager {
     }
 
     default <T> KeyRequestBuilder<T, Value<T>> load(TypeInfo<T> type) {
-        return new KeyRequestBuilderImpl<>(r -> load(r), type);
+        return new KeyRequestBuilderImpl<>(this::load, type);
     }
 
     default <T> Value<T> load(KeyLoadRequest<T> request) {
-        return load(request.loadType(), request.key(), request.getDefault());
+        return load(request.loadType(), request.key());
     }
 
     default <T> Value<T> load(Class<T> cls, AssetKey key) {
         final var type = TypeInfoBuilder.getTypeInfo(cls);
-        return load(type, key, null);
+        return load(type, key);
     }
-
-    <T> Value<T> load(TypeInfo<T> type, AssetKey key, T def);
 
     default <T> Value<T> load(Class<T> cls, Object key) {
-        return load(cls, new ResultAssetKey(key), null);
-    }
-
-    default <T> Value<T> load(Class<T> cls, AssetKey key, T def) {
-        final var type = TypeInfoBuilder.getTypeInfo(cls);
-        return load(type, key, def);
-    }
-
-    default <T> Value<T> load(Class<T> cls, Object key, T def) {
-        return load(cls, new ResultAssetKey(key), def);
+        return load(cls, new ResultAssetKey(key));
     }
 
     default <T> Value<T> load(Class<T> cls, String resource) {
-        return load(cls, new ResourceAssetKey(resource), null);
-    }
-
-    default <T> Value<T> load(Class<T> cls, String resource, T def) {
-        return load(cls, new ResourceAssetKey(resource), def);
+        return load(cls, new ResourceAssetKey(resource));
     }
 
     default <T> Value<T> load(TypeInfo<T> type, AssetKey key) {
-        return load(type, key, null);
+        return load(type, key);
     }
 
     default <T> Value<T> load(TypeInfo<T> type, Object key) {
-        return load(type, new ResultAssetKey(key), null);
-    }
-
-    default <T> Value<T> load(TypeInfo<T> type, Object key, T def) {
-        return load(type, new ResultAssetKey(key), def);
+        return load(type, new ResultAssetKey(key));
     }
 
     default <T> Value<T> load(TypeInfo<T> type, String resource) {
-        return load(type, new ResourceAssetKey(resource), null);
-    }
-
-    default <T> Value<T> load(TypeInfo<T> type, String resource, T def) {
-        return load(type, new ResourceAssetKey(resource), def);
+        return load(type, new ResourceAssetKey(resource));
     }
 
 }

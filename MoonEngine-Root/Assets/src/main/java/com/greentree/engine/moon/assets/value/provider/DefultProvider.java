@@ -8,7 +8,8 @@ import java.util.List;
 
 public final class DefultProvider<T> implements ValueProvider<T> {
 
-    public static final int CHARACTERISTICS = 0;
+    public static final int CHARACTERISTICS = NOT_NULL;
+    public static final int CHARACTERISTICS_PLUS = CACHED & DISTINCT_CHANGE;
     private final List<? extends ValueProvider<T>> providers;
     private int index;
 
@@ -42,13 +43,8 @@ public final class DefultProvider<T> implements ValueProvider<T> {
 
     @Override
     public int characteristics() {
-        return CHARACTERISTICS;
-    }
-
-    @Override
-    public T get() {
         init();
-        return providers.get(index).get();
+        return CHARACTERISTICS | (CHARACTERISTICS_PLUS & providers.get(index).characteristics());
     }
 
     private void init() {
@@ -59,6 +55,12 @@ public final class DefultProvider<T> implements ValueProvider<T> {
                 return;
             index++;
         }
+    }
+
+    @Override
+    public T get() {
+        init();
+        return providers.get(index).get();
     }
 
     @Override

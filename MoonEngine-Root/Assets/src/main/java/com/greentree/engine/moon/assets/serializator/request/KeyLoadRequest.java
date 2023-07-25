@@ -4,14 +4,12 @@ import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.AssetKeyType;
 
 public interface KeyLoadRequest<T> extends DefaultLoadRequest<T> {
-	
-	AssetKey key();
-	
-	@Override
-	default AssetKeyType type() {
-		return key().type();
-	}
 
-	T getDefault();
-	
+    @Override
+    default AssetKeyType type() {
+        return key().type();
+    }
+
+    AssetKey key();
+
 }

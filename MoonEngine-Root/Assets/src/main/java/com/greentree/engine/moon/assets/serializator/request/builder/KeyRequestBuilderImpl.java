@@ -11,7 +11,6 @@ public final class KeyRequestBuilderImpl<T, R> implements KeyRequestBuilder<T, R
 
     private final Function<? super KeyLoadRequest<T>, ? extends R> manager;
     private final TypeInfo<T> type;
-    private T def;
     private AssetKey key;
 
     public KeyRequestBuilderImpl(Function<? super KeyLoadRequest<T>, ? extends R> manager,
@@ -22,18 +21,12 @@ public final class KeyRequestBuilderImpl<T, R> implements KeyRequestBuilder<T, R
 
     @Override
     public R load() {
-        return manager.apply(new KeyLoadRequestImpl<T>(type, key, def));
+        return manager.apply(new KeyLoadRequestImpl<T>(type, key));
     }
 
     @Override
     public KeyRequestBuilder<T, R> set(AssetKey key) {
         this.key = key;
-        return this;
-    }
-
-    @Override
-    public KeyRequestBuilder<T, R> setDefault(T def) {
-        this.def = def;
         return this;
     }
 

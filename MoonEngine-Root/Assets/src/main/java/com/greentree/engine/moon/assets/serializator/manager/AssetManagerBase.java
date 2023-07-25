@@ -5,8 +5,8 @@ import com.greentree.engine.moon.assets.key.AssetKey;
 
 public interface AssetManagerBase extends ValueAssetManager, DataAssetManager {
 
-    default <T> T loadData(TypeInfo<T> type, AssetKey key, T def) {
-        return load(type, key, def).get();
+    default <T> T loadData(TypeInfo<T> type, AssetKey key) {
+        return load(type, key).get();
     }
 
 }

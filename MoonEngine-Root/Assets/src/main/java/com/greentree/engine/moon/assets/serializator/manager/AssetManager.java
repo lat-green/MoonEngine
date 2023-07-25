@@ -7,8 +7,8 @@ import com.greentree.engine.moon.assets.key.AssetKeyType;
 import com.greentree.engine.moon.assets.location.AssetLocation;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.context.LoadContext;
-import com.greentree.engine.moon.assets.value.ConstValue;
-import com.greentree.engine.moon.assets.value.DefaultValue;
+import com.greentree.engine.moon.assets.value.CacheProviderValue;
+import com.greentree.engine.moon.assets.value.CecheValue;
 import com.greentree.engine.moon.assets.value.Value;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,9 +81,10 @@ public final class AssetManager implements AssetManagerBase, ValidAssetManagerBa
         return info.canLoad(this, key);
     }
 
-    public <T> Value<T> load(TypeInfo<T> type, AssetKey key, T def) {
+    @Override
+    public <T> Value<T> load(TypeInfo<T> type, AssetKey key) {
         final var wrapper = new BaseLoadContext();
-        final var result = wrapper.load(type, key, def);
+        final var result = wrapper.load(type, key);
         return result;
     }
 
@@ -96,16 +97,16 @@ public final class AssetManager implements AssetManagerBase, ValidAssetManagerBa
     private abstract class AbstractLoadContext implements LoadContext {
 
         @Override
-        public <T> Value<T> load(TypeInfo<T> type, AssetKey key, T def) {
-            final var result = tryLoadAsync(type, key, def);
-            return DefaultValue.newValue(result, ConstValue.newValue(def));
+        public <T> Value<T> load(TypeInfo<T> type, AssetKey key) {
+            final var result = tryLoadAsync(type, key);
+            return CacheProviderValue.newValue(CecheValue.newValue(result));
         }
 
-        protected <T> Value<T> tryLoadAsync(TypeInfo<T> type, AssetKey key, T def) {
-            return loadForward(type, key, def);
+        protected <T> Value<T> tryLoadAsync(TypeInfo<T> type, AssetKey key) {
+            return loadForward(type, key);
         }
 
-        protected <T> Value<T> loadForward(TypeInfo<T> type, AssetKey key, T def) {
+        protected <T> Value<T> loadForward(TypeInfo<T> type, AssetKey key) {
             final var info = getInfo(type);
             try {
                 final var result = info.load(this, key);
@@ -113,15 +114,10 @@ public final class AssetManager implements AssetManagerBase, ValidAssetManagerBa
                     put("result", result);
                     put("type", type);
                     put("key", key);
-                    put("default", def);
                 }}));
                 return result;
             } catch (Exception e) {
                 LOG.warn(ASSETS, "asset loader throw. info: " + info, e);
-                if (def != null) {
-                    e.printStackTrace();
-                    return ConstValue.newValue(def);
-                }
                 throw e;
             }
         }

@@ -16,29 +16,25 @@ public interface DataAssetManager {
     }
 
     default <T> KeyRequestBuilder<T, T> loadData(TypeInfo<T> type) {
-        return new KeyRequestBuilderImpl<>(r -> loadData(r), type);
+        return new KeyRequestBuilderImpl<>(this::loadData, type);
     }
 
     default <T> T loadData(KeyLoadRequest<T> request) {
-        return loadData(request.loadType(), request.key(), request.getDefault());
+        return loadData(request.loadType(), request.key());
     }
+
+    <T> T loadData(TypeInfo<T> type, AssetKey key);
 
     default <T> T loadData(Class<T> cls, String resource) {
-        return loadData(cls, new ResourceAssetKey(resource), null);
+        return loadData(cls, new ResourceAssetKey(resource));
     }
-
-    default <T> T loadData(Class<T> cls, AssetKey key, T def) {
-        return loadData(TypeInfoBuilder.getTypeInfo(cls), key, def);
-    }
-
-    <T> T loadData(TypeInfo<T> type, AssetKey key, T def);
 
     default <T> T loadData(Class<T> cls, AssetKey key) {
-        return loadData(cls, key, null);
+        return loadData(TypeInfoBuilder.getTypeInfo(cls), key);
     }
 
-    default <T> T loadData(TypeInfo<T> type, AssetKey key) {
-        return loadData(type, key, null);
+    default <T> T loadData(TypeInfo<T> type, String resource) {
+        return loadData(type, new ResourceAssetKey(resource));
     }
 
 }

@@ -24,6 +24,4 @@ public interface KeyRequestBuilder<T, R> extends RequestBuilder<R> {
         return set(key);
     }
 
-    KeyRequestBuilder<T, R> setDefault(T def);
-
 }
