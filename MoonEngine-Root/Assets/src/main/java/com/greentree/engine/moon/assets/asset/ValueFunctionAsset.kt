@@ -1,7 +1,5 @@
 package com.greentree.engine.moon.assets.asset
 
-import com.greentree.engine.moon.assets.value.function.Value1Function
-
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	asset: Asset<T>,
 	override val function: Value1Function<T, R>,
