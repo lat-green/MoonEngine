@@ -37,8 +37,6 @@ public class PropertiesAssetSerializator implements AssetSerializator<Properties
 
         @Override
         public Properties apply(Resource res) {
-            if (res == null)
-                return null;
             final var prop = new Properties();
             try (final var in = res.open()) {
                 prop.load(in);

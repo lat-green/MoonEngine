@@ -16,7 +16,7 @@ public class InitSceneModule implements LaunchModule {
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager();
         final var scenes = context.get(SceneManagerProperty.class).manager();
-        final var scene = manager.loadData(Scene.class, "game.xml");
+        final var scene = manager.load(Scene.class, "game.xml").getValue();
         scenes.set(scene);
     }
 

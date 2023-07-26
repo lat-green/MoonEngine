@@ -22,6 +22,10 @@ public record CameraComponent(int width, int height, Matrix4fc projection)
         this(width, height, matrix.getMatrix(width, height));
     }
 
+    public CameraComponent(int width, int height, float size) {
+        this(width, height, new OrthoCameraMatrix(size));
+    }
+
     public Matrix4f getProjectionMatrix() {
         return getProjectionMatrix(new Matrix4f());
     }

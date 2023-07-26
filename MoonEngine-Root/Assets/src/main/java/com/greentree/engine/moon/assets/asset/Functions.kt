@@ -1,11 +1,22 @@
 package com.greentree.engine.moon.assets.asset
 
+import org.apache.logging.log4j.LogManager
 import java.io.Serializable
 
 interface Value1Function<T, R> : (T) -> R, Serializable {
 
+	companion object {
+
+		private val LOG = LogManager.getLogger(Value1Function::class.java)
+	}
+
 	fun applyWithDest(value: T, dest: R): R {
-		return invoke(value)
+		return try {
+			invoke(value)
+		} catch(e: Exception) {
+			LOG.warn("throw from applyWithDest (was used latest version)", e)
+			dest
+		}
 	}
 
 	override fun invoke(p1: T) = apply(p1)

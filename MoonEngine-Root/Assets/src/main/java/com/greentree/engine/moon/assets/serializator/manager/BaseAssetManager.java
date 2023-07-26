@@ -6,8 +6,6 @@ import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
 import org.apache.logging.log4j.message.MapMessage;
 
 import java.util.HashMap;
@@ -16,7 +14,6 @@ import java.util.function.Function;
 public final class BaseAssetManager implements AssetManager {
 
     private static final Logger LOG = LogManager.getLogger(BaseAssetManager.class);
-    private static final Marker ASSETS = MarkerManager.getMarker("assets");
 
     private final AssetSerializatorContainer container = new AssetSerializatorContainer();
 

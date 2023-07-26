@@ -11,10 +11,14 @@ import com.greentree.engine.moon.assets.location.AssetLocation;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.NamedAssetSerializator;
 import com.greentree.engine.moon.assets.serializator.ResourceAssetSerializator;
+import org.apache.logging.log4j.Marker;
+import org.apache.logging.log4j.MarkerManager;
 
 import java.util.function.Function;
 
 public interface AssetManager {
+
+    Marker ASSETS = MarkerManager.getMarker("assets");
 
     default <T> Asset<T> load(Class<T> cls, Object key) {
         return load(cls, new ResultAssetKey(key));

@@ -56,6 +56,7 @@ public final class ButtonSystem implements WorldInitSystem, UpdateSystem, Destro
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         for (var button : buttons) {
             final var t = button.get(Transform.class).getModelMatrix();
+            var name = button.get(Button.class).name();
             glPushMatrix();
             glLoadIdentity();
             try (final var stack = MemoryStack.create().push()) {
@@ -69,6 +70,7 @@ public final class ButtonSystem implements WorldInitSystem, UpdateSystem, Destro
                 final var c = e.get(Click.class);
                 if (c.button() != MouseButton.MOUSE_BUTTON_LEFT)
                     continue;
+                System.out.println(name);
             }
             glColor3f(1, 1, 1);
             glBegin(GL_QUADS);
@@ -78,7 +80,7 @@ public final class ButtonSystem implements WorldInitSystem, UpdateSystem, Destro
             glVertex2f(-1, 1);
             glEnd();
             glColor3f(0, 0, 0);
-            FONT.drawString(0, 0, "Hello");
+            FONT.drawString(0, 0, name);
             glPopMatrix();
         }
         properties.get(WindowProperty.class)

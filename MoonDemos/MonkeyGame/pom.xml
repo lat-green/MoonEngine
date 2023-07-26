@@ -10,7 +10,7 @@
 
     <groupId>com.greentree.game</groupId>
     <artifactId>monkey-game</artifactId>
-    <version>0.3.4</version>
+    <version>0.3.4.1</version>
 
     <name>MonkeyGame</name>
 
@@ -19,7 +19,7 @@
             <dependency>
                 <groupId>com.greentree.engine.moon</groupId>
                 <artifactId>root</artifactId>
-                <version>0.3.2</version>
+                <version>0.3.3</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
