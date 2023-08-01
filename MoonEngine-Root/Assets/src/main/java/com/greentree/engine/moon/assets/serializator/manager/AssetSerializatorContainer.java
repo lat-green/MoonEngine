@@ -22,7 +22,7 @@ final class AssetSerializatorContainer {
     @SuppressWarnings("unchecked")
     public AssetSerializatorContainer() {
         addGenerator(DefaultSerializator::new);
-        addGenerator(ResultSerializator::new);
+        addGenerator(ResultAssetSerializator::new);
     }
 
     public void addGenerator(
@@ -38,6 +38,12 @@ final class AssetSerializatorContainer {
         final var type = serializator.getType();
         final var info = get(type);
         info.addSerializator(serializator);
+    }
+
+    public <T> void addGeneratedSerializator(AssetSerializator<T> serializator) {
+        final var type = serializator.getType();
+        final var info = get(type);
+        info.addGeneratedSerializator(serializator);
     }
 
     @SuppressWarnings("unchecked")
@@ -72,15 +78,16 @@ final class AssetSerializatorContainer {
                               Function<? super TypeInfo<?>, ? extends AssetSerializator<?>> generator) {
         final var s = generator.apply(type);
         if (s != null)
-            addSerializator(s);
+            addGeneratedSerializator(s);
     }
 
     public final class AssetSerializatorInfo<T> extends TypedAssetSerializator<T> {
 
         private final List<AssetSerializatorInfo<T>> serializatorInfos = new ArrayList<>();
+        private final List<AssetSerializator<T>> generatedSerializators = new ArrayList<>();
         private final List<AssetSerializator<T>> serializators = new ArrayList<>();
         private final AssetSerializator<T> serializator = new MultiAssetSerializator<>(
-                IteratorUtil.union(serializators, serializatorInfos));
+                IteratorUtil.union(generatedSerializators, serializators, serializatorInfos));
 
         //                private final Cache<AssetKey, Asset<T>> cache = new HashMapCache<>();
         private final Cache<AssetKey, Asset<T>> cache = new WeakHashMapCache<>();
@@ -88,6 +95,10 @@ final class AssetSerializatorContainer {
 
         public AssetSerializatorInfo(TypeInfo<T> type) {
             super(type);
+        }
+
+        public void addGeneratedSerializator(AssetSerializator<T> serializator) {
+            generatedSerializators.add(serializator);
         }
 
         public void addSerializator(AssetSerializator<T> serializator) {
@@ -117,7 +128,23 @@ final class AssetSerializatorContainer {
 
         @Override
         public String toString() {
-            return "AssetSerializatorInfo [" + getType() + "]";
+            var builder = new StringBuilder();
+            builder.append("AssetSerializatorInfo [");
+            builder.append("type=");
+            builder.append(getType());
+            if (!serializators.isEmpty()) {
+                builder.append(", ");
+                builder.append(serializators);
+            }
+            if (!serializatorInfos.isEmpty()) {
+                builder.append(", ");
+                var joiner = new StringJoiner(", ");
+                for (var s : serializatorInfos)
+                    joiner.add(s.toString());
+                builder.append(joiner);
+            }
+            builder.append(']');
+            return builder.toString();
         }
 
     }

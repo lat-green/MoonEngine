@@ -12,13 +12,12 @@ class DefaultSerializator<T : Any>(type: TypeInfo<T>) : TypedAssetSerializator<T
 		return key is DefaultAssetKey
 	}
 
-	override fun load(context: AssetManager, key: AssetKey): Asset<T> {
+	override fun load(manager: AssetManager, key: AssetKey): Asset<T> {
 		if(key is DefaultAssetKey) {
-//			val keys: Iterable<AssetKey> = key.keys
-//			val values: ArrayList<Asset<T>> = ArrayList(3)
-//			for(k in keys) values.add(context.load(type, k))
-//			values.trimToSize()
-//			return DefaultValue.newValue(values)
+			for(k in key.keys) {
+				if(manager.canLoad(type, k))
+					return manager.load(type, k)
+			}
 		}
 		throw IllegalArgumentException()
 	}

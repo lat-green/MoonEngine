@@ -12,7 +12,7 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 
 import java.io.IOException;
 
-public class StringAssetSerializor implements AssetSerializator<String> {
+public class StringAssetSerializator implements AssetSerializator<String> {
 
     @Override
     public boolean canLoad(AssetManager manager, AssetKey key) {

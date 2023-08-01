@@ -7,9 +7,9 @@ import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.ResultAssetKey;
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 
-public final class ResultSerializator<T> extends TypedAssetSerializator<T> {
+public final class ResultAssetSerializator<T> extends TypedAssetSerializator<T> {
 
-    public ResultSerializator(TypeInfo<T> type) {
+    public ResultAssetSerializator(TypeInfo<T> type) {
         super(type);
     }
 
@@ -26,9 +26,7 @@ public final class ResultSerializator<T> extends TypedAssetSerializator<T> {
     @Override
     public Asset<T> load(AssetManager context, AssetKey key) {
         if (key instanceof ResultAssetKey res) {
-            final var type = getType();
-            if (type.isInstance(res.result()))
-                return new ConstAsset<>((T) res.result());
+            return new ConstAsset<>((T) res.result());
         }
         return null;
     }

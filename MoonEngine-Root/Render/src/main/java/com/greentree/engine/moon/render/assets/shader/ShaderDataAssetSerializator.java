@@ -14,8 +14,11 @@ public class ShaderDataAssetSerializator implements AssetSerializator<ShaderData
 
     @Override
     public boolean canLoad(AssetManager manager, AssetKey ckey) {
-		return ckey instanceof ShaderAssetKey key;
-	}
+        if (ckey instanceof ShaderAssetKey key) {
+            return manager.canLoad(String.class, key.text());
+        }
+        return false;
+    }
 
     @Override
     public Asset<ShaderDataImpl> load(AssetManager manager, AssetKey ckey) {
