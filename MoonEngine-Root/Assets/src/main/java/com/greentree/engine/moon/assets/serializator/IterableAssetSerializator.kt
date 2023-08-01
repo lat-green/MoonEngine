@@ -1,14 +1,13 @@
 package com.greentree.engine.moon.assets.serializator
 
 import com.greentree.commons.reflection.info.TypeInfo
-import com.greentree.commons.util.iterator.IteratorUtil
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.MIAsset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.IterableAssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 
-class IterableAssetSerializator<T> : AbstractIterableAssetSerializator<T> {
+class IterableAssetSerializator<T : Any> : AbstractIterableAssetSerializator<T> {
 	constructor(cls: Class<T>) : super(cls)
 	constructor(type: TypeInfo<T>) : super(type)
 
@@ -24,8 +23,7 @@ class IterableAssetSerializator<T> : AbstractIterableAssetSerializator<T> {
 
 	override fun load(manager: AssetManager, key: AssetKey): Asset<Iterable<T>> {
 		if(key is IterableAssetKey) {
-			val iter =
-				IteratorUtil.clone(IteratorUtil.map(key) { k -> manager.load(ITER_TYPE, k) })
+			val iter = key.map { manager.load(ITER_TYPE, it) }
 			return MIAsset(iter)
 		}
 		throw IllegalArgumentException()

@@ -7,9 +7,17 @@ interface Asset<out T : Any> : Serializable {
 	val value: T
 	val lastModified: Long
 
+	fun isValid(): Boolean = true
 	fun isConst(): Boolean = false
 	fun isCache(): Boolean = false
 }
+
+val Asset<*>.isValid
+	get() = isValid()
+val Asset<*>.isConst
+	get() = isConst()
+val Asset<*>.isCache
+	get() = isCache()
 
 inline fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) = ValueFunctionAsset.newAsset(this, function)
 inline fun <T : Any, R : Any, F> Asset<T>.map(function: F) where F : (T) -> R, F : Serializable =

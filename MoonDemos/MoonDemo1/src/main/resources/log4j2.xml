@@ -29,7 +29,7 @@
         <!--            <AppenderRef ref="Console"/>-->
         <!--        </Logger>-->
         <Root level="all">
-            <AppenderRef ref="Console" level="warn"/>
+            <AppenderRef ref="Console" level="info"/>
             <AppenderRef ref="File"/>
             <AppenderRef ref="Html"/>
         </Root>

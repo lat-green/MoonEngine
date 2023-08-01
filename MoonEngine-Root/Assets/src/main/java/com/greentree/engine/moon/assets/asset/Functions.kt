@@ -3,7 +3,7 @@ package com.greentree.engine.moon.assets.asset
 import org.apache.logging.log4j.LogManager
 import java.io.Serializable
 
-interface Value1Function<T, R> : (T) -> R, Serializable {
+interface Value1Function<T : Any, R> : (T) -> R, Serializable {
 
 	companion object {
 
@@ -24,7 +24,7 @@ interface Value1Function<T, R> : (T) -> R, Serializable {
 	fun apply(value: T): R
 }
 
-interface Value2Function<T1, T2, R> : Value1Function<Group2<out T1, out T2>, R> {
+interface Value2Function<T1 : Any, T2 : Any, R> : Value1Function<Group2<out T1, out T2>, R> {
 
 	override fun apply(value: Group2<out T1, out T2>): R {
 		return apply(value.t1, value.t2)
@@ -41,7 +41,7 @@ interface Value2Function<T1, T2, R> : Value1Function<Group2<out T1, out T2>, R> 
 	fun apply(value1: T1, value2: T2): R
 }
 
-interface Value3Function<T1, T2, T3, R> : Value1Function<Group3<out T1, out T2, out T3>, R> {
+interface Value3Function<T1 : Any, T2 : Any, T3 : Any, R> : Value1Function<Group3<out T1, out T2, out T3>, R> {
 
 	override fun apply(value: Group3<out T1, out T2, out T3>): R {
 		return apply(value.t1, value.t2, value.t3)
@@ -50,7 +50,8 @@ interface Value3Function<T1, T2, T3, R> : Value1Function<Group3<out T1, out T2, 
 	fun apply(value1: T1, value2: T2, value3: T3): R
 }
 
-interface Value4Function<T1, T2, T3, T4, R> : Value1Function<Group4<out T1, out T2, out T3, out T4>, R> {
+interface Value4Function<T1 : Any, T2 : Any, T3 : Any, T4 : Any, R> :
+	Value1Function<Group4<out T1, out T2, out T3, out T4>, R> {
 
 	override fun apply(value: Group4<out T1, out T2, out T3, out T4>): R {
 		return apply(value.t1, value.t2, value.t3, value.t4)
@@ -59,7 +60,8 @@ interface Value4Function<T1, T2, T3, T4, R> : Value1Function<Group4<out T1, out 
 	fun apply(value1: T1, value2: T2, value3: T3, value4: T4): R
 }
 
-interface Value5Function<T1, T2, T3, T4, T5, R> : Value1Function<Group5<out T1, out T2, out T3, out T4, out T5>, R> {
+interface Value5Function<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, R> :
+	Value1Function<Group5<out T1, out T2, out T3, out T4, out T5>, R> {
 
 	override fun apply(
 		value: Group5<out T1, out T2, out T3, out T4, out T5>,
@@ -70,7 +72,7 @@ interface Value5Function<T1, T2, T3, T4, T5, R> : Value1Function<Group5<out T1, 
 	fun apply(value1: T1, value2: T2, value3: T3, value4: T4, value5: T5): R
 }
 
-interface Value6Function<T1, T2, T3, T4, T5, T6, R> :
+interface Value6Function<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any, R> :
 	Value1Function<Group6<out T1, out T2, out T3, out T4, out T5, out T6>, R> {
 
 	override fun apply(

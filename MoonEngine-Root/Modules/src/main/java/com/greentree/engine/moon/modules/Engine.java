@@ -17,17 +17,17 @@ public final class Engine {
         var exitManager = new ExitManagerImpl();
         var properties = new EnginePropertiesBase();
         properties.add(new ExitManagerProperty(exitManager));
-        logger.info(() -> "Begin Engine.launch");
+        logger.debug(() -> "Begin Engine.launch");
         launchModule.launch(properties);
-        logger.info(() -> "End Engine.launch");
+        logger.debug(() -> "End Engine.launch");
         while (!exitManager.isShouldExit()) {
-            logger.info(() -> "Begin Engine.update");
+            logger.debug(() -> "Begin Engine.update");
             updateModule.update();
-            logger.info(() -> "End Engine.update");
+            logger.debug(() -> "End Engine.update");
         }
-        logger.info(() -> "Begin Engine.terminate");
+        logger.debug(() -> "Begin Engine.terminate");
         terminateModule.terminate();
-        logger.info(() -> "End Engine.terminate");
+        logger.debug(() -> "End Engine.terminate");
     }
 
 }

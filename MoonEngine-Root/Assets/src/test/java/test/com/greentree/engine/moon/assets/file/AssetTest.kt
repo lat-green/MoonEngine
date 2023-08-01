@@ -10,6 +10,7 @@ import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
+import com.greentree.engine.moon.assets.serializator.manager.MutableAssetManager
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequest
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequestImpl
 import com.greentree.engine.moon.assets.serializator.request.canLoad
@@ -24,7 +25,7 @@ import java.util.stream.Stream
 
 class AssetTest {
 
-	private lateinit var manager: AssetManager
+	private lateinit var manager: MutableAssetManager
 
 	class StringAssetSerializator : AssetSerializator<String> {
 

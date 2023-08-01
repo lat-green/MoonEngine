@@ -8,6 +8,7 @@ open module engine.moon.assets {
     exports com.greentree.engine.moon.assets.key;
     exports com.greentree.engine.moon.assets.location;
     exports com.greentree.engine.moon.assets.serializator;
+    exports com.greentree.engine.moon.assets.serializator.marker;
     exports com.greentree.engine.moon.assets.serializator.manager;
     exports com.greentree.engine.moon.assets.serializator.manager.cache;
 }
