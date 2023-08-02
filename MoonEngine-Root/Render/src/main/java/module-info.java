@@ -8,6 +8,7 @@ open module engine.moon.render {
     requires transitive engine.moon.signals;
     requires transitive engine.moon.mesh;
     requires transitive commons.image;
+    requires transitive kotlin.stdlib;
     exports com.greentree.engine.moon.render.assets;
     exports com.greentree.engine.moon.render.assets.shader;
     exports com.greentree.engine.moon.render.assets.material;

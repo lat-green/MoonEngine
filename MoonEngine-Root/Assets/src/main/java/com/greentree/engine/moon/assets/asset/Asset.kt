@@ -12,6 +12,54 @@ interface Asset<out T : Any> : Serializable {
 	fun isCache(): Boolean = false
 }
 
+fun Asset<*>.toSplitString(): String {
+	val text = toString()
+	val builder = StringBuilder()
+	var tab = 0
+	var info = 0
+	var i = 0
+	while(i < text.length) {
+		val c = text[i]
+		when(c) {
+			'[' -> {
+				info++
+				builder.append('[')
+			}
+
+			']' -> {
+				info--
+				builder.append(']')
+			}
+
+			'(' -> {
+				tab++
+				builder.append("\n")
+				builder.append("\t".repeat(tab))
+			}
+
+			')' -> {
+				tab--
+			}
+
+			',' -> {
+				if(info == 0) {
+					builder.append("\n")
+					builder.append("\t".repeat(tab))
+					while(i + 1 < text.length && text[i + 1] == ' ') i++
+				} else {
+					builder.append(',')
+				}
+			}
+
+			else -> {
+				builder.append(c)
+			}
+		}
+		i++
+	}
+	return builder.toString()
+}
+
 val Asset<*>.isValid
 	get() = isValid()
 val Asset<*>.isConst

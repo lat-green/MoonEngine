@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.assets.asset
 
-class CacheAsset<T : Any> private constructor(private val asset: Asset<T>) : Asset<T> {
+data class CacheAsset<T : Any> private constructor(private val asset: Asset<T>) : Asset<T> {
 
 	companion object {
 
@@ -25,4 +25,8 @@ class CacheAsset<T : Any> private constructor(private val asset: Asset<T>) : Ass
 
 	override fun isConst() = asset.isConst()
 	override fun isCache() = true
+
+	override fun toString(): String {
+		return "Cache($asset)"
+	}
 }

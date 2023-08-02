@@ -39,16 +39,21 @@ public class ShaderProgramDataAssetSerializator implements AssetSerializator<Sha
             final var frag = manager.load(ShaderData.class, fragKey);
             if (manager.canLoad(ShaderData.class, geomKey)) {
                 final var geom = manager.load(ShaderData.class, geomKey);
-                return AssetKt.map(vert, frag, geom, new f3());
+                return AssetKt.map(vert, frag, geom, new VertFragGeomShader());
             }
-            return AssetKt.map(vert, frag, new f2());
+            return AssetKt.map(vert, frag, new VertFragShader());
         }
         return null;
     }
 
-    private static final class f2 implements Value2Function<ShaderData, ShaderData, ShaderProgramDataImpl> {
+    private static final class VertFragShader implements Value2Function<ShaderData, ShaderData, ShaderProgramDataImpl> {
 
         private static final long serialVersionUID = 1L;
+
+        @Override
+        public String toString() {
+            return "VertFragShader";
+        }
 
         @Override
         public ShaderProgramDataImpl apply(ShaderData vert, ShaderData frag) {
@@ -57,9 +62,14 @@ public class ShaderProgramDataAssetSerializator implements AssetSerializator<Sha
 
     }
 
-    private static final class f3 implements Value3Function<ShaderData, ShaderData, ShaderData, ShaderProgramDataImpl> {
+    private static final class VertFragGeomShader implements Value3Function<ShaderData, ShaderData, ShaderData, ShaderProgramDataImpl> {
 
         private static final long serialVersionUID = 1L;
+
+        @Override
+        public String toString() {
+            return "VertFragGeomShader";
+        }
 
         @Override
         public ShaderProgramDataImpl apply(ShaderData vert, ShaderData frag, ShaderData geom) {

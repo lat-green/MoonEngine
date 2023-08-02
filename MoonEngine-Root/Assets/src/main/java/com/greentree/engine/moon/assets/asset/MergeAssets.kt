@@ -35,6 +35,10 @@ data class M2Asset<T1 : Any, T2 : Any>(val source1: Asset<T1>, val source2: Asse
 
 	override fun isCache() = source1.isCache() && source2.isCache()
 	override fun isConst() = source1.isConst() && source2.isConst()
+
+	override fun toString(): String {
+		return "Merge($source1, $source2)"
+	}
 }
 
 data class M3Asset<T1 : Any, T2 : Any, T3 : Any>(
@@ -51,6 +55,10 @@ data class M3Asset<T1 : Any, T2 : Any, T3 : Any>(
 
 	override fun isCache() = source1.isCache() && source2.isCache() && source3.isCache()
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst()
+
+	override fun toString(): String {
+		return "Merge($source1, $source2, $source3)"
+	}
 }
 
 data class M4Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any>(
@@ -68,6 +76,9 @@ data class M4Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any>(
 
 	override fun isCache() = source1.isCache() && source2.isCache() && source3.isCache() && source4.isCache()
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst()
+	override fun toString(): String {
+		return "Merge($source1, $source2, $source3, $source4)"
+	}
 }
 
 data class M5Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any>(
@@ -95,6 +106,10 @@ data class M5Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any>(
 
 	override fun isConst() =
 		source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst() && source5.isConst()
+
+	override fun toString(): String {
+		return "Merge($source1, $source2, $source3, $source4, $source5)"
+	}
 }
 
 data class M6Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any>(
@@ -124,6 +139,10 @@ data class M6Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any>(
 
 	override fun isConst() =
 		source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst() && source5.isConst() && source6.isConst()
+
+	override fun toString(): String {
+		return "Merge($source1, $source2, $source3, $source4, $source5, $source6)"
+	}
 }
 
 data class MIAsset<T : Any>(
@@ -141,4 +160,8 @@ data class MIAsset<T : Any>(
 
 	override fun isConst() =
 		source.all { it.isConst() }
+
+	override fun toString(): String {
+		return "Merge($source)"
+	}
 }

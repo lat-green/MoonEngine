@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.assets.asset
 
-class ConstAsset<T : Any>(override val value: T) : Asset<T> {
+data class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 
 	companion object {
 
@@ -17,4 +17,8 @@ class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 
 	override fun isConst() = true
 	override fun isCache() = true
+
+	override fun toString(): String {
+		return "Const[$value]"
+	}
 }

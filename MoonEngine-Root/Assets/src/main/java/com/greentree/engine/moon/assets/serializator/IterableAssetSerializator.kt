@@ -21,11 +21,11 @@ class IterableAssetSerializator<T : Any> : AbstractIterableAssetSerializator<T> 
 		return false
 	}
 
-	override fun load(manager: AssetManager, key: AssetKey): Asset<Iterable<T>> {
+	override fun load(manager: AssetManager, key: AssetKey): Asset<Iterable<T>>? {
 		if(key is IterableAssetKey) {
 			val iter = key.map { manager.load(ITER_TYPE, it) }
 			return MIAsset(iter)
 		}
-		throw IllegalArgumentException()
+		return null
 	}
 }

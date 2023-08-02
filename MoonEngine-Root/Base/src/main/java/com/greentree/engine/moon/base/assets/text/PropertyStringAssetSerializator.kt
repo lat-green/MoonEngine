@@ -24,15 +24,19 @@ class PropertyStringAssetSerializator : AssetSerializator<String> {
 		if(key is PropertyAssetKey) {
 			val prop = manager.load<Properties>(key.properties)
 			val name = manager.load<String>(key.name)
-			return map(prop, name, PropertyAssetFunction)
+			return map(prop, name, GetPropertyFunction)
 		}
 		throw IllegalArgumentException()
 	}
 
-	private object PropertyAssetFunction : Value2Function<Properties, String, String> {
+	private object GetPropertyFunction : Value2Function<Properties, String, String> {
 
 		override fun apply(prop: Properties, name: String): String {
 			return prop.getProperty(name)
+		}
+
+		override fun toString(): String {
+			return "GetPropertyFunction"
 		}
 	}
 }

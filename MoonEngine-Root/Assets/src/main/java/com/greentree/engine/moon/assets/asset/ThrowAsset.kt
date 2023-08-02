@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.assets.asset
 
-class ThrowAsset<T : Any> constructor(private val throwable: Throwable) : Asset<T> {
+data class ThrowAsset<T : Any>(private val throwable: Throwable) : Asset<T> {
 
 	override fun isValid() = false
 	override fun isConst() = true

@@ -26,21 +26,19 @@ public class ShaderDataAssetSerializator implements AssetSerializator<ShaderData
             final var text = manager.load(String.class, key.text());
             final var type = key.shaderType();
             final var language = key.language();
-            return AssetKt.map(text, new ShaderDataImplFunction(type, language));
+            return AssetKt.map(text, new TextToShaderDataFunction(type, language));
         }
         return null;
     }
 
-    private static final class ShaderDataImplFunction
+    private record TextToShaderDataFunction(ShaderType type, ShaderLanguage language)
             implements Value1Function<String, ShaderDataImpl> {
 
         private static final long serialVersionUID = 1L;
-        private final ShaderType type;
-        private final ShaderLanguage language;
 
-        public ShaderDataImplFunction(ShaderType type, ShaderLanguage language) {
-            this.type = type;
-            this.language = language;
+        @Override
+        public String toString() {
+            return "TextToShaderData[type=" + type + ", language=" + language + ']';
         }
 
         @Override

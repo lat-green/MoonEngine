@@ -2,10 +2,13 @@ package com.greentree.engine.moon.assets.serializator;
 
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeUtil;
+import com.greentree.commons.util.exception.MultiException;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
+
+import java.util.ArrayList;
 
 public final class MultiAssetSerializator<T> implements AssetSerializator<T> {
 
@@ -31,16 +34,25 @@ public final class MultiAssetSerializator<T> implements AssetSerializator<T> {
 
     @Override
     public Asset<T> load(AssetManager manager, AssetKey key) {
+        var exceptions = new ArrayList<RuntimeException>();
         for (var serializator : serializators)
             if (serializator.canLoad(manager, key)) {
-                final var v = serializator.load(manager, key);
-                if (v == null)
+                final Asset<T> result;
+                try {
+                    result = serializator.load(manager, key);
+                } catch (RuntimeException e) {
+                    exceptions.add(e);
+                    continue;
+                }
+                if (result == null)
                     throw new NullPointerException(
                             "serializator " + serializator + " load return null");
-                return v;
+                return result;
             }
-        throw new IllegalArgumentException(
-                "no one serializator can not load " + key + " " + IteratorUtil.toString(serializators));
+        if (exceptions.isEmpty())
+            throw new IllegalArgumentException(
+                    "no one serializator can not load " + key + " " + IteratorUtil.toString(serializators));
+        throw new MultiException(exceptions);
     }
 
     @Override

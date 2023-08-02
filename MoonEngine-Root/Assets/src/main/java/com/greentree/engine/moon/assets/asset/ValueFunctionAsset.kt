@@ -19,4 +19,8 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	}
 
 	override fun map(value: T) = function(value)
+
+	override fun toString(): String {
+		return "Function[$function](${super.asset})"
+	}
 }

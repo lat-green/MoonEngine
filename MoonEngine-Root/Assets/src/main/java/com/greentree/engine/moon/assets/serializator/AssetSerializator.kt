@@ -13,5 +13,5 @@ interface AssetSerializator<T : Any> {
 
 	@Deprecated("prepare to be removed")
 	fun canLoad(manager: AssetManager, key: AssetKey): Boolean
-	fun load(context: AssetManager, key: AssetKey): Asset<T>
+	fun load(context: AssetManager, key: AssetKey): Asset<T>?
 }
