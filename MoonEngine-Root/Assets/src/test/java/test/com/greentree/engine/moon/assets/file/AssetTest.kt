@@ -4,6 +4,7 @@ import com.greentree.commons.util.cortege.Pair
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.ConstAsset
 import com.greentree.engine.moon.assets.asset.Value1Function
+import com.greentree.engine.moon.assets.asset.isValid
 import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
@@ -11,9 +12,11 @@ import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.MutableAssetManager
+import com.greentree.engine.moon.assets.serializator.manager.load
+import com.greentree.engine.moon.assets.serializator.marker.CantLoadType
+import com.greentree.engine.moon.assets.serializator.marker.NotMyKeyType
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequest
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequestImpl
-import com.greentree.engine.moon.assets.serializator.request.canLoad
 import com.greentree.engine.moon.assets.serializator.request.load
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -29,34 +32,26 @@ class AssetTest {
 
 	class StringAssetSerializator : AssetSerializator<String> {
 
-		override fun canLoad(manager: AssetManager, key: AssetKey): Boolean {
-			return key is StringAssetKey
-		}
-
 		override fun load(context: AssetManager, key: AssetKey): Asset<String> {
-			try {
-				Thread.sleep(SLEEP_ON_LOAD)
-			} catch(e: InterruptedException) {
-				e.printStackTrace()
-			}
-			if(key is StringAssetKey)
+			if(key is StringAssetKey) {
+				try {
+					Thread.sleep(SLEEP_ON_LOAD)
+				} catch(e: InterruptedException) {
+					e.printStackTrace()
+				}
 				return ConstAsset(key.value)
-			throw IllegalArgumentException()
+			}
+			throw NotMyKeyType
 		}
 	}
 
 	class StringToIntAssetSerializator : AssetSerializator<Int> {
 
-		override fun canLoad(manager: AssetManager, key: AssetKey): Boolean {
-			return manager.canLoad(String::class.java, key)
-		}
-
 		override fun load(manager: AssetManager, key: AssetKey): Asset<Int> {
-			if(manager.canLoad(String::class.java, key)) {
-				val str: Asset<String> = manager.load<String>(String::class.java, key)
+			val str = manager.load<String>(key)
+			if(str.isValid)
 				return str.map(StringToInt())
-			}
-			throw IllegalArgumentException()
+			throw CantLoadType.get<String>()
 		}
 
 		private class StringToInt : Value1Function<String, Int> {
@@ -68,26 +63,6 @@ class AssetTest {
 	}
 
 	data class StringAssetKey(val value: String) : AssetKey
-
-	@MethodSource(value = ["requests"])
-	@ParameterizedTest
-	fun <T : Any> AssetManager_canLoad(pair: Pair<KeyLoadRequest<out T>, out T?>) {
-		val request = pair.first
-		manager.addSerializator<String>(StringAssetSerializator())
-		assertTrue(manager.canLoad(request))
-	}
-
-	@Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
-	@MethodSource(value = ["requests"])
-	@ParameterizedTest
-	fun <T> AssetManager_canLoad_after_load(
-		pair: Pair<KeyLoadRequestImpl<out T?>, out T?>,
-	) {
-		val request: KeyLoadRequestImpl<out T?> = pair.first
-		manager.addSerializator<String>(StringAssetSerializator())
-		manager.load(request)
-		assertTrue(manager.canLoad(request.loadType, request.key))
-	}
 
 	@Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
 	@MethodSource(value = ["requests"])
@@ -130,9 +105,9 @@ class AssetTest {
 	@Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
 	@MethodSource(value = ["map_requests"])
 	@ParameterizedTest
-	fun <T> AssetManager_map_load(pair: Pair<KeyLoadRequestImpl<out T>, out T>) {
-		manager.addSerializator<String>(StringAssetSerializator())
-		manager.addSerializator<Int>(StringToIntAssetSerializator())
+	fun <T : Any> AssetManager_map_load(pair: Pair<KeyLoadRequest<out T>, out T>) {
+		manager.addSerializator(StringAssetSerializator())
+		manager.addSerializator(StringToIntAssetSerializator())
 		val res = manager.load(pair.first)
 		assertEquals(res.value, pair.seconde)
 	}

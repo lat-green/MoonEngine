@@ -17,13 +17,6 @@ public class ResourceAssetSerializator implements AssetSerializator<Resource> {
     }
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        if (key instanceof ResourceAssetKey k)
-            return manager.canLoad(String.class, k.resourceName());
-        return false;
-    }
-
-    @Override
     public Asset<Resource> load(AssetManager manager, AssetKey ckey) {
         if (ckey instanceof ResourceAssetKey key) {
             final var name = manager.load(String.class, key.resourceName());

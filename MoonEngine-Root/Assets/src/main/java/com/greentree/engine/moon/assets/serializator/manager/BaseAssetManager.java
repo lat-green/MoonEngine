@@ -35,22 +35,7 @@ public final class BaseAssetManager implements MutableAssetManager {
         }}));
         return result;
     }
-
-    @Override
-    public boolean canLoad(TypeInfo<?> type, AssetKey key) {
-        final var info = getInfo(type);
-        if (info.canLoad(this, key)) {
-            Asset<?> result;
-            try {
-                result = info.load(this, key);
-            } catch (RuntimeException e) {
-                return false;
-            }
-            return result.isValid();
-        }
-        return false;
-    }
-
+    
     private <T> AssetSerializatorContainer.AssetSerializatorInfo<T> getInfo(TypeInfo<T> type) {
         return container.get(type);
     }

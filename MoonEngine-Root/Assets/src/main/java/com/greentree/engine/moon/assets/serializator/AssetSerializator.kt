@@ -11,7 +11,5 @@ interface AssetSerializator<T : Any> {
 	val type: TypeInfo<T>
 		get() = TypeUtil.getFirstAtgument(javaClass, AssetSerializator::class.java)
 
-	@Deprecated("prepare to be removed")
-	fun canLoad(manager: AssetManager, key: AssetKey): Boolean
 	fun load(context: AssetManager, key: AssetKey): Asset<T>?
 }

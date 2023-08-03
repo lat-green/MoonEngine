@@ -18,15 +18,6 @@ public class NamedAssetSerializator<T> implements AssetSerializator<T> {
     }
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey ckey) {
-        if (ckey instanceof NamedAssetKey key) {
-            final var real_key = location.getKey(key.name());
-            return manager.canLoad(TYPE, real_key);
-        }
-        return false;
-    }
-
-    @Override
     public Asset<T> load(AssetManager manager, AssetKey ckey) {
         if (ckey instanceof NamedAssetKey key) {
             final var real_key = location.getKey(key.name());

@@ -16,5 +16,4 @@ interface KeyLoadRequest<T : Any> {
 	fun key(): AssetKey
 }
 
-fun AssetManager.canLoad(request: KeyLoadRequest<*>) = canLoad(request.loadType(), request.key())
 fun <T : Any> AssetManager.load(request: KeyLoadRequest<T>) = load(request.loadType(), request.key())

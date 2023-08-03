@@ -106,13 +106,6 @@ final class AssetSerializatorContainer {
         }
 
         @Override
-        public boolean canLoad(AssetManager manager, AssetKey key) {
-            if (cache.has(key))
-                return true;
-            return serializator.canLoad(manager, key);
-        }
-
-        @Override
         public Asset<T> load(AssetManager manager, AssetKey key) {
             final var v = cache.set(key, () -> {
                 try {

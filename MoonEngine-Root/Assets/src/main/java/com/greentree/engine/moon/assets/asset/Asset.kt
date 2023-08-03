@@ -60,11 +60,11 @@ fun Asset<*>.toSplitString(): String {
 	return builder.toString()
 }
 
-val Asset<*>.isValid
+inline val Asset<*>.isValid
 	get() = isValid()
-val Asset<*>.isConst
+inline val Asset<*>.isConst
 	get() = isConst()
-val Asset<*>.isCache
+inline val Asset<*>.isCache
 	get() = isCache()
 
 inline fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) = ValueFunctionAsset.newAsset(this, function)

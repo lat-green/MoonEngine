@@ -6,8 +6,10 @@ class MutableAsset<T : Any>(initValue: T) : Asset<T> {
 		private set
 	override var value: T = initValue
 		set(value) {
-			lastModified = System.currentTimeMillis()
-			field = value
+			if(field != value) {
+				lastModified = System.currentTimeMillis()
+				field = value
+			}
 		}
 
 	override fun isCache() = true

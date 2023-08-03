@@ -11,7 +11,6 @@ import org.apache.logging.log4j.MarkerManager
 interface AssetManager {
 
 	fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T>
-	fun canLoad(type: TypeInfo<*>, key: AssetKey): Boolean
 
 	fun <T : Any> load(cls: Class<T>, key: Any?): Asset<T> {
 		return load(cls, ResultAssetKey(key))
@@ -34,21 +33,11 @@ interface AssetManager {
 		return load(type, ResourceAssetKey(resource))
 	}
 
-	fun canLoad(cls: Class<*>, key: AssetKey): Boolean {
-		val type = TypeInfoBuilder.getTypeInfo(cls)
-		return canLoad(type, key)
-	}
-
 	companion object {
 
 		@JvmField
 		val ASSETS = MarkerManager.getMarker("assets")
 	}
-}
-
-inline fun <reified T : Any> AssetManager.canLoad(key: AssetKey): Boolean {
-	val type = TypeInfoBuilder.getTypeInfo(T::class.java)
-	return canLoad(type, key)
 }
 
 inline fun <reified T : Any> AssetManager.load(key: Any?): Asset<T> {
