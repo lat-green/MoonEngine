@@ -4,6 +4,7 @@ import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeUtil;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.asset.Asset;
+import com.greentree.engine.moon.assets.asset.ThrowAsset;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.*;
 import com.greentree.engine.moon.assets.serializator.manager.cache.Cache;
@@ -49,7 +50,11 @@ final class AssetSerializatorContainer {
 
     public <T> Asset<T> load(AssetManager manager, TypeInfo<T> type, AssetKey key) {
         var info = getInfo(type);
-        return info.load(manager, key);
+        try {
+            return info.load(manager, key);
+        } catch (RuntimeException e) {
+            return new ThrowAsset(e);
+        }
     }
 
     @SuppressWarnings("unchecked")
