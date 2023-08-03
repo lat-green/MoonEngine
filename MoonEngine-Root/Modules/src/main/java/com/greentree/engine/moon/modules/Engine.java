@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.modules;
 
+import com.greentree.engine.moon.modules.property.EngineProperties;
 import com.greentree.engine.moon.modules.property.EnginePropertiesBase;
 import com.greentree.engine.moon.modules.property.ExitManagerProperty;
 import org.apache.logging.log4j.LogManager;
@@ -12,8 +13,8 @@ public final class Engine {
     private Engine() {
     }
 
-    public static void launch(String[] args, LaunchModule launchModule, UpdateModule updateModule,
-                              TerminateModule terminateModule) {
+    public static EngineProperties launch(String[] args, LaunchModule launchModule, UpdateModule updateModule,
+                                          TerminateModule terminateModule) {
         var exitManager = new ExitManagerImpl();
         var properties = new EnginePropertiesBase();
         properties.add(new ExitManagerProperty(exitManager));
@@ -28,6 +29,7 @@ public final class Engine {
         logger.debug(() -> "Begin Engine.terminate");
         terminateModule.terminate();
         logger.debug(() -> "End Engine.terminate");
+        return properties;
     }
 
 }

@@ -7,6 +7,7 @@ import com.greentree.engine.moon.base.modules.scanner.ServiceLoaderModuleDefenit
 import com.greentree.engine.moon.base.property.modules.info.AnnotatedCWRDMethodPropertyInfo;
 import com.greentree.engine.moon.base.sorter.OnCWRDMethodSorter;
 import com.greentree.engine.moon.modules.*;
+import com.greentree.engine.moon.modules.property.EngineProperties;
 
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
@@ -16,7 +17,7 @@ import java.util.List;
 public class EngineBase {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public static void launch(String[] args, EngineModule... modules) throws Exception {
+    public static EngineProperties launch(String[] args, EngineModule... modules) throws Exception {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
         var scanner = new ConfigModuleContainerScanner()
@@ -33,7 +34,7 @@ public class EngineBase {
         sorter.sort(launchModules, "launch");
         sorter.sort(updateModules, "update");
         sorter.sort(terminateModules, "terminate");
-        Engine.launch(args, p -> {
+        return Engine.launch(args, p -> {
             for (var module : launchModules)
                 module.launch(p);
         }, () -> {
