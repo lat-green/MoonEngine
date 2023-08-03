@@ -7,7 +7,7 @@ import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.*;
 import com.greentree.engine.moon.assets.serializator.manager.cache.Cache;
-import com.greentree.engine.moon.assets.serializator.manager.cache.WeakHashMapCache;
+import com.greentree.engine.moon.assets.serializator.manager.cache.CacheFactory;
 
 import java.util.*;
 import java.util.function.Function;
@@ -17,9 +17,11 @@ final class AssetSerializatorContainer {
     private final Map<TypeInfo<?>, AssetSerializatorInfo<?>> serializators = new HashMap<>();
 
     private final Collection<Function<? super TypeInfo<?>, ? extends AssetSerializator<?>>> generators = new ArrayList<>();
+    private final CacheFactory cacheFactory;
 
     @SuppressWarnings("unchecked")
-    public AssetSerializatorContainer() {
+    public AssetSerializatorContainer(CacheFactory factory) {
+        this.cacheFactory = factory;
         addGenerator(DefaultSerializator::new);
         addGenerator(ResultAssetSerializator::new);
     }
@@ -35,18 +37,23 @@ final class AssetSerializatorContainer {
 
     public <T> void addSerializator(AssetSerializator<T> serializator) {
         final var type = serializator.getType();
-        final var info = get(type);
+        final var info = getInfo(type);
         info.addSerializator(serializator);
     }
 
     public <T> void addGeneratedSerializator(AssetSerializator<T> serializator) {
         final var type = serializator.getType();
-        final var info = get(type);
+        final var info = getInfo(type);
         info.addGeneratedSerializator(serializator);
     }
 
+    public <T> Asset<T> load(AssetManager manager, TypeInfo<T> type, AssetKey key) {
+        var info = getInfo(type);
+        return info.load(manager, key);
+    }
+
     @SuppressWarnings("unchecked")
-    public <T> AssetSerializatorInfo<T> get(TypeInfo<T> type) {
+    private <T> AssetSerializatorInfo<T> getInfo(TypeInfo<T> type) {
         synchronized (serializators) {
             if (!serializators.containsKey(type)) {
                 final var info = new AssetSerializatorInfo<>(type);
@@ -88,12 +95,10 @@ final class AssetSerializatorContainer {
         private final AssetSerializator<T> serializator = new MultiAssetSerializator<>(
                 IteratorUtil.union(generatedSerializators, serializators, serializatorInfos));
 
-        //                private final Cache<AssetKey, Asset<T>> cache = new HashMapCache<>();
-        private final Cache<AssetKey, Asset<T>> cache = new WeakHashMapCache<>();
-//        private final Cache<AssetKey, Asset<T>> cache = new DirectoryCache<>(Assets.getTempCacheDirectory(TYPE));
+        private final Cache<AssetKey, Asset<T>> cache = cacheFactory.newCache();
 
         public AssetSerializatorInfo(TypeInfo<T> type) {
-            super(type);
+            super();
         }
 
         public void addGeneratedSerializator(AssetSerializator<T> serializator) {
