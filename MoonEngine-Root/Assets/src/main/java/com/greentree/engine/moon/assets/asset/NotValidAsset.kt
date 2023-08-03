@@ -13,7 +13,6 @@ class NotValidAsset<T : Any> private constructor() : Asset<T> {
 
 	override fun isValid() = false
 	override fun isConst() = true
-	override fun isCache() = true
 
 	@Throws(ObjectStreamException::class)
 	private fun readResolve(): Any {

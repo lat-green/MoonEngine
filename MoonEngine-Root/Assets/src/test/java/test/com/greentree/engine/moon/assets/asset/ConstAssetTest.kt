@@ -17,12 +17,7 @@ class ConstAssetTest {
 	fun isConst() {
 		assertTrue(asset.isConst())
 	}
-
-	@Test
-	fun isCache() {
-		assertTrue(asset.isCache())
-	}
-
+	
 	@Test
 	fun isValid() {
 		assertTrue(asset.isValid())

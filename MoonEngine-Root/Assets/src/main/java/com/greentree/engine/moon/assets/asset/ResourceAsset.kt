@@ -8,8 +8,6 @@ interface ResourceAsset : Asset<Resource> {
 
 	override val lastModified: Long
 		get() = value.lastModified()
-
-	override fun isCache() = true
 }
 
 data class ResourceAssetImpl constructor(override val value: Resource) : ResourceAsset {
@@ -29,8 +27,6 @@ data class ResourceNamedAsset private constructor(
 		get() = resources.getResource(name.value)
 	override val lastModified
 		get() = max(name.lastModified, value.lastModified())
-
-	override fun isCache() = true
 
 	override fun toString(): String {
 		return "ResourceNamedAsset($name)"

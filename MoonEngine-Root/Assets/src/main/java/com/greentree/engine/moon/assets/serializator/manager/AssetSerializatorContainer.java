@@ -4,7 +4,6 @@ import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeUtil;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.CacheAsset;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.*;
 import com.greentree.engine.moon.assets.serializator.manager.cache.Cache;
@@ -109,9 +108,7 @@ final class AssetSerializatorContainer {
         public Asset<T> load(AssetManager manager, AssetKey key) {
             final var v = cache.set(key, () -> {
                 try {
-                    var value = serializator.load(manager, key);
-                    value = CacheAsset.Companion.newAsset(value);
-                    return value;
+                    return serializator.load(manager, key);
                 } catch (Exception e) {
                     throw new IllegalArgumentException("type:" + getType() + " key:" + key, e);
                 }

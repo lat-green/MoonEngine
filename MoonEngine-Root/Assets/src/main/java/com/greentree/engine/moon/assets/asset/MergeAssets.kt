@@ -33,7 +33,6 @@ data class M2Asset<T1 : Any, T2 : Any>(val source1: Asset<T1>, val source2: Asse
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified)
 
-	override fun isCache() = source1.isCache() && source2.isCache()
 	override fun isConst() = source1.isConst() && source2.isConst()
 
 	override fun toString(): String {
@@ -53,7 +52,6 @@ data class M3Asset<T1 : Any, T2 : Any, T3 : Any>(
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified, source3.lastModified)
 
-	override fun isCache() = source1.isCache() && source2.isCache() && source3.isCache()
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst()
 
 	override fun toString(): String {
@@ -74,7 +72,6 @@ data class M4Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any>(
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified, source3.lastModified, source4.lastModified)
 
-	override fun isCache() = source1.isCache() && source2.isCache() && source3.isCache() && source4.isCache()
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst()
 	override fun toString(): String {
 		return "Merge($source1, $source2, $source3, $source4)"
@@ -100,9 +97,6 @@ data class M5Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any>(
 			source4.lastModified,
 			source5.lastModified
 		)
-
-	override fun isCache() =
-		source1.isCache() && source2.isCache() && source3.isCache() && source4.isCache() && source5.isCache()
 
 	override fun isConst() =
 		source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst() && source5.isConst()
@@ -134,9 +128,6 @@ data class M6Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any>(
 			source6.lastModified
 		)
 
-	override fun isCache() =
-		source1.isCache() && source2.isCache() && source3.isCache() && source4.isCache() && source5.isCache() && source6.isCache()
-
 	override fun isConst() =
 		source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst() && source5.isConst() && source6.isConst()
 
@@ -154,9 +145,6 @@ data class MIAsset<T : Any>(
 		get() = source.map { it.value }
 	override val lastModified
 		get() = source.maxOf { it.lastModified }
-
-	override fun isCache() =
-		source.all { it.isCache() }
 
 	override fun isConst() =
 		source.all { it.isConst() }

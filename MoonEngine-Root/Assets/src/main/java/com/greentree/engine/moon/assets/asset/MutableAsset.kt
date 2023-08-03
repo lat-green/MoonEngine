@@ -11,6 +11,4 @@ class MutableAsset<T : Any>(initValue: T) : Asset<T> {
 				field = value
 			}
 		}
-
-	override fun isCache() = true
 }

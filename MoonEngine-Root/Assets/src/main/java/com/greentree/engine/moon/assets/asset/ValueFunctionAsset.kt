@@ -1,10 +1,9 @@
 package com.greentree.engine.moon.assets.asset
 
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
-	asset: Asset<T>,
+	val asset: Asset<T>,
 	val function: Value1Function<T, R>,
-) :
-	AbstractMapAsset<T, R>(asset) {
+) : Asset<R> {
 
 	companion object {
 
@@ -18,9 +17,21 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 		}
 	}
 
-	override fun map(value: T) = function(value)
+	override fun isConst() = asset.isConst()
+
+	private var cache: R = function(asset.value)
+	override val value: R
+		get() {
+			if(lastModified < asset.lastModified) {
+				lastModified = asset.lastModified
+				cache = function(asset.value, cache)
+			}
+			return cache
+		}
+	override var lastModified = asset.lastModified
+		private set
 
 	override fun toString(): String {
-		return "Function[$function](${super.asset})"
+		return "Function[$function](${asset})"
 	}
 }

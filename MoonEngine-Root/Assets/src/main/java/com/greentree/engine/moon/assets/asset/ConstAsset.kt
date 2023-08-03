@@ -16,7 +16,6 @@ data class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 		get() = 0
 
 	override fun isConst() = true
-	override fun isCache() = true
 
 	override fun toString(): String {
 		return "Const[$value]"

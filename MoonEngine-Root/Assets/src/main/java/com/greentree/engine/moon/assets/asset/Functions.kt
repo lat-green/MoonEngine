@@ -24,6 +24,14 @@ interface Value1Function<T : Any, R> : (T) -> R, Serializable {
 	fun apply(value: T): R
 }
 
+class Value1FunctionImpl<T : Any, R, F>(private val function: F) : Value1Function<T, R>
+		where
+F : (T) -> R,
+F : Serializable {
+
+	override fun apply(value: T) = function(value)
+}
+
 operator fun <T : Any, R> Value1Function<T, R>.invoke(value: T, dest: R) = applyWithDest(value, dest)
 
 interface Value2Function<T1 : Any, T2 : Any, R> : Value1Function<Group2<out T1, out T2>, R> {

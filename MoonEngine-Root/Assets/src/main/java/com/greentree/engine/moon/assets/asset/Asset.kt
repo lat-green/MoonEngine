@@ -9,7 +9,6 @@ interface Asset<out T : Any> : Serializable {
 
 	fun isValid(): Boolean = true
 	fun isConst(): Boolean = false
-	fun isCache(): Boolean = false
 }
 
 fun Asset<*>.toSplitString(): String {
@@ -64,12 +63,11 @@ inline val Asset<*>.isValid
 	get() = isValid()
 inline val Asset<*>.isConst
 	get() = isConst()
-inline val Asset<*>.isCache
-	get() = isCache()
 
 inline fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) = ValueFunctionAsset.newAsset(this, function)
+
 inline fun <T : Any, R : Any, F> Asset<T>.map(function: F) where F : (T) -> R, F : Serializable =
-	MapAsset.newAsset(this, function)
+	map(Value1FunctionImpl(function))
 
 inline fun <T1 : Any, T2 : Any, R : Any> map(
 	asset1: Asset<T1>,
