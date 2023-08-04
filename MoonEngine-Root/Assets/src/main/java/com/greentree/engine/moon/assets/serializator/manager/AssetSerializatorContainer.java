@@ -103,7 +103,7 @@ final class AssetSerializatorContainer {
         private final Cache<AssetKey, Asset<T>> cache = cacheFactory.newCache();
 
         public AssetSerializatorInfo(TypeInfo<T> type) {
-            super();
+            super(type);
         }
 
         public void addGeneratedSerializator(AssetSerializator<T> serializator) {
