@@ -50,11 +50,7 @@ final class AssetSerializatorContainer {
 
     public <T> Asset<T> load(AssetManager manager, TypeInfo<T> type, AssetKey key) {
         var info = getInfo(type);
-        try {
-            return info.load(manager, key);
-        } catch (RuntimeException e) {
-            return new ThrowAsset(e);
-        }
+        return info.load(manager, key);
     }
 
     @SuppressWarnings("unchecked")
@@ -107,23 +103,24 @@ final class AssetSerializatorContainer {
         }
 
         public void addGeneratedSerializator(AssetSerializator<T> serializator) {
+            serializator = new Smart<>(serializator);
             generatedSerializators.add(serializator);
         }
 
         public void addSerializator(AssetSerializator<T> serializator) {
+            serializator = new Smart<>(serializator);
             serializators.add(serializator);
         }
 
         @Override
         public Asset<T> load(AssetManager manager, AssetKey key) {
-            final var v = cache.set(key, () -> {
+            return cache.set(key, () -> {
                 try {
                     return serializator.load(manager, key);
                 } catch (Exception e) {
-                    throw new IllegalArgumentException("type:" + getType() + " key:" + key, e);
+                    return new ThrowAsset(e);
                 }
             });
-            return v;
         }
 
         @Override

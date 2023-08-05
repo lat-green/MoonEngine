@@ -7,6 +7,8 @@ import com.greentree.commons.util.iterator.IteratorUtil.*
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
+import com.greentree.engine.moon.assets.serializator.marker.AssetSerializatorMarker
+import org.apache.logging.log4j.LogManager
 
 class MultiAssetSerializator<T : Any>(private val serializators: Iterable<AssetSerializator<out T>>) :
 	AssetSerializator<T> {
@@ -21,19 +23,16 @@ class MultiAssetSerializator<T : Any>(private val serializators: Iterable<AssetS
 	override fun load(manager: AssetManager, key: AssetKey): Asset<T> {
 		val exceptions = ArrayList<Throwable>()
 		for(serializator in serializators) {
-			val result = try {
+			return try {
 				serializator.load(manager, key)
+			} catch(e: AssetSerializatorMarker) {
+				continue
 			} catch(e: RuntimeException) {
 				exceptions.add(e)
 				continue
-			}
-			if(result == null) {
-				exceptions.add(NullPointerException("serializator $serializator load return null"))
-				continue
-			}
-			return result
+			} ?: continue
 		}
-		require(exceptions.isNotEmpty()) {
+		if(exceptions.isNotEmpty()) {
 			"no one serializator can not load $key " + toString(serializators)
 		}
 		throw MultiException(exceptions)
@@ -43,6 +42,11 @@ class MultiAssetSerializator<T : Any>(private val serializators: Iterable<AssetS
 		if(serializators.size == 1)
 			return serializators.first().toString()
 		return "MultiAssetSerializator " + toString(serializators)
+	}
+
+	companion object {
+
+		private val LOG = LogManager.getLogger(MultiAssetSerializator::class.java)
 	}
 }
 

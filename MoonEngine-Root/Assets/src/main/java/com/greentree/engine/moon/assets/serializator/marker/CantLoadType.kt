@@ -3,7 +3,7 @@ package com.greentree.engine.moon.assets.serializator.marker
 import com.greentree.commons.util.function.SaveFunction
 import kotlin.reflect.KClass
 
-class CantLoadType private constructor(cls: Class<*>) : AbstractAssetSerializatorMarker() {
+class CantLoadType private constructor(cls: Class<*>) : AssetSerializatorMarker() {
 
 	companion object {
 
