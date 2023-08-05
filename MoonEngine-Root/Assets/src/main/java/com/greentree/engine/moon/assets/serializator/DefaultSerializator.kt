@@ -8,12 +8,12 @@ import com.greentree.engine.moon.assets.key.DefaultAssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 
 class DefaultSerializator<T : Any>(type: TypeInfo<T>) : TypedAssetSerializator<T>(type) {
-	
-	override fun load(manager: AssetManager, key: AssetKey): Asset<T> {
+
+	override fun load(manager: AssetManager, key: AssetKey): Asset<T>? {
 		if(key is DefaultAssetKey) {
 			val values = key.keys.map { manager.load(type, it) }
 			return DefaultAsset.newAsset(values)
 		}
-		throw IllegalArgumentException()
+		return null
 	}
 }

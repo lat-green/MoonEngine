@@ -11,5 +11,5 @@ interface AssetSerializator<T : Any> {
 	val type: TypeInfo<T>
 		get() = TypeUtil.getFirstAtgument(javaClass, AssetSerializator::class.java)
 
-	fun load(context: AssetManager, key: AssetKey): Asset<T>?
+	fun load(manager: AssetManager, key: AssetKey): Asset<T>?
 }

@@ -6,7 +6,9 @@ import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.asset.ThrowAsset;
 import com.greentree.engine.moon.assets.key.AssetKey;
-import com.greentree.engine.moon.assets.serializator.*;
+import com.greentree.engine.moon.assets.serializator.AssetSerializator;
+import com.greentree.engine.moon.assets.serializator.MultiAssetSerializator;
+import com.greentree.engine.moon.assets.serializator.TypedAssetSerializator;
 import com.greentree.engine.moon.assets.serializator.manager.cache.Cache;
 import com.greentree.engine.moon.assets.serializator.manager.cache.CacheFactory;
 
@@ -23,8 +25,6 @@ final class AssetSerializatorContainer {
     @SuppressWarnings("unchecked")
     public AssetSerializatorContainer(CacheFactory factory) {
         this.cacheFactory = factory;
-        addGenerator(DefaultSerializator::new);
-        addGenerator(ResultAssetSerializator::new);
     }
 
     public void addGenerator(
