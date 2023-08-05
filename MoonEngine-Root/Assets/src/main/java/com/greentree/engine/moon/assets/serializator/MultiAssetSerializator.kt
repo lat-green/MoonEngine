@@ -7,7 +7,6 @@ import com.greentree.commons.util.iterator.IteratorUtil.*
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
-import com.greentree.engine.moon.assets.serializator.marker.AssetSerializatorMarker
 import org.apache.logging.log4j.LogManager
 
 class MultiAssetSerializator<T : Any>(private val serializators: Iterable<AssetSerializator<out T>>) :
@@ -25,8 +24,6 @@ class MultiAssetSerializator<T : Any>(private val serializators: Iterable<AssetS
 		for(serializator in serializators) {
 			return try {
 				serializator.load(manager, key)
-			} catch(e: AssetSerializatorMarker) {
-				continue
 			} catch(e: RuntimeException) {
 				exceptions.add(e)
 				continue

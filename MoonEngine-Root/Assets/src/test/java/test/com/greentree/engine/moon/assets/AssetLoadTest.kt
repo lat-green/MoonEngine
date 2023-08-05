@@ -8,7 +8,6 @@ import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
-import com.greentree.engine.moon.assets.serializator.marker.NotMyKeyType
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.lang.Thread.*
@@ -19,12 +18,12 @@ class AssetLoadTest {
 
 	init {
 		manager.addSerializator(object : AssetSerializator<String> {
-			override fun load(context: AssetManager, key: AssetKey): Asset<String> {
+			override fun load(context: AssetManager, key: AssetKey): Asset<String>? {
 				if(key is StringAssetKey) {
 					sleep(SLEEP)
 					return ConstAsset(key.value)
 				}
-				throw NotMyKeyType
+				return null
 			}
 		})
 	}

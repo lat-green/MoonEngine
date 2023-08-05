@@ -12,7 +12,6 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.MutableAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
-import com.greentree.engine.moon.assets.serializator.marker.CantLoadType
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequest
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequestImpl
 import com.greentree.engine.moon.assets.serializator.request.load
@@ -30,11 +29,11 @@ class AssetTest {
 
 	class StringToIntAssetSerializator : AssetSerializator<Int> {
 
-		override fun load(manager: AssetManager, key: AssetKey): Asset<Int> {
+		override fun load(manager: AssetManager, key: AssetKey): Asset<Int>? {
 			val str = manager.load<String>(key)
 			if(str.isValid)
 				return str.map(StringToInt())
-			throw CantLoadType.get<String>()
+			return null
 		}
 
 		private class StringToInt : Value1Function<String, Int> {

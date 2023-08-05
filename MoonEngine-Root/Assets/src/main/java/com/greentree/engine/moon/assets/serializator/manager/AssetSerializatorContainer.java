@@ -103,12 +103,10 @@ final class AssetSerializatorContainer {
         }
 
         public void addGeneratedSerializator(AssetSerializator<T> serializator) {
-            serializator = new Smart<>(serializator);
             generatedSerializators.add(serializator);
         }
 
         public void addSerializator(AssetSerializator<T> serializator) {
-            serializator = new Smart<>(serializator);
             serializators.add(serializator);
         }
 

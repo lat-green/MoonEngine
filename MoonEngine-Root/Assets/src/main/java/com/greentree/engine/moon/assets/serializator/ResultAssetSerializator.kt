@@ -6,7 +6,6 @@ import com.greentree.engine.moon.assets.asset.ConstAsset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
-import com.greentree.engine.moon.assets.serializator.marker.NotMyKeyType
 
 class ResultAssetSerializator<T : Any>(type: TypeInfo<T>) : TypedAssetSerializator<T>(type) {
 
@@ -17,6 +16,6 @@ class ResultAssetSerializator<T : Any>(type: TypeInfo<T>) : TypedAssetSerializat
 				return ConstAsset(result as T)
 			return null
 		}
-		throw NotMyKeyType
+		return null
 	}
 }
