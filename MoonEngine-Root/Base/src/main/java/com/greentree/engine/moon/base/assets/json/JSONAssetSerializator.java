@@ -16,16 +16,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 
+@Deprecated
 public class JSONAssetSerializator implements AssetSerializator<JsonElement> {
 
     public static final Gson GSON = new GsonBuilder().create();
-
-    @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        if (key instanceof ObjectToJsonKey k)
-            return manager.canLoad(Object.class, k.object());
-        return manager.canLoad(Resource.class, key) || manager.canLoad(CharSequence.class, key);
-    }
 
     @Override
     public Asset<JsonElement> load(AssetManager context, AssetKey ckey) {

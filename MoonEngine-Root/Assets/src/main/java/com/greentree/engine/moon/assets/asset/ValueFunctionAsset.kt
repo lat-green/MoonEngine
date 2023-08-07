@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.assets.asset
 
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
-	val asset: Asset<T>,
+	val source: Asset<T>,
 	val function: Value1Function<T, R>,
 ) : Asset<R> {
 
@@ -17,21 +17,21 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 		}
 	}
 
-	override fun isConst() = asset.isConst()
+	override fun isConst() = source.isConst()
 
-	private var cache: R = function(asset.value)
+	private var cache: R = function(source.value)
 	override val value: R
 		get() {
-			if(lastModified < asset.lastModified) {
-				lastModified = asset.lastModified
-				cache = function(asset.value, cache)
+			if(lastModified < source.lastModified) {
+				lastModified = source.lastModified
+				cache = function(source.value, cache)
 			}
 			return cache
 		}
-	override var lastModified = asset.lastModified
+	override var lastModified = source.lastModified
 		private set
 
 	override fun toString(): String {
-		return "Function[$function](${asset})"
+		return "Function[$function]($source)"
 	}
 }

@@ -10,18 +10,9 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 public class DoubleAssetSerializator implements AssetSerializator<Double> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(String.class, key);
-    }
-
-    @Override
     public Asset<Double> load(AssetManager manager, AssetKey ckey) {
-        {
-            final var str = manager.load(String.class, ckey);
-            if (str != null)
-                return AssetKt.map(str, new StringToDouble());
-        }
-        return null;
+        final var str = manager.load(String.class, ckey);
+        return AssetKt.map(str, new StringToDouble());
     }
 
     private static final class StringToDouble implements Value1Function<String, Double> {

@@ -13,6 +13,7 @@ import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.key.ResultAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManagerKt;
 import com.greentree.engine.moon.base.component.AnnotationUtil;
 import com.greentree.engine.moon.base.layer.Layer;
 import com.greentree.engine.moon.base.name.Name;
@@ -45,17 +46,9 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
     private static final Logger LOG = LogManager.getLogger(XMLSceneAssetSerializator.class);
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(XMLElement.class, key);
-    }
-
-    @Override
     public Asset<Scene> load(AssetManager manager, AssetKey ckey) {
-        if (manager.canLoad(XMLElement.class, ckey)) {
-            final var res = manager.load(XMLElement.class, ckey);
-            return AssetKt.map(res, new XMLWorldFunction(manager));
-        }
-        return null;
+        final var res = manager.load(XMLElement.class, ckey);
+        return AssetKt.map(res, new XMLWorldFunction(manager));
     }
 
     @SuppressWarnings("unchecked")
@@ -78,7 +71,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
                     final var xml_value_text = xml_value.getContent();
                     final var key = new ResultAssetKey(xml_value_text);
-                    if (context.canLoad(type, key)) {
+                    if (AssetManagerKt.canLoad(context, type, key)) {
                         final var v = context.load(type, key).getValue();
                         return new ValueConstructor<>(v);
                     }
@@ -113,7 +106,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                     if (iter.isEmpty())
                         return null;
                     final var key = new ResultAssetKey(xml_value.getChildrens().iterator().next());
-                    if (context.canLoad(type, key)) {
+                    if (AssetManagerKt.canLoad(context, type, key)) {
                         final var v = context.load(type, key).getValue();
                         return new ValueConstructor<>(v);
                     }

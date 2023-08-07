@@ -13,22 +13,14 @@ import com.greentree.engine.moon.render.texture.Texture2DType;
 public class Texture2DAssetSerializator implements AssetSerializator<Texture2DData> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return key instanceof Texture2DAssetKey || manager.canLoad(ImageData.class, key);
-    }
-
-    @Override
     public Asset<Texture2DData> load(AssetManager manager, AssetKey ckey) {
         if (ckey instanceof Texture2DAssetKey key) {
             final var image = manager.load(ImageData.class, key.image());
             final var type = key.textureType();
             return AssetKt.map(image, new Texture2DDataFunction(type));
         }
-        if (manager.canLoad(ImageData.class, ckey)) {
-            final var image = manager.load(ImageData.class, ckey);
-            return AssetKt.map(image, new Texture2DDataFunction());
-        }
-        return null;
+        final var image = manager.load(ImageData.class, ckey);
+        return AssetKt.map(image, new Texture2DDataFunction());
     }
 
     private static final class Texture2DDataFunction

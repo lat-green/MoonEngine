@@ -18,8 +18,6 @@ import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.material.Property;
 import com.greentree.engine.moon.render.texture.Texture2DType;
 
-import java.util.Properties;
-
 public final class PBRMaterialPropertiesAssetSerializator implements AssetSerializator<MaterialProperties> {
 
     private final static AssetKey DEFAULT_ALBEDO = new ResultAssetKey(new ColorImageData(Color.white));
@@ -35,52 +33,44 @@ public final class PBRMaterialPropertiesAssetSerializator implements AssetSerial
     private final static AssetKey DEFAULT_AMBIENT_OCCLUSION = new ResultAssetKey(new ColorImageData(Color.white));
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(Properties.class, key);
-    }
-
-    @Override
     public Asset<MaterialProperties> load(AssetManager manager, AssetKey key) {
-        if (manager.canLoad(Properties.class, key)) {
-            final var albedo = new DefaultAssetKey(new ResourceAssetKey(new PropertyAssetKey(key, "texture.albedo")),
-                    DEFAULT_ALBEDO);
-            final var normal = new DefaultAssetKey(new ResourceAssetKey(new PropertyAssetKey(key, "texture.normal")),
-                    DEFAULT_NORMAL);
-            final var metallic = new DefaultAssetKey(
-                    new ResourceAssetKey(new PropertyAssetKey(key, "texture.metallic")), DEFAULT_METALLIC);
-            final var roughness = new DefaultAssetKey(
-                    new ResourceAssetKey(new PropertyAssetKey(key, "texture.roughness")), DEFAULT_ROUGHNESS);
-            final var displacement = new DefaultAssetKey(
-                    new ResourceAssetKey(new PropertyAssetKey(key, "texture.displacement")), DEFAULT_DISPLACEMENT);
-            final var ambient_occlusion = new DefaultAssetKey(
-                    new ResourceAssetKey(new PropertyAssetKey(key, "texture.ambient_occlusion")),
-                    DEFAULT_AMBIENT_OCCLUSION);
-            final var texture_albedo = new Texture2DAssetKey(albedo, new Texture2DType());
-            final var texture_normal = new Texture2DAssetKey(normal, new Texture2DType());
-            final var texture_metallic = new Texture2DAssetKey(metallic, new Texture2DType());
-            final var texture_roughness = new Texture2DAssetKey(roughness, new Texture2DType());
-            final var texture_displacement = new Texture2DAssetKey(displacement, new Texture2DType());
-            final var texture_ambient_occlusion = new Texture2DAssetKey(ambient_occlusion, new Texture2DType());
-            final Asset<Property> albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
-                    ambient_occlusionAsset;
-            //			try(final var parallel = manager.parallel()) {
-            //    			albedoAsset = parallel.load(Property.class, texture_albedo);
-            //    			normalAsset = parallel.load(Property.class, texture_normal);
-            //    			metallicAsset = parallel.load(Property.class, texture_metallic);
-            //    			roughnessAsset = parallel.load(Property.class, texture_roughness);
-            //    			displacementAsset = parallel.load(Property.class, texture_displacement);
-            //    			ambient_occlusionAsset = parallel.load(Property.class, texture_ambient_occlusion);
-            //			}
-            albedoAsset = manager.load(Property.class, texture_albedo);
-            normalAsset = manager.load(Property.class, texture_normal);
-            metallicAsset = manager.load(Property.class, texture_metallic);
-            roughnessAsset = manager.load(Property.class, texture_roughness);
-            displacementAsset = manager.load(Property.class, texture_displacement);
-            ambient_occlusionAsset = manager.load(Property.class, texture_ambient_occlusion);
-            return AssetKt.map(albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
-                    ambient_occlusionAsset, new MaterialPropertiesAssetSerializatorFunction());
-        }
-        return null;
+        final var albedo = new DefaultAssetKey(new ResourceAssetKey(new PropertyAssetKey(key, "texture.albedo")),
+                DEFAULT_ALBEDO);
+        final var normal = new DefaultAssetKey(new ResourceAssetKey(new PropertyAssetKey(key, "texture.normal")),
+                DEFAULT_NORMAL);
+        final var metallic = new DefaultAssetKey(
+                new ResourceAssetKey(new PropertyAssetKey(key, "texture.metallic")), DEFAULT_METALLIC);
+        final var roughness = new DefaultAssetKey(
+                new ResourceAssetKey(new PropertyAssetKey(key, "texture.roughness")), DEFAULT_ROUGHNESS);
+        final var displacement = new DefaultAssetKey(
+                new ResourceAssetKey(new PropertyAssetKey(key, "texture.displacement")), DEFAULT_DISPLACEMENT);
+        final var ambient_occlusion = new DefaultAssetKey(
+                new ResourceAssetKey(new PropertyAssetKey(key, "texture.ambient_occlusion")),
+                DEFAULT_AMBIENT_OCCLUSION);
+        final var texture_albedo = new Texture2DAssetKey(albedo, new Texture2DType());
+        final var texture_normal = new Texture2DAssetKey(normal, new Texture2DType());
+        final var texture_metallic = new Texture2DAssetKey(metallic, new Texture2DType());
+        final var texture_roughness = new Texture2DAssetKey(roughness, new Texture2DType());
+        final var texture_displacement = new Texture2DAssetKey(displacement, new Texture2DType());
+        final var texture_ambient_occlusion = new Texture2DAssetKey(ambient_occlusion, new Texture2DType());
+        final Asset<Property> albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
+                ambient_occlusionAsset;
+        //			try(final var parallel = manager.parallel()) {
+        //    			albedoAsset = parallel.load(Property.class, texture_albedo);
+        //    			normalAsset = parallel.load(Property.class, texture_normal);
+        //    			metallicAsset = parallel.load(Property.class, texture_metallic);
+        //    			roughnessAsset = parallel.load(Property.class, texture_roughness);
+        //    			displacementAsset = parallel.load(Property.class, texture_displacement);
+        //    			ambient_occlusionAsset = parallel.load(Property.class, texture_ambient_occlusion);
+        //			}
+        albedoAsset = manager.load(Property.class, texture_albedo);
+        normalAsset = manager.load(Property.class, texture_normal);
+        metallicAsset = manager.load(Property.class, texture_metallic);
+        roughnessAsset = manager.load(Property.class, texture_roughness);
+        displacementAsset = manager.load(Property.class, texture_displacement);
+        ambient_occlusionAsset = manager.load(Property.class, texture_ambient_occlusion);
+        return AssetKt.map(albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
+                ambient_occlusionAsset, new MaterialPropertiesAssetSerializatorFunction());
     }
 
     private final static class MaterialPropertiesAssetSerializatorFunction

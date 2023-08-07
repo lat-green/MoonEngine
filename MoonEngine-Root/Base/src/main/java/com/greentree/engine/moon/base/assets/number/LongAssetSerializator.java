@@ -10,18 +10,9 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 public class LongAssetSerializator implements AssetSerializator<Long> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(String.class, key);
-    }
-
-    @Override
-    public Asset<Long> load(AssetManager manager, AssetKey ckey) {
-        {
-            final var str = manager.load(String.class, ckey);
-            if (str != null)
-                return AssetKt.map(str, new StringToLong());
-        }
-        return null;
+    public Asset<Long> load(AssetManager manager, AssetKey key) {
+        final var str = manager.load(String.class, key);
+        return AssetKt.map(str, new StringToLong());
     }
 
     private static final class StringToLong implements Value1Function<String, Long> {

@@ -13,17 +13,9 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 public class XMLtoShape implements AssetSerializator<IMovableShape2D> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(XMLElement.class, key);
-    }
-
-    @Override
     public Asset<IMovableShape2D> load(AssetManager manager, AssetKey key) {
-        if (manager.canLoad(XMLElement.class, key)) {
-            var v = manager.load(XMLElement.class, key);
-            return AssetKt.map(v, new XMLtoShapeFunction());
-        }
-        return null;
+        var v = manager.load(XMLElement.class, key);
+        return AssetKt.map(v, new XMLtoShapeFunction());
     }
 
     private static final class XMLtoShapeFunction implements Value1Function<XMLElement, IMovableShape2D> {

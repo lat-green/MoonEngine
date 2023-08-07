@@ -15,17 +15,9 @@ import com.greentree.engine.moon.render.texture.Texture2DData;
 public class GLTextureAssetSerializator implements AssetSerializator<GLTexture2DImpl> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(Texture2DData.class, key);
-    }
-
-    @Override
     public Asset<GLTexture2DImpl> load(AssetManager manager, AssetKey ckey) {
-        if (manager.canLoad(Texture2DData.class, ckey)) {
-            final var texture = manager.load(Texture2DData.class, ckey);
-            return AssetKt.map(texture, new GLTextureAsset());
-        }
-        return null;
+        final var texture = manager.load(Texture2DData.class, ckey);
+        return AssetKt.map(texture, new GLTextureAsset());
     }
 
     private static final class GLTextureAsset

@@ -10,18 +10,9 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 public class FloatAssetSerializator implements AssetSerializator<Float> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(String.class, key);
-    }
-
-    @Override
     public Asset<Float> load(AssetManager manager, AssetKey ckey) {
-        {
-            final var str = manager.load(String.class, ckey);
-            if (str != null)
-                return AssetKt.map(str, new StringToFloat());
-        }
-        return null;
+        final var str = manager.load(String.class, ckey);
+        return AssetKt.map(str, new StringToFloat());
     }
 
     private static final class StringToFloat implements Value1Function<String, Float> {

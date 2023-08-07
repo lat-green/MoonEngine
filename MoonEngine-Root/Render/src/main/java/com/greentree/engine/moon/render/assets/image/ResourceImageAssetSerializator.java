@@ -1,8 +1,6 @@
 package com.greentree.engine.moon.render.assets.image;
 
 import com.greentree.commons.data.resource.Resource;
-import com.greentree.commons.image.Color;
-import com.greentree.commons.image.image.ColorImageData;
 import com.greentree.commons.image.image.ImageData;
 import com.greentree.commons.image.loader.ImageIOImageLoader;
 import com.greentree.commons.image.loader.PNGImageData;
@@ -17,35 +15,12 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 
 import java.io.IOException;
 
-public class ImageAssetSerializator implements AssetSerializator<ImageData> {
-
-    @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(Resource.class, key) || manager.canLoad(Color.class, key);
-    }
+public class ResourceImageAssetSerializator implements AssetSerializator<ImageData> {
 
     @Override
     public Asset<ImageData> load(AssetManager manager, AssetKey key) {
-        if (manager.canLoad(Resource.class, key)) {
-            final var res = manager.load(Resource.class, key);
-            return AssetKt.map(res, new ImageDataAsset());
-        }
-        if (manager.canLoad(Color.class, key)) {
-            final var color = manager.load(Color.class, key);
-            return AssetKt.map(color, new ColorTextureAsset());
-        }
-        return null;
-    }
-
-    private static final class ColorTextureAsset implements Value1Function<Color, ImageData> {
-
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public ImageData apply(Color color) {
-            return new ColorImageData(color);
-        }
-
+        final var res = manager.load(Resource.class, key);
+        return AssetKt.map(res, new ImageDataAsset());
     }
 
     private static final class ImageDataAsset implements Value1Function<Resource, ImageData> {
@@ -54,8 +29,6 @@ public class ImageAssetSerializator implements AssetSerializator<ImageData> {
 
         @Override
         public ImageData apply(Resource res) {
-            if (res == null)
-                return null;
             try (final var in = res.open()) {
                 return ImageIOImageLoader.IMAGE_DATA_LOADER.loadImage(in);
             } catch (IOException e1) {

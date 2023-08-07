@@ -13,18 +13,10 @@ import com.greentree.engine.moon.render.shader.ShaderProgramData;
 public final class PBRMaterialAssetSerializator implements AssetSerializator<Material> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(MaterialProperties.class, key);
-    }
-
-    @Override
     public Asset<Material> load(AssetManager manager, AssetKey key) {
-        if (manager.canLoad(MaterialProperties.class, key)) {
-            var program = manager.load(ShaderProgramData.class, "shader/pbr_mapping/pbr_mapping.glsl");
-            var properties = manager.load(MaterialProperties.class, key);
-            return AssetKt.map(program, properties, new PBRMaterialAssetSerializatorFunction());
-        }
-        return null;
+        var program = manager.load(ShaderProgramData.class, "shader/pbr_mapping/pbr_mapping.glsl");
+        var properties = manager.load(MaterialProperties.class, key);
+        return AssetKt.map(program, properties, new PBRMaterialAssetSerializatorFunction());
     }
 
     private static final class PBRMaterialAssetSerializatorFunction

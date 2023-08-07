@@ -15,19 +15,9 @@ import java.io.IOException;
 public final class ScriptAssetSerializator implements AssetSerializator<JavaScriptScript> {
 
     @Override
-    public boolean canLoad(AssetManager context, AssetKey key) {
-        return context.canLoad(Resource.class, key);
-    }
-
-    @Override
     public Asset<JavaScriptScript> load(AssetManager context, AssetKey key) {
-        {
-            if (context.canLoad(Resource.class, key)) {
-                final var res = context.load(Resource.class, key);
-                return AssetKt.map(res, ScriptFunction.INSTANCE);
-            }
-        }
-        return null;
+        final var res = context.load(Resource.class, key);
+        return AssetKt.map(res, ScriptFunction.INSTANCE);
     }
 
     private static final class ScriptFunction
@@ -35,6 +25,17 @@ public final class ScriptAssetSerializator implements AssetSerializator<JavaScri
 
         public static final ScriptFunction INSTANCE = new ScriptFunction();
         private static final long serialVersionUID = 1L;
+
+        @Override
+        public JavaScriptScript apply(Resource resource) {
+            final String script;
+            try (final var in = resource.open()) {
+                script = new String(in.readAllBytes());
+            } catch (IOException e) {
+                throw new WrappedException(e);
+            }
+            return new JavaScriptScript(script);
+        }
 
         @Override
         public JavaScriptScript applyWithDest(Resource resource, JavaScriptScript dest) {
@@ -46,17 +47,6 @@ public final class ScriptAssetSerializator implements AssetSerializator<JavaScri
             }
             dest.setScript(script);
             return dest;
-        }
-
-        @Override
-        public JavaScriptScript apply(Resource resource) {
-            final String script;
-            try (final var in = resource.open()) {
-                script = new String(in.readAllBytes());
-            } catch (IOException e) {
-                throw new WrappedException(e);
-            }
-            return new JavaScriptScript(script);
         }
 
     }

@@ -12,17 +12,9 @@ import com.greentree.engine.moon.opengl.adapter.TextureAddapter;
 public class TextureAddapterAssetSerializator implements AssetSerializator<TextureAddapter> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(GLTexture.class, key);
-    }
-
-    @Override
     public Asset<TextureAddapter> load(AssetManager manager, AssetKey ckey) {
-        if (manager.canLoad(GLTexture.class, ckey)) {
-            final var texture = manager.load(GLTexture.class, ckey);
-            return AssetKt.map(texture, new GLTexture_TextureAddapter_Function());
-        }
-        return null;
+        final var texture = manager.load(GLTexture.class, ckey);
+        return AssetKt.map(texture, new GLTexture_TextureAddapter_Function());
     }
 
     private static final class GLTexture_TextureAddapter_Function

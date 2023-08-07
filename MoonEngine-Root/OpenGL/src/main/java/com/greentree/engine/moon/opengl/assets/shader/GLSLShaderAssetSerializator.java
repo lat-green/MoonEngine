@@ -13,17 +13,9 @@ import com.greentree.engine.moon.render.shader.ShaderData;
 public class GLSLShaderAssetSerializator implements AssetSerializator<GLSLShader> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(ShaderData.class, key);
-    }
-
-    @Override
     public Asset<GLSLShader> load(AssetManager manager, AssetKey key) {
-        if (manager.canLoad(ShaderData.class, key)) {
-            final var shader = manager.load(ShaderData.class, key);
-            return AssetKt.map(shader, new GLSLShaderAsset());
-        }
-        return null;
+        final var shader = manager.load(ShaderData.class, key);
+        return AssetKt.map(shader, new GLSLShaderAsset());
     }
 
     private static final class GLSLShaderAsset implements Value1Function<ShaderData, GLSLShader> {

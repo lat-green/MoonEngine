@@ -10,18 +10,9 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 public class IntAssetSerializator implements AssetSerializator<Integer> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(String.class, key);
-    }
-
-    @Override
     public Asset<Integer> load(AssetManager manager, AssetKey ckey) {
-        {
-            final var str = manager.load(String.class, ckey);
-            if (str != null)
-                return AssetKt.map(str, new StringToInteger());
-        }
-        return null;
+        final var str = manager.load(String.class, ckey);
+        return AssetKt.map(str, new StringToInteger());
     }
 
     private static final class StringToInteger implements Value1Function<String, Integer> {

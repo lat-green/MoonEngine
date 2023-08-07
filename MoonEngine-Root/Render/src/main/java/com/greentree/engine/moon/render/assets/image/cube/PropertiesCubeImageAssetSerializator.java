@@ -6,24 +6,30 @@ import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.asset.AssetKt;
 import com.greentree.engine.moon.assets.asset.Value6Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
+import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 import com.greentree.engine.moon.render.texture.CubeImageData;
 
-public class CubeImageAssetSerializator implements AssetSerializator<CubeImageData> {
+public class PropertiesCubeImageAssetSerializator implements AssetSerializator<CubeImageData> {
 
     @Override
     public Asset<CubeImageData> load(AssetManager context, AssetKey ckey) {
-        if (ckey instanceof CubeImageAssetKey key) {
-            final var posx = context.load(ImageData.class, key.posx());
-            final var negx = context.load(ImageData.class, key.negx());
-            final var posy = context.load(ImageData.class, key.posy());
-            final var negy = context.load(ImageData.class, key.negy());
-            final var posz = context.load(ImageData.class, key.posz());
-            final var negz = context.load(ImageData.class, key.negz());
-            return AssetKt.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
-        }
-        return null;
+        final var posx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posx"));
+        final var negx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negx"));
+        final var posy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posy"));
+        final var negy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negy"));
+        final var posz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posz"));
+        final var negz_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negz"));
+        final Asset<ImageData> posx, negx, posy, negy, posz, negz;
+        posx = context.load(ImageData.class, posx_res);
+        negx = context.load(ImageData.class, negx_res);
+        posy = context.load(ImageData.class, posy_res);
+        negy = context.load(ImageData.class, negy_res);
+        posz = context.load(ImageData.class, posz_res);
+        negz = context.load(ImageData.class, negz_res);
+        return AssetKt.map(posx, negx, posy, negy, posz, negz, new CubeImageAsset());
     }
 
     private static final class CubeImageAsset implements

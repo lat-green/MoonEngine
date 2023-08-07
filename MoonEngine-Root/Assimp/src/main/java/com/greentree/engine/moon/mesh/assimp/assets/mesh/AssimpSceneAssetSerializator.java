@@ -17,51 +17,43 @@ import java.nio.ByteBuffer;
 
 public class AssimpSceneAssetSerializator implements AssetSerializator<AssimpScene> {
 
-	@Override
-	public boolean canLoad(AssetManager manager, AssetKey key) {
-		return manager.canLoad(Resource.class, key);
-	}
+    @Override
+    public Asset<AssimpScene> load(AssetManager manager, AssetKey ckey) {
+        final var resource = manager.load(Resource.class, ckey);
+        return AssetKt.map(resource, new AssimpSceneAsssetFunction());
+    }
 
-	@Override
-	public Asset<AssimpScene> load(AssetManager manager, AssetKey ckey) {
-		if (manager.canLoad(Resource.class, ckey)) {
-			final var resource = manager.load(Resource.class, ckey);
-			return AssetKt.map(resource, new AssimpSceneAsssetFunction());
-		}
-		return null;
-	}
+    public static final class AssimpSceneAsssetFunction implements Value1Function<Resource, AssimpScene> {
 
-	public static final class AssimpSceneAsssetFunction implements Value1Function<Resource, AssimpScene> {
+        private static final long serialVersionUID = 1L;
 
-		private static final long serialVersionUID = 1L;
+        @Override
+        public AssimpScene apply(Resource res) {
+            byte[] _data;
+            ByteBuffer data;
+            try (final var in = res.open()) {
+                _data = in.readAllBytes();
+                data = MemoryUtil.memCalloc(_data.length);
+                data.put(_data);
+                data.flip();
+            } catch (IOException e) {
+                throw new IllegalArgumentException(e);
+            }
+            try {
+                try (AIScene scene = Assimp.aiImportFileFromMemory(data, Assimp.aiProcess_Triangulate
+                        | Assimp.aiProcess_ValidateDataStructure | Assimp.aiProcess_OptimizeMeshes, "")) {
+                    if (scene == null) {
+                        final var error = Assimp.aiGetErrorString();
+                        throw new IllegalArgumentException(error);
+                    }
+                    final var s = new AssimpScene(scene, AssimpScene.NOT_LOAD_MATERIAL | AssimpScene.NOT_LOAD_TEXTURES);
+                    return s;
+                }
+            } finally {
+                MemoryUtil.memFree(data);
+            }
+        }
 
-		@Override
-		public AssimpScene apply(Resource res) {
-			byte[] _data;
-			ByteBuffer data;
-			try (final var in = res.open()) {
-				_data = in.readAllBytes();
-				data = MemoryUtil.memCalloc(_data.length);
-				data.put(_data);
-				data.flip();
-			} catch (IOException e) {
-				throw new IllegalArgumentException(e);
-			}
-			try {
-				try (AIScene scene = Assimp.aiImportFileFromMemory(data, Assimp.aiProcess_Triangulate
-						| Assimp.aiProcess_ValidateDataStructure | Assimp.aiProcess_OptimizeMeshes, "")) {
-					if (scene == null) {
-						final var error = Assimp.aiGetErrorString();
-						throw new IllegalArgumentException(error);
-					}
-					final var s = new AssimpScene(scene, AssimpScene.NOT_LOAD_MATERIAL | AssimpScene.NOT_LOAD_TEXTURES);
-					return s;
-				}
-			} finally {
-				MemoryUtil.memFree(data);
-			}
-		}
-
-	}
+    }
 
 }

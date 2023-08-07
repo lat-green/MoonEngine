@@ -24,18 +24,9 @@ public final class JSONToObjectSerializator<T> implements AssetSerializator<T> {
     }
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(JsonElement.class, key);
-    }
-
-    @Override
     public Asset<T> load(AssetManager manager, AssetKey ckey) {
-        {
-            final var json = manager.load(JsonElement.class, ckey);
-            if (json != null)
-                return AssetKt.map(json, INSTANCE);
-        }
-        return null;
+        final var json = manager.load(JsonElement.class, ckey);
+        return AssetKt.map(json, INSTANCE);
     }
 
     private static final class JSONFunction<T> implements Value1Function<JsonElement, T> {

@@ -16,18 +16,9 @@ import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 public class GLCubeTextureAssetSerializator implements AssetSerializator<GLCubeMapTexture> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(CubeTextureData.class, key);
-    }
-
-    @Override
     public Asset<GLCubeMapTexture> load(AssetManager manager, AssetKey ckey) {
-        {
-            final var texture = manager.load(CubeTextureData.class, ckey);
-            if (texture != null)
-                return AssetKt.map(texture, new GLCubeMapAsset());
-        }
-        return null;
+        final var texture = manager.load(CubeTextureData.class, ckey);
+        return AssetKt.map(texture, new GLCubeMapAsset());
     }
 
     public class GLCubeMapAsset implements Value1Function<CubeTextureData, GLCubeMapTexture> {

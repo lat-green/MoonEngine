@@ -6,7 +6,7 @@ data class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 
 		fun <T : Any> newAsset(value: T?): Asset<T> {
 			return when(value) {
-				null -> NotValidAsset.instance()
+				null -> ThrowAsset(NullPointerException("create ConstAsset(value=null)"))
 				else -> ConstAsset(value)
 			}
 		}

@@ -65,7 +65,9 @@ public class ObjectXMLBuilder implements Context {
 
             @Override
             public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
-                return () -> (T) Enum.valueOf((Class) type.toClass(), element.getContent());
+                if (type.toClass().isEnum())
+                    return () -> (T) Enum.valueOf((Class) type.toClass(), element.getContent());
+                return null;
             }
         });
         add(new XMLTypeAddapter() {

@@ -15,11 +15,6 @@ import java.util.Objects;
 public class CubeTextureAssetSerializator implements AssetSerializator<CubeTextureData> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return key instanceof CubeTextureAssetKey;
-    }
-
-    @Override
     public Asset<CubeTextureData> load(AssetManager manager, AssetKey ckey) {
         if (ckey instanceof CubeTextureAssetKey key) {
             final var image = manager.load(CubeImageData.class, key.image());

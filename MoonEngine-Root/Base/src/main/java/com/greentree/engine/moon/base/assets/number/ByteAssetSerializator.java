@@ -10,18 +10,9 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 public class ByteAssetSerializator implements AssetSerializator<Byte> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(String.class, key);
-    }
-
-    @Override
     public Asset<Byte> load(AssetManager manager, AssetKey ckey) {
-        {
-            final var str = manager.load(String.class, ckey);
-            if (str != null)
-                return AssetKt.map(str, new StringToByte());
-        }
-        return null;
+        final var str = manager.load(String.class, ckey);
+        return AssetKt.map(str, new StringToByte());
     }
 
     private static final class StringToByte implements Value1Function<String, Byte> {

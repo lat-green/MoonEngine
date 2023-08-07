@@ -14,36 +14,26 @@ import com.greentree.engine.moon.render.shader.ShaderLanguage;
 import com.greentree.engine.moon.render.shader.ShaderProgramDataImpl;
 import com.greentree.engine.moon.render.shader.ShaderType;
 
-import java.util.Properties;
-
 public class ShaderProgramDataAssetSerializator implements AssetSerializator<ShaderProgramDataImpl> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(Properties.class, key);
-    }
-
-    @Override
     public Asset<ShaderProgramDataImpl> load(AssetManager manager, AssetKey ckey) {
-        if (manager.canLoad(Properties.class, ckey)) {
-            final var vertProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "vert"));
-            final var fragProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "frag"));
-            final var geomProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "geom"));
-            final var vertKey = new ShaderAssetKey(vertProp, ShaderType.VERTEX,
-                    ShaderLanguage.GLSL);
-            final var fragKey = new ShaderAssetKey(fragProp, ShaderType.FRAGMENT,
-                    ShaderLanguage.GLSL);
-            final var geomKey = new ShaderAssetKey(geomProp, ShaderType.GEOMETRY,
-                    ShaderLanguage.GLSL);
-            final var vert = manager.load(ShaderData.class, vertKey);
-            final var frag = manager.load(ShaderData.class, fragKey);
-            if (manager.canLoad(ShaderData.class, geomKey)) {
-                final var geom = manager.load(ShaderData.class, geomKey);
-                return AssetKt.map(vert, frag, geom, new VertFragGeomShader());
-            }
-            return AssetKt.map(vert, frag, new VertFragShader());
+        final var vertProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "vert"));
+        final var fragProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "frag"));
+        final var geomProp = new ResourceAssetKey(new PropertyAssetKey(ckey, "geom"));
+        final var vertKey = new ShaderAssetKey(vertProp, ShaderType.VERTEX,
+                ShaderLanguage.GLSL);
+        final var fragKey = new ShaderAssetKey(fragProp, ShaderType.FRAGMENT,
+                ShaderLanguage.GLSL);
+        final var geomKey = new ShaderAssetKey(geomProp, ShaderType.GEOMETRY,
+                ShaderLanguage.GLSL);
+        final var vert = manager.load(ShaderData.class, vertKey);
+        final var frag = manager.load(ShaderData.class, fragKey);
+        final var geom = manager.load(ShaderData.class, geomKey);
+        if (geom.isValid()) {
+            return AssetKt.map(vert, frag, geom, new VertFragGeomShader());
         }
-        return null;
+        return AssetKt.map(vert, frag, new VertFragShader());
     }
 
     private static final class VertFragShader implements Value2Function<ShaderData, ShaderData, ShaderProgramDataImpl> {

@@ -10,19 +10,14 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.canLoad
+import com.greentree.engine.moon.assets.serializator.manager.load
 import java.io.IOException
 
 class StringAssetSerializator : AssetSerializator<String> {
 
-	override fun canLoad(manager: AssetManager, key: AssetKey): Boolean {
-		return manager.canLoad<Resource>(key)
-	}
-
-	override fun load(manager: AssetManager, ckey: AssetKey): Asset<String>? {
-		if(manager.canLoad<Resource>(ckey)) {
-			val res = manager.load(
-				Resource::class.java, ckey
-			)
+	override fun load(manager: AssetManager, key: AssetKey): Asset<String>? {
+		if(manager.canLoad<Resource>(key)) {
+			val res = manager.load<Resource>(key)
 			return res.map(ResourceToText)
 		}
 		return null

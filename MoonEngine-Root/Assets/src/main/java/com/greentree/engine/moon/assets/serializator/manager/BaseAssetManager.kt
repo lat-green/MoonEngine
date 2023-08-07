@@ -9,6 +9,7 @@ import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.CacheAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.MultiAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.NotNullAssetLoader
+import com.greentree.engine.moon.assets.serializator.loader.NotThrowAssetLoader
 import com.greentree.engine.moon.assets.serializator.manager.cache.WeakHashMapCacheFactory
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.message.SimpleMessage
@@ -17,7 +18,12 @@ class BaseAssetManager : MutableAssetManager {
 
 	private val loaders = mutableListOf<AssetLoader>()
 	private val multiLoaders =
-		NotNullAssetLoader(CacheAssetLoader(MultiAssetLoader(loaders), WeakHashMapCacheFactory()))
+		NotNullAssetLoader(
+			CacheAssetLoader(
+				NotThrowAssetLoader(MultiAssetLoader(loaders)),
+				WeakHashMapCacheFactory()
+			)
+		)
 
 	init {
 		addGenerator { DefaultSerializator(it) }

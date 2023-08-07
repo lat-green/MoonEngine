@@ -18,17 +18,9 @@ public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLS
             .getTypeInfo(Iterable.class, GLSLShader.class);
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(TYPE, key);
-    }
-
-    @Override
     public Asset<GLShaderProgram> load(AssetManager manager, AssetKey key) {
-        if (manager.canLoad(TYPE, key)) {
-            final var program = manager.load(TYPE, key);
-            return AssetKt.map(program, new GLShaderProgramFunction());
-        }
-        return null;
+        final var program = manager.load(TYPE, key);
+        return AssetKt.map(program, new GLShaderProgramFunction());
     }
 
     private static final class GLShaderProgramFunction

@@ -11,15 +11,7 @@ import com.greentree.engine.moon.render.shader.ShaderLanguage;
 import com.greentree.engine.moon.render.shader.ShaderType;
 
 public class ShaderDataAssetSerializator implements AssetSerializator<ShaderDataImpl> {
-
-    @Override
-    public boolean canLoad(AssetManager manager, AssetKey ckey) {
-        if (ckey instanceof ShaderAssetKey key) {
-            return manager.canLoad(String.class, key.text());
-        }
-        return false;
-    }
-
+    
     @Override
     public Asset<ShaderDataImpl> load(AssetManager manager, AssetKey ckey) {
         if (ckey instanceof ShaderAssetKey key) {

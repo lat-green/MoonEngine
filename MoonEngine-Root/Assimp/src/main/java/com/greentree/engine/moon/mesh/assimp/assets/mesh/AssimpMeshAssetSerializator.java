@@ -13,17 +13,9 @@ import com.greentree.engine.moon.mesh.assimp.AssimpScene;
 public class AssimpMeshAssetSerializator implements AssetSerializator<GraphicsMesh> {
 
     @Override
-    public boolean canLoad(AssetManager manager, AssetKey key) {
-        return manager.canLoad(AssimpScene.class, key);
-    }
-
-    @Override
     public Asset<GraphicsMesh> load(AssetManager manager, AssetKey key) {
-        if (manager.canLoad(AssimpScene.class, key)) {
-            final var scene = manager.load(AssimpScene.class, key);
-            return AssetKt.map(scene, new AssimpAsssetFunction());
-        }
-        return null;
+        final var scene = manager.load(AssimpScene.class, key);
+        return AssetKt.map(scene, new AssimpAsssetFunction());
     }
 
     public static final class AssimpAsssetFunction

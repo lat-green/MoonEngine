@@ -5,18 +5,26 @@ import com.greentree.commons.util.exception.MultiException
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutionException
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Future
 
-class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader {
+class ParallelMultiAssetLoader(private val loaders: Iterable<AssetLoader>, private val executor: ExecutorService) :
+	AssetLoader {
 
 	override fun <T : Any> load(manager: AssetManager, type: TypeInfo<T>, key: AssetKey): Asset<T>? {
+		val results = mutableListOf<Future<Asset<T>?>>()
+		for(loader in loaders)
+			results.add(executor.submit(Callable { loader.load(manager, type, key) }))
 		val exceptions = mutableListOf<RuntimeException>()
-		for(loader in loaders) {
+		for(result in results) {
 			try {
-				val result = loader.load(manager, type, key)
+				val result = result.get()
 				if(result != null)
 					return result
-			} catch(e: RuntimeException) {
-				exceptions.add(e)
+			} catch(e: ExecutionException) {
+				exceptions.add(e.cause as RuntimeException)
 			}
 		}
 		if(exceptions.isEmpty())

@@ -6,19 +6,10 @@ import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
-import com.greentree.engine.moon.assets.serializator.manager.canLoad
 import com.greentree.engine.moon.assets.serializator.manager.load
 import java.util.*
 
 class PropertyStringAssetSerializator : AssetSerializator<String> {
-
-	override fun canLoad(manager: AssetManager, key: AssetKey): Boolean {
-		if(key is PropertyAssetKey) {
-			return manager.canLoad<Properties>(key.properties)
-					&& manager.canLoad<String>(key.name)
-		}
-		return false
-	}
 
 	override fun load(manager: AssetManager, key: AssetKey): Asset<String> {
 		if(key is PropertyAssetKey) {
