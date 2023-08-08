@@ -22,18 +22,20 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private var cache: R = function(source.value)
 	override val value: R
 		get() {
-			if(_lastModified < source.lastModified) {
-				_lastModified = source.lastModified
-				cache = function(source.value, cache)
-			}
+			tryUpdate()
 			return cache
 		}
+
+	private inline fun tryUpdate() {
+		if(_lastModified < source.lastModified) {
+			_lastModified = source.lastModified
+			cache = function(source.value, cache)
+		}
+	}
+
 	override val lastModified: Long
 		get() {
-			if(_lastModified < source.lastModified) {
-				_lastModified = source.lastModified
-				cache = function(source.value, cache)
-			}
+			tryUpdate()
 			return _lastModified
 		}
 	private var _lastModified = source.lastModified
