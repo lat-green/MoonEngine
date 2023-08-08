@@ -6,6 +6,7 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.cache.Cache
 import com.greentree.engine.moon.assets.serializator.manager.cache.CacheFactory
+import com.greentree.engine.moon.assets.serializator.manager.cache.HashMapCache
 
 class CacheAssetLoader(private val origin: AssetLoader, factory: CacheFactory) : AssetLoader {
 
@@ -25,14 +26,12 @@ class CacheAssetLoader(private val origin: AssetLoader, factory: CacheFactory) :
 
 private fun CacheFactory.cache(): CacheMap {
 	return object : CacheMap {
-		val map = mutableMapOf<TypeInfo<*>, Cache<AssetKey, Asset<*>>>()
+		val map = HashMapCache<TypeInfo<*>, Cache<AssetKey, Asset<*>>>()
 
 		override fun <T : Any> get(type: TypeInfo<T>): Cache<AssetKey, Asset<T>> {
-			if(type in map)
-				return (map[type] as Cache<AssetKey, Asset<T>>)
-			val result = this@cache.newCache<T>()
-			map[type] = result as Cache<AssetKey, Asset<*>>
-			return result
+			return map.set(type) {
+				this@cache.newCache()
+			} as Cache<AssetKey, Asset<T>>
 		}
 	}
 }

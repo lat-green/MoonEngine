@@ -8,5 +8,5 @@ data class ThrowAsset<T : Any>(private val throwable: Throwable) : Asset<T> {
 	override val value: T
 		get() = throw throwable
 	override val lastModified: Long
-		get() = 0
+		get() = Long.MIN_VALUE
 }

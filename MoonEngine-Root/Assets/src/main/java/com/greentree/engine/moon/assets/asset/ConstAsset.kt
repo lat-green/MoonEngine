@@ -13,7 +13,7 @@ data class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 	}
 
 	override val lastModified: Long
-		get() = 0
+		get() = Long.MIN_VALUE
 
 	override fun isConst() = true
 

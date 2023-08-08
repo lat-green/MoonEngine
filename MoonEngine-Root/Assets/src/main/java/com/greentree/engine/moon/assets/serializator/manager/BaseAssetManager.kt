@@ -10,7 +10,7 @@ import com.greentree.engine.moon.assets.serializator.loader.CacheAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.MultiAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.NotNullAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.NotThrowAssetLoader
-import com.greentree.engine.moon.assets.serializator.manager.cache.WeakHashMapCacheFactory
+import com.greentree.engine.moon.assets.serializator.manager.cache.HashMapCacheFactory
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.message.SimpleMessage
 
@@ -21,7 +21,7 @@ class BaseAssetManager : MutableAssetManager {
 		NotNullAssetLoader(
 			CacheAssetLoader(
 				NotThrowAssetLoader(MultiAssetLoader(loaders)),
-				WeakHashMapCacheFactory()
+				HashMapCacheFactory()
 			)
 		)
 

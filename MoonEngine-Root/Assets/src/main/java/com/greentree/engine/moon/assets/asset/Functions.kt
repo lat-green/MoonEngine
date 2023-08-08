@@ -3,12 +3,9 @@ package com.greentree.engine.moon.assets.asset
 import org.apache.logging.log4j.LogManager
 import java.io.Serializable
 
+private val LOG = LogManager.getLogger()
+
 interface Value1Function<T : Any, R> : (T) -> R, Serializable {
-
-	companion object {
-
-		private val LOG = LogManager.getLogger(Value1Function::class.java)
-	}
 
 	fun applyWithDest(value: T, dest: R): R {
 		return try {
@@ -45,7 +42,12 @@ interface Value2Function<T1 : Any, T2 : Any, R> : Value1Function<Group2<out T1, 
 	}
 
 	fun applyWithDest(value1: T1, value2: T2, dest: R): R {
-		return apply(value1, value2)
+		return try {
+			apply(value1, value2)
+		} catch(e: Exception) {
+			LOG.warn("throw from applyWithDest (was used latest version)", e)
+			dest
+		}
 	}
 
 	fun apply(value1: T1, value2: T2): R
