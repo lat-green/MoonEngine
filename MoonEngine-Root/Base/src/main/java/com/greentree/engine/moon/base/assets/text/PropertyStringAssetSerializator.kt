@@ -11,13 +11,13 @@ import java.util.*
 
 class PropertyStringAssetSerializator : AssetSerializator<String> {
 
-	override fun load(manager: AssetManager, key: AssetKey): Asset<String> {
+	override fun load(manager: AssetManager, key: AssetKey): Asset<String>? {
 		if(key is PropertyAssetKey) {
 			val prop = manager.load<Properties>(key.properties)
 			val name = manager.load<String>(key.name)
 			return map(prop, name, GetPropertyFunction)
 		}
-		throw IllegalArgumentException()
+		return null
 	}
 
 	private object GetPropertyFunction : Value2Function<Properties, String, String> {

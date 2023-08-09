@@ -1,8 +1,12 @@
 package com.greentree.engine.moon.assets.asset
 
+import org.apache.logging.log4j.LogManager
+
+private val LOG = LogManager.getLogger(ValueFunctionAsset::class.java)
+
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
-	val source: Asset<T>,
-	val function: Value1Function<T, R>,
+	private val source: Asset<T>,
+	private val function: Value1Function<T, R>,
 ) : Asset<R> {
 
 	companion object {
