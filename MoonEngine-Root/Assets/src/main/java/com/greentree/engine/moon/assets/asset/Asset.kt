@@ -4,6 +4,8 @@ import java.io.Serializable
 
 interface Asset<out T : Any> : Serializable {
 
+	val cache: T
+		get() = value
 	val value: T
 	val lastModified: Long
 
@@ -31,13 +33,21 @@ fun Asset<*>.toSplitString(): String {
 			}
 
 			'(' -> {
-				tab++
-				builder.append("\n")
-				builder.append("\t".repeat(tab))
+				if(info == 0) {
+					tab++
+					builder.append("\n")
+					builder.append("\t".repeat(tab))
+				} else {
+					builder.append('(')
+				}
 			}
 
 			')' -> {
-				tab--
+				if(info == 0) {
+					tab--
+				} else {
+					builder.append(')')
+				}
 			}
 
 			',' -> {

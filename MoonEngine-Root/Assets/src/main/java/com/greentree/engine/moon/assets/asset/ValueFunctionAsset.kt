@@ -2,7 +2,7 @@ package com.greentree.engine.moon.assets.asset
 
 import org.apache.logging.log4j.LogManager
 
-private val LOG = LogManager.getLogger(ValueFunctionAsset::class.java)
+private val LOG = LogManager.getLogger()
 
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
@@ -21,9 +21,12 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 		}
 	}
 
+	override fun isValid() = source.isValid()
+
 	override fun isConst() = source.isConst()
 
-	private var cache: R = function(source.value)
+	override var cache = function(source.value)
+		private set
 	override val value: R
 		get() {
 			tryUpdate()
@@ -45,6 +48,6 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private var _lastModified = source.lastModified
 
 	override fun toString(): String {
-		return "Function[$function]($source)"
+		return "Function[${function::class.simpleName}]($source)"
 	}
 }

@@ -9,5 +9,6 @@ class IterableAsset<T : Any>(private val values: Asset<Iterable<Asset<T>>>) : As
 	override val lastModified: Long
 		get() = max(values.lastModified, values.value.maxOf { it.lastModified })
 
+	override fun isValid() = values.isValid()
 	override fun isConst() = values.isConst()
 }

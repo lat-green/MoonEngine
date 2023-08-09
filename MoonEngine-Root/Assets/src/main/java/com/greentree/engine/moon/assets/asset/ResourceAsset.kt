@@ -7,7 +7,7 @@ import java.lang.Long.*
 interface ResourceAsset : Asset<Resource> {
 
 	override val lastModified: Long
-		get() = value.lastModified()
+		get() = cache.lastModified()
 }
 
 data class ResourceAssetImpl constructor(override val value: Resource) : ResourceAsset {
@@ -26,7 +26,9 @@ data class ResourceNamedAsset private constructor(
 	override val value: Resource
 		get() = resources.getResource(name.value)
 	override val lastModified
-		get() = max(name.lastModified, value.lastModified())
+		get() = max(name.lastModified, resources.getResource(name.cache).lastModified())
+
+	override fun isValid() = name.isValid()
 
 	override fun toString(): String {
 		return "ResourceNamedAsset($name)"
