@@ -1,9 +1,5 @@
 package com.greentree.engine.moon.assets.asset
 
-import org.apache.logging.log4j.LogManager
-
-private val LOG = LogManager.getLogger()
-
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
 	private val function: Value1Function<T, R>,
