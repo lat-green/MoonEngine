@@ -74,7 +74,8 @@ inline val Asset<*>.isValid
 inline val Asset<*>.isConst
 	get() = isConst()
 
-inline fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) = ValueFunctionAsset.newAsset(this, function)
+inline fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) =
+	ValueFunctionAsset.newAsset(this, ValueSmartFunction(function))
 
 inline fun <T : Any, R : Any, F> Asset<T>.map(function: F) where F : (T) -> R, F : Serializable =
 	map(Value1FunctionImpl(function))
