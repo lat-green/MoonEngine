@@ -34,15 +34,6 @@ public class CubeTextureAssetSerializator implements AssetSerializator<CubeTextu
         }
 
         @Override
-        public CubeTextureData applyWithDest(CubeImageData value, CubeTextureData dest) {
-            if (dest == null)
-                return apply(value);
-            if (value == null)
-                return dest;
-            return apply(value);
-        }
-
-        @Override
         public CubeTextureData apply(CubeImageData image) {
             return new CubeTextureData(image, type);
         }
