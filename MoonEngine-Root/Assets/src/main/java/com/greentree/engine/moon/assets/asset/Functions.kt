@@ -7,15 +7,6 @@ private val LOG = LogManager.getLogger()
 
 interface Value1Function<T : Any, R> : (T) -> R, Serializable {
 
-	fun applyWithDest(value: T, dest: R): R {
-		return try {
-			invoke(value)
-		} catch(e: Exception) {
-			LOG.warn("throw from applyWithDest (was used latest version)", e)
-			dest
-		}
-	}
-
 	override fun invoke(p1: T) = apply(p1)
 
 	fun apply(value: T): R
@@ -29,25 +20,10 @@ F : Serializable {
 	override fun apply(value: T) = function(value)
 }
 
-operator fun <T : Any, R> Value1Function<T, R>.invoke(value: T, dest: R) = applyWithDest(value, dest)
-
 interface Value2Function<T1 : Any, T2 : Any, R> : Value1Function<Group2<out T1, out T2>, R> {
 
 	override fun apply(value: Group2<out T1, out T2>): R {
 		return apply(value.t1, value.t2)
-	}
-
-	override fun applyWithDest(value: Group2<out T1, out T2>, dest: R): R {
-		return applyWithDest(value.t1, value.t2, dest)
-	}
-
-	fun applyWithDest(value1: T1, value2: T2, dest: R): R {
-		return try {
-			apply(value1, value2)
-		} catch(e: Exception) {
-			LOG.warn("throw from applyWithDest (was used latest version)", e)
-			dest
-		}
 	}
 
 	fun apply(value1: T1, value2: T2): R

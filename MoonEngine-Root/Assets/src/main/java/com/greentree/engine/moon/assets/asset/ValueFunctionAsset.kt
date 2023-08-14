@@ -6,17 +6,17 @@ private val LOG = LogManager.getLogger()
 
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
-	private val function: SmartFunction<T, R>,
+	private val function: Value1Function<T, R>,
 ) : Asset<R> {
 
 	companion object {
 
 		fun <T : Any, R : Any> newAsset(
 			asset: Asset<T>,
-			function: SmartFunction<T, R>,
+			function: Value1Function<T, R>,
 		): Asset<R> {
 			if(asset.isConst())
-				return ConstAsset(function(asset.value).result.result)
+				return ConstAsset(function(asset.value))
 			return ValueFunctionAsset(asset, function)
 		}
 	}
@@ -25,7 +25,7 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 
 	override fun isConst() = source.isConst()
 
-	override var cache = function(source.value).result.result
+	override var cache = function(source.value)
 		private set
 	override val value: R
 		get() {
@@ -34,20 +34,12 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 		}
 
 	private inline fun tryUpdate() {
-		if(_lastModified < source.lastModified) {
-			when(val result = function(source.value).result) {
-				is ValueResult<R> -> {
-					_lastModified = source.lastModified
-					cache = result.result
-				}
-
-				is RepeatResult<R> -> {
-				}
-
-				is ErrorResult<R> -> {
-					_lastModified = source.lastModified
-					LOG.warn("", result.exception)
-				}
+		if(sourceLastUpdate < source.lastModified) {
+			sourceLastUpdate = source.lastModified
+			try {
+				cache = function(source.value)
+			} catch(e: Exception) {
+				LOG.warn("", e)
 			}
 		}
 	}
@@ -55,9 +47,9 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	override val lastModified: Long
 		get() {
 			tryUpdate()
-			return _lastModified
+			return sourceLastUpdate
 		}
-	private var _lastModified = source.lastModified
+	private var sourceLastUpdate = source.lastModified
 
 	override fun toString(): String {
 		return "Function[${function}]($source)"

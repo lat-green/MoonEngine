@@ -18,7 +18,10 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 	}
 
 	override val value: T
-		get() = sources.first { it.isValid }.value
+		get() {
+			println(sources)
+			return sources.first { it.isValid }.value
+		}
 	override val lastModified
 		get() = sources.filter { it.isValid }.maxOf { it.lastModified }
 }
