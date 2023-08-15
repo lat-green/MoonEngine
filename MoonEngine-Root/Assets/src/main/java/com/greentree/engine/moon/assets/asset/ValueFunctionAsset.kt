@@ -1,35 +1,27 @@
 package com.greentree.engine.moon.assets.asset
 
-import org.apache.logging.log4j.LogManager
-
-private val LOG = LogManager.getLogger()
-
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
 	private val function: Value1Function<T, R>,
 ) : Asset<R> {
 
-	companion object {
-
-		fun <T : Any, R : Any> newAsset(
-			asset: Asset<T>,
-			function: Value1Function<T, R>,
-		): Asset<R> {
-			if(asset.isConst())
-				return ConstAsset(function(asset.value))
-			return ValueFunctionAsset(asset, function)
-		}
+	override fun isValid(): Boolean {
+		if(!source.isValid())
+			return false
+		tryUpdate()
+		return exception == null
 	}
-
-	override fun isValid() = source.isValid()
 
 	override fun isConst() = source.isConst()
 
-	override var cache = function(source.value)
+	private var exception: Exception? = null
+	override var cache = function(source.cache)
 		private set
 	override val value: R
 		get() {
 			tryUpdate()
+			if(exception != null)
+				throw exception as Exception
 			return cache
 		}
 
@@ -39,7 +31,7 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 			try {
 				cache = function(source.value)
 			} catch(e: Exception) {
-				LOG.warn("", e)
+				exception = e
 			}
 		}
 	}
@@ -53,5 +45,17 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 
 	override fun toString(): String {
 		return "Function[${function}]($source)"
+	}
+
+	companion object {
+
+		fun <T : Any, R : Any> newAsset(
+			asset: Asset<T>,
+			function: Value1Function<T, R>,
+		): Asset<R> {
+			if(asset.isConst())
+				return ConstAsset(function(asset.value))
+			return ValueFunctionAsset(asset, function)
+		}
 	}
 }
