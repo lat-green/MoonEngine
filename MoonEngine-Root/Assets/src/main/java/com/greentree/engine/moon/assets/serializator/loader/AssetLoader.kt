@@ -9,8 +9,5 @@ interface AssetLoader {
 
 	fun <T : Any> load(context: Context, type: TypeInfo<T>, key: AssetKey): Asset<T>?
 
-	interface Context : AssetManager {
-
-		fun <T : Any> loadPart(type: TypeInfo<T>, key: AssetKey): Asset<T> = load(type, key)
-	}
+	interface Context : AssetManager
 }
