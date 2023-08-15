@@ -21,6 +21,10 @@ class CacheAssetLoader(private val origin: AssetLoader, factory: CacheFactory) :
 			origin.load(context, type, key)
 		}
 	}
+
+	override fun toString(): String {
+		return "CacheLoader($origin, $factory)"
+	}
 }
 
 private fun CacheFactory.cache(): CacheMap {

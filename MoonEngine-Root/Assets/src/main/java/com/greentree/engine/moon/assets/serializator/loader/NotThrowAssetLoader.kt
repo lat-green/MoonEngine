@@ -14,4 +14,8 @@ class NotThrowAssetLoader(private val origin: AssetLoader) : AssetLoader {
 			ThrowAsset(e)
 		}
 	}
+
+	override fun toString(): String {
+		return "NotThrowLoader($origin)"
+	}
 }

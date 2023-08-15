@@ -10,4 +10,8 @@ class NotNullAssetLoader(private val origin: AssetLoader) : AssetLoader {
 	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
 		return origin.load(context, type, key) ?: ThrowAsset(NullPointerException("loader: $origin return null"))
 	}
+
+	override fun toString(): String {
+		return "NotNullLoader($origin)"
+	}
 }
