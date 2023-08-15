@@ -10,7 +10,7 @@ public record ResultAssetKey(Object result) implements AssetKey {
 
     @Override
     public String toString() {
-        return "ResultKey[" + result + "(" + result.getClass().getSimpleName() + ")]";
+        return "ResultKey[" + result + "]";
     }
 
 }
