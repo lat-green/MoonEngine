@@ -4,15 +4,14 @@ import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.util.exception.MultiException
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 
 class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader {
 
-	override fun <T : Any> load(manager: AssetManager, type: TypeInfo<T>, key: AssetKey): Asset<T>? {
+	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T>? {
 		val exceptions = mutableListOf<RuntimeException>()
 		for(loader in loaders) {
 			try {
-				val result = loader.load(manager, type, key)
+				val result = loader.load(context, type, key)
 				if(result != null)
 					return result
 			} catch(e: RuntimeException) {

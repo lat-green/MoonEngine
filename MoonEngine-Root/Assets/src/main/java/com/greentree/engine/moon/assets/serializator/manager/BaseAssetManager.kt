@@ -10,7 +10,7 @@ import com.greentree.engine.moon.assets.serializator.loader.CacheAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.MultiAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.NotNullAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.NotThrowAssetLoader
-import com.greentree.engine.moon.assets.serializator.manager.cache.HashMapCacheFactory
+import com.greentree.engine.moon.assets.serializator.manager.cache.WeakHashMapCacheFactory
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.message.SimpleMessage
 
@@ -21,7 +21,7 @@ class BaseAssetManager : MutableAssetManager {
 		NotNullAssetLoader(
 			CacheAssetLoader(
 				NotThrowAssetLoader(MultiAssetLoader(loaders)),
-				HashMapCacheFactory()
+				WeakHashMapCacheFactory()
 			)
 		)
 
@@ -30,8 +30,15 @@ class BaseAssetManager : MutableAssetManager {
 		addGenerator { ResultAssetSerializator(it) }
 	}
 
+	private inner class AssetLoaderContext : AssetLoader.Context {
+
+		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey) = this@BaseAssetManager.load(type, key)
+	}
+
+	private val context = AssetLoaderContext()
+
 	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> {
-		val result = multiLoaders.load(this, type, key)
+		val result = multiLoaders.load(context, type, key)
 		LOG.debug(AssetManager.ASSETS) { SimpleMessage("type: $type key: $key result: $result") }
 		return result
 	}

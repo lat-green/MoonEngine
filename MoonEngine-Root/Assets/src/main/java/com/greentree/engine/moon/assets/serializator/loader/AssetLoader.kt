@@ -7,5 +7,10 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 
 interface AssetLoader {
 
-	fun <T : Any> load(manager: AssetManager, type: TypeInfo<T>, key: AssetKey): Asset<T>?
+	fun <T : Any> load(context: Context, type: TypeInfo<T>, key: AssetKey): Asset<T>?
+
+	interface Context : AssetManager {
+
+		fun <T : Any> loadPart(type: TypeInfo<T>, key: AssetKey): Asset<T> = load(type, key)
+	}
 }

@@ -25,5 +25,6 @@ interface MutableAssetManager : AssetManager {
 		addLoader(NamedAssetLoader(location))
 	}
 
+	@Deprecated("use addLoader")
 	fun addGenerator(generator: Function<in TypeInfo<*>, out AssetSerializator<*>>) = addLoader(Generator(generator))
 }
