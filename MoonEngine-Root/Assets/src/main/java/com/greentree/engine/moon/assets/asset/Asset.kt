@@ -4,8 +4,6 @@ import java.io.Serializable
 
 interface Asset<out T : Any> : Serializable {
 
-	val cache: T
-		get() = value
 	val value: T
 	val lastModified: Long
 

@@ -4,7 +4,16 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 
 	companion object {
 
-		fun <T : Any> newAsset(sources: Iterable<Asset<T>>): Asset<T> {
+		fun <T : Any> newAsset(sources: Iterable<Asset<T>>) = newAsset(sources.toList())
+
+		fun <T : Any> newAsset(sources: Collection<Asset<T>>): Asset<T> {
+			if(sources.size == 1)
+				return sources.first()
+			for(asset in sources)
+				if(asset.isConst() && asset.isValid())
+					return asset
+				else
+					break
 			return DefaultAsset(sources)
 		}
 	}

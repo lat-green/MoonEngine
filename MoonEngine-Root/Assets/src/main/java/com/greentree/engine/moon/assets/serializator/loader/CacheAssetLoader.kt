@@ -15,7 +15,7 @@ class CacheAssetLoader(private val origin: AssetLoader, factory: CacheFactory) :
 		this.factory = factory.cache()
 	}
 
-	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T>? {
+	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
 		val cache = factory[type]
 		return cache.set(key) {
 			origin.load(context, type, key)

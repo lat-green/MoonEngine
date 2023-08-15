@@ -22,8 +22,10 @@ class PropertyStringAssetSerializator : AssetSerializator<String> {
 
 	private object GetPropertyFunction : Value2Function<Properties, String, String> {
 
-		override fun apply(prop: Properties, name: String): String {
-			return prop.getProperty(name)
+		override fun apply(properties: Properties, name: String): String {
+			if(properties.containsKey(name))
+				return properties.getProperty(name)
+			throw NullPointerException("properties not have property properties: $properties, name: $name")
 		}
 
 		override fun toString(): String {

@@ -15,33 +15,43 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	override fun isConst() = source.isConst()
 
 	private var exception: Exception? = null
-	override var cache = function(source.cache)
-		private set
+	private var cache: R? = null
+	private var sourceLastUpdate = 0L
+
+	init {
+		update()
+	}
+
 	override val value: R
 		get() {
 			tryUpdate()
-			if(exception != null)
-				throw exception as Exception
-			return cache
-		}
-
-	private inline fun tryUpdate() {
-		if(sourceLastUpdate < source.lastModified) {
-			sourceLastUpdate = source.lastModified
-			try {
-				cache = function(source.value)
-			} catch(e: Exception) {
-				exception = e
+			if(exception != null && cache == null) {
+				val e = RuntimeException(exception)
+				throw e
 			}
+			return cache!!
 		}
-	}
-
 	override val lastModified: Long
 		get() {
 			tryUpdate()
 			return sourceLastUpdate
 		}
-	private var sourceLastUpdate = source.lastModified
+
+	private fun tryUpdate() {
+		if(sourceLastUpdate < source.lastModified) {
+			update()
+		}
+	}
+
+	private fun update() {
+		sourceLastUpdate = source.lastModified
+		try {
+			cache = function(source.value)
+			exception = null
+		} catch(e: Exception) {
+			exception = e
+		}
+	}
 
 	override fun toString(): String {
 		return "Function[${function}]($source)"
@@ -54,7 +64,11 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 			function: Value1Function<T, R>,
 		): Asset<R> {
 			if(asset.isConst())
-				return ConstAsset(function(asset.value))
+				return try {
+					ConstAsset(function(asset.value))
+				} catch(e: Exception) {
+					ThrowAsset(e)
+				}
 			return ValueFunctionAsset(asset, function)
 		}
 	}
