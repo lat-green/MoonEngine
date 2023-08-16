@@ -24,7 +24,8 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 
 	override val value: R
 		get() {
-			tryUpdate()
+			if(source.isValid())
+				tryUpdate()
 			if(exception != null && cache == null) {
 				val e = RuntimeException(exception)
 				throw e
@@ -33,7 +34,8 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 		}
 	override val lastModified: Long
 		get() {
-			tryUpdate()
+			if(source.isValid())
+				tryUpdate()
 			return sourceLastUpdate
 		}
 
@@ -44,8 +46,8 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	}
 
 	private fun update() {
-		sourceLastUpdate = source.lastModified
 		try {
+			sourceLastUpdate = source.lastModified
 			cache = function(source.value)
 			exception = null
 		} catch(e: Exception) {

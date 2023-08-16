@@ -28,7 +28,7 @@ data class ResourceNamedAsset private constructor(
 	override val lastModified
 		get() = max(name.lastModified, resources.getResource(name.value).lastModified())
 
-	override fun isValid() = name.isValid()
+	override fun isValid() = name.isValid() && resources.isExist(name.value)
 
 	override fun toString(): String {
 		return "ResourceNamedAsset($name)"
