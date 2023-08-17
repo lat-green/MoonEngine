@@ -12,6 +12,13 @@ data class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 		}
 	}
 
+	override fun hasCharacteristic(characteristic: AssetCharacteristic): Boolean {
+		return when(characteristic) {
+			AssetCharacteristic.EVER_VALID -> true
+			else -> super.hasCharacteristic(characteristic)
+		}
+	}
+
 	override val lastModified: Long
 		get() = Long.MIN_VALUE
 

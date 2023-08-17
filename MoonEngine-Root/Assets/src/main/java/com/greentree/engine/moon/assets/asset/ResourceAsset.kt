@@ -7,6 +7,8 @@ import java.lang.Long.*
 data class ResourceAssetImpl constructor(override val value: Resource) : Asset<Resource> {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
 
+	override fun isValid() = value.exists()
+
 	override val lastModified
 		get() = value.lastModified()
 

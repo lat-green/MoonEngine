@@ -7,6 +7,8 @@ interface Asset<out T : Any> : Serializable {
 	val value: T
 	val lastModified: Long
 
+	fun hasCharacteristic(characteristic: AssetCharacteristic) = false
+
 	fun isChange(lastRead: Long) = isChange(lastModified, lastRead)
 
 	fun isValid(): Boolean = true

@@ -82,6 +82,16 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 				} catch(e: Exception) {
 					ThrowAsset(e)
 				}
+			if(asset is ThrowAsset)
+				return asset as Asset<R>
+			if(asset.hasCharacteristic(AssetCharacteristic.NEVER_VALID)) {
+				return try {
+					asset.value
+					ThrowAsset(RuntimeException("create map asset of NEVER_VALID asset"))
+				} catch(e: Exception) {
+					ThrowAsset(e)
+				}
+			}
 			return ValueFunctionAsset(asset, function)
 		}
 	}
