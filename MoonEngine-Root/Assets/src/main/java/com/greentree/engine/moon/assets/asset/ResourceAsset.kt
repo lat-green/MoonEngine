@@ -4,14 +4,11 @@ import com.greentree.commons.data.resource.Resource
 import com.greentree.commons.data.resource.location.ResourceLocation
 import java.lang.Long.*
 
-interface ResourceAsset : Asset<Resource> {
-
-	override val lastModified: Long
-		get() = value.lastModified()
-}
-
-data class ResourceAssetImpl constructor(override val value: Resource) : ResourceAsset {
+data class ResourceAssetImpl constructor(override val value: Resource) : Asset<Resource> {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
+
+	override val lastModified
+		get() = value.lastModified()
 
 	override fun toString(): String {
 		return "ResourceAsset[$value]"
