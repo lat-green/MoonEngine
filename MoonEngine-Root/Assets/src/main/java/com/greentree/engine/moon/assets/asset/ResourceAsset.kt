@@ -26,7 +26,9 @@ data class ResourceNamedAsset private constructor(
 	override val value: Resource
 		get() = resources.getResource(name.value)
 	override val lastModified
-		get() = max(name.lastModified, resources.getResource(name.value).lastModified())
+		get() = max(name.lastModified, value.lastModified())
+
+	override fun isChange(lastRead: Long) = name.isChange(lastRead) || isChange(value.lastModified(), lastRead)
 
 	override fun isValid() = name.isValid() && resources.isExist(name.value)
 

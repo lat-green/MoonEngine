@@ -33,6 +33,8 @@ data class M2Asset<T1 : Any, T2 : Any>(val source1: Asset<T1>, val source2: Asse
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified)
 
+	override fun isChange(lastRead: Long) = source1.isChange(lastRead) || source2.isChange(lastRead)
+
 	override fun isValid() = source1.isValid() && source2.isValid()
 	override fun isConst() = source1.isConst() && source2.isConst()
 
@@ -52,6 +54,9 @@ data class M3Asset<T1 : Any, T2 : Any, T3 : Any>(
 		get() = group(source1.value, source2.value, source3.value)
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified, source3.lastModified)
+
+	override fun isChange(lastRead: Long) =
+		source1.isChange(lastRead) || source2.isChange(lastRead) || source3.isChange(lastRead)
 
 	override fun isValid() = source1.isValid() && source2.isValid() && source3.isValid()
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst()
@@ -73,6 +78,11 @@ data class M4Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any>(
 		get() = group(source1.value, source2.value, source3.value, source4.value)
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified, source3.lastModified, source4.lastModified)
+
+	override fun isChange(lastRead: Long) =
+		source1.isChange(lastRead) || source2.isChange(lastRead) || source3.isChange(lastRead) || source4.isChange(
+			lastRead
+		)
 
 	override fun isValid() = source1.isValid() && source2.isValid() && source3.isValid() && source4.isValid()
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst()
@@ -101,6 +111,11 @@ data class M5Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any>(
 			source4.lastModified,
 			source5.lastModified
 		)
+
+	override fun isChange(lastRead: Long) =
+		source1.isChange(lastRead) || source2.isChange(lastRead) || source3.isChange(lastRead) || source4.isChange(
+			lastRead
+		) || source5.isChange(lastRead)
 
 	override fun isValid() =
 		source1.isValid() && source2.isValid() && source3.isValid() && source4.isValid() && source5.isValid()
@@ -134,6 +149,11 @@ data class M6Asset<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any>(
 			source5.lastModified,
 			source6.lastModified
 		)
+
+	override fun isChange(lastRead: Long) =
+		source1.isChange(lastRead) || source2.isChange(lastRead) || source3.isChange(lastRead) || source4.isChange(
+			lastRead
+		) || source5.isChange(lastRead) || source6.isChange(lastRead)
 
 	override fun isValid() =
 		source1.isValid() && source2.isValid() && source3.isValid() && source4.isValid() && source5.isValid() && source6.isValid()

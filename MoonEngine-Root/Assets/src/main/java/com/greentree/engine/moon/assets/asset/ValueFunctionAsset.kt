@@ -8,7 +8,7 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	override fun isValid(): Boolean {
 		if(!source.isValid())
 			return false
-		tryUpdate()
+		tryValidUpdate()
 		return exception == null
 	}
 
@@ -19,33 +19,6 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private var sourceLastUpdate = 0L
 
 	init {
-		update()
-	}
-
-	override val value: R
-		get() {
-			if(source.isValid())
-				tryUpdate()
-			if(exception != null && cache == null) {
-				val e = RuntimeException(exception)
-				throw e
-			}
-			return cache!!
-		}
-	override val lastModified: Long
-		get() {
-			if(source.isValid())
-				tryUpdate()
-			return sourceLastUpdate
-		}
-
-	private fun tryUpdate() {
-		if(sourceLastUpdate < source.lastModified) {
-			update()
-		}
-	}
-
-	private fun update() {
 		try {
 			sourceLastUpdate = source.lastModified
 			cache = function(source.value)
@@ -53,6 +26,36 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 		} catch(e: Exception) {
 			exception = e
 		}
+	}
+
+	override val value: R
+		get() {
+			tryUpdate()
+			if(exception != null && cache == null)
+				throw RuntimeException(exception)
+			return cache!!
+		}
+	override val lastModified: Long
+		get() {
+			tryUpdate()
+			return sourceLastUpdate
+		}
+
+	private fun tryValidUpdate() {
+		if(source.isChange(sourceLastUpdate)) {
+			sourceLastUpdate = source.lastModified
+			try {
+				cache = function(source.value)
+				exception = null
+			} catch(e: Exception) {
+				exception = e
+			}
+		}
+	}
+
+	private fun tryUpdate() {
+		if(source.isValid())
+			tryValidUpdate()
 	}
 
 	override fun toString(): String {

@@ -7,9 +7,13 @@ interface Asset<out T : Any> : Serializable {
 	val value: T
 	val lastModified: Long
 
+	fun isChange(lastRead: Long) = isChange(lastModified, lastRead)
+
 	fun isValid(): Boolean = true
 	fun isConst(): Boolean = false
 }
+
+fun isChange(lastModified: Long, lastRead: Long) = lastRead < lastModified
 
 fun Asset<*>.toSplitString(): String {
 	val text = toString()
