@@ -7,6 +7,8 @@ private val LOG = LogManager.getLogger()
 
 interface Value1Function<T : Any, R> : (T) -> R, Serializable {
 
+	fun isEverValid() = false
+
 	override fun invoke(p1: T) = apply(p1)
 
 	fun apply(value: T): R

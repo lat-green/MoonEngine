@@ -15,10 +15,10 @@ public class ColorImageAssetSerializator implements AssetSerializator<ImageData>
     @Override
     public Asset<ImageData> load(AssetManager manager, AssetKey key) {
         final var color = manager.load(Color.class, key);
-        return AssetKt.map(color, new ColorTextureAsset());
+        return AssetKt.map(color, new ColorToImage());
     }
 
-    private static final class ColorTextureAsset implements Value1Function<Color, ImageData> {
+    private static final class ColorToImage implements Value1Function<Color, ImageData> {
 
         private static final long serialVersionUID = 1L;
 

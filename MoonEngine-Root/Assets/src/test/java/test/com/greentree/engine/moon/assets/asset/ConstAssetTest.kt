@@ -1,6 +1,7 @@
 package test.com.greentree.engine.moon.assets.asset
 
 import com.greentree.engine.moon.assets.asset.ConstAsset
+import com.greentree.engine.moon.assets.asset.isValid
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -17,10 +18,10 @@ class ConstAssetTest {
 	fun isConst() {
 		assertTrue(asset.isConst())
 	}
-	
+
 	@Test
 	fun isValid() {
-		assertTrue(asset.isValid())
+		assertTrue(asset.isValid)
 	}
 
 	@Test

@@ -8,9 +8,9 @@ interface ReadOnlyClassProperties<P> : Iterable<P> {
 		val property = try {
 			getProperty(cls)
 		} catch(e: Exception) {
-			throw IllegalArgumentException("get property of class: \$cls", e)
+			throw IllegalArgumentException("get property of class: $cls", e)
 		}
-		return property.orElseThrow { IllegalArgumentException("not found property of class: \$cls") }
+		return property.orElseThrow { IllegalArgumentException("not found property of class: $cls") }
 	}
 
 	fun <T : P> getProperty(cls: Class<out T>): Optional<T>
