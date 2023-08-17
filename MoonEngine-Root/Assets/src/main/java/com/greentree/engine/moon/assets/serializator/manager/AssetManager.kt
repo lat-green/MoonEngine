@@ -3,7 +3,6 @@ package com.greentree.engine.moon.assets.serializator.manager
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder
 import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.isValid
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
@@ -42,9 +41,9 @@ interface AssetManager {
 	}
 }
 
-inline fun AssetManager.canLoad(type: TypeInfo<*>, key: AssetKey) = load(type, key).isValid
-inline fun AssetManager.canLoad(type: Class<*>, key: AssetKey) = canLoad(TypeInfoBuilder.getTypeInfo(type), key)
-inline fun AssetManager.canLoad(type: KClass<*>, key: AssetKey) = canLoad(type.java, key)
+fun AssetManager.canLoad(type: TypeInfo<*>, key: AssetKey) = load(type, key).isValid()
+fun AssetManager.canLoad(type: Class<*>, key: AssetKey) = canLoad(TypeInfoBuilder.getTypeInfo(type), key)
+fun AssetManager.canLoad(type: KClass<*>, key: AssetKey) = canLoad(type.java, key)
 inline fun <reified T> AssetManager.canLoad(key: AssetKey) = canLoad(T::class.java, key)
 
 inline fun <reified T : Any> AssetManager.load(key: Any?): Asset<T> {

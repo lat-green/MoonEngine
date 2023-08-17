@@ -1,7 +1,5 @@
 package com.greentree.engine.moon.assets.asset
 
-import java.util.concurrent.TimeUnit
-
 class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
 	private val function: Value1Function<T, R>,
@@ -10,16 +8,16 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	override fun isValid(): Boolean {
 		if(!source.isValid())
 			return false
-		tryValidUpdate()
-		return exception == null
+		tryUpdate()
+		return (exception == null)
 	}
 
 	override fun isConst() = source.isConst()
 
+	private var needUpdate: Boolean = false
 	private var exception: Exception? = null
 	private var cache: R? = null
 	private var sourceLastUpdate = 0L
-	private var nextUpdateTime = 0L
 
 	init {
 		try {
@@ -27,31 +25,38 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 			cache = function(source.value)
 			exception = null
 		} catch(e: Exception) {
+			cache = null
 			exception = e
 		}
 	}
 
 	override val value: R
 		get() {
-			tryUpdate()
-			if(exception != null && cache == null)
-				throw RuntimeException(exception)
-			return cache!!
+			try {
+				if(exception != null && cache == null)
+					throw RuntimeException(exception)
+				return cache!!
+			} finally {
+				tryUpdate()
+			}
 		}
 	override val lastModified: Long
 		get() {
-			tryUpdate()
+			trySetUpdate()
 			return sourceLastUpdate
 		}
 
-	private fun tryValidUpdate() {
-		val time = System.currentTimeMillis()
-		if(nextUpdateTime < time)
-			nextUpdateTime = time + TimeUnit.SECONDS.toMillis(1)
-		else
-			return
-		if(source.isChange(sourceLastUpdate)) {
+	private fun trySetUpdate() {
+		if(!needUpdate && source.isValid() && source.isChange(sourceLastUpdate)) {
 			sourceLastUpdate = source.lastModified
+			needUpdate = true
+		}
+	}
+
+	private fun tryUpdate() {
+		trySetUpdate()
+		if(needUpdate) {
+			needUpdate = false
 			try {
 				cache = function(source.value)
 				exception = null
@@ -59,11 +64,6 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 				exception = e
 			}
 		}
-	}
-
-	private fun tryUpdate() {
-		if(source.isValid())
-			tryValidUpdate()
 	}
 
 	override fun toString(): String {
@@ -84,14 +84,6 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 				}
 			if(asset is ThrowAsset)
 				return asset as Asset<R>
-			if(asset.hasCharacteristic(AssetCharacteristic.NEVER_VALID)) {
-				return try {
-					asset.value
-					ThrowAsset(RuntimeException("create map asset of NEVER_VALID asset"))
-				} catch(e: Exception) {
-					ThrowAsset(e)
-				}
-			}
 			return CacheFunctionAsset(asset, function)
 		}
 	}

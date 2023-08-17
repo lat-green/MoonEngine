@@ -18,7 +18,7 @@ class AssetLoadTest {
 
 	init {
 		manager.addSerializator(object : AssetSerializator<String> {
-			override fun load(context: AssetManager, key: AssetKey): Asset<String>? {
+			override fun load(manager: AssetManager, key: AssetKey): Asset<String>? {
 				if(key is StringAssetKey) {
 					sleep(SLEEP)
 					return ConstAsset(key.value)

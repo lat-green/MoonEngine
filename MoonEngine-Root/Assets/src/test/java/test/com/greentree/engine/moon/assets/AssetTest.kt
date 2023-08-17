@@ -3,7 +3,6 @@ package test.com.greentree.engine.moon.assets
 import com.greentree.commons.util.cortege.Pair
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.Value1Function
-import com.greentree.engine.moon.assets.asset.isValid
 import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
@@ -31,7 +30,7 @@ class AssetTest {
 
 		override fun load(manager: AssetManager, key: AssetKey): Asset<Int>? {
 			val str = manager.load<String>(key)
-			if(str.isValid)
+			if(str.isValid())
 				return str.map(StringToInt())
 			return null
 		}

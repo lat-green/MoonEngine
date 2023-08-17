@@ -4,7 +4,6 @@ import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.IterableAsset
-import com.greentree.engine.moon.assets.asset.isValid
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 
@@ -27,7 +26,7 @@ class MapIterableAssetSerializator<T : Any, R : Any>(
 
 	override fun load(manager: AssetManager, key: AssetKey): Asset<Iterable<R>>? {
 		val iter = manager.load(T_ITER_TYPE, key)
-		if(iter.isValid)
+		if(iter.isValid())
 			return IterableAsset(MapIterableValue(manager, iter, R_TYPE))
 		return null
 	}

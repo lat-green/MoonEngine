@@ -3,7 +3,6 @@ package com.greentree.engine.moon.assets.serializator.loader
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.ThrowAsset
-import com.greentree.engine.moon.assets.asset.isValid
 import com.greentree.engine.moon.assets.key.AssetKey
 
 class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader {
@@ -24,7 +23,7 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 			}
 		}
 		for(it in results)
-			if(it.isValid)
+			if(it.isValid())
 				return it
 		for(it in results)
 			if(!it.isConst())

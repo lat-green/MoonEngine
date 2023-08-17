@@ -7,8 +7,6 @@ interface Asset<out T : Any> : Serializable {
 	val value: T
 	val lastModified: Long
 
-	fun hasCharacteristic(characteristic: AssetCharacteristic) = false
-
 	fun isChange(lastRead: Long) = isChange(lastModified, lastRead)
 
 	fun isValid(): Boolean = true
@@ -73,12 +71,7 @@ fun Asset<*>.toSplitString(): String {
 	return builder.toString()
 }
 
-inline val Asset<*>.isValid
-	get() = isValid()
-inline val Asset<*>.isConst
-	get() = isConst()
-
-inline fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) =
+fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) =
 	CacheFunctionAsset.newAsset(this, function)
 
 inline fun <T : Any, R : Any, F> Asset<T>.map(function: F) where F : (T) -> R, F : Serializable =

@@ -27,7 +27,8 @@ data class ResourceNamedAsset private constructor(
 	override val lastModified
 		get() = max(name.lastModified, value.lastModified())
 
-	override fun isChange(lastRead: Long) = name.isChange(lastRead) || isChange(value.lastModified(), lastRead)
+	override fun isChange(lastRead: Long) =
+		name.isChange(lastRead) || isChange(value.lastModified(), lastRead)
 
 	override fun isValid() = name.isValid() && resources.isExist(name.value)
 
@@ -38,7 +39,7 @@ data class ResourceNamedAsset private constructor(
 	companion object {
 
 		fun newAsset(resources: ResourceLocation, name: Asset<String>): Asset<Resource> {
-			if(name.isConst)
+			if(name.isConst())
 				return newResourceAsset(resources.getResource(name.value))
 			return ResourceNamedAsset(resources, name)
 		}

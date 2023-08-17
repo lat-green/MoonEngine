@@ -20,7 +20,7 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 
 	override fun isChange(lastRead: Long) = sources.any { it.isChange(lastRead) }
 
-	override fun isValid() = sources.any { it.isValid }
+	override fun isValid() = sources.any { it.isValid() }
 
 	override fun toString(): String {
 		var sources = sources.toString()
@@ -30,7 +30,7 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 
 	override val value: T
 		get() {
-			return sources.first { it.isValid }.value
+			return sources.first { it.isValid() }.value
 		}
 	override val lastModified
 		get() = sources.maxOf { it.lastModified }
