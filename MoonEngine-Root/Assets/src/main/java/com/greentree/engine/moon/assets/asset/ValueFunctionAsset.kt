@@ -1,5 +1,7 @@
 package com.greentree.engine.moon.assets.asset
 
+import java.util.concurrent.TimeUnit
+
 class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
 	private val function: Value1Function<T, R>,
@@ -17,6 +19,7 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 	private var exception: Exception? = null
 	private var cache: R? = null
 	private var sourceLastUpdate = 0L
+	private var nextUpdateTime = 0L
 
 	init {
 		try {
@@ -42,6 +45,11 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 		}
 
 	private fun tryValidUpdate() {
+		val time = System.currentTimeMillis()
+		if(nextUpdateTime < time)
+			nextUpdateTime = time + TimeUnit.SECONDS.toMillis(1)
+		else
+			return
 		if(source.isChange(sourceLastUpdate)) {
 			sourceLastUpdate = source.lastModified
 			try {
