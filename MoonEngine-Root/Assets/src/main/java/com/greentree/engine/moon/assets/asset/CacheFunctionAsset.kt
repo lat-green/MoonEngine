@@ -2,7 +2,7 @@ package com.greentree.engine.moon.assets.asset
 
 import java.util.concurrent.TimeUnit
 
-class ValueFunctionAsset<T : Any, R : Any> private constructor(
+class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
 	private val function: Value1Function<T, R>,
 ) : Asset<R> {
@@ -92,7 +92,7 @@ class ValueFunctionAsset<T : Any, R : Any> private constructor(
 					ThrowAsset(e)
 				}
 			}
-			return ValueFunctionAsset(asset, function)
+			return CacheFunctionAsset(asset, function)
 		}
 	}
 }
