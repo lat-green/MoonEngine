@@ -47,9 +47,12 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 		}
 
 	private fun trySetUpdate() {
-		if(!needUpdate && source.isValid() && source.isChange(sourceLastUpdate)) {
-			sourceLastUpdate = source.lastModified
-			needUpdate = true
+		if(!needUpdate && source.isValid()) {
+			var sourceLastModified = source.lastModified
+			if(sourceLastUpdate < sourceLastModified) {
+				sourceLastUpdate = sourceLastModified
+				needUpdate = true
+			}
 		}
 	}
 

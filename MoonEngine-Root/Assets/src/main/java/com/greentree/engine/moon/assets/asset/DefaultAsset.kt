@@ -18,8 +18,6 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 		}
 	}
 
-	override fun isChange(lastRead: Long) = sources.any { it.isChange(lastRead) }
-
 	override fun isValid() = sources.any { it.isValid() }
 
 	override fun toString(): String {
