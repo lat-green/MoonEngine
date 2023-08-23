@@ -20,8 +20,8 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	private var sourceLastUpdate = 0L
 
 	init {
+		sourceLastUpdate = source.lastModified
 		try {
-			sourceLastUpdate = source.lastModified
 			cache = function(source.value)
 			exception = null
 		} catch(e: Exception) {
@@ -40,17 +40,19 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 				tryUpdate()
 			}
 		}
-	override val lastModified: Long
+	override var lastModified: Long = System.currentTimeMillis()
+		private set
 		get() {
 			trySetUpdate()
-			return sourceLastUpdate
+			return field
 		}
 
 	private fun trySetUpdate() {
-		if(!needUpdate && source.isValid()) {
+		if(!needUpdate) {
 			var sourceLastModified = source.lastModified
 			if(sourceLastUpdate < sourceLastModified) {
 				sourceLastUpdate = sourceLastModified
+				lastModified = System.currentTimeMillis()
 				needUpdate = true
 			}
 		}
