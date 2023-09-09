@@ -25,8 +25,13 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	override val value: R
 		get() {
 			tryUpdate()
-			if(exception != null)
+			if(exception != null) {
+				if(exception is SourceNotValid) {
+					source.value
+					throw RuntimeException("not valid source: $source")
+				}
 				throw RuntimeException(exception)
+			}
 			return cache!!
 		}
 	override var lastModified: Long = System.currentTimeMillis()

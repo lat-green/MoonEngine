@@ -70,36 +70,36 @@
         </component>
     </entity>
 
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">4</property>-->
-    <!--        <property name="material">material/gold/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">2</property>-->
-    <!--        <property name="material">material/grass/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">0</property>-->
-    <!--        <property name="material">material/gravel/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">-2</property>-->
-    <!--        <property name="material">material/rustediron2/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">-4</property>-->
-    <!--        <property name="material">material/rustediron2/min/.material</property>-->
-    <!--    </entity_ref>-->
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">4</property>
+        <property name="material">material/gold/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">2</property>
+        <property name="material">material/grass/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">0</property>
+        <property name="material">material/gravel/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">-2</property>
+        <property name="material">material/rustediron2/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">-4</property>
+        <property name="material">material/rustediron2/min/.material</property>
+    </entity_ref>
     <entity_ref file="scene/entity1.xml">
         <property name="x">3</property>
         <property name="y">0</property>

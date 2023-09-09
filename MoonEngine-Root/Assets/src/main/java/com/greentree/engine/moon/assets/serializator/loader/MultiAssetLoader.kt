@@ -24,15 +24,48 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 		for(it in results)
 			if(!it.isConst())
 				return it
-		if(exceptions.size == 1)
-			throw exceptions.first()
-		val exception = RuntimeException("no one loader can\'t load type: $type, key: $key, loaders: $loaders")
-		for(e in exceptions)
-			exception.addSuppressed(e)
-		throw exception
+
+		fun toMultiException(exceptions: Collection<out Throwable>): Throwable {
+			if(exceptions.size == 1)
+				throw exceptions.first()
+			val exception = NoOneLoaderCanNotLoadType(type, key, loaders)
+			for(e in exceptions)
+				exception.addSuppressed(e)
+			throw exception
+		}
+//		val baseExceptions = exceptions.toOk()
+//		if(baseExceptions.isNotEmpty())
+//			throw toMultiException(baseExceptions)
+		throw toMultiException(exceptions)
 	}
 
 	override fun toString(): String {
 		return "MultiLoader($loaders)"
 	}
 }
+
+private class NoOneLoaderCanNotLoadType(type: TypeInfo<*>, key: AssetKey, loaders: Iterable<AssetLoader>) :
+	RuntimeException("no one loader can\'t load type: $type, key: $key, loaders: $loaders")
+
+private fun Iterable<Throwable>.toOk(): Collection<out Throwable> {
+	return flatMap { it.toOk() }
+}
+
+private fun Throwable.toOk(): Collection<out Throwable> {
+	if(this is NoOneLoaderCanNotLoadType || this is UnsupportedOperationException)
+		return subThrowable.toOk()
+	if(this is RuntimeException) {
+		val subThrowable = subThrowable
+		if(subThrowable.isNotEmpty())
+			return subThrowable.toOk()
+	}
+	return listOf(this)
+}
+
+private val Throwable.subThrowable: Collection<out Throwable>
+	get() {
+		val result = mutableListOf<Throwable>()
+		cause?.let { result.add(it) }
+		result.addAll(suppressed)
+		return result
+	}

@@ -1,19 +1,27 @@
 package com.greentree.engine.moon.assets.asset
 
 import com.greentree.commons.data.resource.Resource
+import com.greentree.commons.data.resource.ResourceNotFoundException
 import com.greentree.commons.data.resource.location.ResourceLocation
 import java.lang.Long.*
 
-data class ResourceAssetImpl constructor(override val value: Resource) : Asset<Resource> {
+class ResourceAssetImpl(private val resource: Resource) : Asset<Resource> {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
 
-	override fun isValid() = value.exists()
+	override val value: Resource
+		get() {
+			if(!resource.exists())
+				throw ResourceNotFoundException("$resource")
+			return resource
+		}
+
+	override fun isValid() = resource.exists()
 
 	override val lastModified
-		get() = value.lastModified()
+		get() = resource.lastModified()
 
 	override fun toString(): String {
-		return "ResourceAsset[$value]"
+		return "ResourceAsset[$resource]"
 	}
 }
 
@@ -22,8 +30,15 @@ data class ResourceNamedAsset private constructor(
 	private val name: Asset<String>,
 ) : Asset<Resource> {
 
-	override val value: Resource
+	private val resource: Resource
 		get() = resources.getResource(name.value)
+	override val value: Resource
+		get() {
+			val resource = resource
+			if(!resource.exists())
+				throw ResourceNotFoundException("$resource")
+			return resource
+		}
 	private val _lastModified
 		get() =
 			if(name.isValid())
@@ -31,6 +46,7 @@ data class ResourceNamedAsset private constructor(
 			else
 				name.lastModified
 	override var lastModified = _lastModified
+		//TODO fix bug with <init> get resource
 		private set
 		get() {
 			field = max(field, _lastModified)

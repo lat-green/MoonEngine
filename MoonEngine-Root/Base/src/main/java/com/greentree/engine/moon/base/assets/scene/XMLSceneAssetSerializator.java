@@ -87,6 +87,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                         final var value_type = type.getTypeArguments()[0].getBoxing();
                         try (final var key = c.newInstance(AssetKey.class, xml_value)) {
                             final var value = context.load(value_type, key.value());
+                            if (!value.isValid()) {
+                                value.getValue();
+                                throw new UnsupportedOperationException("build not valid asset " + value + " from " + xml_value);
+                            }
                             return new ValueConstructor<>((T) value);
                         }
                     }
