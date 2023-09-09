@@ -2,6 +2,10 @@ package com.greentree.engine.moon.assets.asset
 
 data class ThrowAsset<T : Any>(val exception: Exception) : Asset<T> {
 
+	init {
+		throw exception
+	}
+
 	override fun isValid() = false
 	override fun isConst() = true
 

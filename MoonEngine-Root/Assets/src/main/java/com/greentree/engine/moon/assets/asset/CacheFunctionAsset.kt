@@ -5,6 +5,37 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	private val function: Value1Function<T, R>,
 ) : Asset<R> {
 
+	private var needUpdate: Boolean = false
+	private var exception: Exception? = null
+	private var cache: R? = null
+	private var sourceLastUpdate = 0L
+
+	init {
+		sourceLastUpdate = source.lastModified
+		if(source.isValid())
+			try {
+				cache = function(source.value)
+			} catch(e: Exception) {
+				exception = e
+			}
+		else
+			exception = SourceNotValid
+	}
+
+	override val value: R
+		get() {
+			tryUpdate()
+			if(exception != null)
+				throw RuntimeException(exception)
+			return cache!!
+		}
+	override var lastModified: Long = System.currentTimeMillis()
+		private set
+		get() {
+			trySetUpdate()
+			return field
+		}
+
 	override fun isValid(): Boolean {
 		if(!source.isValid())
 			return false
@@ -13,39 +44,6 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	}
 
 	override fun isConst() = source.isConst()
-
-	private var needUpdate: Boolean = false
-	private var exception: Exception? = null
-	private var cache: R? = null
-	private var sourceLastUpdate = 0L
-
-	init {
-		sourceLastUpdate = source.lastModified
-		try {
-			cache = function(source.value)
-			exception = null
-		} catch(e: Exception) {
-			cache = null
-			exception = e
-		}
-	}
-
-	override val value: R
-		get() {
-			try {
-				if(exception != null && cache == null)
-					throw RuntimeException(exception)
-				return cache!!
-			} finally {
-				tryUpdate()
-			}
-		}
-	override var lastModified: Long = System.currentTimeMillis()
-		private set
-		get() {
-			trySetUpdate()
-			return field
-		}
 
 	private fun trySetUpdate() {
 		if(!needUpdate) {
@@ -62,11 +60,17 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 		trySetUpdate()
 		if(needUpdate) {
 			needUpdate = false
-			try {
-				cache = function(source.value)
-				exception = null
-			} catch(e: Exception) {
-				exception = e
+			if(source.isValid())
+				try {
+					cache = function(source.value)
+					exception = null
+				} catch(e: Exception) {
+					exception = e
+					cache = null
+				}
+			else {
+				cache = null
+				exception = SourceNotValid
 			}
 		}
 	}
@@ -81,6 +85,8 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 			asset: Asset<T>,
 			function: Value1Function<T, R>,
 		): Asset<R> {
+			if(asset is ThrowAsset)
+				return asset as Asset<R>
 			if(asset.isConst())
 				return try {
 					ConstAsset(function(asset.value))

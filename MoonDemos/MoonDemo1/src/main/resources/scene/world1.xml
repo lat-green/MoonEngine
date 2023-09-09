@@ -11,7 +11,7 @@
     <system type="Controller3DSystem"/>
     <system type="RectTransformUpdate"/>
     <system type="DisableCursor"/>
-    <system type="ScriptSystem"/>
+    <!--    <system type="ScriptSystem"/>-->
 
     <system type="SpriteMeshGenerator"/>
     <system type="PointLightTargetGeneratedSystem"/>
