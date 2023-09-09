@@ -84,18 +84,10 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 		fun <T : Any, R : Any> newAsset(
 			asset: Asset<T>,
 			function: Value1Function<T, R>,
-		): Asset<R> {
-			if(asset is ThrowAsset)
-				return asset as Asset<R>
+		) =
 			if(asset.isConst())
-				return try {
-					ConstAsset(function(asset.value))
-				} catch(e: Exception) {
-					ThrowAsset(e)
-				}
-			if(asset is ThrowAsset)
-				return asset as Asset<R>
-			return CacheFunctionAsset(asset, function)
-		}
+				ConstAsset(function(asset.value))
+			else
+				CacheFunctionAsset(asset, function)
 	}
 }

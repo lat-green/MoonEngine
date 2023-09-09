@@ -4,12 +4,7 @@ data class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 
 	companion object {
 
-		fun <T : Any> newAsset(value: T?): Asset<T> {
-			return when(value) {
-				null -> ThrowAsset(NullPointerException("create ConstAsset(value=null)"))
-				else -> ConstAsset(value)
-			}
-		}
+		fun <T : Any> newAsset(value: T?): Asset<T> = ConstAsset(value!!)
 	}
 
 	override val lastModified: Long

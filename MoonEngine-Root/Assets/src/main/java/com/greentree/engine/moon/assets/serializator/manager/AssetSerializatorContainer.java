@@ -4,7 +4,6 @@ import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeUtil;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.ThrowAsset;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.MultiAssetSerializator;
@@ -112,13 +111,7 @@ final class AssetSerializatorContainer {
 
         @Override
         public Asset<T> load(AssetManager manager, AssetKey key) {
-            return cache.set(key, () -> {
-                try {
-                    return serializator.load(manager, key);
-                } catch (Exception e) {
-                    return new ThrowAsset(e);
-                }
-            });
+            return cache.set(key, () -> serializator.load(manager, key));
         }
 
         @Override

@@ -2,7 +2,6 @@ package com.greentree.engine.moon.assets.serializator.loader
 
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.ThrowAsset
 import com.greentree.engine.moon.assets.key.AssetKey
 
 class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader {
@@ -14,10 +13,7 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 			try {
 				val result = loader.load(context, type, key)
 				if(result != null)
-					if(result is ThrowAsset)
-						exceptions.add(result.exception)
-					else
-						results.add(result)
+					results.add(result)
 			} catch(e: Exception) {
 				exceptions.add(e)
 			}
@@ -29,11 +25,11 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 			if(!it.isConst())
 				return it
 		if(exceptions.size == 1)
-			return ThrowAsset(exceptions.first())
+			throw exceptions.first()
 		val exception = RuntimeException("no one loader can\'t load type: $type, key: $key, loaders: $loaders")
 		for(e in exceptions)
 			exception.addSuppressed(e)
-		return ThrowAsset(exception)
+		throw exception
 	}
 
 	override fun toString(): String {
