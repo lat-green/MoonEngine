@@ -14,6 +14,7 @@ open module engine.moon.base {
     requires transitive commons.math;
     requires transitive commons.xml;
     requires transitive com.google.gson;
+    requires org.apache.logging.log4j;
     exports com.greentree.engine.moon.base;
     exports com.greentree.engine.moon.base.assets;
     exports com.greentree.engine.moon.base.assets.xml;

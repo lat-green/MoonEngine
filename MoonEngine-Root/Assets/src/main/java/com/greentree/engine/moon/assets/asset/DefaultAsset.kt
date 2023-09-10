@@ -28,7 +28,10 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 
 	override val value: T
 		get() {
-			return sources.first { it.isValid() }.value
+			for(source in sources)
+				if(source.isValid())
+					return source.value
+			throw NoSuchElementException("not have valid source. sources:$sources")
 		}
 	override val lastModified
 		get() = sources.maxOf { it.lastModified }

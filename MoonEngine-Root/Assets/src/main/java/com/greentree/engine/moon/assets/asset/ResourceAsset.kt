@@ -5,6 +5,8 @@ import com.greentree.commons.data.resource.ResourceNotFoundException
 import com.greentree.commons.data.resource.location.ResourceLocation
 import java.lang.Long.*
 
+private const val UPDATE_DELTA = 1000L
+
 class ResourceAssetImpl(private val resource: Resource) : Asset<Resource> {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
 
@@ -39,6 +41,7 @@ data class ResourceNamedAsset private constructor(
 				throw ResourceNotFoundException("$resource")
 			return resource
 		}
+	private var lastModifiedUpdate = System.currentTimeMillis()
 	private val _lastModified
 		get() =
 			if(name.isValid())
@@ -49,7 +52,11 @@ data class ResourceNamedAsset private constructor(
 		//TODO fix bug with <init> get resource
 		private set
 		get() {
-			field = max(field, _lastModified)
+			val currentTimeMillis = System.currentTimeMillis()
+			if(lastModifiedUpdate > currentTimeMillis) {
+				field = max(field, _lastModified)
+				lastModifiedUpdate = currentTimeMillis + UPDATE_DELTA
+			}
 			return field
 		}
 

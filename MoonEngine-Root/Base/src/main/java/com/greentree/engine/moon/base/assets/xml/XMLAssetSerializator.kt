@@ -15,13 +15,15 @@ class XMLAssetSerializator : AssetSerializator<XMLElement> {
 
 	override fun load(context: AssetManager, key: AssetKey): Asset<XMLElement> {
 		val text = context.load<String>(key)
-		return text.map(XMLTextFunction)
+		return text.map(TextToXML)
 	}
 
-	private object XMLTextFunction : Value1Function<String, XMLElement> {
+	private object TextToXML : Value1Function<String, XMLElement> {
 
 		override fun apply(text: String): XMLElement {
 			return ByteArrayInputStream(text.toByteArray()).use { SAXXMLParser.parse(it) }
 		}
+
+		override fun toString() = "TextToXML"
 	}
 }

@@ -23,5 +23,9 @@ class ColorImageAssetSerializator : AssetSerializator<ImageData> {
 		override fun apply(color: Color): ImageData {
 			return ColorImageData(color)
 		}
+
+		override fun toString(): String {
+			return "ColorToImage"
+		}
 	}
 }

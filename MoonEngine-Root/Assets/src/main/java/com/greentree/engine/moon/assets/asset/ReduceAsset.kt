@@ -6,8 +6,8 @@ class ReduceAsset<T : Any>(initAsset: Asset<T>) : Asset<T> {
 
 	var asset: Asset<T> = initAsset
 		set(value) {
-			lastSet = System.currentTimeMillis()
 			field = value
+			lastSet = System.currentTimeMillis()
 		}
 	private var lastSet = System.currentTimeMillis()
 	override val lastModified
