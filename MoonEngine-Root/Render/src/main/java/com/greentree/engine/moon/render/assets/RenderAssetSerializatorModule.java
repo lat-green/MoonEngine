@@ -42,7 +42,7 @@ public class RenderAssetSerializatorModule implements LaunchModule {
         manager.addSerializator(new Texture2DPropertyAssetSerializator(library));
         manager.addSerializator(new CubeTexturePropertyAssetSerializator(library));
         manager.addDefaultLoader(new ColorImageDefaultLoader());
-        manager.addDefaultLoader(new ColorDefaultLoader());
+//        manager.addDefaultLoader(new ColorDefaultLoader());
     }
 
 }
