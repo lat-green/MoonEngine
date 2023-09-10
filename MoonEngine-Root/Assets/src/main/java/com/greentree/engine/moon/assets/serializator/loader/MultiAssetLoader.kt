@@ -44,9 +44,6 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 	}
 }
 
-private class NoOneLoaderCanNotLoadType(type: TypeInfo<*>, key: AssetKey, loaders: Iterable<AssetLoader>) :
-	RuntimeException("no one loader can\'t load type: $type, key: $key, loaders: $loaders")
-
 private fun Iterable<Throwable>.toOk(): Collection<out Throwable> {
 	return flatMap { it.toOk() }
 }

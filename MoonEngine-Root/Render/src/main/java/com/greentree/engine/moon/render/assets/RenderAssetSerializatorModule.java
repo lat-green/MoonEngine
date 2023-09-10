@@ -5,7 +5,9 @@ import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
+import com.greentree.engine.moon.render.assets.image.ColorDefaultLoader;
 import com.greentree.engine.moon.render.assets.image.ColorImageAssetSerializator;
+import com.greentree.engine.moon.render.assets.image.ColorImageDefaultLoader;
 import com.greentree.engine.moon.render.assets.image.ResourceImageAssetSerializator;
 import com.greentree.engine.moon.render.assets.image.cube.CubeImageAssetSerializator;
 import com.greentree.engine.moon.render.assets.image.cube.PropertiesCubeImageAssetSerializator;
@@ -39,6 +41,8 @@ public class RenderAssetSerializatorModule implements LaunchModule {
         manager.addSerializator(new PBRMaterialAssetSerializator());
         manager.addSerializator(new Texture2DPropertyAssetSerializator(library));
         manager.addSerializator(new CubeTexturePropertyAssetSerializator(library));
+        manager.addDefaultLoader(new ColorImageDefaultLoader());
+        manager.addDefaultLoader(new ColorDefaultLoader());
     }
 
 }

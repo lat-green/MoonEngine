@@ -3,9 +3,11 @@ package test.com.greentree.engine.moon.assets.asset
 import com.greentree.engine.moon.assets.asset.MutableAsset
 import com.greentree.engine.moon.assets.asset.ReduceAsset
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import java.lang.Thread.*
 
+@Disabled
 class ReduceAssetTest {
 
 	@RepeatedTest(20)

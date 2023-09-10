@@ -6,14 +6,16 @@ import com.greentree.engine.moon.assets.location.AssetLocation
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.ResourceAssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
+import com.greentree.engine.moon.assets.serializator.loader.DefaultLoader
 import com.greentree.engine.moon.assets.serializator.loader.Generator
 import com.greentree.engine.moon.assets.serializator.loader.NamedAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.OneSerializator
 import java.util.function.Function
 
-interface MutableAssetManager : AssetManager {
+interface MutableAssetManager : AssetManager, AsyncAssetManager {
 
 	fun addLoader(loader: AssetLoader)
+	fun addDefaultLoader(loader: DefaultLoader)
 
 	fun addResourceLocation(location: ResourceLocation) {
 		addSerializator(ResourceAssetSerializator(location))

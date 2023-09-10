@@ -9,9 +9,14 @@ class ReduceAsset<T : Any>(initAsset: Asset<T>) : Asset<T> {
 			lastSet = System.currentTimeMillis()
 			field = value
 		}
-	private var lastSet = asset.lastModified
+	private var lastSet = System.currentTimeMillis()
 	override val lastModified
 		get() = max(asset.lastModified, lastSet)
 	override val value
 		get() = asset.value
+
+	override fun isValid() = asset.isValid()
+	override fun toString(): String {
+		return "ReduceAsset($asset)"
+	}
 }

@@ -4,6 +4,7 @@ import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import org.apache.logging.log4j.MarkerManager
@@ -11,10 +12,15 @@ import kotlin.reflect.KClass
 
 interface AssetManager {
 
+	fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType): T?
 	fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T>
 
-	fun <T : Any> load(cls: Class<T>, key: Any?): Asset<T> {
+	fun <T : Any> load(cls: Class<T>, key: Any): Asset<T> {
 		return load(cls, ResultAssetKey(key))
+	}
+
+	fun <T : Any> load(type: TypeInfo<T>, key: Any): Asset<T> {
+		return load(type, ResultAssetKey(key))
 	}
 
 	fun <T : Any> load(cls: Class<T>, key: AssetKey): Asset<T> {
@@ -26,10 +32,6 @@ interface AssetManager {
 		return load(cls, ResourceAssetKey(resource))
 	}
 
-	fun <T : Any> load(type: TypeInfo<T>?, key: Any?): Asset<T> {
-		return load(type, ResultAssetKey(key))
-	}
-
 	fun <T : Any> load(type: TypeInfo<T>, resource: String): Asset<T> {
 		return load(type, ResourceAssetKey(resource))
 	}
@@ -37,7 +39,7 @@ interface AssetManager {
 	companion object {
 
 		@JvmField
-		val ASSETS = MarkerManager.getMarker("assets")
+		val ASSETS = MarkerManager.getMarker("assets")!!
 	}
 }
 
@@ -57,4 +59,22 @@ inline fun <reified T : Any> AssetManager.load(key: AssetKey): Asset<T> {
 
 inline fun <reified T : Any> AssetManager.load(resource: String): Asset<T> {
 	return load(ResourceAssetKey(resource))
+}
+
+inline fun <reified T : Any> AssetManager.loadDefault(key: AssetKey): T? {
+	val type = TypeInfoBuilder.getTypeInfo(T::class.java)
+	return loadDefault(type, key.type())
+}
+
+inline fun <reified T : Any> AssetManager.loadDefault(): T? {
+	val type = TypeInfoBuilder.getTypeInfo(T::class.java)
+	return loadDefault(type, AssetKeyType.DEFAULT)
+}
+
+fun <T : Any> AssetManager.loadDefault(type: TypeInfo<T>, key: AssetKey): T? {
+	return loadDefault(type, key.type())
+}
+
+fun <T : Any> AssetManager.loadDefault(type: TypeInfo<T>): T? {
+	return loadDefault(type, AssetKeyType.DEFAULT)
 }

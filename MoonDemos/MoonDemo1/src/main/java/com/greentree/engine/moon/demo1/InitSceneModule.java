@@ -16,6 +16,7 @@ public class InitSceneModule implements LaunchModule {
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager();
         final var scenes = context.get(SceneManagerProperty.class).manager();
+//        final var scene = AsyncAssetManagerKt.loadAsync(manager, Scene.class, "scene/world1.xml");
         final var scene = manager.load(Scene.class, "scene/world1.xml");
         scenes.set(scene.getValue());
     }

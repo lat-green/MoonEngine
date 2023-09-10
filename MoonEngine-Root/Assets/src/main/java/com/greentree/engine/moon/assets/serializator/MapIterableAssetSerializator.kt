@@ -39,7 +39,7 @@ class MapIterableAssetSerializator<T : Any, R : Any>(
 		Asset<Iterable<out Asset<R>>> {
 
 		override val value: Iterable<out Asset<R>>
-			get() = iter.value.map { manager.load(R_TYPE, it) }
+			get() = iter.value.map { manager.load<R>(R_TYPE, it) }
 		override val lastModified: Long
 			get() = iter.lastModified
 
