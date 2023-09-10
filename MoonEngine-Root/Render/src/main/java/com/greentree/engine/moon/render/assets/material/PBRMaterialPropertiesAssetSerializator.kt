@@ -22,8 +22,8 @@ import com.greentree.engine.moon.render.texture.Texture2DType
 class PBRMaterialPropertiesAssetSerializator : AssetSerializator<MaterialProperties> {
 
 	override fun load(manager: AssetManager, key: AssetKey): Asset<MaterialProperties> {
-//		val albedo = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.albedo")), DEFAULT_ALBEDO)
-		val albedo = ResourceAssetKey(PropertyAssetKey(key, "texture.albedo"))
+		val albedo = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.albedo")), DEFAULT_ALBEDO)
+//		val albedo = ResourceAssetKey(PropertyAssetKey(key, "texture.albedo"))
 		val normal = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.normal")), DEFAULT_NORMAL)
 		val metallic = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.metallic")), DEFAULT_METALLIC)
 		val roughness = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.roughness")), DEFAULT_ROUGHNESS)

@@ -25,14 +25,17 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	override val value: R
 		get() {
 			tryUpdate()
-			if(exception != null) {
+			val exception = exception
+			if(exception != null && cache == null) {
 				if(exception is SourceNotValid) {
 					source.value
 					throw RuntimeException("not valid source: $source")
 				}
-				throw RuntimeException(exception)
+				throw RuntimeException("source:$source function:$function", exception)
 			}
-			return cache!!
+			val value = cache
+			require(value != null) { "$function(${source.value})" }
+			return value
 		}
 	override var lastModified: Long = System.currentTimeMillis()
 		private set
@@ -42,6 +45,8 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 		}
 
 	override fun isValid(): Boolean {
+		if(cache != null)
+			return true
 		if(!source.isValid())
 			return false
 		tryUpdate()
@@ -69,12 +74,13 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 				try {
 					cache = function(source.value)
 					exception = null
+				} catch(e: ShyException) {
 				} catch(e: Exception) {
 					exception = e
-					cache = null
+//					cache = null
 				}
 			else {
-				cache = null
+//				cache = null
 				exception = SourceNotValid
 			}
 		}

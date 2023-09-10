@@ -10,6 +10,7 @@ import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
+import java.lang.Thread.*
 import java.util.concurrent.Executors
 
 interface AsyncAssetManager : AssetManager {
@@ -22,6 +23,7 @@ val EXECUTOR = Executors.newFixedThreadPool(
 ) {
 	val thread = Thread(it)
 	thread.isDaemon = true
+	thread.priority = MAX_PRIORITY
 	thread
 }
 

@@ -41,21 +41,21 @@ data class ResourceNamedAsset private constructor(
 				throw ResourceNotFoundException("$resource")
 			return resource
 		}
-	private var lastModifiedUpdate = System.currentTimeMillis()
 	private val _lastModified
 		get() =
 			if(name.isValid())
 				max(name.lastModified, value.lastModified())
 			else
 				name.lastModified
+	private var lastModifiedUpdate = System.currentTimeMillis()
 	override var lastModified = _lastModified
 		//TODO fix bug with <init> get resource
 		private set
 		get() {
 			val currentTimeMillis = System.currentTimeMillis()
-			if(lastModifiedUpdate > currentTimeMillis) {
-				field = max(field, _lastModified)
+			if(lastModifiedUpdate < currentTimeMillis) {
 				lastModifiedUpdate = currentTimeMillis + UPDATE_DELTA
+				field = max(field, _lastModified)
 			}
 			return field
 		}

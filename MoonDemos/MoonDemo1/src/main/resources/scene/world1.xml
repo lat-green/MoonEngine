@@ -47,7 +47,7 @@
         </component>
         <component type="Controller3D">
             <field name="speed">
-                <value>5</value>
+                <value>15</value>
             </field>
         </component>
         <component type="MouseSensitivity">
