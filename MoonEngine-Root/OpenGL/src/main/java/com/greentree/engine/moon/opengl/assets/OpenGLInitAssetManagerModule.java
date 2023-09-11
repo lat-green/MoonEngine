@@ -12,7 +12,7 @@ import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderAssetSerializato
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderProgramAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.texture.GLCubeTextureAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.texture.GLTextureAssetSerializator;
-import com.greentree.engine.moon.opengl.assets.texture.TextureAddapterAssetSerializator;
+import com.greentree.engine.moon.opengl.assets.texture.TextureAdapterAssetSerializator;
 
 public final class OpenGLInitAssetManagerModule implements LaunchModule {
 
@@ -28,7 +28,7 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
         manager.addSerializator(new GLTextureAssetSerializator());
         manager.addSerializator(new GLSLShaderAssetSerializator());
         manager.addSerializator(new GLSLShaderProgramAssetSerializator());
-        manager.addSerializator(new TextureAddapterAssetSerializator());
+        manager.addSerializator(new TextureAdapterAssetSerializator());
     }
 
 }

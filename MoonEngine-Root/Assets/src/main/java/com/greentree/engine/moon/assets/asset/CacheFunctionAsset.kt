@@ -72,7 +72,12 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 			needUpdate = false
 			if(source.isValid())
 				try {
-					cache = function(source.value)
+					val cache = cache
+					this.cache =
+						if(cache != null)
+							function(source.value, cache)
+						else
+							function(source.value)
 					exception = null
 				} catch(e: Exception) {
 					exception = e

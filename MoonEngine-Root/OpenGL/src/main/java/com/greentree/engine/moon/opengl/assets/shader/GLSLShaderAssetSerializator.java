@@ -24,8 +24,6 @@ public class GLSLShaderAssetSerializator implements AssetSerializator<GLSLShader
 
         @Override
         public GLSLShader apply(ShaderData s) {
-            if (s == null)
-                return null;
             return new GLSLShader(s.text(), GLEnums.get(s.type()));
         }
 

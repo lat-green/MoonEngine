@@ -47,11 +47,11 @@ class PBRMaterialPropertiesAssetSerializator : AssetSerializator<MaterialPropert
 		val ambient_occlusionAsset = manager.load<Property>(texture_ambient_occlusion)
 		return map(
 			albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
-			ambient_occlusionAsset, MaterialPropertiesAssetSerializatorFunction()
+			ambient_occlusionAsset, MaterialPropertiesAssetSerializatorFunction
 		)
 	}
 
-	private class MaterialPropertiesAssetSerializatorFunction :
+	private object MaterialPropertiesAssetSerializatorFunction :
 		Value6Function<Property, Property, Property, Property, Property, Property, MaterialProperties> {
 
 		override fun apply(

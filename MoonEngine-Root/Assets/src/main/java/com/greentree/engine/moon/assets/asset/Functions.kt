@@ -9,10 +9,13 @@ interface Value1Function<T : Any, R : Any> : (T) -> R, Serializable {
 
 	fun isEverValid() = false
 
-	override fun invoke(p1: T) = apply(p1)
+	override operator fun invoke(p1: T) = apply(p1)
 
 	fun apply(value: T): R
+	fun applyWithDest(value: T, dest: R): R = apply(value)
 }
+
+operator fun <T : Any, R : Any> Value1Function<T, R>.invoke(value: T, dest: R) = applyWithDest(value, dest)
 
 class Value1FunctionImpl<T : Any, R : Any, F>(private val function: F) : Value1Function<T, R>
 		where

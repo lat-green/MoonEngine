@@ -4,7 +4,6 @@ import com.greentree.common.graphics.sgl.shader.GLSLShader;
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeInfoBuilder;
-import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.asset.AssetKt;
 import com.greentree.engine.moon.assets.asset.Value1Function;
@@ -30,7 +29,7 @@ public class GLSLShaderProgramAssetSerializator implements AssetSerializator<GLS
 
         @Override
         public GLShaderProgram apply(Iterable<GLSLShader> data) {
-            return new GLShaderProgram(IteratorUtil.filter(data, x -> x != null));
+            return new GLShaderProgram(data);
         }
 
     }

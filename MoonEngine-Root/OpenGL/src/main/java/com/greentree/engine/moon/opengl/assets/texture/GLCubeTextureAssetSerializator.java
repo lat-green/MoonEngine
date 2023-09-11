@@ -46,7 +46,7 @@ public class GLCubeTextureAssetSerializator implements AssetSerializator<GLCubeM
             tex.setWrapX(GLEnums.get(type.wrapX()));
             tex.setWrapY(GLEnums.get(type.wrapY()));
             tex.setWrapZ(GLEnums.get(type.wrapZ()));
-            glGenerateMipmap(GLCubeMapTexture.GL_TEXTURE_TARGET.glEnum);
+            tex.generateMipmap();
             tex.unbind();
             return tex;
         }
