@@ -74,7 +74,6 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 				try {
 					cache = function(source.value)
 					exception = null
-				} catch(e: ShyException) {
 				} catch(e: Exception) {
 					exception = e
 //					cache = null

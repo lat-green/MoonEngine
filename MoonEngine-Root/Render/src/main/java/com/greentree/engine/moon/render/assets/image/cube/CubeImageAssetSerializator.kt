@@ -37,12 +37,8 @@ class CubeImageAssetSerializator : AssetSerializator<CubeImageData> {
 			posx: ImageData, negx: ImageData,
 			posy: ImageData, negy: ImageData,
 			posz: ImageData, negz: ImageData,
-		) = run {
-//			val iter = IteratorUtil.iterable(posx, negx, posy, negy, posz, negz)
-//			for(a in iter) for(b in iter)
-//				if(a.width != b.width || a.height != b.height)
-//					throw ShyException
-			CubeImageData(posx, negx, posy, negy, posz, negz)
+		): CubeImageData {
+			return CubeImageData(posx, negx, posy, negy, posz, negz)
 		}
 
 		override fun toString() = "SideImageDataToCubeImageData"
