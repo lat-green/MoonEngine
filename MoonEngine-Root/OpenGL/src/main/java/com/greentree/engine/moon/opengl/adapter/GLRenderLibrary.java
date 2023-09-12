@@ -44,7 +44,7 @@ public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
 
     public RenderMesh build(AttributeData mesh) {
         final var vao = getVAO(mesh);
-        return new VAORenderMeshAddapter(vao);
+        return new VAORenderMeshAdapter(vao);
     }
 
     public GLVertexArray getVAO(AttributeData mesh) {

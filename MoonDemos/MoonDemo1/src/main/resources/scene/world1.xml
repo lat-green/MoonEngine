@@ -20,6 +20,8 @@
     <system type="ForvardRendering"/>
     <system type="RenderMainCamera"/>
 
+    <system type="LogFPSSystem"/>
+
     <entity>
         <component type="Transform"/>
         <component type="HasShadow"/>

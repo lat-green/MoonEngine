@@ -31,8 +31,8 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
         final var transform = this.camera.get(Transform.class);
         final var view = CameraUtil.getView(camera);
         final var projection = camera.get(CameraComponent.class).getProjectionMatrix();
-        final var veiwProjection = new Matrix4f().identity().mul(projection).mul(view);
-        properties.put("projectionView", veiwProjection);
+        final var viewProjection = new Matrix4f().identity().mul(projection).mul(view);
+        properties.put("projectionView", viewProjection);
         properties.put("viewPos", transform.position);
         super.bindMaterial(properties);
     }

@@ -24,7 +24,7 @@ import com.greentree.engine.moon.render.window.callback.WindowPosCallback;
 import com.greentree.engine.moon.render.window.callback.WindowRefreshCallback;
 import com.greentree.engine.moon.render.window.callback.WindowSizeCallback;
 
-public record WindowAddapter(Window window, GLRenderLibrary render)
+public record WindowAdapter(Window window, GLRenderLibrary render)
 implements com.greentree.engine.moon.render.window.Window {
 	
 	@Override

@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray;
 
 
-public record VAORenderMeshAddapter(GLVertexArray vao) implements RenderMesh {
+public record VAORenderMeshAdapter(GLVertexArray vao) implements RenderMesh {
 	
 	@Override
 	public void render() {

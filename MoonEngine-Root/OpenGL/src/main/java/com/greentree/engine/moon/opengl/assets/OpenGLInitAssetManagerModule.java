@@ -8,6 +8,9 @@ import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
+import com.greentree.engine.moon.opengl.assets.mesh.FloatStaticDrawArrayBufferSerializator;
+import com.greentree.engine.moon.opengl.assets.mesh.GLVertexArraySerializator;
+import com.greentree.engine.moon.opengl.assets.mesh.VAORenderMeshAdapterSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.shader.GLSLShaderProgramAssetSerializator;
 import com.greentree.engine.moon.opengl.assets.texture.GLCubeTextureAssetSerializator;
@@ -29,6 +32,9 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
         manager.addSerializator(new GLSLShaderAssetSerializator());
         manager.addSerializator(new GLSLShaderProgramAssetSerializator());
         manager.addSerializator(new TextureAdapterAssetSerializator());
+        manager.addSerializator(new VAORenderMeshAdapterSerializator());
+        manager.addSerializator(new GLVertexArraySerializator());
+        manager.addSerializator(new FloatStaticDrawArrayBufferSerializator());
     }
 
 }
