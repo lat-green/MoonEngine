@@ -11,13 +11,11 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.opengl.GLEnums;
 import com.greentree.engine.moon.render.texture.CubeTextureData;
 
-import static org.lwjgl.opengl.GL30.glGenerateMipmap;
-
 public class GLCubeTextureAssetSerializator implements AssetSerializator<GLCubeMapTexture> {
 
     @Override
-    public Asset<GLCubeMapTexture> load(AssetManager manager, AssetKey ckey) {
-        final var texture = manager.load(CubeTextureData.class, ckey);
+    public Asset<GLCubeMapTexture> load(AssetManager manager, AssetKey key) {
+        final var texture = manager.load(CubeTextureData.class, key);
         return AssetKt.map(texture, new GLCubeMapAsset());
     }
 
