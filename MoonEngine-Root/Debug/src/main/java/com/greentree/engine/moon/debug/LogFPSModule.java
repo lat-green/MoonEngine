@@ -12,12 +12,12 @@ public class LogFPSModule implements LaunchModule, UpdateModule {
 
     private static final Logger LOG = LogManager.getLogger(LogFPSModule.class);
 
-    private static final int DEFAULT_FRAME_TO_LOG = 10;
+    private static final int DEFAULT_FRAME_TO_LOG = 1000;
 
     private final int frameToLog;
     private Time time;
     private float t;
-    private int fps;
+    private int tick;
 
     public LogFPSModule() {
         this(DEFAULT_FRAME_TO_LOG);
@@ -31,11 +31,11 @@ public class LogFPSModule implements LaunchModule, UpdateModule {
     @Override
     public void update() {
         t += time.delta();
-        fps++;
-        if (fps > frameToLog) {
-            float ffps = frameToLog / t;
-            LOG.info(String.format("fps: %7.3f ms: %6.2f", ffps, 1000f / ffps));
-            fps -= frameToLog;
+        tick++;
+        if (tick > frameToLog) {
+            var fps = frameToLog / t;
+            LOG.info(String.format("fps: %7.3f ms: %6.2f", fps, 1000f / fps));
+            tick -= frameToLog;
             t = 0;
         }
     }
@@ -44,7 +44,7 @@ public class LogFPSModule implements LaunchModule, UpdateModule {
     @Override
     public void launch(EngineProperties properties) {
         t = 0;
-        fps = 0;
+        tick = 0;
         time = properties.get(Time.class);
     }
 
