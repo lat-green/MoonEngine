@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class GLRenderLibrary implements RenderLibrary, RenderTarget {
+public record GLRenderLibrary() implements RenderLibrary, RenderTarget {
 
     private static final RenderMeshBuilder MESH_BUILDER = new RenderMeshBuilder();
     private static final GLSLShaderBuilder SHADER_BUILDER = new GLSLShaderBuilder();
