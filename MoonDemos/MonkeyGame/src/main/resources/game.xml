@@ -20,18 +20,18 @@
 
     <system type="LookAtSystem"/>
     <system type="ColliderSystem"/>
-    <system type="FollowSystem"></system>
-    <system type="VelocitySystem"></system>
+    <system type="FollowSystem"/>
+    <system type="VelocitySystem"/>
     <system type="GravitySystem">
         <property name="value">3</property>
     </system>
-    <system type="MinYSystem"/>
-    <system type="BackGroundSystem"/>
-    <system type="BananaGetSystem"/>
-    <system type="LogPlayerScore"/>
-    <system type="BananaSpawnSystem"/>
-    <system type="BananaDeleteSystem"></system>
-
+    <system type="com.greentree.engine.moon.monkey.MinYSystem"/>
+    <system type="com.greentree.engine.moon.monkey.BackGroundSystem"/>
+    <system type="com.greentree.engine.moon.monkey.BananaGetSystem"/>
+    <system type="com.greentree.engine.moon.monkey.LogPlayerScore"/>
+    <system type="com.greentree.engine.moon.monkey.BananaSpawnSystem"/>
+    <system type="com.greentree.engine.moon.monkey.BananaDeleteSystem"/>
+    <system type="com.greentree.engine.moon.monkey.LogFPSSystem"/>
 
     <entity_ref file="player.xml">
         <property name="number">1</property>
