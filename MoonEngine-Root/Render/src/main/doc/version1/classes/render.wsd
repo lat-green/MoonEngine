@@ -6,18 +6,8 @@
 namespace render {
     interface RenderLibrary {
         RenderTargetTextuteBuilder createRenderTarget()
-
-        Property buildTexture2D(Texture2DData)
-        Property buildCubeTexture(CubeTextureData)
     }
-    RenderLibrary::screanRenderTarget ..> target.RenderTarget : <<return>>
     RenderLibrary::createRenderTarget ..> target.RenderTargetTextuteBuilder : <<return>>
-
-    RenderLibrary::buildTexture2D ..> texture.Texture2DData : <<use>>
-    RenderLibrary::buildTexture2D ..> material.Property : <<return>>
-
-    RenderLibrary::buildCubeTexture ..> texture.CubeTextureData : <<use>>
-    RenderLibrary::buildCubeTexture ..> material.Property : <<return>>
 }
 
 @enduml
