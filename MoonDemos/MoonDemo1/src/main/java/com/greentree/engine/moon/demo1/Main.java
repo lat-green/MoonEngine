@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         System.setErr(new PrintStream(System.err, true, StandardCharsets.UTF_8));
-        EngineBase.launch(args, new InitAssetModule(), new InitSceneModule());
+        EngineBase.launch(args);
     }
 
 }
