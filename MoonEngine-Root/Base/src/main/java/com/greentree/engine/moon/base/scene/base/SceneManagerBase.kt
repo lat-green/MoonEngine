@@ -12,7 +12,6 @@ import com.greentree.engine.moon.ecs.system.FullSystem
 import com.greentree.engine.moon.ecs.system.toFull
 import com.greentree.engine.moon.modules.property.EngineProperties
 import org.apache.logging.log4j.LogManager
-import java.util.*
 
 class SceneManagerBase(private val properties: EngineProperties) : SceneManager {
 
@@ -21,25 +20,15 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 		private val LOG = LogManager.getLogger(SceneManagerBase::class.java)
 	}
 
-	private val globalSystems: MutableList<ECSSystem> = ArrayList()
 	private var nextScene: Scene? = null
 	private var currentSystems: FullSystem? = null
-
-	init {
-		val autoAddGlobalSystems = ServiceLoader.load(ECSSystem::class.java)
-		for(system in autoAddGlobalSystems) addGlobalSystem(system)
-	}
 
 	@Synchronized
 	override fun set(scene: Scene) {
 		nextScene = scene
 	}
 
-	override fun addGlobalSystem(system: ECSSystem) {
-		globalSystems.add(system)
-		LOG.info("add global system ${system::class.java.name}")
-	}
-
+	@Synchronized
 	fun update() {
 		if(nextScene != null) loadScene()
 		currentSystems!!.update()
@@ -54,7 +43,7 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 		run {
 			val timer = PointTimer()
 			timer.point()
-			currentSystems = nextScene!!.getSystem(globalSystems).toFull()
+			currentSystems = nextScene!!.getSystem().toFull()
 			timer.point()
 			LOG.info("scene load ${timer[0]}")
 		}
@@ -68,6 +57,7 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 		}
 	}
 
+	@Synchronized
 	fun clearScene() {
 		currentSystems?.destroy()
 	}

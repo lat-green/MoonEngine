@@ -2,11 +2,11 @@ package com.greentree.engine.moon.base.time;
 
 import com.greentree.engine.moon.base.property.modules.CreateProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
-import com.greentree.engine.moon.ecs.scene.SceneProperties;
-import com.greentree.engine.moon.ecs.system.InitSystem;
-import com.greentree.engine.moon.ecs.system.UpdateSystem;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.UpdateModule;
+import com.greentree.engine.moon.modules.property.EngineProperties;
 
-public class TimeSystem implements InitSystem, UpdateSystem {
+public class TimeModule implements LaunchModule, UpdateModule {
 
     private Time time;
 
@@ -18,7 +18,7 @@ public class TimeSystem implements InitSystem, UpdateSystem {
 
     @CreateProperty({Time.class})
     @Override
-    public void init(SceneProperties properties) {
+    public void launch(EngineProperties properties) {
         this.time = new Time();
         properties.add(time);
     }

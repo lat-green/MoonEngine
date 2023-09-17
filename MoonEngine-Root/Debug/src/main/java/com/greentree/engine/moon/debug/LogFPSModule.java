@@ -2,15 +2,15 @@ package com.greentree.engine.moon.debug;
 
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.time.Time;
-import com.greentree.engine.moon.ecs.scene.SceneProperties;
-import com.greentree.engine.moon.ecs.system.InitSystem;
-import com.greentree.engine.moon.ecs.system.UpdateSystem;
+import com.greentree.engine.moon.modules.LaunchModule;
+import com.greentree.engine.moon.modules.UpdateModule;
+import com.greentree.engine.moon.modules.property.EngineProperties;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class LogFPSSystem implements InitSystem, UpdateSystem {
+public class LogFPSModule implements LaunchModule, UpdateModule {
 
-    private static final Logger LOG = LogManager.getLogger(LogFPSSystem.class);
+    private static final Logger LOG = LogManager.getLogger(LogFPSModule.class);
 
     private static final float DEFAULT_UPDATE_TIME = 1.1f;
 
@@ -19,11 +19,11 @@ public class LogFPSSystem implements InitSystem, UpdateSystem {
     private float t;
     private int fps;
 
-    public LogFPSSystem() {
+    public LogFPSModule() {
         this(DEFAULT_UPDATE_TIME);
     }
 
-    public LogFPSSystem(float updateTime) {
+    public LogFPSModule(float updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -35,14 +35,14 @@ public class LogFPSSystem implements InitSystem, UpdateSystem {
         while (t > updateTime) {
             t -= updateTime;
             float ffps = fps / updateTime;
-            LOG.info(String.format("fps: %7.2f ms: %7.4f", ffps, 1 / ffps));
+            LOG.info(String.format("fps: %8.3f ms: %10.2f", ffps, 1000f / ffps));
             fps = 0;
         }
     }
 
     @ReadProperty({Time.class})
     @Override
-    public void init(SceneProperties properties) {
+    public void launch(EngineProperties properties) {
         t = 0;
         fps = 0;
         time = properties.get(Time.class);

@@ -6,8 +6,8 @@ import com.greentree.engine.moon.ecs.system.toFull
 
 interface SimpleScene : Scene {
 
-	override fun getSystem(globalSystems: Iterable<out ECSSystem>): ECSSystem {
-		val systems = getSystems(globalSystems).toFull()
+	override fun getSystem(): ECSSystem {
+		val systems = getSystems().toFull()
 		val system = object : FullSystem by systems {
 			override fun init(properties: SceneProperties) {
 				build(properties)
@@ -19,5 +19,5 @@ interface SimpleScene : Scene {
 
 	fun build(properties: SceneProperties)
 
-	fun getSystems(globalSystems: Iterable<out ECSSystem>): ECSSystem
+	fun getSystems(): ECSSystem
 }

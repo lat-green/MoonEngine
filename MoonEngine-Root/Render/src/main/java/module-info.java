@@ -31,6 +31,5 @@ open module engine.moon.render {
     exports com.greentree.engine.moon.render.pipeline;
     exports com.greentree.engine.moon.render.pipeline.target;
     exports com.greentree.engine.moon.render.pipeline.target.buffer;
-    provides EngineModule with RenderAssetSerializatorModule, WindowModule;
-    provides ECSSystem with ExitOnWindowShouldClose;
+    provides EngineModule with RenderAssetSerializatorModule, WindowModule, ExitOnWindowShouldClose;
 }

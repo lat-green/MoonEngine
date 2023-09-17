@@ -1,10 +1,9 @@
 package com.greentree.engine.moon.base.time;
 
 import com.greentree.engine.moon.base.component.CreateSystem;
-import com.greentree.engine.moon.ecs.scene.SceneProperty;
+import com.greentree.engine.moon.modules.property.EngineProperty;
 
-@CreateSystem(TimeSystem.class)
-public final class Time implements SceneProperty {
+public final class Time implements EngineProperty {
 
     private static final long serialVersionUID = 1L;
 

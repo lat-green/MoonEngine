@@ -189,18 +189,10 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 }
 
                 @Override
-                public ECSSystem getSystems(Iterable<? extends ECSSystem> globalSystems) {
+                public ECSSystem getSystems() {
                     final var initSystems = new ArrayList<InitSystem>();
                     final var updateSystems = new ArrayList<UpdateSystem>();
                     final var destroySystems = new ArrayList<DestroySystem>();
-                    for (var system : globalSystems) {
-                        if (system instanceof InitSystem s)
-                            initSystems.add(s);
-                        if (system instanceof UpdateSystem s)
-                            updateSystems.add(s);
-                        if (system instanceof DestroySystem s)
-                            destroySystems.add(s);
-                    }
                     for (var xml_system : xml_scene.getChildrens("system"))
                         try {
                             var system = newFromXML(ECSSystem.class, xml_system);
