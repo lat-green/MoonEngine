@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE scene SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+
+<scene>
+    <system type="ServerSystem"/>
+
+    <system type="LayerSystem"/>
+    <system type="NameSystem"/>
+    <system type="Controller3DSystem"/>
+    <system type="RectTransformUpdate"/>
+
+    <entity>
+        <component type="Transform"/>
+        <component type="HasShadow"/>
+        <component type="PointLightComponent">
+            <field name="intensity">
+                <value>2</value>
+            </field>
+        </component>
+    </entity>
+
+    <entity name="camera">
+        <component type="Transform"/>
+        <component type="CameraComponent">
+            <property name="width">800</property>
+            <property name="height">600</property>
+        </component>
+        <component type="SkyBoxComponent">
+            <field name="texture">
+                <value type="CubeTextureAssetKey">
+                    <field name="image">
+                        <value>skybox/test_SB/.skybox</value>
+                    </field>
+                </value>
+            </field>
+        </component>
+        <component type="Controller3D">
+            <field name="speed">
+                <value>15</value>
+            </field>
+        </component>
+        <component type="MouseSensitivity">
+            <field name="sensitivityX">
+                <value>1</value>
+            </field>
+            <field name="sensitivityY">
+                <value>-1</value>
+            </field>
+        </component>
+        <component type="MeshComponent">
+            <field name="mesh">
+                <value>mesh/box.obj</value>
+            </field>
+        </component>
+        <component type="MeshRenderer">
+            <field name="material">
+                <value>material/grass/.material</value>
+            </field>
+        </component>
+    </entity>
+
+    <entity_ref file="scene/wall.xml">
+        <property name="x">20</property>
+        <property name="y">0</property>
+        <property name="z">0</property>
+        <property name="sx">10</property>
+        <property name="sy">100</property>
+        <property name="sz">100</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+
+</scene>

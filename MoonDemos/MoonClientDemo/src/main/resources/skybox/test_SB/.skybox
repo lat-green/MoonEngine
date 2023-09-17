@@ -1,0 +1,6 @@
+posx=skybox/test_SB/test_right.jpg
+negx=skybox/test_SB/test_left.jpg
+posy=skybox/test_SB/test_top.jpg
+negy=skybox/test_SB/test_bottom.jpg
+posz=skybox/test_SB/test_front.jpg
+negz=skybox/test_SB/test_back.jpg

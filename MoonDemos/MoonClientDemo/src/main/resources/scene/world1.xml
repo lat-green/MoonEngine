@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE scene SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+
+<scene>
+    <system type="ServerSystem"/>
+
+    <system type="CameraSystem"/>
+
+    <system type="LayerSystem"/>
+    <system type="NameSystem"/>
+
+    <system type="Controller3DSystem"/>
+    <system type="RectTransformUpdate"/>
+    <system type="DisableCursor"/>
+    <!--    <system type="ScriptSystem"/>-->
+
+    <system type="SpriteMeshGenerator"/>
+    <system type="PointLightTargetGeneratedSystem"/>
+    <system type="DirectionLightTargetGeneratedSystem"/>
+    <system type="CameraTargetGeneratedSystem"/>
+    <system type="ForvardRendering"/>
+    <system type="RenderMainCamera"/>
+
+</scene>

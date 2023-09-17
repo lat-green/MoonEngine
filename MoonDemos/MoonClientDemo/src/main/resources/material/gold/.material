@@ -1,0 +1,4 @@
+texture.albedo=material/gold/gold-scuffed_basecolor.png
+texture.metallic=material/gold/gold-scuffed_metallic.png
+texture.normal=material/gold/gold-scuffed_normal.png
+texture.roughness=material/gold/gold-scuffed_roughness.png

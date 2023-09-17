@@ -1,0 +1,5 @@
+texture.albedo=material/gravel/Gravel023_1K_Color.jpg
+texture.normal=material/gravel/Gravel023_1K_NormalGL.jpg
+texture.roughness=material/gravel/Gravel023_1K_Roughness.jpg
+texture.displacement=material/gravel/Gravel023_1K_Displacement.jpg
+texture.ambient_occlusion=material/gravel/Gravel023_1K_AmbientOcclusion.jpg
