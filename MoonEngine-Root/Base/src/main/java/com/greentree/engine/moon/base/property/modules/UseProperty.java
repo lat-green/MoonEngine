@@ -18,7 +18,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Repeatable(UsePropertyRepeatable.class)
 public @interface UseProperty {
 
-    Class<? extends SceneProperty>[] value() default {};
+    Class<? extends SceneProperty>[] value() default SceneProperty.class;
 
     UseStage state();
 

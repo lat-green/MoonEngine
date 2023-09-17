@@ -30,6 +30,10 @@
     <dependencies>
         <dependency>
             <groupId>com.greentree.engine.moon</groupId>
+            <artifactId>debug</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.greentree.engine.moon</groupId>
             <artifactId>script</artifactId>
         </dependency>
         <dependency>

@@ -4,6 +4,7 @@ import com.greentree.engine.moon.base.FileWatcherPollEventsModule;
 import com.greentree.engine.moon.base.InitAssetManagerModule;
 import com.greentree.engine.moon.base.assets.BaseAssetSerializatorModule;
 import com.greentree.engine.moon.base.scene.SceneModule;
+import com.greentree.engine.moon.base.time.TimeSystem;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
 import com.greentree.engine.moon.modules.EngineModule;
 
@@ -14,7 +15,7 @@ open module engine.moon.base {
     requires transitive commons.math;
     requires transitive commons.xml;
     requires transitive com.google.gson;
-    requires org.apache.logging.log4j;
+    requires transitive org.apache.logging.log4j;
     exports com.greentree.engine.moon.base;
     exports com.greentree.engine.moon.base.assets;
     exports com.greentree.engine.moon.base.assets.xml;
@@ -39,7 +40,7 @@ open module engine.moon.base {
     provides DataSerializer with EntitySerializer;
     uses ECSSystem;
     uses EngineModule;
-    provides ECSSystem with FileWatcherPollEventsModule;
+    provides ECSSystem with FileWatcherPollEventsModule, TimeSystem;
     provides EngineModule
             with InitAssetManagerModule, SceneModule, BaseAssetSerializatorModule;
 }

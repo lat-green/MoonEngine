@@ -21,11 +21,11 @@
             <value>${material}</value>
         </field>
     </component>
-    <!--	 <component type="Scripts">-->
-    <!--		<field name="scripts">-->
-    <!--			<value>-->
-    <!--				<value>script/move.js</value>-->
-    <!--			</value>-->
-    <!--		</field>-->
-    <!--	</component> -->
+    	 <component type="Scripts">
+    		<field name="scripts">
+    			<value>
+    				<value>script/move.js</value>
+    			</value>
+    		</field>
+    	</component>
 </entity>

@@ -21,13 +21,13 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 		private val LOG = LogManager.getLogger(SceneManagerBase::class.java)
 	}
 
-	private val globalSystems: MutableCollection<ECSSystem> = ArrayList()
+	private val globalSystems: MutableList<ECSSystem> = ArrayList()
 	private var nextScene: Scene? = null
 	private var currentSystems: FullSystem? = null
 
 	init {
 		val autoAddGlobalSystems = ServiceLoader.load(ECSSystem::class.java)
-		for(system in autoAddGlobalSystems) globalSystems.add(system)
+		for(system in autoAddGlobalSystems) addGlobalSystem(system)
 	}
 
 	@Synchronized
@@ -37,6 +37,7 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 
 	override fun addGlobalSystem(system: ECSSystem) {
 		globalSystems.add(system)
+		LOG.info("add global system ${system::class.java.name}")
 	}
 
 	fun update() {

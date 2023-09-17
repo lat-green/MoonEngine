@@ -2,7 +2,6 @@
 <!DOCTYPE scene SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
 
 <scene>
-    <system type="TimeSystem"/>
     <system type="CameraSystem"/>
 
     <system type="LayerSystem"/>
@@ -19,8 +18,6 @@
     <system type="CameraTargetGeneratedSystem"/>
     <system type="ForvardRendering"/>
     <system type="RenderMainCamera"/>
-
-    <system type="LogFPSSystem"/>
 
     <entity>
         <component type="Transform"/>

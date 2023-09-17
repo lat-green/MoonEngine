@@ -12,12 +12,24 @@ public enum UseStage {
 
     CREATE, WRITE, READ, DESTROY;
 
+    public Stream<Class<?>> getComponentAndProperty(Object obj, String method) {
+        return Stream.concat(getComponent(obj, method), getProperty(obj, method));
+    }
+
     public Stream<Class<? extends Component>> getComponent(Object obj, String method) {
         return getComponent(obj.getClass(), method);
     }
 
+    public Stream<Class<? extends SceneProperty>> getProperty(Object obj, String method) {
+        return getProperty(obj.getClass(), method);
+    }
+
     public Stream<Class<? extends Component>> getComponent(Class<?> cls, String method) {
         return getComponent(getMethod(cls, method));
+    }
+
+    public Stream<Class<? extends SceneProperty>> getProperty(Class<?> cls, String method) {
+        return getProperty(getMethod(cls, method));
     }
 
     public Stream<Class<? extends Component>> getComponent(Method method) {
@@ -33,14 +45,6 @@ public enum UseStage {
             if (m.getName().equals(method))
                 return m;
         throw new RuntimeException("no such method " + cls + " name: " + method);
-    }
-
-    public Stream<Class<? extends SceneProperty>> getProperty(Object obj, String method) {
-        return getProperty(obj.getClass(), method);
-    }
-
-    public Stream<Class<? extends SceneProperty>> getProperty(Class<?> cls, String method) {
-        return getProperty(getMethod(cls, method));
     }
 
     public Stream<Class<? extends SceneProperty>> getProperty(Method method) {

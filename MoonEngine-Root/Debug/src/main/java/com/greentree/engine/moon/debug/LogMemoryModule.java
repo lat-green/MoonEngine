@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.demo1;
+package com.greentree.engine.moon.debug;
 
 import com.greentree.engine.moon.modules.UpdateModule;
 

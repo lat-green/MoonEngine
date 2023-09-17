@@ -1,6 +1,8 @@
 package com.greentree.engine.moon.base.property.modules;
 
+import com.greentree.engine.moon.base.component.UseComponent;
 import com.greentree.engine.moon.base.component.UseStage;
+import com.greentree.engine.moon.kernel.AliasFor;
 import com.greentree.engine.moon.modules.property.EngineProperty;
 
 import java.lang.annotation.Retention;
@@ -14,6 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(METHOD)
 public @interface WriteProperty {
 
+    @AliasFor(annotation = UseProperty.class, value = "value")
     Class<? extends EngineProperty>[] value();
 
 }

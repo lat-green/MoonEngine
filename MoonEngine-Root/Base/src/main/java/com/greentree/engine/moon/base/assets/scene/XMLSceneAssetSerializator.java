@@ -211,7 +211,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                             if (system instanceof DestroySystem s)
                                 destroySystems.add(s);
                         } catch (RuntimeException | ClassNotFoundException e) {
-                            LOG.error("", e);
+                            LOG.error("load system", e);
                         }
                     final var log = new File("log");
                     log.mkdirs();
@@ -271,7 +271,7 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                                 if (c != null)
                                     lock.add(c);
                             } catch (RuntimeException | ClassNotFoundException e) {
-                                LOG.error("", e);
+                                LOG.error("load entity", e);
                             }
                     }
                     if (parent_atr != null) {

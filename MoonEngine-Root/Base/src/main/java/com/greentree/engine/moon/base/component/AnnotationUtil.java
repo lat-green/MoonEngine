@@ -52,16 +52,16 @@ public class AnnotationUtil {
         final var destroy = new FunctionAutoGenerateMap<Class<?>, Collection<T>>(
                 () -> new ArrayList<>());
         for (var v : iterable) {
-            UseStage.CREATE.getComponent(v, method).forEach(x -> {
+            UseStage.CREATE.getComponentAndProperty(v, method).forEach(x -> {
                 create.get(x).add(v);
             });
-            UseStage.WRITE.getComponent(v, method).forEach(x -> {
+            UseStage.WRITE.getComponentAndProperty(v, method).forEach(x -> {
                 write.get(x).add(v);
             });
-            UseStage.READ.getComponent(v, method).forEach(x -> {
+            UseStage.READ.getComponentAndProperty(v, method).forEach(x -> {
                 read.get(x).add(v);
             });
-            UseStage.DESTROY.getComponent(v, method).forEach(x -> {
+            UseStage.DESTROY.getComponentAndProperty(v, method).forEach(x -> {
                 destroy.get(x).add(v);
             });
         }
