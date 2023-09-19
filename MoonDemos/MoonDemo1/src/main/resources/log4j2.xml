@@ -30,8 +30,8 @@
         <!--        </Logger>-->
         <Root level="all">
             <AppenderRef ref="Console" level="info"/>
-            <AppenderRef ref="File"/>
-            <AppenderRef ref="Html"/>
+            <!--            <AppenderRef ref="File"/>-->
+            <!--            <AppenderRef ref="Html"/>-->
         </Root>
     </Loggers>
 </Configuration>
