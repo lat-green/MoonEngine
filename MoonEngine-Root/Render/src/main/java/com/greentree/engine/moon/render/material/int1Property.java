@@ -4,7 +4,7 @@ package com.greentree.engine.moon.render.material;
 public record int1Property(int x) implements Property {
 	
 	@Override
-	public void bind(PropertyLocation property, PropertyBindContext context) {
+	public void bind(PropertyLocation property) {
 		property.setInt(x);
 	}
 	

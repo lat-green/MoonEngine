@@ -4,7 +4,7 @@ package com.greentree.engine.moon.render.material;
 public record float3Property(float x, float y, float z) implements Property {
 	
 	@Override
-	public void bind(PropertyLocation property, PropertyBindContext context) {
+	public void bind(PropertyLocation property) {
 		property.setFloat(x, y, z);
 	}
 	

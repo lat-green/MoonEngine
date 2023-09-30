@@ -5,7 +5,7 @@ import com.greentree.common.graphics.sgl.shader.GLUniformLocation;
 import com.greentree.engine.moon.render.material.PropertyLocation;
 import org.lwjgl.system.MemoryStack;
 
-public record MaterialPropertyAddapter(GLUniformLocation location) implements PropertyLocation {
+public record OpenGLPropertyLocation(GLUniformLocation location, PropertyBindContext ctx) implements PropertyLocation {
 
     @Override
     public void setFloat(float x) {

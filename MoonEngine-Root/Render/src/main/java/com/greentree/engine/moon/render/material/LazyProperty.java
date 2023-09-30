@@ -5,8 +5,8 @@ import java.util.function.Supplier;
 public record LazyProperty(Supplier<Property> value) implements Property {
 	
 	@Override
-	public void bind(PropertyLocation location, PropertyBindContext context) {
-		value.get().bind(location, context);
+	public void bind(PropertyLocation location) {
+		value.get().bind(location);
 	}
 	
 }
