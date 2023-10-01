@@ -2,8 +2,8 @@ package com.greentree.engine.moon.opengl.adapter;
 
 import com.greentree.common.graphics.sgl.Window;
 import com.greentree.commons.action.ListenerCloser;
+import com.greentree.commons.graphics.smart.target.RenderTarget;
 import com.greentree.engine.moon.opengl.GLEnums;
-import com.greentree.engine.moon.render.pipeline.target.RenderTarget;
 import com.greentree.engine.moon.render.window.CursorInputMode;
 import com.greentree.engine.moon.render.window.callback.*;
 
@@ -46,16 +46,6 @@ public record WindowAdapter(Window window, RenderTarget target)
     }
 
     @Override
-    public void setInputMode(CursorInputMode mode) {
-        final var glfw = switch (mode) {
-            case DISABLED -> GLFW_CURSOR_DISABLED;
-            case HIDDEN -> GLFW_CURSOR_HIDDEN;
-            case NORMAL -> GLFW_CURSOR_NORMAL;
-        };
-        glfwSetInputMode(window.glID, GLFW_CURSOR, glfw);
-    }
-
-    @Override
     public CursorInputMode getInputMode() {
         final var glfw = glfwGetInputMode(window.glID, GLFW_CURSOR);
         return switch (glfw) {
@@ -64,6 +54,16 @@ public record WindowAdapter(Window window, RenderTarget target)
             case GLFW_CURSOR_NORMAL -> CursorInputMode.NORMAL;
             default -> throw new IllegalArgumentException("Unexpected value: " + glfw);
         };
+    }
+
+    @Override
+    public void setInputMode(CursorInputMode mode) {
+        final var glfw = switch (mode) {
+            case DISABLED -> GLFW_CURSOR_DISABLED;
+            case HIDDEN -> GLFW_CURSOR_HIDDEN;
+            case NORMAL -> GLFW_CURSOR_NORMAL;
+        };
+        glfwSetInputMode(window.glID, GLFW_CURSOR, glfw);
     }
 
     @Override

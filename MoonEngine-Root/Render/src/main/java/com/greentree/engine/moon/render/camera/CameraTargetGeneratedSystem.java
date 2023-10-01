@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.render.camera;
 
+import com.greentree.commons.graphics.smart.scene.CameraFrameBuffer;
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
@@ -12,9 +13,11 @@ import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
-import com.greentree.engine.moon.render.pipeline.target.CameraRenderTarget;
+import com.greentree.engine.moon.render.scene.ECSRenderSceneKt;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static com.greentree.commons.image.PixelFormat.RGB;
 
 public class CameraTargetGeneratedSystem implements WorldInitSystem, UpdateSystem {
 
@@ -31,10 +34,9 @@ public class CameraTargetGeneratedSystem implements WorldInitSystem, UpdateSyste
         for (var e : cameras) {
             final var c = e.get(CameraComponent.class);
             final var builder = context.createRenderTarget();
-            builder.addColor2D();
+            builder.addColor2D(RGB);
             builder.addDepth();
-            final var target = new CameraTarget(
-                    new CameraRenderTarget(e, builder.build(c.width(), c.height())));
+            final var target = new CameraTarget(new CameraFrameBuffer(ECSRenderSceneKt.toCamera(e), builder.build(c.width(), c.height())));
             e.add(target);
         }
     }

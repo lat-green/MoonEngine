@@ -1,6 +1,7 @@
 package com.greentree.engine.moon.render;
 
 import com.greentree.commons.graphics.smart.shader.material.Material;
+import com.greentree.commons.graphics.smart.target.RenderCommandBuffer;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
@@ -13,14 +14,13 @@ import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.Cameras;
 import com.greentree.engine.moon.render.mesh.MeshUtil;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
-import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 import com.greentree.engine.moon.render.window.Window;
 import com.greentree.engine.moon.render.window.WindowProperty;
 
 public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, DestroySystem {
 
     private Window window;
-    private TargetCommandBuffer buffer;
+    private RenderCommandBuffer buffer;
     private Material material;
     private Cameras cameras;
 

@@ -7,15 +7,16 @@ import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray.AttributeGroup;
 import com.greentree.commons.graphics.smart.shader.Shader;
+import com.greentree.commons.graphics.smart.target.FrameBuffer;
+import com.greentree.commons.graphics.smart.target.RenderCommandBuffer;
+import com.greentree.commons.graphics.smart.target.RenderTarget;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.mesh.AttributeData;
 import com.greentree.engine.moon.mesh.StaticMesh;
+import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 import com.greentree.engine.moon.opengl.GLEnums;
 import com.greentree.engine.moon.opengl.adapter.buffer.PushCommandBuffer;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
-import com.greentree.engine.moon.render.pipeline.target.RenderTarget;
-import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextuteBuilder;
-import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 import com.greentree.engine.moon.render.shader.ShaderData;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 import org.lwjgl.system.MemoryStack;
@@ -24,23 +25,28 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.greentree.engine.moon.mesh.compoent.MeshComponent.*;
+
 public record GLRenderLibrary() implements RenderLibrary, RenderTarget {
 
+    public static final StaticMeshFaceComponent[] COMPONENTS = {
+            VERTEX, NORMAL, TEXTURE_COORDINAT, TANGENT
+    };
     private static final RenderMeshBuilder MESH_BUILDER = new RenderMeshBuilder();
     private static final GLSLShaderBuilder SHADER_BUILDER = new GLSLShaderBuilder();
 
     @Override
-    public TargetCommandBuffer buffer() {
+    public RenderCommandBuffer buffer() {
         return new PushCommandBuffer(this);
     }
 
     @Override
-    public RenderTargetTextuteBuilder createRenderTarget() {
+    public FrameBuffer.Builder createRenderTarget() {
         return new GLRenderTargetTextuteBuilder(this);
     }
 
     public RenderMesh build(StaticMesh mesh) {
-        return build(mesh.getAttributeGroup(TargetCommandBuffer.COMPONENTS));
+        return build(mesh.getAttributeGroup(COMPONENTS));
     }
 
     public RenderMesh build(AttributeData mesh) {

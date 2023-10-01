@@ -9,7 +9,7 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.mesh.AttributeData
 import com.greentree.engine.moon.mesh.StaticMesh
-import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer
+import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary
 
 object AttributeDataSerializator : AssetSerializator<AttributeData> {
 
@@ -21,7 +21,7 @@ object AttributeDataSerializator : AssetSerializator<AttributeData> {
 	object AttributeDataToGLVertexArray : Value1Function<StaticMesh, AttributeData> {
 
 		override fun apply(mesh: StaticMesh): AttributeData {
-			return mesh.getAttributeGroup(*TargetCommandBuffer.COMPONENTS)
+			return mesh.getAttributeGroup(*GLRenderLibrary.COMPONENTS)
 		}
 	}
 }

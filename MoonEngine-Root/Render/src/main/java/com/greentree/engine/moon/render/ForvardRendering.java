@@ -148,7 +148,8 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
             if (camera.contains(SkyBoxComponent.class)) {
                 final var texture = camera.get(SkyBoxComponent.class).texture().getValue();
                 buffer.bindMesh(library.build(BOX));
-                buffer.drawSkyBox(library.build(getDefaultSkyBoxShader()), texture);
+                buffer.bindSkyBoxMaterial(library.build(getDefaultSkyBoxShader()), texture);
+                buffer.draw();
             }
             buffer.enableCullFace();
             buffer.enableDepthTest();

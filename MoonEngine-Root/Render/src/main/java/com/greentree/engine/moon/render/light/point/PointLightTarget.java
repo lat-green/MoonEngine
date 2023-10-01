@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.render.light.point;
 
+import com.greentree.commons.graphics.smart.target.FrameBuffer;
 import com.greentree.engine.moon.ecs.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
-import com.greentree.engine.moon.render.pipeline.target.RenderTargetTextute;
 
 @RequiredComponent(PointLightComponent.class)
-public record PointLightTarget(RenderTargetTextute target) implements ConstComponent {
+public record PointLightTarget(FrameBuffer target) implements ConstComponent {
 }
