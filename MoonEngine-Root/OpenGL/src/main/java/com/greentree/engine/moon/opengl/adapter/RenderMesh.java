@@ -1,11 +1,13 @@
 package com.greentree.engine.moon.opengl.adapter;
 
+import com.greentree.commons.graphics.smart.mesh.Mesh;
 
-public interface RenderMesh {
-	
-	void render();
-	
-	void bind();
-	void unbind();
-	
+public interface RenderMesh extends Mesh {
+
+    void render();
+
+    void bind();
+
+    void unbind();
+
 }

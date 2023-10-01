@@ -13,6 +13,7 @@ import com.greentree.engine.moon.render.camera.Cameras;
 import com.greentree.engine.moon.render.material.LazyProperty;
 import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.mesh.MeshUtil;
+import com.greentree.engine.moon.render.pipeline.RenderLibrary;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
 import com.greentree.engine.moon.render.window.Window;
@@ -22,20 +23,21 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
 
     private Window window;
     private TargetCommandBuffer buffer;
+    private RenderLibrary library;
 
     @Override
     public void destroy() {
-        window = null;
         buffer.clear();
     }
 
-    @ReadProperty({WindowProperty.class, Cameras.class})
+    @ReadProperty({WindowProperty.class, Cameras.class, RenderLibraryProperty.class})
     @ReadComponent(CameraTarget.class)
     @Override
     public void init(World world, SceneProperties sceneProperties) {
         window = sceneProperties.get(WindowProperty.class).window();
+        library = sceneProperties.get(RenderLibraryProperty.class).library();
         var cameras = sceneProperties.get(Cameras.class);
-        final var rmesh = MeshUtil.QUAD;
+        final var rmesh = library.build(MeshUtil.QUAD);
         final var shader = MaterialUtil.getDefaultTextureShader();
         final var properties = new MaterialPropertiesBase();
         properties.put("render_texture",

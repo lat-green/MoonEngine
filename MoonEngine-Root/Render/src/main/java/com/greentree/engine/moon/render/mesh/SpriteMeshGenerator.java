@@ -1,19 +1,24 @@
 package com.greentree.engine.moon.render.mesh;
 
+import com.greentree.commons.graphics.smart.mesh.Mesh;
+import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.asset.ConstAsset;
+import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.WorldEntity;
 import com.greentree.engine.moon.ecs.filter.Filter;
 import com.greentree.engine.moon.ecs.filter.builder.FilterBuilder;
-import com.greentree.engine.moon.ecs.system.SimpleWorldInitSystem;
+import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
+import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 import com.greentree.engine.moon.render.MaterialUtil;
 import com.greentree.engine.moon.render.material.Material;
 import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 
-public class SpriteMeshGenerator implements SimpleWorldInitSystem, UpdateSystem {
+public class SpriteMeshGenerator implements WorldInitSystem, UpdateSystem {
 
     private static final FilterBuilder SPRITE_MESHES = new FilterBuilder().require(SpriteRenderer.class)
             .ignore(MeshComponent.class);
@@ -21,9 +26,13 @@ public class SpriteMeshGenerator implements SimpleWorldInitSystem, UpdateSystem 
             .ignore(MeshRenderer.class);
 
     private Filter<? extends WorldEntity> sprite_meshes, sprite_renders;
+    private Asset<Mesh> mesh;
 
+    @ReadProperty(AssetManagerProperty.class)
     @Override
-    public void init(World world) {
+    public void init(World world, SceneProperties sceneProperties) {
+        var manager = sceneProperties.get(AssetManagerProperty.class).manager();
+        mesh = manager.load(Mesh.class, MeshUtil.QUAD_SPRITE);
         sprite_meshes = SPRITE_MESHES.build(world);
         sprite_renders = SPRITE_NO_MESH_RENDERS.build(world);
     }
@@ -33,7 +42,6 @@ public class SpriteMeshGenerator implements SimpleWorldInitSystem, UpdateSystem 
     @Override
     public void update() {
         for (var e : sprite_meshes) {
-            final var mesh = new ConstAsset<>(MeshUtil.QUAD_SPRITE);
             final var c = new MeshComponent(mesh);
             e.add(c);
         }

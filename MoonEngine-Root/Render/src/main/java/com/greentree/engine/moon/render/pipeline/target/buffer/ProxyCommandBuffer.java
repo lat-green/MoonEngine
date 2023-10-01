@@ -1,13 +1,13 @@
 package com.greentree.engine.moon.render.pipeline.target.buffer;
 
+import com.greentree.commons.graphics.smart.mesh.Mesh;
 import com.greentree.commons.image.Color;
-import com.greentree.engine.moon.mesh.AttributeData;
-import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 import java.util.Objects;
 
+@Deprecated
 public class ProxyCommandBuffer implements TargetCommandBuffer {
 
     protected final TargetCommandBuffer origin;
@@ -48,12 +48,7 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
     }
 
     @Override
-    public void bindMesh(StaticMesh mesh) {
-        origin.bindMesh(mesh);
-    }
-
-    @Override
-    public void bindMesh(AttributeData mesh) {
+    public void bindMesh(Mesh mesh) {
         origin.bindMesh(mesh);
     }
 

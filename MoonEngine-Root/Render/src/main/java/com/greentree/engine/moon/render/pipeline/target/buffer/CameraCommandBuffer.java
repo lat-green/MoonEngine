@@ -38,14 +38,9 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
     }
 
     public void drawSkyBox(ShaderProgramData shader, Property texture) {
-        bindSkyBoxMesh();
         bindSkyBoxMaterial(texture);
         bindShader(shader);
         draw();
-    }
-
-    public void bindSkyBoxMesh() {
-        super.bindMesh(MeshUtil.BOX);
     }
 
     public void bindSkyBoxMaterial(Property texture) {

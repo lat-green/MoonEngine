@@ -27,8 +27,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.greentree.commons</groupId>
-            <artifactId>image</artifactId>
+            <groupId>com.greentree.commons.graphics</groupId>
+            <artifactId>smart-graphics</artifactId>
+            <version>${commons.version}</version>
         </dependency>
 
     </dependencies>

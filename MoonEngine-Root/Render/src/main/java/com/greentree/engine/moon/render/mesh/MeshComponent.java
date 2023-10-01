@@ -1,15 +1,15 @@
 package com.greentree.engine.moon.render.mesh;
 
+import com.greentree.commons.graphics.smart.mesh.Mesh;
 import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.RequiredComponent;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
-import com.greentree.engine.moon.mesh.StaticMesh;
 
 import java.util.Objects;
 
 @RequiredComponent({Transform.class})
-public record MeshComponent(Asset<? extends StaticMesh> mesh) implements ConstComponent {
+public record MeshComponent(Asset<? extends Mesh> mesh) implements ConstComponent {
 
     public MeshComponent {
         Objects.requireNonNull(mesh);
@@ -17,9 +17,9 @@ public record MeshComponent(Asset<? extends StaticMesh> mesh) implements ConstCo
 
     @Override
     public String toString() {
-		String builder = "MeshComponent [" +
-				mesh +
-				"]";
+        String builder = "MeshComponent [" +
+                mesh +
+                "]";
         return builder;
     }
 

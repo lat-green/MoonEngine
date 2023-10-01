@@ -1,4 +1,3 @@
-import com.greentree.engine.moon.ecs.system.ECSSystem;
 import com.greentree.engine.moon.modules.EngineModule;
 import com.greentree.engine.moon.render.WindowModule;
 import com.greentree.engine.moon.render.assets.RenderAssetSerializatorModule;
@@ -8,6 +7,7 @@ open module engine.moon.render {
     requires transitive engine.moon.signals;
     requires transitive engine.moon.assets;
     requires transitive engine.moon.mesh;
+    requires transitive commons.graphics.smart;
     requires transitive commons.image;
     requires transitive kotlin.stdlib;
     exports com.greentree.engine.moon.render.assets;

@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.opengl.adapter.buffer;
 
+import com.greentree.commons.graphics.smart.mesh.Mesh;
 import com.greentree.commons.image.Color;
-import com.greentree.engine.moon.mesh.AttributeData;
 import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
 import com.greentree.engine.moon.opengl.adapter.RenderMesh;
 import com.greentree.engine.moon.opengl.adapter.Shader;
@@ -22,9 +22,8 @@ public class PushCommandBuffer implements TargetCommandBuffer {
     private boolean depthTest;
     private boolean cullFace;
     private MaterialProperties bindedProperties;
-    private RenderMesh bindedMesh;
+    private RenderMesh mesh;
     private Shader bindedShader;
-    private AttributeData mesh;
 
     public PushCommandBuffer(GLRenderLibrary library) {
         this(library, INITIAL_CAPACITY);
@@ -63,11 +62,8 @@ public class PushCommandBuffer implements TargetCommandBuffer {
     }
 
     @Override
-    public void bindMesh(AttributeData mesh) {
-        if (this.mesh == mesh)
-            return;
-        this.mesh = mesh;
-        this.bindedMesh = library.build(mesh);
+    public void bindMesh(Mesh mesh) {
+        this.mesh = (RenderMesh) mesh;
     }
 
     @Override
@@ -82,7 +78,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 
     @Override
     public void draw() {
-        TargetCommand command = new DrawMesh(bindedShader, bindedMesh, bindedProperties);
+        TargetCommand command = new DrawMesh(bindedShader, mesh, bindedProperties);
         if (cullFace)
             command = new CullFace(command);
         if (depthTest)

@@ -1,16 +1,17 @@
 package com.greentree.engine.moon.render.pipeline.target.buffer;
 
+import com.greentree.commons.graphics.smart.mesh.Mesh;
 import com.greentree.commons.image.Color;
-import com.greentree.engine.moon.mesh.AttributeData;
-import com.greentree.engine.moon.mesh.StaticMesh;
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
 import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
+import static com.greentree.engine.moon.mesh.compoent.MeshComponent.*;
+
 public interface TargetCommandBuffer {
 
-    StaticMeshFaceComponent[] COMPONENTS = {StaticMeshFaceComponent.VERTEX, StaticMeshFaceComponent.NORMAL,
-            StaticMeshFaceComponent.TEXTURE_COORDINAT, StaticMeshFaceComponent.TANGENT};
+    StaticMeshFaceComponent[] COMPONENTS = {VERTEX, NORMAL,
+            TEXTURE_COORDINAT, TANGENT};
 
     void clear();
 
@@ -27,11 +28,7 @@ public interface TargetCommandBuffer {
 
     void disableDepthTest();
 
-    default void bindMesh(StaticMesh mesh) {
-        bindMesh(mesh.getAttributeGroup(COMPONENTS));
-    }
-
-    void bindMesh(AttributeData mesh);
+    void bindMesh(Mesh mesh);
 
     void bindMaterial(MaterialProperties properties);
 

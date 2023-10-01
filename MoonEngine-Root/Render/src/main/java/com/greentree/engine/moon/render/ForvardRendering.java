@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.render;
 
-import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.component.WriteComponent;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.World;
 import com.greentree.engine.moon.ecs.WorldEntity;
@@ -24,10 +24,13 @@ import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
 import com.greentree.engine.moon.render.mesh.MeshRenderer;
+import com.greentree.engine.moon.render.pipeline.RenderLibrary;
+import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import static com.greentree.engine.moon.render.MaterialUtil.*;
+import static com.greentree.engine.moon.render.mesh.MeshUtil.BOX;
 
 public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
 
@@ -55,9 +58,12 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
     private Filter<? extends WorldEntity> point_ligth;
     private Filter<? extends WorldEntity> dir_ligth;
     private Filter<? extends WorldEntity> renderer;
+    private RenderLibrary library;
 
+    @ReadProperty(RenderLibraryProperty.class)
     @Override
     public void init(World world, SceneProperties sceneProperties) {
+        library = sceneProperties.get(RenderLibraryProperty.class).library();
         cameras = CAMERAS.build(world);
         point_ligth = POINT_LIGHT.build(world);
         dir_ligth = DIR_LIGTH.build(world);
@@ -124,9 +130,9 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
             buffer.clearDepth(1);
             if (camera.contains(SkyBoxComponent.class)) {
                 final var texture = camera.get(SkyBoxComponent.class).texture().getValue();
+                buffer.bindMesh(library.build(BOX));
                 buffer.drawSkyBox(getDefaultSkyBoxShader(), texture);
-            } else
-                buffer.clearColor(Color.gray);
+            }
             buffer.enableCullFace();
             buffer.enableDepthTest();
             for (var m : renderer) {
