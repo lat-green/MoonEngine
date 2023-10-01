@@ -1,14 +1,13 @@
 package com.greentree.engine.moon.opengl.adapter.buffer;
 
 import com.greentree.commons.graphics.smart.mesh.Mesh;
+import com.greentree.commons.graphics.smart.shader.material.Material;
 import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
+import com.greentree.engine.moon.opengl.adapter.OpenGLMaterial;
 import com.greentree.engine.moon.opengl.adapter.RenderMesh;
-import com.greentree.engine.moon.opengl.adapter.Shader;
 import com.greentree.engine.moon.opengl.adapter.buffer.command.*;
-import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
-import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +20,8 @@ public class PushCommandBuffer implements TargetCommandBuffer {
     private final List<TargetCommand> commands;
     private boolean depthTest;
     private boolean cullFace;
-    private MaterialProperties properties;
+    private OpenGLMaterial material;
     private RenderMesh mesh;
-    private Shader bindedShader;
 
     public PushCommandBuffer(GLRenderLibrary library) {
         this(library, INITIAL_CAPACITY);
@@ -67,18 +65,13 @@ public class PushCommandBuffer implements TargetCommandBuffer {
     }
 
     @Override
-    public void bindMaterial(MaterialProperties properties) {
-        this.properties = properties;
-    }
-
-    @Override
-    public void bindShader(ShaderProgramData shader) {
-        this.bindedShader = library.build(shader);
+    public void bindMaterial(Material material) {
+        this.material = (OpenGLMaterial) material;
     }
 
     @Override
     public void draw() {
-        TargetCommand command = new DrawMesh(bindedShader, mesh, properties);
+        TargetCommand command = new DrawMesh(mesh, material);
         if (cullFace)
             command = new CullFace(command);
         if (depthTest)

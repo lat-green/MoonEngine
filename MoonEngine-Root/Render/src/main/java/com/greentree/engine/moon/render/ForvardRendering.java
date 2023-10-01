@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.render;
 
+import com.greentree.commons.graphics.smart.shader.material.Material;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.component.WriteComponent;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
@@ -20,8 +21,6 @@ import com.greentree.engine.moon.render.light.direction.DirectionLightComponent;
 import com.greentree.engine.moon.render.light.direction.DirectionLightTarget;
 import com.greentree.engine.moon.render.light.point.PointLightComponent;
 import com.greentree.engine.moon.render.light.point.PointLightTarget;
-import com.greentree.engine.moon.render.material.MaterialProperties;
-import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.mesh.MeshComponent;
 import com.greentree.engine.moon.render.mesh.MeshRenderer;
 import com.greentree.engine.moon.render.pipeline.RenderLibrary;
@@ -40,20 +39,8 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
     private static final FilterBuilder POINT_LIGHT = new FilterBuilder().require(PointLightTarget.class);
     private static final FilterBuilder DIR_LIGTH = new FilterBuilder().require(DirectionLightTarget.class);
     private static final FilterBuilder RENDERER = new FilterBuilder().require(MeshRenderer.class);
-    private static final MaterialProperties SUPER_POINT_SHADOW;
-    private static final MaterialProperties[] POINT_SHADOW = new MaterialProperties[6];
-
-    static {
-        SUPER_POINT_SHADOW = new MaterialPropertiesBase();
-        SUPER_POINT_SHADOW.put("far_plane", FAR_PLANE);
-        final var shadowMatrices = getShadowMatrices();
-        for (var i = 0; i < POINT_SHADOW.length; i++) {
-            POINT_SHADOW[i] = SUPER_POINT_SHADOW.newChildren();
-            POINT_SHADOW[i].put("face", i);
-            POINT_SHADOW[i].put("projectionView", shadowMatrices[i]);
-        }
-    }
-
+    private final Material[] POINT_SHADOW = new Material[6];
+    private Material SUPER_POINT_SHADOW;
     private Filter<? extends WorldEntity> cameras;
     private Filter<? extends WorldEntity> point_ligth;
     private Filter<? extends WorldEntity> dir_ligth;
@@ -68,6 +55,37 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
         point_ligth = POINT_LIGHT.build(world);
         dir_ligth = DIR_LIGTH.build(world);
         renderer = RENDERER.build(world);
+        SUPER_POINT_SHADOW = library.build(getDefaultCubeMapShadowShader()).newMaterial();
+        SUPER_POINT_SHADOW.put("far_plane", FAR_PLANE);
+        final var shadowMatrices = getShadowMatrices();
+        for (var i = 0; i < POINT_SHADOW.length; i++) {
+            POINT_SHADOW[i] = SUPER_POINT_SHADOW.newMaterial();
+            POINT_SHADOW[i].put("face", i);
+            POINT_SHADOW[i].put("projectionView", shadowMatrices[i]);
+        }
+    }
+
+    private static Matrix4f[] getShadowMatrices() {
+        final var zeroVector = new Vector3f();
+        var shadowMatrices = new Matrix4f[6];
+        shadowMatrices[0] = new Matrix4f().lookAt(zeroVector, new Vector3f(1.0f, 0.0f, 0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f));
+        shadowMatrices[1] = new Matrix4f().lookAt(zeroVector, new Vector3f(-1.0f, 0.0f, 0.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f));
+        shadowMatrices[2] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 1.0f, 0.0f),
+                new Vector3f(0.0f, 0.0f, 1.0f));
+        shadowMatrices[3] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, -1.0f, 0.0f),
+                new Vector3f(0.0f, 0.0f, -1.0f));
+        shadowMatrices[4] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 0.0f, 1.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f));
+        shadowMatrices[5] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 0.0f, -1.0f),
+                new Vector3f(0.0f, -1.0f, 0.0f));
+        {
+            var shadowProj = new Matrix4f(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 1, 0, 0, 0, 0);
+            for (var i = 0; i < 6; i++)
+                shadowProj.mul(shadowMatrices[i], shadowMatrices[i]);
+        }
+        return shadowMatrices;
     }
 
     @ReadComponent(MeshComponent.class)
@@ -89,7 +107,6 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
                 buffer.clearDepth(1);
                 buffer.enableCullFace();
                 buffer.enableDepthTest();
-                buffer.bindShader(getDefaultCubeMapShadowShader());
                 for (var m : renderer) {
                     final var mesh = m.get(MeshComponent.class).mesh().getValue();
                     buffer.bindMesh(mesh);
@@ -107,7 +124,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
             if (light.contains(HasShadow.class)) {
                 final var target = light.get(DirectionLightTarget.class).target();
                 final var buffer = target.buffer();
-                buffer.bindShader(getDefaultShadowShader());
+                var shader = library.build(getDefaultShadowShader());
                 buffer.clearDepth(1);
                 buffer.enableCullFace();
                 buffer.enableDepthTest();
@@ -115,7 +132,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
                     final var mesh = m.get(MeshComponent.class).mesh().getValue();
                     buffer.bindMesh(mesh);
                     final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
-                    final var properties = new MaterialPropertiesBase();
+                    final var properties = shader.newMaterial();
                     mapShadowMaterial(properties);
                     properties.put("model", model);
                     buffer.bindMaterial(properties);
@@ -131,7 +148,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
             if (camera.contains(SkyBoxComponent.class)) {
                 final var texture = camera.get(SkyBoxComponent.class).texture().getValue();
                 buffer.bindMesh(library.build(BOX));
-                buffer.drawSkyBox(getDefaultSkyBoxShader(), texture);
+                buffer.drawSkyBox(library.build(getDefaultSkyBoxShader()), texture);
             }
             buffer.enableCullFace();
             buffer.enableDepthTest();
@@ -140,8 +157,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
                 buffer.bindMesh(mesh);
                 final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
                 final var material = m.get(MeshRenderer.class).material().getValue();
-                buffer.bindShader(material.shader());
-                final var properties = material.properties().newChildren();
+                final var properties = material.newMaterial();
                 mapMaterial(properties);
                 properties.put("model", model);
                 buffer.bindMaterial(properties);
@@ -153,11 +169,11 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
 
     }
 
-    private void mapShadowMaterial(MaterialProperties properties) {
+    private void mapShadowMaterial(Material properties) {
         mapMaterial0(properties);
     }
 
-    private void mapMaterial(MaterialProperties properties) {
+    private void mapMaterial(Material properties) {
         mapMaterial0(properties);
         {
             var i = 0;
@@ -193,31 +209,8 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
         }
     }
 
-    private void mapMaterial0(MaterialProperties properties) {
+    private void mapMaterial0(Material properties) {
         properties.put("far_plane", FAR_PLANE);
-    }
-
-    private static Matrix4f[] getShadowMatrices() {
-        final var zeroVector = new Vector3f();
-        var shadowMatrices = new Matrix4f[6];
-        shadowMatrices[0] = new Matrix4f().lookAt(zeroVector, new Vector3f(1.0f, 0.0f, 0.0f),
-                new Vector3f(0.0f, -1.0f, 0.0f));
-        shadowMatrices[1] = new Matrix4f().lookAt(zeroVector, new Vector3f(-1.0f, 0.0f, 0.0f),
-                new Vector3f(0.0f, -1.0f, 0.0f));
-        shadowMatrices[2] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 1.0f, 0.0f),
-                new Vector3f(0.0f, 0.0f, 1.0f));
-        shadowMatrices[3] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, -1.0f, 0.0f),
-                new Vector3f(0.0f, 0.0f, -1.0f));
-        shadowMatrices[4] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 0.0f, 1.0f),
-                new Vector3f(0.0f, -1.0f, 0.0f));
-        shadowMatrices[5] = new Matrix4f().lookAt(zeroVector, new Vector3f(0.0f, 0.0f, -1.0f),
-                new Vector3f(0.0f, -1.0f, 0.0f));
-        {
-            var shadowProj = new Matrix4f(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -1, 1, 0, 0, 0, 0);
-            for (var i = 0; i < 6; i++)
-                shadowProj.mul(shadowMatrices[i], shadowMatrices[i]);
-        }
-        return shadowMatrices;
     }
 
 }

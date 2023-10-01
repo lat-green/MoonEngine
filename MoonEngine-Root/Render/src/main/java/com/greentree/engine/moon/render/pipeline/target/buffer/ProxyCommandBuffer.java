@@ -1,9 +1,8 @@
 package com.greentree.engine.moon.render.pipeline.target.buffer;
 
 import com.greentree.commons.graphics.smart.mesh.Mesh;
+import com.greentree.commons.graphics.smart.shader.material.Material;
 import com.greentree.commons.image.Color;
-import com.greentree.engine.moon.render.material.MaterialProperties;
-import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 import java.util.Objects;
 
@@ -53,13 +52,8 @@ public class ProxyCommandBuffer implements TargetCommandBuffer {
     }
 
     @Override
-    public void bindMaterial(MaterialProperties properties) {
-        origin.bindMaterial(properties);
-    }
-
-    @Override
-    public void bindShader(ShaderProgramData shader) {
-        origin.bindShader(shader);
+    public void bindMaterial(Material material) {
+        origin.bindMaterial(material);
     }
 
     @Override

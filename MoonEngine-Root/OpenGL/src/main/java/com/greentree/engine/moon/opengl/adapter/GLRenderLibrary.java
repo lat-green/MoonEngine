@@ -6,6 +6,7 @@ import com.greentree.common.graphics.sgl.shader.GLSLShader;
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray.AttributeGroup;
+import com.greentree.commons.graphics.smart.shader.Shader;
 import com.greentree.commons.util.iterator.IteratorUtil;
 import com.greentree.engine.moon.mesh.AttributeData;
 import com.greentree.engine.moon.mesh.StaticMesh;
@@ -114,10 +115,10 @@ public record GLRenderLibrary() implements RenderLibrary, RenderTarget {
             if (program.geom() != null) {
                 final var geom = build(program.geom());
                 final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag, geom));
-                shader = new ShaderAddapter(p);
+                shader = new OpenGLShader(p);
             } else {
                 final var p = new GLShaderProgram(IteratorUtil.iterable(vert, frag));
-                shader = new ShaderAddapter(p);
+                shader = new OpenGLShader(p);
             }
             programs.put(program, shader);
             return shader;

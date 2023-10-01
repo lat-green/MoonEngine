@@ -1,9 +1,10 @@
 package com.greentree.engine.moon.opengl.adapter;
 
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
+import com.greentree.commons.graphics.smart.shader.Shader;
 import com.greentree.engine.moon.render.material.MaterialProperties;
 
-public record ShaderAddapter(GLShaderProgram shader) implements Shader {
+public record OpenGLShader(GLShaderProgram shader) implements Shader {
 
     @Override
     public void bind() {

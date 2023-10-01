@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.render;
 
+import com.greentree.commons.graphics.smart.shader.material.Material;
 import com.greentree.engine.moon.base.component.ReadComponent;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
@@ -10,8 +11,6 @@ import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.Cameras;
-import com.greentree.engine.moon.render.material.MaterialProperties;
-import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.mesh.MeshUtil;
 import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
 import com.greentree.engine.moon.render.pipeline.target.buffer.TargetCommandBuffer;
@@ -22,14 +21,14 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
 
     private Window window;
     private TargetCommandBuffer buffer;
-    private MaterialProperties properties;
+    private Material material;
     private Cameras cameras;
 
     @Override
     public void destroy() {
         buffer.clear();
         buffer = null;
-        properties = null;
+        material = null;
         window = null;
         cameras = null;
     }
@@ -42,12 +41,11 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         var library = sceneProperties.get(RenderLibraryProperty.class).library();
         cameras = sceneProperties.get(Cameras.class);
         final var rmesh = library.build(MeshUtil.QUAD);
-        final var shader = MaterialUtil.getDefaultTextureShader();
-        properties = new MaterialPropertiesBase();
+        final var shader = library.build(MaterialUtil.getDefaultTextureShader());
+        material = shader.newMaterial();
         buffer = window.screanRenderTarget().buffer();
         buffer.bindMesh(rmesh);
-        buffer.bindShader(shader);
-        buffer.bindMaterial(properties);
+        buffer.bindMaterial(material);
         buffer.draw();
     }
 
@@ -59,7 +57,7 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         window.swapBuffer();
         var camera = cameras.main();
         if (camera.contains(CameraTarget.class))
-            properties.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());
+            material.put("render_texture", camera.get(CameraTarget.class).target().getColorTexture());
         buffer.execute();
     }
 

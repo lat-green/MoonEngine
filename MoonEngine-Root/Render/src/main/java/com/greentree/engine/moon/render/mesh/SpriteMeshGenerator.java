@@ -1,8 +1,9 @@
 package com.greentree.engine.moon.render.mesh;
 
 import com.greentree.commons.graphics.smart.mesh.Mesh;
+import com.greentree.commons.graphics.smart.shader.Shader;
 import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.ConstAsset;
+import com.greentree.engine.moon.assets.asset.AssetKt;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
@@ -15,8 +16,6 @@ import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 import com.greentree.engine.moon.render.MaterialUtil;
-import com.greentree.engine.moon.render.material.Material;
-import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 
 public class SpriteMeshGenerator implements WorldInitSystem, UpdateSystem {
 
@@ -27,12 +26,14 @@ public class SpriteMeshGenerator implements WorldInitSystem, UpdateSystem {
 
     private Filter<? extends WorldEntity> sprite_meshes, sprite_renders;
     private Asset<Mesh> mesh;
+    private Asset<Shader> shader;
 
     @ReadProperty(AssetManagerProperty.class)
     @Override
     public void init(World world, SceneProperties sceneProperties) {
         var manager = sceneProperties.get(AssetManagerProperty.class).manager();
         mesh = manager.load(Mesh.class, MeshUtil.QUAD_SPRITE);
+        shader = manager.load(Shader.class, MaterialUtil.getDefaultSpriteShader());
         sprite_meshes = SPRITE_MESHES.build(world);
         sprite_renders = SPRITE_NO_MESH_RENDERS.build(world);
     }
@@ -46,9 +47,11 @@ public class SpriteMeshGenerator implements WorldInitSystem, UpdateSystem {
             e.add(c);
         }
         for (var e : sprite_renders) {
-            final var m = new Material(MaterialUtil.getDefaultSpriteShader(), new MaterialPropertiesBase());
-            m.properties().put("render_texture", e.get(SpriteRenderer.class).texture().getValue());
-            final var c = new MeshRenderer(new ConstAsset<>(m));
+            final var c = new MeshRenderer(AssetKt.map(shader, e.get(SpriteRenderer.class).texture(), (s, t) -> {
+                var m = s.newMaterial();
+                m.put("render_texture", t);
+                return m;
+            }));
             e.add(c);
         }
     }

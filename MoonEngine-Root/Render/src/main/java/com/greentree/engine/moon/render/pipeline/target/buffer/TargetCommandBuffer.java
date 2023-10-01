@@ -1,10 +1,9 @@
 package com.greentree.engine.moon.render.pipeline.target.buffer;
 
 import com.greentree.commons.graphics.smart.mesh.Mesh;
+import com.greentree.commons.graphics.smart.shader.material.Material;
 import com.greentree.commons.image.Color;
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent;
-import com.greentree.engine.moon.render.material.MaterialProperties;
-import com.greentree.engine.moon.render.shader.ShaderProgramData;
 
 import static com.greentree.engine.moon.mesh.compoent.MeshComponent.*;
 
@@ -30,9 +29,7 @@ public interface TargetCommandBuffer {
 
     void bindMesh(Mesh mesh);
 
-    void bindMaterial(MaterialProperties properties);
-
-    void bindShader(ShaderProgramData shader);
+    void bindMaterial(Material material);
 
     void draw();
 

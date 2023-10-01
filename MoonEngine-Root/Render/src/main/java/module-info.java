@@ -4,6 +4,8 @@ import com.greentree.engine.moon.render.assets.RenderAssetSerializatorModule;
 import com.greentree.engine.moon.render.window.ExitOnWindowShouldClose;
 
 open module engine.moon.render {
+    requires transitive org.joml;
+    requires transitive engine.moon.ecs;
     requires transitive engine.moon.signals;
     requires transitive engine.moon.assets;
     requires transitive engine.moon.mesh;
@@ -24,7 +26,6 @@ open module engine.moon.render {
     exports com.greentree.engine.moon.render.window;
     exports com.greentree.engine.moon.render.window.callback;
     exports com.greentree.engine.moon.render.texture;
-    exports com.greentree.engine.moon.render.material;
     exports com.greentree.engine.moon.render.light;
     exports com.greentree.engine.moon.render.light.point;
     exports com.greentree.engine.moon.render.light.direction;

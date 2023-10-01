@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.render.assets.material
 
+import com.greentree.commons.graphics.smart.texture.Texture
 import com.greentree.commons.image.Color
 import com.greentree.commons.image.image.ColorImageData
 import com.greentree.engine.moon.assets.asset.Asset
@@ -14,14 +15,11 @@ import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey
 import com.greentree.engine.moon.render.assets.texture.Texture2DAssetKey
-import com.greentree.engine.moon.render.material.MaterialProperties
-import com.greentree.engine.moon.render.material.MaterialPropertiesBase
-import com.greentree.engine.moon.render.material.Property
 import com.greentree.engine.moon.render.texture.Texture2DType
 
-class PBRMaterialPropertiesAssetSerializator : AssetSerializator<MaterialProperties> {
+class PBRMaterialPropertiesAssetSerializator : AssetSerializator<BaseDeferredMaterial> {
 
-	override fun load(manager: AssetManager, key: AssetKey): Asset<MaterialProperties> {
+	override fun load(manager: AssetManager, key: AssetKey): Asset<BaseDeferredMaterial> {
 		val albedo = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.albedo")), DEFAULT_ALBEDO)
 //		val albedo = ResourceAssetKey(PropertyAssetKey(key, "texture.albedo"))
 		val normal = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.normal")), DEFAULT_NORMAL)
@@ -39,26 +37,26 @@ class PBRMaterialPropertiesAssetSerializator : AssetSerializator<MaterialPropert
 		val texture_roughness = Texture2DAssetKey(roughness, Texture2DType())
 		val texture_displacement = Texture2DAssetKey(displacement, Texture2DType())
 		val texture_ambient_occlusion = Texture2DAssetKey(ambient_occlusion, Texture2DType())
-		val albedoAsset = manager.load<Property>(texture_albedo)
-		val normalAsset = manager.load<Property>(texture_normal)
-		val metallicAsset = manager.load<Property>(texture_metallic)
-		val roughnessAsset = manager.load<Property>(texture_roughness)
-		val displacementAsset = manager.load<Property>(texture_displacement)
-		val ambient_occlusionAsset = manager.load<Property>(texture_ambient_occlusion)
+		val albedoAsset = manager.load<Texture>(texture_albedo)
+		val normalAsset = manager.load<Texture>(texture_normal)
+		val metallicAsset = manager.load<Texture>(texture_metallic)
+		val roughnessAsset = manager.load<Texture>(texture_roughness)
+		val displacementAsset = manager.load<Texture>(texture_displacement)
+		val ambient_occlusionAsset = manager.load<Texture>(texture_ambient_occlusion)
 		return map(
 			albedoAsset, normalAsset, metallicAsset, roughnessAsset, displacementAsset,
-			ambient_occlusionAsset, MaterialPropertiesAssetSerializatorFunction
+			ambient_occlusionAsset, TexturesToBaseDeferredMaterial
 		)
 	}
 
-	private object MaterialPropertiesAssetSerializatorFunction :
-		Value6Function<Property, Property, Property, Property, Property, Property, MaterialProperties> {
+	private object TexturesToBaseDeferredMaterial :
+		Value6Function<Texture, Texture, Texture, Texture, Texture, Texture, BaseDeferredMaterial> {
 
 		override fun apply(
-			albedo: Property, normal: Property, metallic: Property, roughness: Property,
-			displacement: Property, ambientOcclusion: Property,
-		): MaterialProperties {
-			val properties = MaterialPropertiesBase()
+			albedo: Texture, normal: Texture, metallic: Texture, roughness: Texture,
+			displacement: Texture, ambientOcclusion: Texture,
+		): BaseDeferredMaterial {
+			val properties = BaseDeferredMaterial()
 			properties.put("material.albedo", albedo)
 			properties.put("material.ao", ambientOcclusion)
 			properties.put("material.displacement", displacement)
