@@ -17,13 +17,7 @@ public record ShaderProgramDataImpl(ShaderData vert, ShaderData frag, ShaderData
 	public ShaderProgramDataImpl(ShaderData vert, ShaderData frag) {
 		this(vert, frag, null);
 	}
-	
-	@Override
-	public Iterator<ShaderData> iterator() {
-		if(frag != null)
-			return IteratorUtil.iterator(vert, frag, geom);
-		return IteratorUtil.iterator(vert, frag);
-	}
+
 	
 	
 	

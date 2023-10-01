@@ -8,19 +8,19 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
-import com.greentree.engine.moon.opengl.adapter.TextureAdapter
+import com.greentree.engine.moon.opengl.adapter.OpenGLTexture
 
-class TextureAdapterAssetSerializator : AssetSerializator<TextureAdapter> {
+class TextureAdapterAssetSerializator : AssetSerializator<OpenGLTexture> {
 
-	override fun load(manager: AssetManager, ckey: AssetKey): Asset<TextureAdapter> {
+	override fun load(manager: AssetManager, ckey: AssetKey): Asset<OpenGLTexture> {
 		val texture = manager.load<GLTexture>(ckey)
 		return texture.map(GLTextureToTextureAdapter)
 	}
 
-	private object GLTextureToTextureAdapter : Value1Function<GLTexture, TextureAdapter> {
+	private object GLTextureToTextureAdapter : Value1Function<GLTexture, OpenGLTexture> {
 
-		override fun apply(texture: GLTexture): TextureAdapter {
-			return TextureAdapter(texture)
+		override fun apply(texture: GLTexture): OpenGLTexture {
+			return OpenGLTexture(texture)
 		}
 	}
 }
