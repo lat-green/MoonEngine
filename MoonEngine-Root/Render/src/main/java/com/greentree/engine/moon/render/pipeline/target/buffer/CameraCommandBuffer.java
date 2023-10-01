@@ -65,7 +65,6 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
         properties.put("skybox", texture);
         properties.put("projectionView", veiwProjection);
         properties.put("viewPos", transform.position);
-        final var BOX = MeshUtil.BOX;
         super.bindMaterial(properties);
     }
 
