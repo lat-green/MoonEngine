@@ -96,7 +96,7 @@ public final class ForvardRendering implements WorldInitSystem, UpdateSystem {
                     final var model = m.get(Transform.class).getModelMatrix(tempModelMatrix);
                     SUPER_POINT_SHADOW.put("model", model);
                     for (var properties : POINT_SHADOW) {
-                        buffer.bindMaterial(properties);
+                        buffer.bindMaterial(properties.copy());
                         buffer.draw();
                     }
                 }

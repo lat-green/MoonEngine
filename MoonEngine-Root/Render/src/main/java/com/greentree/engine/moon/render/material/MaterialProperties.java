@@ -13,6 +13,15 @@ public interface MaterialProperties extends Iterable<String>, Serializable {
         return new MaterialPropertiesWithParent(this);
     }
 
+    default MaterialProperties copy() {
+        var copy = new MaterialPropertiesBase();
+        for (var name : this)
+            copy.put(name, get(name));
+        return copy;
+    }
+
+    Property get(String name);
+
     default void put(String name, AbstractVector2f vector) {
         put(name, vector.x(), vector.y());
     }
@@ -54,13 +63,12 @@ public interface MaterialProperties extends Iterable<String>, Serializable {
         put(name, color.r, color.g, color.b);
     }
 
-    default MaterialProperties copy() {
-        var copy = new MaterialPropertiesBase();
-        for (var name : this)
-            copy.put(name, get(name));
-        return copy;
+    default void putRGBA(String name, Color color) {
+        put(name, color.r, color.g, color.b, color.a);
     }
 
-    Property get(String name);
+    default void put(String name, float x, float y, float z, float w) {
+        put(name, new float4Property(x, y, z, w));
+    }
 
 }

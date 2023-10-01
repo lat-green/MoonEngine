@@ -21,7 +21,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
     private final List<TargetCommand> commands;
     private boolean depthTest;
     private boolean cullFace;
-    private MaterialProperties bindedProperties;
+    private MaterialProperties properties;
     private RenderMesh mesh;
     private Shader bindedShader;
 
@@ -68,7 +68,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 
     @Override
     public void bindMaterial(MaterialProperties properties) {
-        this.bindedProperties = properties.copy();
+        this.properties = properties;
     }
 
     @Override
@@ -78,7 +78,7 @@ public class PushCommandBuffer implements TargetCommandBuffer {
 
     @Override
     public void draw() {
-        TargetCommand command = new DrawMesh(bindedShader, mesh, bindedProperties);
+        TargetCommand command = new DrawMesh(bindedShader, mesh, properties);
         if (cullFace)
             command = new CullFace(command);
         if (depthTest)

@@ -8,7 +8,6 @@ import com.greentree.engine.moon.render.camera.CameraUtil;
 import com.greentree.engine.moon.render.material.MaterialProperties;
 import com.greentree.engine.moon.render.material.MaterialPropertiesBase;
 import com.greentree.engine.moon.render.material.Property;
-import com.greentree.engine.moon.render.mesh.MeshUtil;
 import com.greentree.engine.moon.render.shader.ShaderProgramData;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -27,7 +26,7 @@ public final class CameraCommandBuffer extends ProxyCommandBuffer {
 
     @Override
     public void bindMaterial(MaterialProperties properties) {
-        properties = properties.copy();
+        properties = properties.newChildren();
         final var transform = this.camera.get(Transform.class);
         final var view = CameraUtil.getView(camera);
         final var projection = camera.get(CameraComponent.class).getProjectionMatrix();
