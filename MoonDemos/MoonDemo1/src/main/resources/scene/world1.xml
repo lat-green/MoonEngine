@@ -14,9 +14,6 @@
 
     <system type="SpriteMeshGenerator"/>
 
-    <system type="PointLightTargetGeneratedSystem"/>
-    <system type="DirectionLightTargetGeneratedSystem"/>
-
     <system type="CameraTargetGeneratedSystem"/>
     <system type="RenderMainCamera"/>
 
