@@ -6,6 +6,7 @@ import com.greentree.commons.graphics.smart.scene.DirectionLight
 import com.greentree.commons.graphics.smart.scene.Model
 import com.greentree.commons.graphics.smart.scene.PointLight
 import com.greentree.commons.graphics.smart.scene.RenderScene
+import com.greentree.commons.graphics.smart.scene.SceneObject
 import com.greentree.commons.graphics.smart.shader.material.Material
 import com.greentree.commons.graphics.smart.target.FrameBuffer
 import com.greentree.commons.graphics.smart.texture.Texture
@@ -47,11 +48,66 @@ class ECSRenderScene(
 private inline fun <reified T : Component> Entity.get() = get(T::class.java)
 private inline fun <reified T : Component> Entity.has() = contains(T::class.java)
 
+abstract class AbstractSceneObject(
+	val entity: Entity,
+) : SceneObject {
+
+	private val component: SceneObjectParamsComponent
+
+	init {
+		if(entity.has<SceneObjectParamsComponent>())
+			component = entity.get<SceneObjectParamsComponent>()
+		else {
+			component = SceneObjectParamsComponent()
+			entity.add(component)
+		}
+	}
+
+	override val options
+		get() = component
+
+	override fun equals(other: Any?): Boolean {
+		if(this === other) return true
+		if(javaClass != other?.javaClass) return false
+		other as AbstractSceneObject
+		if(entity != other.entity) return false
+		return true
+	}
+
+	override fun hashCode(): Int {
+		return entity.hashCode()
+	}
+}
+
+class SceneObjectParamsComponent : Component, SceneObject.Params {
+
+	private val map = HashMap<String, SceneObject.Params.Param>(5)
+
+	override fun copy(): Component {
+		return this
+	}
+
+	override fun get(name: String) = map.getOrPut(name) { MapParam() }
+}
+
+class MapParam : SceneObject.Params.Param {
+
+	private val map = HashMap<Class<*>, Any>(5)
+
+	override fun <T : Any> getOptional(cls: Class<T>) = run {
+		map[cls] as T?
+	}
+
+	override fun <T : Any> set(cls: Class<T>, value: T) {
+		map[cls] = value
+	}
+}
+
 fun Entity.toCamera(): Camera {
 	return ECSCamera(this)
 }
 
-data class ECSCamera(private val entity: Entity) : Camera {
+class ECSCamera(entity: Entity) : Camera, AbstractSceneObject(entity) {
 
 	override val direction: AbstractVector3f
 		get() = entity.get<Transform>().direction()
@@ -77,7 +133,7 @@ fun Entity.toDirectionLight(): DirectionLight {
 	return ECSDirectionLight(this)
 }
 
-data class ECSDirectionLight(private val entity: Entity) : DirectionLight {
+class ECSDirectionLight(entity: Entity) : DirectionLight, AbstractSceneObject(entity) {
 
 	override val color: Color
 		get() = entity.get<DirectionLightComponent>().color
@@ -97,7 +153,7 @@ fun Entity.toModel(): Model {
 	return ECSModel(this)
 }
 
-data class ECSModel(private val entity: Entity) : Model {
+class ECSModel(entity: Entity) : Model, AbstractSceneObject(entity) {
 
 	override val material: Material
 		get() = entity.get<MeshRenderer>().material.value
@@ -111,7 +167,7 @@ fun Entity.toPointLight(): PointLight {
 	return ECSPointLight(this)
 }
 
-data class ECSPointLight(private val entity: Entity) : PointLight {
+class ECSPointLight(entity: Entity) : PointLight, AbstractSceneObject(entity) {
 
 	override val color: Color
 		get() = entity.get<PointLightComponent>().color
