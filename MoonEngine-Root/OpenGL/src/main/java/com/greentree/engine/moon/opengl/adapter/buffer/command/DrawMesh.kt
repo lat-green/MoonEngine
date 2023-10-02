@@ -2,47 +2,35 @@ package com.greentree.engine.moon.opengl.adapter.buffer.command
 
 import com.greentree.engine.moon.opengl.adapter.OpenGLMaterial
 import com.greentree.engine.moon.opengl.adapter.RenderMesh
-import java.util.*
-import java.util.List
 
-data class DrawMesh(val mesh: RenderMesh, val properties: Iterable<OpenGLMaterial>) : TargetCommand {
+data class DrawMesh(private val meshs: Collection<RenderMesh>, private val material: OpenGLMaterial) : TargetCommand {
 
-	constructor(mesh: RenderMesh, properties: OpenGLMaterial) : this(mesh, List.of<OpenGLMaterial>(properties))
+	constructor(mesh: RenderMesh, material: OpenGLMaterial) : this(listOf(mesh), material)
 
 	override fun run() {
-		mesh.bind()
-		val iter = properties.iterator()
-		while(iter.hasNext()) {
-			val p = iter.next()
-			p.bind()
+		material.bind()
+		for(mesh in meshs)
 			mesh.render()
-			p.unbind()
-		}
-		mesh.unbind()
+		material.unbind()
 	}
 
 	override fun merge(command: TargetCommand): TargetCommand? {
 		if(command === this) return this
-		if(command is DrawMesh && command.mesh == mesh)
-			return DrawMesh(mesh, merge(properties, command.properties))
+		if(command is DrawMesh && command.material == material)
+			return DrawMesh(merge(meshs, command.meshs), material)
 		return null
 	}
 
 	override fun toString(): String {
-		return "DrawMesh [$properties, $mesh]"
-	}
-
-	init {
-		Objects.requireNonNull(mesh)
-		Objects.requireNonNull(properties)
+		return "DrawMesh [$material, $meshs]"
 	}
 
 	companion object {
 
-		private fun <T> merge(a: Iterable<T>, b: Iterable<T>): Collection<T> {
-			val result = ArrayList<T>()
-			for(e in a) result.add(e)
-			for(e in b) result.add(e)
+		private fun <T> merge(a: Collection<T>, b: Collection<T>): Collection<T> {
+			val result = ArrayList<T>(a.size + b.size)
+			result.addAll(a)
+			result.addAll(b)
 			result.trimToSize()
 			return result
 		}

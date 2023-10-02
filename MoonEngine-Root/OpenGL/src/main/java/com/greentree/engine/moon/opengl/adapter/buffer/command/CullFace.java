@@ -27,6 +27,7 @@ public record CullFace(TargetCommand command) implements TargetCommand {
 			if(m != null)
 				return new CullFace(m);
 		}
+
 		return TargetCommand.super.merge(other);
 	}
 	

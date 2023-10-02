@@ -6,8 +6,4 @@ public interface RenderMesh extends Mesh {
 
     void render();
 
-    void bind();
-
-    void unbind();
-
 }

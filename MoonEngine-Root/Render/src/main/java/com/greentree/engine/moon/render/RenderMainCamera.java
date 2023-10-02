@@ -12,8 +12,7 @@ import com.greentree.engine.moon.ecs.system.UpdateSystem;
 import com.greentree.engine.moon.ecs.system.WorldInitSystem;
 import com.greentree.engine.moon.render.camera.CameraTarget;
 import com.greentree.engine.moon.render.camera.Cameras;
-import com.greentree.engine.moon.render.mesh.MeshUtil;
-import com.greentree.engine.moon.render.pipeline.RenderLibraryProperty;
+import com.greentree.engine.moon.render.pipeline.RenderContextProperty;
 import com.greentree.engine.moon.render.window.Window;
 import com.greentree.engine.moon.render.window.WindowProperty;
 
@@ -33,15 +32,15 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         cameras = null;
     }
 
-    @ReadProperty({WindowProperty.class, Cameras.class, RenderLibraryProperty.class})
+    @ReadProperty({WindowProperty.class, Cameras.class, RenderContextProperty.class})
     @ReadComponent(CameraTarget.class)
     @Override
     public void init(World world, SceneProperties sceneProperties) {
         window = sceneProperties.get(WindowProperty.class).window();
-        var library = sceneProperties.get(RenderLibraryProperty.class).library();
+        var library = sceneProperties.get(RenderContextProperty.class).value();
         cameras = sceneProperties.get(Cameras.class);
-        final var rmesh = library.build(MeshUtil.QUAD);
-        final var shader = library.build(MaterialUtil.getDefaultTextureShader());
+        final var rmesh = library.getDefaultMeshQuad();
+        final var shader = library.getDefaultTextureShader();
         material = shader.newMaterial();
         buffer = window.screanRenderTarget().buffer();
         buffer.bindMesh(rmesh);
@@ -49,7 +48,7 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         buffer.draw();
     }
 
-    @WriteProperty({RenderLibraryProperty.class, WindowProperty.class})
+    @WriteProperty({RenderContextProperty.class, WindowProperty.class})
     @ReadProperty({Cameras.class})
     @ReadComponent(CameraTarget.class)
     @Override

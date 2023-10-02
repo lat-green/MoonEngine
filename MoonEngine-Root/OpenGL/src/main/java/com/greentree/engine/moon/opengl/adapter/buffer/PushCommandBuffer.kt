@@ -4,7 +4,7 @@ import com.greentree.commons.graphics.smart.mesh.Mesh
 import com.greentree.commons.graphics.smart.shader.material.Material
 import com.greentree.commons.graphics.smart.target.RenderCommandBuffer
 import com.greentree.commons.image.Color
-import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary
+import com.greentree.engine.moon.opengl.adapter.GLRenderContext
 import com.greentree.engine.moon.opengl.adapter.OpenGLMaterial
 import com.greentree.engine.moon.opengl.adapter.RenderMesh
 import com.greentree.engine.moon.opengl.adapter.buffer.command.ClearRenderTargetColor
@@ -13,11 +13,10 @@ import com.greentree.engine.moon.opengl.adapter.buffer.command.CullFace
 import com.greentree.engine.moon.opengl.adapter.buffer.command.DepthTest
 import com.greentree.engine.moon.opengl.adapter.buffer.command.DrawMesh
 import com.greentree.engine.moon.opengl.adapter.buffer.command.TargetCommand
-import java.util.*
 
 class PushCommandBuffer @JvmOverloads constructor(
-	private val library: GLRenderLibrary,
-	initialCapacity: Int = INITIAL_CAPACITY
+	private val library: GLRenderContext,
+	initialCapacity: Int = INITIAL_CAPACITY,
 ) : RenderCommandBuffer {
 
 	private val commands: MutableList<TargetCommand>
@@ -25,6 +24,7 @@ class PushCommandBuffer @JvmOverloads constructor(
 	private var cullFace = false
 	private var material: OpenGLMaterial? = null
 	private var mesh: RenderMesh? = null
+	private var optimazed = true
 
 	init {
 		commands = ArrayList(initialCapacity)
@@ -76,12 +76,38 @@ class PushCommandBuffer @JvmOverloads constructor(
 	}
 
 	override fun execute() {
+		if(!optimazed) {
+			optimazed = true
+//			val cs = ArrayList<TargetCommand>(commands.size)
+//			var c: Int
+//			do {
+//				c = 0
+//				var i = 0
+//				while(i < commands.size - 1) {
+//					val a = commands[i]
+//					val b = commands[i + 1]
+//					val m = a.merge(b)
+//					if(m == null) {
+//						cs.add(a)
+//					} else {
+//						cs.add(m)
+//						i++
+//						c++
+//					}
+//					i++
+//				}
+//				commands.clear()
+//				commands.addAll(cs)
+//				cs.clear()
+//			} while(c > 0)
+//
+		}
 		for(c in commands) c.run()
 	}
 
-	fun push(command: TargetCommand) {
+	private fun push(command: TargetCommand) {
+//		optimazed = false
 		var command = command
-		Objects.requireNonNull(command)
 		while(commands.size > 1) {
 			val c = commands[commands.size - 1]
 			val m = c.merge(command) ?: break

@@ -8,7 +8,7 @@ import com.greentree.common.graphics.sgl.shader.GLShaderProgram;
 import com.greentree.common.graphics.sgl.shader.GLUniformLocation;
 import com.greentree.commons.util.time.DeltaTimer;
 import com.greentree.engine.moon.mesh.StaticMesh;
-import com.greentree.engine.moon.opengl.adapter.GLRenderLibrary;
+import com.greentree.engine.moon.opengl.adapter.GLRenderContext;
 import com.greentree.engine.moon.render.mesh.MeshUtil;
 import org.joml.Matrix4f;
 import org.lwjgl.system.MemoryStack;
@@ -60,7 +60,7 @@ public class BasicRenderMeshView {
         final var timer = new DeltaTimer();
         try (final var window = new Window("BasicRenderMeshView", 800, 600)) {
             window.makeCurrent();
-            final var LIBRARY = new GLRenderLibrary();
+            final var LIBRARY = new GLRenderContext();
             final var prog = program();
             prog.bind();
             glClearColor(.6f, .6f, .6f, 1);
