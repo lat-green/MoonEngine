@@ -6,5 +6,5 @@ open module engine.moon.opengl {
     requires common.graphics.sgl;
     requires transitive engine.moon.render;
     provides EngineModule with CreateRenderLibraryModule, CreateWindowLibraryModule,
-            OpenGLInitAssetManagerModule, OpenGLInitModule, OpenGLPollDelete, WindowUpdateEvents;
+            OpenGLInitAssetManagerModule, OpenGLInitModule, OpenGLPollDelete, WindowUpdateEvents, CreateRenderContextModule;
 }

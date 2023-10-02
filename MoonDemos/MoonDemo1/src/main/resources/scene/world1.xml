@@ -13,11 +13,17 @@
     <!--    <system type="ScriptSystem"/>-->
 
     <system type="SpriteMeshGenerator"/>
+
     <system type="PointLightTargetGeneratedSystem"/>
     <system type="DirectionLightTargetGeneratedSystem"/>
+
     <system type="CameraTargetGeneratedSystem"/>
-    <system type="ForvardRendering"/>
     <system type="RenderMainCamera"/>
+
+    <system type="RenderSceneConfig"/>
+
+    <system type="RenderPipelineExecuteSystem"/>
+    <system type="ForwardRenderPipelineConfigSystem"/>
 
     <entity>
         <component type="Transform"/>

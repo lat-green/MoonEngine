@@ -17,10 +17,15 @@ import com.greentree.engine.moon.ecs.WorldEntity
 import com.greentree.engine.moon.ecs.component.Component
 import com.greentree.engine.moon.ecs.filter.Filter
 import com.greentree.engine.moon.render.camera.CameraComponent
+import com.greentree.engine.moon.render.camera.CameraTarget
+import com.greentree.engine.moon.render.camera.SkyBoxComponent
 import com.greentree.engine.moon.render.light.HasShadow
 import com.greentree.engine.moon.render.light.direction.DirectionLightComponent
+import com.greentree.engine.moon.render.light.direction.DirectionLightTarget
 import com.greentree.engine.moon.render.light.point.PointLightComponent
+import com.greentree.engine.moon.render.light.point.PointLightTarget
 import com.greentree.engine.moon.render.mesh.MeshComponent
+import com.greentree.engine.moon.render.mesh.MeshRenderer
 import org.joml.Matrix4f
 import org.joml.Matrix4fc
 
@@ -56,13 +61,12 @@ fun Entity.toCamera(): Camera {
 			get() = get<CameraComponent>().projection
 		override val skybox: Texture?
 			get() {
-//				if(has<SkyBoxComponent>())
-//					return get<SkyBoxComponent>().texture.value
-//				return null
-				TODO()
+				if(has<SkyBoxComponent>())
+					return get<SkyBoxComponent>().texture.value
+				return null
 			}
 		override val target: FrameBuffer
-			get() = TODO()//get<CameraTarget>().target
+			get() = get<CameraTarget>().target
 		override val width: Float
 			get() = get<CameraComponent>().width + 0f
 	}
@@ -83,14 +87,14 @@ fun Entity.toDirectionLight(): DirectionLight {
 		override val size: Float
 			get() = 50f
 		override val target: FrameBuffer
-			get() = TODO()//get<DirectionLightTarget>().target
+			get() = get<DirectionLightTarget>().target
 	}
 }
 
 fun Entity.toModel(): Model {
 	return object : Model {
 		override val material: Material
-			get() = TODO()//get<MeshRenderer>().material.value
+			get() = get<MeshRenderer>().material.value
 		override val mesh: Mesh
 			get() = get<MeshComponent>().mesh.value
 		override val model: Matrix4f
@@ -109,6 +113,6 @@ fun Entity.toPointLight(): PointLight {
 		override val position: AbstractVector3f
 			get() = get<Transform>().position
 		override val target: FrameBuffer
-			get() = TODO()//get<PointLightTarget>().target
+			get() = get<PointLightTarget>().target
 	}
 }
