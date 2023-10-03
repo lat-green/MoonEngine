@@ -6,6 +6,7 @@ import com.greentree.common.graphics.sgl.shader.GLSLShader
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram
 import com.greentree.common.graphics.sgl.vao.GLVertexArray
 import com.greentree.commons.graphics.smart.RenderContext
+import com.greentree.commons.graphics.smart.VideoBuffer
 import com.greentree.commons.graphics.smart.mesh.Mesh
 import com.greentree.commons.graphics.smart.shader.Shader
 import com.greentree.commons.graphics.smart.target.FrameBuffer
@@ -98,12 +99,18 @@ class GLRenderContext : RenderContext, RenderTarget {
 		return build(MaterialUtil.getDefaultTextureShader())
 	}
 
+	override fun newBindingPoint(size: Int) = OpenGLBindingPoint(size.toLong())
+
 	override fun newFrameBuffer(): FrameBuffer.Builder {
 		return GLRenderTargetTextuteBuilder(this)
 	}
 
 	override fun newMesh(): Mesh.Builder {
 		TODO()
+	}
+
+	override fun newVideoBuffer(): VideoBuffer.Builder {
+		TODO("Not yet implemented")
 	}
 
 	private class RenderMeshBuilder {

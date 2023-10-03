@@ -1,10 +1,24 @@
 package com.greentree.engine.moon.opengl.adapter
 
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram
+import com.greentree.commons.graphics.smart.shader.BindingPoint
+import com.greentree.commons.graphics.smart.shader.BlockIndex
 import com.greentree.commons.graphics.smart.shader.Shader
 import com.greentree.commons.graphics.smart.shader.material.AbstractMaterial
+import org.lwjgl.opengl.GL31.*
 
 data class OpenGLShader(val shader: GLShaderProgram) : Shader {
+
+	override fun getBlockIndex(name: String): BlockIndex = OpenGLBlockIndex(name)
+
+	private inner class OpenGLBlockIndex(val name: String) : BlockIndex {
+
+		override fun setBindingPoint(point: BindingPoint) {
+			point as OpenGLBindingPoint
+			val index = glGetUniformBlockIndex(shader.__glID(), name)
+			glUniformBlockBinding(shader.__glID(), index, point.index)
+		}
+	}
 
 	override fun newMaterial() = OpenGLMaterialImpl(shader)
 
