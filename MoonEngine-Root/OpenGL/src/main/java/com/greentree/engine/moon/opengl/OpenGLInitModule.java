@@ -25,8 +25,8 @@ public final class OpenGLInitModule implements LaunchModule {
                 final var severity0 = severity.name;
                 var source0 = source.name;
                 var type0 = type.name;
-                System.err.printf("openGl error (Source: %s Type: %s ID: %d Severity: %s) message:%s\n", source0, type0,
-                        id, severity0, message);
+                throw new RuntimeException("openGl error (Source: %s Type: %s ID: %d Severity: %s) message:%s\n".formatted(source0, type0,
+                        id, severity0, message));
             }
         }), 0);
         glClearColor(.6f, .6f, .6f, 1);
