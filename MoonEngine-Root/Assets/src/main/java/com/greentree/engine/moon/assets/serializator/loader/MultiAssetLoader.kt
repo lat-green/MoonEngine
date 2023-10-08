@@ -3,15 +3,31 @@ package com.greentree.engine.moon.assets.serializator.loader
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
+import java.util.concurrent.Executors
 
 class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader {
+
+	val EXECUTOR = Executors.newCachedThreadPool()
 
 	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
 		val exceptions = mutableListOf<Exception>()
 		val results = mutableListOf<Asset<T>>()
 		for(loader in loaders) {
 			try {
-				val result = loader.load(context, type, key)
+				val result =
+					run {
+						var ok = false
+						EXECUTOR.submit {
+							Thread.sleep(10000)
+							if(!ok)
+								System.err.println("$loader $type $key")
+						}
+						try {
+							loader.load(context, type, key)
+						} finally {
+							ok = true
+						}
+					}
 				if(result != null)
 					results.add(result)
 			} catch(e: Exception) {

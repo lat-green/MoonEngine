@@ -11,9 +11,10 @@ import com.greentree.engine.moon.assets.serializator.loader.DefaultLoader
 import com.greentree.engine.moon.assets.serializator.loader.MultiAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.MultiDefaultAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.ResultAssetLoader
-import com.greentree.engine.moon.assets.serializator.manager.cache.WeakHashMapCacheFactory
+import com.greentree.engine.moon.assets.serializator.manager.cache.HashMapCacheFactory
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.message.SimpleMessage
+import java.util.concurrent.Executors
 
 class BaseAssetManager : MutableAssetManager, AsyncAssetManager {
 
@@ -23,7 +24,7 @@ class BaseAssetManager : MutableAssetManager, AsyncAssetManager {
 	private val multiLoaders =
 		CacheAssetLoader(
 			MultiAssetLoader(loaders),
-			WeakHashMapCacheFactory()
+			HashMapCacheFactory()
 		)
 
 	init {
@@ -52,9 +53,21 @@ class BaseAssetManager : MutableAssetManager, AsyncAssetManager {
 
 	private val defaultContext = DefaultLoaderContext()
 	private val context = AssetLoaderContext()
+	val EXECUTOR = Executors.newCachedThreadPool()
 
-	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> =
-		multiLoaders.load(context, type, key)
+	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
+		var ok = false
+		EXECUTOR.submit {
+			Thread.sleep(10000)
+			if(!ok)
+				System.err.println("$type $key")
+		}
+		try {
+			return multiLoaders.load(context, type, key)
+		} finally {
+			ok = true
+		}
+	}
 
 	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey) = context.load(type, key)
 	override fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType) = defaultContext.load(type, key)
