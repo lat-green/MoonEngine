@@ -14,6 +14,7 @@ interface AssetManager {
 
 	fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType): T?
 	fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T>
+	fun <T : Any> loadCache(type: TypeInfo<T>, key: AssetKey): Asset<T>? = null
 
 	fun <T : Any> load(cls: Class<T>, key: Any): Asset<T> {
 		return load(cls, ResultAssetKey(key))

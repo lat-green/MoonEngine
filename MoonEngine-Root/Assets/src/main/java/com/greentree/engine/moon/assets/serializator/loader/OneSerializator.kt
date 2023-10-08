@@ -8,8 +8,10 @@ import com.greentree.engine.moon.assets.serializator.AssetSerializator
 
 class OneSerializator(private val serializator: AssetSerializator<*>) : AssetLoader {
 
+	private val type = serializator.type
+
 	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T>? {
-		if(TypeUtil.isExtends(type, serializator.type)) {
+		if(TypeUtil.isExtends(type, this.type)) {
 			return (serializator as AssetSerializator<T>).load(context, key)
 		}
 		return null

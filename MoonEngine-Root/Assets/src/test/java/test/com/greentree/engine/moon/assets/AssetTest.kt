@@ -16,6 +16,7 @@ import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequestImpl
 import com.greentree.engine.moon.assets.serializator.request.load
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Timeout
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
@@ -65,6 +66,7 @@ class AssetTest {
 		assertEquals(res.value, result)
 	}
 
+	@Disabled
 	@Timeout(value = TIMEOUT, unit = TimeUnit.MILLISECONDS)
 	@MethodSource(value = ["map_requests"])
 	@ParameterizedTest

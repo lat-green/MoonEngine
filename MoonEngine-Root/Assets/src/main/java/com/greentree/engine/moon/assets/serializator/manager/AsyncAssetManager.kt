@@ -18,10 +18,11 @@ interface AsyncAssetManager : AssetManager {
 	fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T>
 }
 
+private var ID = 0
 val EXECUTOR = Executors.newFixedThreadPool(
 	Runtime.getRuntime().availableProcessors()
 ) {
-	val thread = Thread(it, "async-asset")
+	val thread = Thread(it, "async-asset-${ID++}")
 	thread.isDaemon = true
 	thread.priority = MAX_PRIORITY
 	thread
@@ -33,10 +34,17 @@ fun <T : Any> AsyncAssetManager.loadAsync(type: TypeInfo<T>, key: AssetKey): Ass
 			this@loadAsync.loadDefault(type, key)
 
 		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> {
+			val res = loadCache(type, key)
+			if(res != null)
+				return res
 			val default = loadDefault(type, key.type()) ?: return this@loadAsync.load(this, type, key)
 			val result = ReduceAsset(ConstAsset(default))
 			EXECUTOR.submit {
-				result.asset = this@loadAsync.load(this, type, key)
+				try {
+					result.asset = this@loadAsync.load(this, type, key)
+				} catch(e: Exception) {
+					e.printStackTrace()
+				}
 			}
 			return result
 		}
