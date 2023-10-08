@@ -10,7 +10,7 @@ import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
 
-class StringAssetSerializator : AssetSerializator<String> {
+class ResourceToTextSerializator : AssetSerializator<String> {
 
 	override fun load(manager: AssetManager, key: AssetKey): Asset<String> {
 		val res = manager.load<Resource>(key)

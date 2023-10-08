@@ -6,7 +6,7 @@ import com.greentree.engine.moon.base.assets.number.*;
 import com.greentree.engine.moon.base.assets.properties.PropertiesAssetSerializator;
 import com.greentree.engine.moon.base.assets.scene.XMLSceneAssetSerializator;
 import com.greentree.engine.moon.base.assets.text.PropertyStringAssetSerializator;
-import com.greentree.engine.moon.base.assets.text.StringAssetSerializator;
+import com.greentree.engine.moon.base.assets.text.ResourceToTextSerializator;
 import com.greentree.engine.moon.base.assets.xml.XMLAssetSerializator;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.base.scene.SceneManagerProperty;
@@ -26,7 +26,7 @@ public class BaseAssetSerializatorModule implements LaunchModule {
         manager.addSerializator(new ByteAssetSerializator());
         manager.addSerializator(new ShortAssetSerializator());
         manager.addSerializator(new BooleanAssetSerializator());
-        manager.addSerializator(new StringAssetSerializator());
+        manager.addSerializator(new ResourceToTextSerializator());
         manager.addSerializator(new PropertyStringAssetSerializator());
         manager.addSerializator(new PropertiesAssetSerializator());
         manager.addSerializator(new XMLAssetSerializator());

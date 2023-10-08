@@ -21,7 +21,7 @@ interface AsyncAssetManager : AssetManager {
 val EXECUTOR = Executors.newFixedThreadPool(
 	Runtime.getRuntime().availableProcessors()
 ) {
-	val thread = Thread(it)
+	val thread = Thread(it, "async-asset")
 	thread.isDaemon = true
 	thread.priority = MAX_PRIORITY
 	thread
