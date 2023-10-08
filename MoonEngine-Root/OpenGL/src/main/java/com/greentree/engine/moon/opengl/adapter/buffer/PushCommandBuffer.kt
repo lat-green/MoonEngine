@@ -60,8 +60,8 @@ class PushCommandBuffer @JvmOverloads constructor(
 		depthTest = false
 	}
 
-	override fun draw() {
-		var command: TargetCommand = DrawMesh(mesh!!, material!!)
+	override fun draw(count: Int) {
+		var command: TargetCommand = DrawMesh(mesh!!, material!!, count)
 		if(cullFace) command = CullFace(command)
 		if(depthTest) command = DepthTest(command)
 		push(command)

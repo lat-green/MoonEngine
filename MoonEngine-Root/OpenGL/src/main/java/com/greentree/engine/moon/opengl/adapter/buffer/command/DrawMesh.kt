@@ -3,26 +3,20 @@ package com.greentree.engine.moon.opengl.adapter.buffer.command
 import com.greentree.engine.moon.opengl.adapter.OpenGLMaterial
 import com.greentree.engine.moon.opengl.adapter.RenderMesh
 
-data class DrawMesh(private val meshs: Collection<RenderMesh>, private val material: OpenGLMaterial) : TargetCommand {
-
-	constructor(mesh: RenderMesh, material: OpenGLMaterial) : this(listOf(mesh), material)
+data class DrawMesh(
+	private val mesh: RenderMesh,
+	private val material: OpenGLMaterial,
+	private val count: Int,
+) : TargetCommand {
 
 	override fun run() {
 		material.bind()
-		for(mesh in meshs)
-			mesh.render()
+		mesh.render(count)
 		material.unbind()
 	}
 
-	override fun merge(command: TargetCommand): TargetCommand? {
-		if(command === this) return this
-		if(command is DrawMesh && command.material == material)
-			return DrawMesh(merge(meshs, command.meshs), material)
-		return null
-	}
-
 	override fun toString(): String {
-		return "DrawMesh [$material, $meshs]"
+		return "DrawMesh [$material, $mesh, $count]"
 	}
 
 	companion object {

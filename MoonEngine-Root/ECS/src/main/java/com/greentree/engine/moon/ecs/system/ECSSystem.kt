@@ -19,7 +19,7 @@ interface UpdateSystem : ECSSystem {
 	companion object {
 
 		fun castOrEmpty(system: ECSSystem): UpdateSystem {
-			if (system is UpdateSystem)
+			if(system is UpdateSystem)
 				return system
 			return Empty
 		}
@@ -39,7 +39,7 @@ interface DestroySystem : ECSSystem {
 	companion object {
 
 		fun castOrEmpty(system: ECSSystem): DestroySystem {
-			if (system is DestroySystem)
+			if(system is DestroySystem)
 				return system
 			return Empty
 		}
@@ -59,7 +59,7 @@ interface InitSystem : ECSSystem {
 	companion object {
 
 		fun castOrEmpty(system: ECSSystem): InitSystem {
-			if (system is InitSystem)
+			if(system is InitSystem)
 				return system
 			return Empty
 		}
@@ -105,5 +105,7 @@ fun FullSystem.toFull(): FullSystem {
 }
 
 fun ECSSystem.toFull(): FullSystem {
+	if(this is FullSystem)
+		return this
 	return MergeSystem(this)
 }

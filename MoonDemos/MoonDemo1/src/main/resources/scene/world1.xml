@@ -10,6 +10,7 @@
     <system type="Controller3DSystem"/>
     <system type="RectTransformUpdate"/>
     <system type="DisableCursor"/>
+
     <!--    <system type="ScriptSystem"/>-->
 
     <system type="SpriteMeshGenerator"/>
@@ -20,7 +21,7 @@
     <system type="RenderSceneConfig"/>
 
     <system type="RenderPipelineExecuteSystem"/>
-    <system type="ForwardRenderPipelineConfigSystem"/>
+    <system type="BruteForwardRenderPipelineConfigSystem"/>
 
     <entity>
         <component type="Transform"/>

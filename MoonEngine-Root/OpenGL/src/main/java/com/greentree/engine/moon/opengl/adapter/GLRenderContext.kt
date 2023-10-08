@@ -6,8 +6,9 @@ import com.greentree.common.graphics.sgl.shader.GLSLShader
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram
 import com.greentree.common.graphics.sgl.vao.GLVertexArray
 import com.greentree.commons.graphics.smart.RenderContext
-import com.greentree.commons.graphics.smart.VideoBuffer
+import com.greentree.commons.graphics.smart.StackBuffer
 import com.greentree.commons.graphics.smart.mesh.Mesh
+import com.greentree.commons.graphics.smart.mesh.VideoBuffer
 import com.greentree.commons.graphics.smart.shader.Shader
 import com.greentree.commons.graphics.smart.target.FrameBuffer
 import com.greentree.commons.graphics.smart.target.RenderCommandBuffer
@@ -19,6 +20,7 @@ import com.greentree.engine.moon.mesh.compoent.MeshComponent
 import com.greentree.engine.moon.mesh.compoent.StaticMeshFaceComponent
 import com.greentree.engine.moon.opengl.GLEnums
 import com.greentree.engine.moon.opengl.adapter.buffer.PushCommandBuffer
+import com.greentree.engine.moon.opengl.vbo.OpenGLVideoBuffer
 import com.greentree.engine.moon.render.MaterialUtil
 import com.greentree.engine.moon.render.mesh.MeshUtil
 import com.greentree.engine.moon.render.shader.ShaderData
@@ -99,7 +101,7 @@ class GLRenderContext : RenderContext, RenderTarget {
 		return build(MaterialUtil.getDefaultTextureShader())
 	}
 
-	override fun newBindingPoint(size: Int) = OpenGLBindingPoint(size.toLong())
+	override fun newBindingPoint() = OpenGLBindingPoint()
 
 	override fun newFrameBuffer(): FrameBuffer.Builder {
 		return GLRenderTargetTextuteBuilder(this)
@@ -109,8 +111,12 @@ class GLRenderContext : RenderContext, RenderTarget {
 		TODO()
 	}
 
+	override fun newStackBuffer(size: Int): StackBuffer {
+		return LWJGLStackBuffer(MemoryStack.create(size).push())
+	}
+
 	override fun newVideoBuffer(): VideoBuffer.Builder {
-		TODO("Not yet implemented")
+		return OpenGLVideoBuffer.Builder()
 	}
 
 	private class RenderMeshBuilder {

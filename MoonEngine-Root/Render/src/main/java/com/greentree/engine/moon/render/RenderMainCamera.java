@@ -45,7 +45,7 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         buffer = window.screanRenderTarget().buffer();
         buffer.bindMesh(rmesh);
         buffer.bindMaterial(material);
-        buffer.draw();
+        buffer.draw(1);
     }
 
     @WriteProperty({RenderContextProperty.class, WindowProperty.class})

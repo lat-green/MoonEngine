@@ -7,7 +7,6 @@ import com.greentree.engine.moon.ecs.scene.MapSceneProperties
 import com.greentree.engine.moon.ecs.scene.ProxySceneProperties
 import com.greentree.engine.moon.ecs.scene.Scene
 import com.greentree.engine.moon.ecs.scene.WorldProperty
-import com.greentree.engine.moon.ecs.system.ECSSystem
 import com.greentree.engine.moon.ecs.system.FullSystem
 import com.greentree.engine.moon.ecs.system.toFull
 import com.greentree.engine.moon.modules.property.EngineProperties
