@@ -71,6 +71,45 @@ public class ObjectXMLBuilder implements Context {
             }
         });
         add(new XMLTypeAddapter() {
+            @Override
+            public Class<?> getLoadOnly() {
+                return Float.class;
+            }
+
+            @Override
+            public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
+                if (type.toClass() == Float.class)
+                    return () -> (T) (Float) Float.parseFloat(element.getContent());
+                return null;
+            }
+        });
+        add(new XMLTypeAddapter() {
+            @Override
+            public Class<?> getLoadOnly() {
+                return Integer.class;
+            }
+
+            @Override
+            public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
+                if (type.toClass() == Integer.class)
+                    return () -> (T) (Integer) Integer.parseInt(element.getContent());
+                return null;
+            }
+        });
+        add(new XMLTypeAddapter() {
+            @Override
+            public Class<?> getLoadOnly() {
+                return Double.class;
+            }
+
+            @Override
+            public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
+                if (type.toClass() == Double.class)
+                    return () -> (T) (Double) Double.parseDouble(element.getContent());
+                return null;
+            }
+        });
+        add(new XMLTypeAddapter() {
 
             @SuppressWarnings("unchecked")
             @Override
