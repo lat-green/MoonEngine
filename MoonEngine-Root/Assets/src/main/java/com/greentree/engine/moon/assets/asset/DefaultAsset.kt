@@ -9,12 +9,13 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 		fun <T : Any> newAsset(sources: Collection<Asset<T>>): Asset<T> {
 			if(sources.size == 1)
 				return sources.first()
-			for(asset in sources)
+			val assets = sources.filter { !it.isConst() || it.isValid() }
+			for(asset in assets)
 				if(asset.isConst() && asset.isValid())
 					return asset
 				else
 					break
-			return DefaultAsset(sources)
+			return DefaultAsset(assets)
 		}
 	}
 
