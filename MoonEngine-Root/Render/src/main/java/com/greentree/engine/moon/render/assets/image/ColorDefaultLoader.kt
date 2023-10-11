@@ -10,7 +10,7 @@ class ColorDefaultLoader : DefaultLoader {
 
 	override fun <T : Any> load(context: DefaultLoader.Context, type: TypeInfo<T>, key: AssetKeyType): T? {
 		if(TypeUtil.isExtends(Color::class.java, type)) {
-			return Color.white as T
+			return Color.black as T
 		}
 		return null
 	}

@@ -9,7 +9,7 @@ import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.serializator.loader.DefaultLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
 
-class ColorImageDefaultLoader : DefaultLoader {
+class ColorImageDataDefaultLoader : DefaultLoader {
 
 	override fun <T : Any> load(context: DefaultLoader.Context, type: TypeInfo<T>, key: AssetKeyType): T? {
 		if(TypeUtil.isExtends(ImageData::class.java, type) && key === AssetKeyType.DEFAULT) {
