@@ -7,12 +7,15 @@ import com.greentree.engine.moon.assets.smart.info.AssetInfo
 fun <T1 : Any, T2 : Any> merge(source1: SmartAsset<T1>, source2: SmartAsset<T2>) = Merge2SmartAsset(source1, source2)
 fun <T1 : Any, T2 : Any> merge(source1: AssetInfo<T1>, source2: AssetInfo<T2>) = Merge2AssetInfo(source1, source2)
 fun merge(source1: SmartAsset.Connection, source2: SmartAsset.Connection) = Merge2Connection(source1, source2)
+
 fun merge(source1: AssetStatus, source2: AssetStatus): AssetStatus {
 	if(source1 == AssetStatus.NOT_VALID || source2 == AssetStatus.NOT_VALID)
 		return AssetStatus.NOT_VALID
 	if(source1 == AssetStatus.LOADING || source2 == AssetStatus.LOADING)
 		return AssetStatus.LOADING
-	return AssetStatus.VALID
+	if(source1 == AssetStatus.VALID && source2 == AssetStatus.VALID)
+		return AssetStatus.VALID
+	throw UnsupportedOperationException("$source1 $source2")
 }
 
 class Merge2SmartAsset<T1 : Any, T2 : Any>(private val source1: SmartAsset<T1>, private val source2: SmartAsset<T2>) :
