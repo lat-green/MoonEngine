@@ -5,7 +5,7 @@ import java.io.Serializable
 
 private val LOG = LogManager.getLogger()
 
-interface Value1Function<T : Any, R : Any> : (T) -> R, Serializable {
+interface Value1Function<in T : Any, R : Any> : (T) -> R, Serializable {
 
 	fun isEverValid() = false
 

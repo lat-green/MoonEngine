@@ -9,8 +9,13 @@ interface Asset<out T : Any> : Serializable {
 
 	fun isValid(): Boolean = true
 	fun isConst(): Boolean = false
+
+	fun <R : Any> map(function: Value1Function<T, R>): Asset<R> {
+		return CacheFunctionAsset.newAsset(this, function);
+	}
 }
 
+fun Asset<*>.isChange(lastRead: Long) = isChange(lastModified, lastRead)
 fun isChange(lastModified: Long, lastRead: Long) = lastRead < lastModified
 
 fun Asset<*>.toSplitString(): String {
@@ -68,9 +73,6 @@ fun Asset<*>.toSplitString(): String {
 	}
 	return builder.toString()
 }
-
-fun <T : Any, R : Any> Asset<T>.map(function: Value1Function<T, R>) =
-	CacheFunctionAsset.newAsset(this, function)
 
 inline fun <T : Any, R : Any, F> Asset<T>.map(function: F) where F : (T) -> R, F : Serializable =
 	map(Value1FunctionImpl(function))
