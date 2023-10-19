@@ -7,10 +7,6 @@ data class ConstAsset<T : Any>(override val value: T) : Asset<T> {
 		fun <T : Any> newAsset(value: T?): Asset<T> = ConstAsset(value!!)
 	}
 
-	init {
-		println(value)
-	}
-
 	override val lastModified: Long
 		get() = 0L
 
