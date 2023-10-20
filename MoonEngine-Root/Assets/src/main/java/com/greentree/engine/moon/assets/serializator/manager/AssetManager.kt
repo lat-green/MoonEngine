@@ -7,6 +7,7 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
 import org.apache.logging.log4j.MarkerManager
 import kotlin.reflect.KClass
 

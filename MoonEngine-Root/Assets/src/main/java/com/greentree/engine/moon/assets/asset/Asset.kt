@@ -1,22 +1,16 @@
 package com.greentree.engine.moon.assets.asset
 
+import com.greentree.engine.moon.assets.Group2
 import java.io.Serializable
 
-interface Asset<out T : Any> : Serializable {
+interface Asset<out T : Any> : AssetCharacteristics, Serializable {
 
 	val value: T
-	val lastModified: Long
-
-	fun isValid(): Boolean = true
-	fun isConst(): Boolean = false
 
 	fun <R : Any> map(function: Value1Function<T, R>): Asset<R> {
-		return CacheFunctionAsset.newAsset(this, function);
+		return CacheFunctionAsset.newAsset(this, function)
 	}
 }
-
-fun Asset<*>.isChange(lastRead: Long) = isChange(lastModified, lastRead)
-fun isChange(lastModified: Long, lastRead: Long) = lastRead < lastModified
 
 fun Asset<*>.toSplitString(): String {
 	val text = toString()

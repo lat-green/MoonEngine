@@ -37,6 +37,7 @@ open module engine.moon.base {
     exports com.greentree.engine.moon.base.layer;
     exports com.greentree.engine.moon.base.scene;
     exports com.greentree.engine.moon.base.transform;
+    exports com.greentree.engine.moon.base.assets.scene.adapters;
     provides DataSerializer with EntitySerializer;
     uses ECSSystem;
     uses EngineModule;

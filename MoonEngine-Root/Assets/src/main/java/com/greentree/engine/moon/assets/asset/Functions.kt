@@ -1,5 +1,10 @@
 package com.greentree.engine.moon.assets.asset
 
+import com.greentree.engine.moon.assets.Group2
+import com.greentree.engine.moon.assets.Group3
+import com.greentree.engine.moon.assets.Group4
+import com.greentree.engine.moon.assets.Group5
+import com.greentree.engine.moon.assets.Group6
 import org.apache.logging.log4j.LogManager
 import java.io.Serializable
 

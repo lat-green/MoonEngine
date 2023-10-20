@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.base.assets.scene;
+package com.greentree.engine.moon.base.assets.scene.adapters;
 
 public interface Constructor<T> extends AutoCloseable {
 

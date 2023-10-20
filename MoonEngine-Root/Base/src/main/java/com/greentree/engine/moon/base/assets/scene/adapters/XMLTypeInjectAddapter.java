@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.base.assets.scene;
+package com.greentree.engine.moon.base.assets.scene.adapters;
 
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeUtil;

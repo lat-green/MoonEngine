@@ -7,9 +7,9 @@ class DefaultAsset<T : Any> private constructor(private val sources: Iterable<As
 		fun <T : Any> newAsset(sources: Iterable<Asset<T>>) = newAsset(sources.toList())
 
 		fun <T : Any> newAsset(sources: Collection<Asset<T>>): Asset<T> {
-			if(sources.size == 1)
-				return sources.first()
 			val assets = sources.filter { !it.isConst() || it.isValid() }
+			if(assets.size == 1)
+				return assets.first()
 			for(asset in assets)
 				if(asset.isConst() && asset.isValid())
 					return asset
