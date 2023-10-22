@@ -27,6 +27,5 @@ jobs:
       with:
         repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/ara2003/base" }]'
         servers: '[{ "id": "github", "username": "${env.USER}", "password": "${env.PASS}" }]'
-        output_file: .m2/settings.xml
     - run: mvn -B clean test -f MoonEngine
 
