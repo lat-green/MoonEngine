@@ -71,6 +71,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 @Override
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
                     final var xml_value_text = xml_value.getContent();
+                    if(xml_value_text.isBlank())
+                        return null;
                     final var key = new ResultAssetKey(xml_value_text);
                     if (AssetManagerKt.canLoad(context, type, key)) {
                         final var v = context.load(type, key).getValue();
@@ -85,6 +87,8 @@ public class XMLSceneAssetSerializator implements AssetSerializator<Scene> {
                 @Override
                 public <T> Constructor<T> newInstance(Context c, TypeInfo<T> type, XMLElement xml_value) {
                     if (ClassUtil.isExtends(Asset.class, type.toClass())) {
+                        if(type.getTypeArguments().length == 0)
+                            throw new UnsupportedOperationException("asset type without Type Arguments");
                         final var value_type = type.getTypeArguments()[0].getBoxing();
                         try (final var key = c.newInstance(AssetKey.class, xml_value)) {
                             final var value = context.load(value_type, key.value());

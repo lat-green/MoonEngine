@@ -10,8 +10,4 @@ import java.util.Objects;
 @RequiredComponent({MeshComponent.class})
 public record MeshRenderer(Asset<Material> material) implements ConstComponent {
 
-    public MeshRenderer {
-        Objects.requireNonNull(material);
-    }
-
 }

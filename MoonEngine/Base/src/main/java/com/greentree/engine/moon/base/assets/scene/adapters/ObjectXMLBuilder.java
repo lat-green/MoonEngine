@@ -86,6 +86,19 @@ public class ObjectXMLBuilder implements Context {
         add(new XMLTypeAddapter() {
             @Override
             public Class<?> getLoadOnly() {
+                return String.class;
+            }
+
+            @Override
+            public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
+                if (type.toClass() == String.class)
+                    return () -> (T) (String) element.getContent();
+                return null;
+            }
+        });
+        add(new XMLTypeAddapter() {
+            @Override
+            public Class<?> getLoadOnly() {
                 return Integer.class;
             }
 
@@ -134,6 +147,8 @@ public class ObjectXMLBuilder implements Context {
 
             @Override
             public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_element) {
+                if(type.isInterface() || Modifier.isAbstract(type.toClass().getModifiers()))
+                    return null;
                 final var names = getNames(xml_element);
                 final var cls = type.toClass();
                 var c = ObjectBuilder.getMaxConstructor(cls, names.keySet());

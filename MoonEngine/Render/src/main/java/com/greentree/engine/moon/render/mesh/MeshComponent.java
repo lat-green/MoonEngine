@@ -11,10 +11,6 @@ import java.util.Objects;
 @RequiredComponent({Transform.class})
 public record MeshComponent(Asset<? extends Mesh> mesh) implements ConstComponent {
 
-    public MeshComponent {
-        Objects.requireNonNull(mesh);
-    }
-
     @Override
     public String toString() {
         String builder = "MeshComponent [" +
