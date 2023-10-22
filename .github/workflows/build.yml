@@ -9,10 +9,6 @@ on:
         branches:
             - '*'
 
-env:
-    USER: ara2003
-    PASS: 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
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,7 +23,7 @@ jobs:
       uses: whelk-io/maven-settings-xml-action@v20
       with:
         repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/ara2003/base" }]'
-        servers: '[{ "id": "github", "username": "${env.USER}", "password": "${env.PASS}" }]'
+        servers: '[{ "id": "github", "username": "ara2003", "password": "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" }]'
     - run: cat  /home/runner/.m2/settings.xml
     - run: mvn -B clean test -f MoonEngine
 
