@@ -10,7 +10,7 @@ open module engine.moon.render {
     requires transitive engine.moon.assets;
     requires transitive engine.moon.mesh;
     requires transitive commons.graphics.smart;
-    requires transitive commons.image;
+    requires transitive commons.graphics.image;
     requires transitive kotlin.stdlib;
     exports com.greentree.engine.moon.render.assets;
     exports com.greentree.engine.moon.render.assets.shader;

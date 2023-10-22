@@ -4,7 +4,7 @@ import com.greentree.engine.moon.opengl.assets.OpenGLInitAssetManagerModule;
 
 open module engine.moon.opengl {
     requires commons.util;
-    requires common.graphics.sgl;
+    requires commons.graphics.sgl;
     requires transitive engine.moon.render;
     provides EngineModule with CreateRenderContextModule, CreateWindowLibraryModule,
             OpenGLInitAssetManagerModule, OpenGLInitModule, OpenGLPollDelete, WindowUpdateEvents;

@@ -4,7 +4,7 @@
 
     <groupId>com.greentree.engine.moon</groupId>
     <artifactId>root</artifactId>
-    <version>0.3.3</version>
+    <version>0.3.5-SNAPSHOT</version>
 
     <name>MoonEngine Root</name>
 
@@ -19,7 +19,7 @@
         <java.version.source>18</java.version.source>
         <java.version.target>${java.version.source}</java.version.target>
 
-        <commons.version>0.3.4</commons.version>
+        <commons.version>0.3.5-SNAPSHOT</commons.version>
         <junit.version>5.5.2</junit.version>
         <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
         <maven-surefire-plugin.version>3.0.0-M7</maven-surefire-plugin.version>
@@ -67,6 +67,13 @@
             <dependency>
                 <groupId>com.greentree.commons</groupId>
                 <artifactId>commons</artifactId>
+                <version>${commons.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.greentree.commons.graphics</groupId>
+                <artifactId>graphics</artifactId>
                 <version>${commons.version}</version>
                 <scope>import</scope>
                 <type>pom</type>

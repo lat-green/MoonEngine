@@ -6,7 +6,7 @@ open module engine.moon.assimp {
 	requires transitive engine.moon.base;
 	requires transitive engine.moon.mesh;
 	
-	requires transitive commons.image;
+	requires transitive commons.graphics.image;
 	
 	requires org.lwjgl.assimp;
 	

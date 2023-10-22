@@ -23,7 +23,14 @@ class GLVertexArraySerializator : AssetSerializator<GLVertexArray> {
 
 		override fun apply(attribute: AttributeData): GLVertexArray {
 			val vbo = getVBO(attribute.vertex())
-			return GLVertexArray(AttributeGroup.of(vbo, *attribute.sizes()))
+			var offset = 0
+			val stride = attribute.sizes().sum() * vbo.dataType.size
+			val vao = GLVertexArray(attribute.sizes().mapIndexed { location, size ->
+				val result = GLVertexArray.AttributeGroup(location, vbo, size, stride, offset, 0)
+				offset += size * vbo.dataType.size
+				result
+			})
+			return vao
 		}
 
 		private fun getVBO(vertexes: FloatArray): FloatStaticDrawArrayBuffer {

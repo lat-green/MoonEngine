@@ -1,7 +1,6 @@
 package com.greentree.engine.moon.opengl.adapter
 
 import com.greentree.common.graphics.sgl.buffer.FloatStaticDrawArrayBuffer
-import com.greentree.common.graphics.sgl.enums.gl.GLType
 import com.greentree.common.graphics.sgl.shader.GLSLShader
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram
 import com.greentree.common.graphics.sgl.vao.GLVertexArray
@@ -34,8 +33,12 @@ class GLRenderContext : RenderContext, RenderTarget {
 		return PushCommandBuffer(this)
 	}
 
+	fun build(mesh: StaticMesh, vararg components: StaticMeshFaceComponent): RenderMesh {
+		return build(mesh.getAttributeGroup(*components))
+	}
+
 	fun build(mesh: StaticMesh): RenderMesh {
-		return build(mesh.getAttributeGroup(*COMPONENTS))
+		return build(mesh, *COMPONENTS)
 	}
 
 	fun build(mesh: AttributeData): RenderMesh {
@@ -124,7 +127,13 @@ class GLRenderContext : RenderContext, RenderTarget {
 		private val vaos: MutableMap<AttributeData, GLVertexArray> = HashMap<AttributeData, GLVertexArray>()
 		fun getVAO(attribute: AttributeData) = vaos.getOrPut(attribute) {
 			val vbo = getVBO(attribute.vertex())
-			val vao = GLVertexArray(GLVertexArray.AttributeGroup.of(vbo, *attribute.sizes()))
+			var offset = 0
+			val stride = attribute.sizes().sum() * vbo.dataType.size
+			val vao = GLVertexArray(attribute.sizes().mapIndexed { location, size ->
+				val result = GLVertexArray.AttributeGroup(location, vbo, size, stride, offset, 0)
+				offset += size * vbo.dataType.size
+				result
+			})
 			vao
 		}
 
@@ -133,8 +142,7 @@ class GLRenderContext : RenderContext, RenderTarget {
 			fun getVBO(VERTEXS: FloatArray): FloatStaticDrawArrayBuffer {
 				val vbo = FloatStaticDrawArrayBuffer()
 				vbo.bind()
-				MemoryStack.create(VERTEXS.size * GLType.FLOAT.size).push()
-					.use { stack -> vbo.setData(stack.floats(*VERTEXS)) }
+				vbo.setData(VERTEXS)
 				vbo.unbind()
 				return vbo
 			}
