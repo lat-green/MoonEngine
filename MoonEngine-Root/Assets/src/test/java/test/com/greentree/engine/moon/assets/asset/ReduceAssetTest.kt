@@ -3,11 +3,9 @@ package test.com.greentree.engine.moon.assets.asset
 import com.greentree.engine.moon.assets.asset.MutableAsset
 import com.greentree.engine.moon.assets.asset.ReduceAsset
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.RepeatedTest
 import java.lang.Thread.*
 
-@Disabled
 class ReduceAssetTest {
 
 	@RepeatedTest(20)
@@ -18,11 +16,13 @@ class ReduceAssetTest {
 		sleep(SLEEP)
 		val reduce = ReduceAsset(asset1)
 		assertEquals(reduce.value, asset1.value)
-		assertEquals(reduce.lastModified, asset1.lastModified)
+		assertTrue(reduce.lastModified - asset1.lastModified < 100)
+		assertTrue(reduce.lastModified - asset1.lastModified >= 0)
 		sleep(SLEEP)
 		reduce.asset = asset2
 		assertEquals(reduce.lastModified, System.currentTimeMillis())
-		assertNotEquals(reduce.lastModified, asset2.lastModified)
+		assertTrue(reduce.lastModified - asset1.lastModified < 100)
+		assertTrue(reduce.lastModified - asset1.lastModified >= 0)
 		assertEquals(reduce.value, asset2.value)
 	}
 

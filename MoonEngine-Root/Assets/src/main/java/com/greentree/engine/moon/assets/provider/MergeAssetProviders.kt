@@ -1,11 +1,11 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.Group2
-import com.greentree.engine.moon.assets.Group3
-import com.greentree.engine.moon.assets.Group4
-import com.greentree.engine.moon.assets.Group5
-import com.greentree.engine.moon.assets.Group6
-import com.greentree.engine.moon.assets.group
+import com.greentree.engine.moon.assets.asset.Group2
+import com.greentree.engine.moon.assets.asset.Group3
+import com.greentree.engine.moon.assets.asset.Group4
+import com.greentree.engine.moon.assets.asset.Group5
+import com.greentree.engine.moon.assets.asset.Group6
+import com.greentree.engine.moon.assets.asset.group
 
 private inline fun max(vararg elements: Long) = elements.max()
 

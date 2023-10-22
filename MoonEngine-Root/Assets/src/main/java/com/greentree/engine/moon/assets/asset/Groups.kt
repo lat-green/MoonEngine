@@ -1,12 +1,12 @@
-package com.greentree.engine.moon.assets
+package com.greentree.engine.moon.assets.asset
 
-inline fun <T1 : Any, T2 : Any> group(t1: T1, t2: T2) = Group2(t1, t2)
-inline fun <T1 : Any, T2 : Any, T3 : Any> group(t1: T1, t2: T2, t3: T3) = Group3(t1, t2, t3)
-inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any> group(t1: T1, t2: T2, t3: T3, t4: T4) = Group4(t1, t2, t3, t4)
-inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any> group(t1: T1, t2: T2, t3: T3, t4: T4, t5: T5) =
+fun <T1 : Any, T2 : Any> group(t1: T1, t2: T2) = Group2(t1, t2)
+fun <T1 : Any, T2 : Any, T3 : Any> group(t1: T1, t2: T2, t3: T3) = Group3(t1, t2, t3)
+fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any> group(t1: T1, t2: T2, t3: T3, t4: T4) = Group4(t1, t2, t3, t4)
+fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any> group(t1: T1, t2: T2, t3: T3, t4: T4, t5: T5) =
 	Group5(t1, t2, t3, t4, t5)
 
-inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any> group(
+fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any> group(
 	t1: T1,
 	t2: T2,
 	t3: T3,

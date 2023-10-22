@@ -1,14 +1,17 @@
 package com.greentree.engine.moon.assets.provider
 
-class MutableAssetProvider<T : Any>(initValue: T) : AssetProvider<T> {
+class MutableAssetProvider<T : Any>(value: T) : AssetProvider<T> {
 
 	override var lastModified = System.currentTimeMillis()
 		private set
-
-	override var value: T = initValue
+	override var value: T = value
 		set(value) {
 			if(field != value) {
-				lastModified = System.currentTimeMillis()
+				val lastModified = System.currentTimeMillis()
+				if(lastModified == this.lastModified)
+					this.lastModified++
+				else
+					this.lastModified = lastModified
 				field = value
 			}
 		}

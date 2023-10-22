@@ -1,6 +1,5 @@
 package com.greentree.engine.moon.assets.asset
 
-import com.greentree.engine.moon.assets.Group2
 import java.io.Serializable
 
 interface Asset<out T : Any> : AssetCharacteristics, Serializable {
