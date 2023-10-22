@@ -25,39 +25,8 @@ jobs:
     - name: maven-settings-xml-action
       uses: whelk-io/maven-settings-xml-action@v20
       with:
-        servers: >
-          [
-            {
-              "id": "github",
-              "username": "${env.USER}",
-              "password": "${env.PASS}"
-            }
-          ]
-        profiles: >
-          [
-            {
-              "id": "github",
-              "name": "foo.profile",
-              "repositories": [
-                    {
-                      "id": "github",
-                      "name": "All ara2003 GitHub packages",
-                      "url": "https://maven.pkg.github.com/ara2003/base",
-                      "snapshots": {
-                        "enabled": "true",
-                      }
-                    }
-                  ]
-            }
-          ]
-        plugin_groups: >
-          [
-            "com.greentree.engine.moon"
-          ]
-        active_profiles: >
-          [
-            "github"
-          ]
+        repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/ara2003/base" }]'
+        servers: '[{ "id": "github", "username": "${env.USER}", "password": "${env.PASS}" }]'
         output_file: .m2/settings.xml
     - run: mvn -B clean test -f MoonEngine
 
