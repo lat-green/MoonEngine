@@ -8,6 +8,10 @@ on:
         branches:
             - '*'
 
+env:
+    USER: ara2003
+    PASS: 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
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,5 +22,42 @@ jobs:
       with:
         website: oracle.com
         release: 21
+    - name: maven-settings-xml-action
+      uses: whelk-io/maven-settings-xml-action@v20
+      with:
+        servers: >
+          [
+            {
+              "id": "github",
+              "username": "${env.USER}",
+              "password": "${env.PASS}"
+            }
+          ]
+        profiles: >
+          [
+            {
+              "id": "github",
+              "name": "foo.profile",
+              "repositories": [
+                    {
+                      "id": "github",
+                      "name": "All ara2003 GitHub packages",
+                      "url": "https://maven.pkg.github.com/ara2003/base",
+                      "snapshots": {
+                        "enabled": "true",
+                      }
+                    }
+                  ]
+            }
+          ]
+        plugin_groups: >
+          [
+            "com.greentree.engine.moon"
+          ]
+        active_profiles: >
+          [
+            "github"
+          ]
+        output_file: .m2/settings.xml
     - run: mvn -B clean test -f MoonEngine
 
