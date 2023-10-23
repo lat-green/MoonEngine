@@ -24,5 +24,12 @@ jobs:
       with:
         repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/ara2003/base" }]'
         servers: '[{ "id": "github", "username": "ara2003", "password": "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" }]'
-    - run: mvn -B clean test -f MoonEngine
+
+    - name: Maven Verify
+      run: mvn -B clean verify -f MoonEngine
+
+    - name: Test Coverage
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
