@@ -1,19 +1,21 @@
 package com.greentree.engine.moon.assets.reactive
 
+import java.util.Observable
+import java.util.concurrent.CompletableFuture
+
 class FlattenReactiveAsset<T : Any>(private val source: ReactiveAsset<ReactiveAsset<T>>) : ReactiveAsset<T> {
 
 	private val action = mutableListOf<(value: T, lastValue: T) -> Unit>()
-	private val l1 = object : (T, T) -> Unit {
-		override fun invoke(value: T, lastValue: T) {
-			action.event(value, lastValue)
-		}
+
+	private val l1 = {  value: T, lastValue: T ->
+		action.event(value, lastValue)
 	}
-	private val l2 = object : (ReactiveAsset<T>, ReactiveAsset<T>) -> Unit {
-		override fun invoke(value: ReactiveAsset<T>, lastValue: ReactiveAsset<T>) {
+
+	private val l2 = {
+		value: ReactiveAsset<T>, lastValue: ReactiveAsset<T> ->
 			lastValue -= l1
 			value += l1
 			action.event(value.value, lastValue.value)
-		}
 	}
 
 	init {
