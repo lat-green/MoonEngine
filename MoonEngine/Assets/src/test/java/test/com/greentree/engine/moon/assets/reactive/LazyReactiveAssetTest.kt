@@ -2,8 +2,7 @@ package test.com.greentree.engine.moon.assets.reactive
 
 import com.greentree.commons.tests.ExecuteCounter
 import com.greentree.engine.moon.assets.reactive.FlattenReactiveAsset
-import com.greentree.engine.moon.assets.reactive.LazyReactiveAsset
-import com.greentree.engine.moon.assets.reactive.LazyReactiveAsset.Companion.toLazy
+import com.greentree.engine.moon.assets.reactive.LazeReactiveAsset.Companion.toLazy
 import com.greentree.engine.moon.assets.reactive.MutableReactiveAsset
 import com.greentree.engine.moon.assets.reactive.plusAssign
 import org.junit.jupiter.api.Assertions.*

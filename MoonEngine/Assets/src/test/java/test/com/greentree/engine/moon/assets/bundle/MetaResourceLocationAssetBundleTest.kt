@@ -2,9 +2,11 @@ package test.com.greentree.engine.moon.assets.bundle
 
 import com.greentree.commons.data.FileUtil
 import com.greentree.commons.data.resource.location.RootFileResourceLocation
-import com.greentree.engine.moon.assets.bundle.TEXT
+import com.greentree.engine.moon.assets.bundle.MetaResourceLocationAssetBundle
+import com.greentree.engine.moon.assets.bundle.load
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -12,9 +14,9 @@ import java.io.FileOutputStream
 import java.io.ObjectOutputStream
 import java.nio.file.Files
 
+const val TEXT = "TEXT"
+
 class MetaResourceLocationAssetBundleTest {
-
-
 
 	lateinit var temp: File
 

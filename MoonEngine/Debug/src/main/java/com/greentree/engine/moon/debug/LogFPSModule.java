@@ -12,7 +12,7 @@ public class LogFPSModule implements LaunchModule, UpdateModule {
 
     private static final Logger LOG = LogManager.getLogger(LogFPSModule.class);
 
-    private static final int DEFAULT_FRAME_TO_LOG = 1000;
+    private static final int DEFAULT_FRAME_TO_LOG = 100;
 
     private final int frameToLog;
     private Time time;
