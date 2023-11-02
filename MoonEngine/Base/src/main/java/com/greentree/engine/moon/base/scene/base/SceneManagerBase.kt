@@ -20,7 +20,7 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 	}
 
 	private var nextScene: Scene? = null
-	private var currentSystems: FullSystem? = null
+	private lateinit var currentSystems: FullSystem
 
 	@Synchronized
 	override fun set(scene: Scene) {
@@ -29,35 +29,39 @@ class SceneManagerBase(private val properties: EngineProperties) : SceneManager 
 
 	@Synchronized
 	fun update() {
-		if(nextScene != null) loadScene()
-		currentSystems!!.update()
+		nextScene?.let {
+			nextScene = null
+			loadScene(it)
+		}
+		currentSystems.update()
 	}
 
 	@Synchronized
-	private fun loadScene() {
+	private fun loadScene(nextScene: Scene) {
 		clearScene()
 		val sceneProperties = ProxySceneProperties(properties, MapSceneProperties())
 		val currentWorld = CollectionWorld()
 		sceneProperties.add(WorldProperty(currentWorld))
+		val currentSystems: FullSystem
+		val timer = PointTimer()
 		run {
-			val timer = PointTimer()
 			timer.point()
-			currentSystems = nextScene!!.getSystem().toFull()
+			currentSystems = nextScene.getSystem().toFull()
+			this.currentSystems = currentSystems
 			timer.point()
 			LOG.info("scene load ${timer[0]}")
 		}
-		nextScene = null
 		run {
-			val timer = PointTimer()
 			timer.point()
-			currentSystems!!.init(sceneProperties)
+			currentSystems.init(sceneProperties)
 			timer.point()
-			LOG.info("scene init ${timer[0]}")
+			LOG.info("scene init ${timer[2]}")
 		}
 	}
 
 	@Synchronized
 	fun clearScene() {
-		currentSystems?.destroy()
+		if(::currentSystems.isInitialized)
+			currentSystems.destroy()
 	}
 }

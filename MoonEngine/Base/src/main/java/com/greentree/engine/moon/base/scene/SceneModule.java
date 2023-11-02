@@ -23,6 +23,7 @@ public class SceneModule implements LaunchModule, TerminateModule, UpdateModule 
 	@Override
 	public void terminate() {
 		manager.clearScene();
+		manager = null;
 	}
 	
 	@CreateProperty({SceneManagerProperty.class})

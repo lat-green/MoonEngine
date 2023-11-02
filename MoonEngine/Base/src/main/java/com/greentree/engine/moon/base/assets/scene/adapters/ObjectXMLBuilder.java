@@ -7,6 +7,8 @@ import com.greentree.commons.reflection.info.TypeInfoBuilder;
 import com.greentree.commons.reflection.info.TypeUtil;
 import com.greentree.commons.util.collection.AutoGenerateMap;
 import com.greentree.commons.xml.XMLElement;
+import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -14,6 +16,7 @@ import java.lang.reflect.Parameter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.greentree.engine.moon.base.assets.scene.adapters.ContextKt.findClass;
 import static java.util.Arrays.asList;
 
 @SuppressWarnings("rawtypes")
@@ -227,6 +230,33 @@ public class ObjectXMLBuilder implements Context {
                 }
                 return true;
             }
+
+        });
+        add(new XMLTypeAddapter() {
+
+            @Override
+            public Class<?> getLoadOnly() {
+                return AssetKey.class;
+            }
+
+            @Override
+            public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_value) {
+                if(AssetKey.class == type.toClass()) {
+                            var xml_value_text = xml_value.getContent();
+                            var xml_value_type = xml_value.getAttribute("type");
+                            AssetKey key;
+                            if(xml_value_type == null) {
+                                key = new ResourceAssetKey(xml_value_text);
+                            } else {
+                                final var cls = findClass(AssetKey.class, xml_value_type);
+                                try(var c = context.newInstance(cls, xml_value)) {
+                                    key = c.value();
+                                }
+                            }
+                            return new ValueConstructor((T) key);
+                        }
+                        return null;
+                }
 
         });
     }

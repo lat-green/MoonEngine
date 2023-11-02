@@ -8,5 +8,6 @@ open module game.moon.demo1 {
     requires transitive engine.moon.script;
     requires transitive engine.moon.assimp;
     requires transitive engine.moon.debug;
+    requires jdk.unsupported;
     provides EngineModule with InitControllerModule, InitAssetModule, InitSceneModule;
 }
