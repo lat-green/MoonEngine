@@ -9,7 +9,6 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
-import com.greentree.engine.moon.kernel.use
 
 object ResourceToXMLAssetSerializator : AssetSerializator<XMLElement> {
 
@@ -26,6 +25,6 @@ object ResourceToXMLAssetSerializator : AssetSerializator<XMLElement> {
 			}
 		}
 
-		override fun toString() = "TextToXML"
+		override fun toString() = "ResourceToXML"
 	}
 }

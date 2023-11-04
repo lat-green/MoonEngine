@@ -11,6 +11,7 @@ import java.io.Serializable
 interface AssetFunction1<in T : Any, R : Any> : (AssetProvider.Context, T) -> R, Serializable {
 
 	fun isEverValid() = false
+	fun isValueSerializable() = false
 
 	override fun invoke(ctx: AssetProvider.Context, value: T): R
 }

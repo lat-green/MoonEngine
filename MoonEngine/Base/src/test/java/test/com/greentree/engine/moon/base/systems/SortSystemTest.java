@@ -1,6 +1,6 @@
 package test.com.greentree.engine.moon.base.systems;
 
-import com.greentree.engine.moon.base.component.info.AnnotatedCWRDMethodComponentInfo;
+import com.greentree.engine.moon.base.info.AnnotatedCWRDMethodComponentInfo;
 import com.greentree.engine.moon.base.sorter.MergeSorter;
 import com.greentree.engine.moon.base.sorter.OnCWRDMethodSorter;
 import com.greentree.engine.moon.ecs.system.ECSSystem;

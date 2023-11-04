@@ -423,7 +423,7 @@ abstract class WorldTest {
 				val e = world.newEntity()
 				Assertions.assertTimeout(Duration.ofSeconds(2)) {
 					var t = 1000000
-					while (t-- > 0) e.isDeactivate()
+					while(t-- > 0) e.isDeactivate()
 					world.clear()
 				}
 			}
@@ -434,7 +434,7 @@ abstract class WorldTest {
 			runWorld { world ->
 				Assertions.assertTimeout(Duration.ofSeconds(2)) {
 					var t = 1000000
-					while (t-- > 0) {
+					while(t-- > 0) {
 						val e = world.newDeactivateEntity()
 						e.delete()
 					}
@@ -448,7 +448,7 @@ abstract class WorldTest {
 			runWorld { world ->
 				Assertions.assertTimeout(Duration.ofSeconds(4)) {
 					var t = 1000000
-					while (t-- > 0) world.newEntity()
+					while(t-- > 0) world.newEntity()
 				}
 			}
 		}
@@ -458,9 +458,9 @@ abstract class WorldTest {
 			runWorld { world ->
 				Assertions.assertTimeout(Duration.ofSeconds(2)) {
 					var t = 1000
-					while (t-- > 0) {
+					while(t-- > 0) {
 						var t0 = 1000
-						while (t0-- > 0) world.newEntity()
+						while(t0-- > 0) world.newEntity()
 						world.clear()
 					}
 				}
@@ -472,7 +472,7 @@ abstract class WorldTest {
 			runWorld { world ->
 				Assertions.assertTimeout(Duration.ofSeconds(2)) {
 					var t = 1000000
-					while (t-- > 0) {
+					while(t-- > 0) {
 						val e = world.newEntity()
 						e.delete()
 					}

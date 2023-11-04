@@ -15,7 +15,6 @@ import com.greentree.engine.moon.base.assets.scene.EntityDefault
 import com.greentree.engine.moon.base.assets.scene.XMLSceneAssetSerializator
 import com.greentree.engine.moon.base.assets.text.PropertyStringAssetSerializator
 import com.greentree.engine.moon.base.assets.text.ResourceToTextSerializator
-import com.greentree.engine.moon.base.assets.xml.ResourceToXMLAssetSerializator
 import com.greentree.engine.moon.base.assets.xml.TextToXMLAssetSerializator
 import com.greentree.engine.moon.base.property.modules.WriteProperty
 import com.greentree.engine.moon.base.scene.SceneManagerProperty
@@ -38,7 +37,7 @@ class BaseAssetSerializatorModule : LaunchModule {
 		manager.addSerializator(PropertyStringAssetSerializator())
 		manager.addSerializator(PropertiesAssetSerializator())
 		manager.addSerializator(TextToXMLAssetSerializator)
-		manager.addSerializator(ResourceToXMLAssetSerializator)
+//		manager.addSerializator(ResourceToXMLAssetSerializator)
 		manager.addSerializator(JSONAssetSerializator())
 		manager.addSerializator(XMLSceneAssetSerializator)
 		manager.addSerializator(EntityAssetSerializator)
