@@ -81,7 +81,7 @@ class AssetTest {
 
 	companion object {
 
-		private const val SLEEP_ON_LOAD = 40L
+		private const val SLEEP_ON_LOAD = 4 * 15L
 		private const val TIMEOUT = 2 * SLEEP_ON_LOAD - 1
 
 		@JvmStatic

@@ -13,8 +13,6 @@
 
     <!--    <system type="ScriptSystem"/>-->
 
-    <system type="SpriteMeshGenerator"/>
-
     <system type="CameraTargetGeneratedSystem"/>
     <system type="RenderMainCamera"/>
 

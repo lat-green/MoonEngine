@@ -2,7 +2,6 @@ package com.greentree.engine.moon.render.assets.texture.cube
 
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.Value1Function
-import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager

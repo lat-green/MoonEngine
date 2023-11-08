@@ -15,7 +15,7 @@ public class InitSceneModule implements LaunchModule {
     @ReadProperty({AssetManagerProperty.class})
     @Override
     public void launch(EngineProperties context) {
-        final var manager = context.get(AssetManagerProperty.class).manager();
+        final var manager = context.get(AssetManagerProperty.class).manager;
         final var scenes = context.get(SceneManagerProperty.class).manager();
         final var scene = AsyncAssetManagerKt.loadAsync(manager, Scene.class, "scene/world1.xml");
 //        final var scene = AsyncAssetManagerKt.loadAsync(manager, Scene.class, "scene/big.xml");

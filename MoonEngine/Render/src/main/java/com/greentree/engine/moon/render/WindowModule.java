@@ -26,7 +26,7 @@ public final class WindowModule implements LaunchModule, TerminateModule {
     @CreateProperty({WindowProperty.class})
     @Override
     public void launch(EngineProperties properties) {
-        final var manager = properties.get(AssetManagerProperty.class).manager();
+        final var manager = properties.get(AssetManagerProperty.class).manager;
         final var library = properties.get(WindowLibraryProperty.class).library();
         final var wini = manager.load(Properties.class, "window.ini").getValue();
         final var title = wini.getProperty("window.title");

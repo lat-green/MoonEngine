@@ -23,7 +23,7 @@ public class JsonTest {
             @ReadProperty({AssetManagerProperty.class})
             @Override
             public void launch(EngineProperties properties) {
-                final var manager = properties.get(AssetManagerProperty.class).manager();
+                final var manager = properties.get(AssetManagerProperty.class).manager;
                 manager.addGenerator(new JSONToObjectGenerator());
                 final var arr = new ArrayList<>();
                 arr.add(null);

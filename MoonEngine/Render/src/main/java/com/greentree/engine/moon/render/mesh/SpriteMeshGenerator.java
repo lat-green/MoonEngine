@@ -31,7 +31,7 @@ public class SpriteMeshGenerator implements WorldInitSystem, UpdateSystem {
     @ReadProperty(AssetManagerProperty.class)
     @Override
     public void init(World world, SceneProperties sceneProperties) {
-        var manager = sceneProperties.get(AssetManagerProperty.class).manager();
+        var manager = sceneProperties.get(AssetManagerProperty.class).manager;
         mesh = manager.load(Mesh.class, MeshUtil.QUAD_SPRITE);
         shader = manager.load(Shader.class, MaterialUtil.getDefaultSpriteShader());
         sprite_meshes = SPRITE_MESHES.build(world);

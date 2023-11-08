@@ -3,7 +3,6 @@ package com.greentree.engine.moon.opengl.assets.texture
 import com.greentree.common.graphics.sgl.texture.gl.GLTexture
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.Value1Function
-import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager

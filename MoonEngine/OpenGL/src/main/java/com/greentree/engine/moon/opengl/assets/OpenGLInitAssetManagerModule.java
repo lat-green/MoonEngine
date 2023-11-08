@@ -27,7 +27,7 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
     @WriteProperty({AssetManagerProperty.class})
     @Override
     public void launch(EngineProperties context) {
-        final var manager = context.get(AssetManagerProperty.class).manager();
+        final var manager = context.get(AssetManagerProperty.class).manager;
         manager.addSerializator(new IterableAssetSerializator<>(ATTRIBUTE_GROUP_TYPE));
         manager.addSerializator(new GLCubeTextureAssetSerializator());
         manager.addSerializator(new GLTextureAssetSerializator());
