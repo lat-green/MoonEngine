@@ -34,7 +34,7 @@ public final class ScriptAssetSerializator implements AssetSerializator<JavaScri
             } catch (IOException e) {
                 throw new WrappedException(e);
             }
-            return new JavaScriptScript(script);
+            return new JavaScriptScript(resource.getName(), script);
         }
 
         @Override
@@ -45,7 +45,7 @@ public final class ScriptAssetSerializator implements AssetSerializator<JavaScri
             } catch (IOException e) {
                 throw new WrappedException(e);
             }
-            dest.setScript(script);
+            dest.setScript(resource.getName(), script);
             return dest;
         }
 

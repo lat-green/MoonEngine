@@ -20,7 +20,7 @@ class DefaultAssetProvider<T : Any> private constructor(private val sources: Ite
 		}
 	}
 
-	override fun value(ctx: AssetProvider.Context): T {
+	override fun value(ctx: ValueContext): T {
 		for(source in sources)
 			if(source.isValid())
 				return source.value(ctx)

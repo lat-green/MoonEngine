@@ -37,6 +37,7 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 			require(value != null) { "$function(${source.value})" }
 			return value
 		}
+	
 	override var lastModified: Long = System.currentTimeMillis()
 		private set
 		get() {

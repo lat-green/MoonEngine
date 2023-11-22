@@ -13,7 +13,7 @@ class ResourceAssetProviderImpl(private val resource: Resource) : AssetProvider<
 
 	override fun isValid() = resource.exists()
 
-	override fun value(ctx: AssetProvider.Context): Resource {
+	override fun value(ctx: ValueContext): Resource {
 		if(!resource.exists())
 			throw ResourceNotFoundException("$resource")
 		return resource
@@ -32,7 +32,7 @@ data class ResourceNamedAssetProvider(
 	private val name: AssetProvider<String>,
 ) : AssetProvider<Resource> {
 
-	private fun resource(ctx: AssetProvider.Context): Resource {
+	private fun resource(ctx: ValueContext): Resource {
 		return resources.getResource(name.value(ctx))
 	}
 
@@ -44,7 +44,7 @@ data class ResourceNamedAssetProvider(
 				name.lastModified
 	private var lastModifiedUpdate = System.currentTimeMillis()
 
-	override fun value(ctx: AssetProvider.Context): Resource {
+	override fun value(ctx: ValueContext): Resource {
 		val resource = resource(ctx)
 		if(!resource.exists())
 			throw ResourceNotFoundException("$resource")

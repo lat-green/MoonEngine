@@ -4,33 +4,30 @@ import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder.*
 import com.greentree.engine.moon.assets.asset.AssetCharacteristics
 import com.greentree.engine.moon.assets.key.AssetKey
-import com.greentree.engine.moon.kernel.ClassProperties
 import java.io.Serializable
 
 interface AssetProvider<T : Any> : AssetCharacteristics, Serializable {
 
-	interface Manager : Property {
+	interface Manager : ValueContext.Element {
+
+		companion object Key : ValueContext.Key<Manager>
 
 		fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): T
 		fun <T : Any> load(type: Class<T>, key: AssetKey) =
 			load(getTypeInfo(type) as TypeInfo<T>, key)
 	}
 
-	interface Context : ClassProperties<Property>
-
-	interface Property
-
 	val value
-		get() = value(MapAssetProperties())
+		get() = value()
 
-	fun value(ctx: Context): T
+	fun value(ctx: ValueContext = EmptyContext): T
 }
 
-val AssetProvider.Context.manager
-	get() = getProperty<AssetProvider.Manager>()
+val ValueContext.manager
+	get() = get(AssetProvider.Manager)!!
 
-inline fun <reified T : AssetProvider.Property> AssetProvider.Context.getProperty() = getProperty(T::class.java)
 inline fun <reified T : Any> AssetProvider.Manager.load(key: AssetKey) = load(T::class.java, key)
+inline fun <reified T : Any> ValueContext.load(key: AssetKey) = manager.load(T::class.java, key)
 
 inline fun <T : Any, R : Any> AssetProvider<T>.map(function: AssetFunction1<T, R>) =
 	FunctionAssetProvider(this, function)

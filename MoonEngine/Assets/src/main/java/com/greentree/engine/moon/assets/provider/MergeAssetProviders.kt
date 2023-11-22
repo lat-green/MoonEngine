@@ -17,7 +17,7 @@ inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any> merge(
 	t1: AssetProvider<T1>,
 	t2: AssetProvider<T2>,
 	t3: AssetProvider<T3>,
-	t4: AssetProvider<T4>
+	t4: AssetProvider<T4>,
 ) =
 	M4AssetProvider(t1, t2, t3, t4)
 
@@ -42,7 +42,7 @@ inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any> merge(
 data class M2AssetProvider<T1 : Any, T2 : Any>(val source1: AssetProvider<T1>, val source2: AssetProvider<T2>) :
 	AssetProvider<Group2<T1, T2>> {
 
-	override fun value(ctx: AssetProvider.Context) = group(source1.value(ctx), source2.value(ctx))
+	override fun value(ctx: ValueContext) = group(source1.value(ctx), source2.value(ctx))
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified)
 
@@ -61,7 +61,7 @@ data class M3AssetProvider<T1 : Any, T2 : Any, T3 : Any>(
 ) :
 	AssetProvider<Group3<T1, T2, T3>> {
 
-	override fun value(ctx: AssetProvider.Context) = group(source1.value(ctx), source2.value(ctx), source3.value(ctx))
+	override fun value(ctx: ValueContext) = group(source1.value(ctx), source2.value(ctx), source3.value(ctx))
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified, source3.lastModified)
 
@@ -81,7 +81,7 @@ data class M4AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any>(
 ) :
 	AssetProvider<Group4<T1, T2, T3, T4>> {
 
-	override fun value(ctx: AssetProvider.Context) =
+	override fun value(ctx: ValueContext) =
 		group(source1.value(ctx), source2.value(ctx), source3.value(ctx), source4.value(ctx))
 
 	override val lastModified
@@ -104,7 +104,7 @@ data class M5AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any>(
 ) :
 	AssetProvider<Group5<T1, T2, T3, T4, T5>> {
 
-	override fun value(ctx: AssetProvider.Context) =
+	override fun value(ctx: ValueContext) =
 		group(source1.value(ctx), source2.value(ctx), source3.value(ctx), source4.value(ctx), source5.value(ctx))
 
 	override val lastModified
@@ -137,7 +137,7 @@ data class M6AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 
 ) :
 	AssetProvider<Group6<T1, T2, T3, T4, T5, T6>> {
 
-	override fun value(ctx: AssetProvider.Context) =
+	override fun value(ctx: ValueContext) =
 		group(
 			source1.value(ctx),
 			source2.value(ctx),
@@ -173,7 +173,7 @@ data class MIAssetProvider<T : Any>(
 ) :
 	AssetProvider<Iterable<T>> {
 
-	override fun value(ctx: AssetProvider.Context) =
+	override fun value(ctx: ValueContext) =
 		source.map { it.value(ctx) }
 
 	override val lastModified

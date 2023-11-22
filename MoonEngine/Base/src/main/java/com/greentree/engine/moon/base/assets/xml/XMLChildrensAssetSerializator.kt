@@ -12,8 +12,8 @@ object XMLChildrensAssetSerializator : AssetSerializator<Iterable<XMLElement>> {
 
 	override fun load(context: AssetManager, key: AssetKey): Asset<Iterable<XMLElement>>? {
 		if(key is XMLChildrenAssetKey) {
-			val resource = context.load<XMLElement>(key.xml)
-			return resource.map(XMLToChildrens(key.name))
+			val xml = context.load<XMLElement>(key.xml)
+			return xml.map(XMLToChildrens(key.name))
 		}
 		return null
 	}

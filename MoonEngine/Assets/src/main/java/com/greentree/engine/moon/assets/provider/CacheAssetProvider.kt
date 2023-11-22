@@ -10,7 +10,8 @@ class CacheAssetProvider<T : Any>(
 	override val value: T
 		get() = cache ?: super.value
 
-	override fun value(ctx: AssetProvider.Context): T {
+	override fun value(ctx: ValueContext): T {
+		var ctx = ctx
 		if(needUpdate) {
 			val cache = origin.value(ctx)
 			this.cache = cache
@@ -19,9 +20,10 @@ class CacheAssetProvider<T : Any>(
 		val lastUpdate = origin.lastModified
 		if(lastUpdate > this.lastUpdate) {
 			this.lastUpdate = lastUpdate
-			if(ctx.contains(LastValue::class.java))
-				ctx.remove(LastValue::class.java)
-			cache?.let { ctx.add(LastValue(it)) }
+			ctx = ctx.minusKey(LastValue)
+			cache?.let {
+				ctx += LastValue(it)
+			}
 			val cache = origin.value(ctx)
 			this.cache = cache
 			return cache

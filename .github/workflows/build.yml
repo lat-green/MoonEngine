@@ -11,25 +11,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-    - uses: actions/checkout@v1
-    - name: 'Set up latest Oracle JDK 21'
-      uses: oracle-actions/setup-java@v1
-      with:
-        website: oracle.com
-        release: 21
-    - name: maven-settings-xml-action
-      uses: whelk-io/maven-settings-xml-action@v20
-      with:
-        repositories: '[{ "id": "github", "url": "https://maven.pkg.github.com/ara2003/base" }]'
-        servers: '[{ "id": "github", "username": "ara2003", "password": "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" }]'
+    - uses: actions/checkout@v3
 
     - name: Maven Verify
       run: mvn -B clean verify -f MoonEngine
 
     - name: Test Coverage
-      uses: codecov/codecov-action@v1
+      uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
 
