@@ -13,7 +13,7 @@ class ConstAssetProvider<T : Any>(override val value: T) : AssetProvider<T> {
 	override val lastModified: Long
 		get() = 0L
 
-	override fun value(ctx: ValueContext) = value
+	override fun value(ctx: AssetContext) = value
 
 	override fun isConst() = true
 

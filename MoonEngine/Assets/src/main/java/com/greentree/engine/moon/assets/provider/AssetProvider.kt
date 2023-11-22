@@ -8,9 +8,9 @@ import java.io.Serializable
 
 interface AssetProvider<T : Any> : AssetCharacteristics, Serializable {
 
-	interface Manager : ValueContext.Element {
+	interface Manager : AssetContext.Element {
 
-		companion object Key : ValueContext.Key<Manager>
+		companion object Key : AssetContext.Key<Manager>
 
 		fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): T
 		fun <T : Any> load(type: Class<T>, key: AssetKey) =
@@ -20,14 +20,14 @@ interface AssetProvider<T : Any> : AssetCharacteristics, Serializable {
 	val value
 		get() = value()
 
-	fun value(ctx: ValueContext = EmptyContext): T
+	fun value(ctx: AssetContext = EmptyContext): T
 }
 
-val ValueContext.manager
+val AssetContext.manager
 	get() = get(AssetProvider.Manager)!!
 
 inline fun <reified T : Any> AssetProvider.Manager.load(key: AssetKey) = load(T::class.java, key)
-inline fun <reified T : Any> ValueContext.load(key: AssetKey) = manager.load(T::class.java, key)
+inline fun <reified T : Any> AssetContext.load(key: AssetKey) = manager.load(T::class.java, key)
 
 inline fun <T : Any, R : Any> AssetProvider<T>.map(function: AssetFunction1<T, R>) =
 	FunctionAssetProvider(this, function)

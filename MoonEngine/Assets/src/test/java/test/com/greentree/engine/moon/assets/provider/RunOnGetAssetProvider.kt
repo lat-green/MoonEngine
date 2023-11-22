@@ -1,11 +1,11 @@
 package test.com.greentree.engine.moon.assets.provider
 
+import com.greentree.engine.moon.assets.provider.AssetContext
 import com.greentree.engine.moon.assets.provider.AssetProvider
-import com.greentree.engine.moon.assets.provider.ValueContext
 
 class RunOnGetAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
-	private val callback: (ctx: ValueContext) -> Unit,
+	private val callback: (ctx: AssetContext) -> Unit,
 ) :
 	AssetProvider<T> {
 
@@ -16,7 +16,7 @@ class RunOnGetAssetProvider<T : Any>(
 		callback.run()
 	})
 
-	override fun value(ctx: ValueContext): T {
+	override fun value(ctx: AssetContext): T {
 		callback(ctx)
 		return origin.value(ctx)
 	}

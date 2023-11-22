@@ -16,5 +16,5 @@ class MutableAssetProvider<T : Any>(value: T) : AssetProvider<T> {
 			}
 		}
 
-	override fun value(ctx: ValueContext) = value
+	override fun value(ctx: AssetContext) = value
 }

@@ -12,7 +12,7 @@ class FlattenAssetProvider<T : Any>(
 	override val value: T
 		get() = origin.value.value
 
-	override fun value(ctx: ValueContext): T {
+	override fun value(ctx: AssetContext): T {
 		val source = origin.value(ctx)
 		sourceLastUpdate = max(sourceLastUpdate, source.lastModified)
 		return source.value(ctx)

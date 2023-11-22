@@ -11,7 +11,7 @@ class ReduceAssetProvider<T : Any>(origin: AssetProvider<T>) : AssetProvider<T> 
 		}
 	private var sourceLastUpdate = 0L
 
-	override fun value(ctx: ValueContext) = origin.value(ctx)
+	override fun value(ctx: AssetContext) = origin.value(ctx)
 
 	override val lastModified
 		get() = max(sourceLastUpdate, origin.lastModified)

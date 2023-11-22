@@ -10,7 +10,7 @@ class FunctionAssetProvider<T : Any, R : Any>(
 	override fun isConst() = source.isConst()
 	override fun isValid() = source.isValid()
 
-	override fun value(ctx: ValueContext) = function(ctx, source.value(ctx))
+	override fun value(ctx: AssetContext) = function(ctx, source.value(ctx))
 
 	override val lastModified: Long
 		get() = source.lastModified

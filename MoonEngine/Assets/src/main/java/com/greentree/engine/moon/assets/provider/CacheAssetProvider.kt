@@ -10,7 +10,7 @@ class CacheAssetProvider<T : Any>(
 	override val value: T
 		get() = cache ?: super.value
 
-	override fun value(ctx: ValueContext): T {
+	override fun value(ctx: AssetContext): T {
 		var ctx = ctx
 		if(needUpdate) {
 			val cache = origin.value(ctx)
