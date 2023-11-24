@@ -10,7 +10,7 @@ import com.greentree.engine.moon.assets.serializator.manager.load
 
 object XMLChildrensAssetSerializator : AssetSerializator<Iterable<XMLElement>> {
 
-	override fun load(context: AssetManager, key: AssetKey): Asset<Iterable<XMLElement>>? {
+	override fun load(context: AssetManager, key: AssetKey): Asset<Collection<XMLElement>>? {
 		if(key is XMLChildrenAssetKey) {
 			val xml = context.load<XMLElement>(key.xml)
 			return xml.map(XMLToChildrens(key.name))
@@ -18,9 +18,9 @@ object XMLChildrensAssetSerializator : AssetSerializator<Iterable<XMLElement>> {
 		return null
 	}
 
-	private class XMLToChildrens(val name: String) : Value1Function<XMLElement, Iterable<XMLElement>> {
+	private class XMLToChildrens(val name: String) : Value1Function<XMLElement, Collection<XMLElement>> {
 
-		override fun apply(value: XMLElement): Iterable<XMLElement> = value.getChildrens(name)
+		override fun apply(value: XMLElement): Collection<XMLElement> = value.getChildrens(name)
 
 		override fun toString() = "XMLToChildrens"
 	}

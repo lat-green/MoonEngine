@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.assets.component
 
-interface AssetComponentLoader<K : AssetComponentKey<*>> {
+interface AssetComponentLoader<K : AssetComponentKey<T>, T> {
 
-	fun load(ctx: AssetComponentContext, key: K): Any?
+	fun load(ctx: AssetComponentContext, key: K): AssetComponentProvider<T>
 }
