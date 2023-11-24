@@ -8,6 +8,6 @@ class AssetComponentContextImpl : AssetComponentContext {
 
 	override fun <T, K : AssetComponentKey<T>> loadFunction(key: TypeInfo<K>): (K) -> AssetComponentProvider<T> {
 		val loader = loaders[key] as AssetComponentLoader<K, T>
-		return { key -> loader.load(this, key) }
+		return loader.loadFunction(this)
 	}
 }

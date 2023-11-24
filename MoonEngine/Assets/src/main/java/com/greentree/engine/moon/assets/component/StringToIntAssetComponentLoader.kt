@@ -1,8 +1,7 @@
 package com.greentree.engine.moon.assets.component
 
-object StringToIntAssetComponentLoader : AssetComponentLoader<StringToIntKey, Int> {
+object StringToIntAssetComponentLoader : MapAssetComponentLoader<String, Int> {
 
-	override fun load(ctx: AssetComponentContext, key: StringToIntKey) = ctx.load(key.text).map { Integer.parseInt(it) }
+	override fun load(source: String) = source.toInt()
 }
 
-class StringToIntKey(val text: AssetComponentKey<String>) : AssetComponentKey<Int>

@@ -1,6 +1,9 @@
 package com.greentree.engine.moon.assets.component
 
-interface AssetComponent<out T> {
+import java.io.Serializable
+
+interface AssetComponent<T> : Serializable {
 
 	val value: T
+	val key: AssetComponentKey<T>
 }

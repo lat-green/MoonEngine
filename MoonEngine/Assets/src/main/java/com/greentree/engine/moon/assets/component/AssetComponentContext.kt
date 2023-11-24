@@ -1,23 +1,21 @@
 package com.greentree.engine.moon.assets.component
 
 import com.greentree.commons.reflection.info.TypeInfo
-import com.greentree.commons.reflection.info.TypeInfoBuilder
 import kotlin.math.max
 
 interface AssetComponentContext {
 
-	fun <T> load(key: AssetComponentKey<T>): AssetComponentProvider<T> {
-		val keyType = TypeInfoBuilder.getTypeInfo(key::class.java) as TypeInfo<AssetComponentKey<T>>
-		val func = loadFunction(keyType)
-		return func(key)
+	fun <T, K : AssetComponentKey<T>> load(key: K): AssetComponentProvider<T> {
+		return loadFunction(key.keyType)(key)
 	}
 
 	fun <T, K : AssetComponentKey<T>> loadFunction(key: TypeInfo<K>): (K) -> AssetComponentProvider<T>
 }
 
-interface AssetComponentProvider<out T> : AssetComponent<T> {
+interface AssetComponentProvider<out T> {
 
 	val lastModified: Long
+	val value: T
 }
 
 fun <T, R> AssetComponentProvider<T>.map(block: (T) -> R): AssetComponentProvider<R> = MapAssetComponent(this, block)
@@ -42,4 +40,11 @@ class StripAssetComponent<T>(val source: AssetComponentProvider<Iterable<AssetCo
 		get() = max(source.lastModified, source.value.maxOf { it.lastModified })
 	override val value
 		get() = source.value.map { it.value }
+}
+
+data class ConstAssetComponentProvider<T>(override val value: T) :
+	AssetComponentProvider<T> {
+
+	override val lastModified: Long
+		get() = 0L
 }
