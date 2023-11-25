@@ -1,12 +1,17 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.commons.reflection.info.TypeInfo
-import com.greentree.commons.reflection.info.TypeInfoBuilder.*
-import com.greentree.engine.moon.assets.asset.AssetCharacteristics
-import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.context.EmptyContext
 import java.io.Serializable
 
-interface AssetProvider<T : Any> : AssetCharacteristics, Serializable {
+interface AssetProviderCharacteristics {
+
+	val lastModified: Long
+	fun isConst(): Boolean = false
+	fun isValid(ctx: AssetContext = EmptyContext): Boolean = true
+}
+
+interface AssetProvider<T : Any> : AssetProviderCharacteristics, Serializable {
 
 	val value
 		get() = value()

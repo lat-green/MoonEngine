@@ -1,7 +1,7 @@
 package test.com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.provider.AssetContext
 import com.greentree.engine.moon.assets.provider.AssetProvider
+import com.greentree.engine.moon.assets.provider.context.AssetContext
 
 class RunOnGetAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
@@ -22,7 +22,7 @@ class RunOnGetAssetProvider<T : Any>(
 	}
 
 	override fun isConst() = origin.isConst()
-	override fun isValid() = origin.isValid()
+	override fun isValid(ctx: AssetContext) = origin.isValid(ctx)
 
 	override val lastModified: Long
 		get() = origin.lastModified

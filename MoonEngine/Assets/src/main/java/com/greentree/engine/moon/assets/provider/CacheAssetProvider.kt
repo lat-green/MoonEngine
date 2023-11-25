@@ -1,5 +1,8 @@
 package com.greentree.engine.moon.assets.provider
 
+import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.context.LastValue
+
 class CacheAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
 ) : AssetProvider<T> by origin {

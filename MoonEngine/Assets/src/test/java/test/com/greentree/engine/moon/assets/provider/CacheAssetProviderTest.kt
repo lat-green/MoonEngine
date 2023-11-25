@@ -2,9 +2,9 @@ package test.com.greentree.engine.moon.assets.provider
 
 import com.greentree.commons.tests.ExecuteCounter
 import com.greentree.engine.moon.assets.provider.CacheAssetProvider
-import com.greentree.engine.moon.assets.provider.LastValue
 import com.greentree.engine.moon.assets.provider.MutableAssetProvider
-import com.greentree.engine.moon.assets.provider.contains
+import com.greentree.engine.moon.assets.provider.context.LastValue
+import com.greentree.engine.moon.assets.provider.context.contains
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

@@ -2,6 +2,7 @@ package com.greentree.engine.moon.assets.provider
 
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.ConstAsset
+import com.greentree.engine.moon.assets.provider.context.AssetContext
 
 class ConstAssetProvider<T : Any>(override val value: T) : AssetProvider<T> {
 

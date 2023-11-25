@@ -1,5 +1,7 @@
 package com.greentree.engine.moon.assets.provider
 
+import com.greentree.engine.moon.assets.provider.context.AssetContext
+
 class MutableAssetProvider<T : Any>(value: T) : AssetProvider<T> {
 
 	override var lastModified = System.currentTimeMillis()

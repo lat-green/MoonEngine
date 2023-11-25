@@ -3,6 +3,7 @@ package com.greentree.engine.moon.assets.provider
 import com.greentree.commons.data.resource.Resource
 import com.greentree.commons.data.resource.ResourceNotFoundException
 import com.greentree.commons.data.resource.location.ResourceLocation
+import com.greentree.engine.moon.assets.provider.context.AssetContext
 import java.lang.Long
 import kotlin.String
 
@@ -11,7 +12,7 @@ private const val UPDATE_DELTA = 1000L
 class ResourceAssetProviderImpl(private val resource: Resource) : AssetProvider<Resource> {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
 
-	override fun isValid() = resource.exists()
+	override fun isValid(ctx: AssetContext) = resource.exists()
 
 	override fun value(ctx: AssetContext): Resource {
 		if(!resource.exists())
@@ -63,7 +64,7 @@ data class ResourceNamedAssetProvider(
 			return field
 		}
 
-	override fun isValid() = name.isValid() && resources.isExist(name.value)
+	override fun isValid(ctx: AssetContext) = name.isValid(ctx) && resources.isExist(name.value)
 
 	override fun toString(): String {
 		return "ResourceNamedAsset($name)"

@@ -1,10 +1,15 @@
-package com.greentree.engine.moon.assets.provider
+package com.greentree.engine.moon.assets.provider.context
 
 interface AssetContext {
 
 	operator fun <E : Element> get(key: Key<E>): E?
 
-	interface Key<E : Element>
+	interface Key<E : Element> {
+
+		val default: E?
+			get() = null
+	}
+
 	interface Element : AssetContext {
 
 		val key: Key<*>
@@ -13,7 +18,7 @@ interface AssetContext {
 			operation(initial, this)
 
 		@Suppress("UNCHECKED_CAST")
-		override fun <E : Element> get(key: Key<E>) = if(key == this.key) this as E else null
+		override fun <E : Element> get(key: Key<E>) = if(key == this.key) this as E else key.default
 
 		override fun minusKey(key: Key<*>) =
 			if(key == this.key)
@@ -32,7 +37,7 @@ interface AssetContext {
 	fun minusKey(key: Key<*>): AssetContext
 }
 
-operator fun AssetContext.contains(key: AssetContext.Key<*>): Boolean = get(key) != null
+operator fun AssetContext.contains(key: AssetContext.Key<*>): Boolean = get(key) != key.default
 
 class CombinedContext(
 	private val left: AssetContext,
@@ -49,7 +54,7 @@ class CombinedContext(
 
 object EmptyContext : AssetContext {
 
-	override fun <E : AssetContext.Element> get(key: AssetContext.Key<E>) = null
+	override fun <E : AssetContext.Element> get(key: AssetContext.Key<E>) = key.default
 
 	override fun <R> fold(initial: R, operation: (R, AssetContext.Element) -> R) = initial
 

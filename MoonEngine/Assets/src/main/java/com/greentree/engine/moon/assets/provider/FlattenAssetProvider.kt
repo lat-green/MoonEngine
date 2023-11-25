@@ -1,12 +1,12 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.asset.AssetCharacteristics
+import com.greentree.engine.moon.assets.provider.context.AssetContext
 import java.lang.Long.*
 
 @Deprecated("lastModified unsupported update origin.value.lastModified")
 class FlattenAssetProvider<T : Any>(
 	private val origin: AssetProvider<AssetProvider<T>>,
-) : AssetProvider<T>, AssetCharacteristics by origin {
+) : AssetProvider<T>, AssetProviderCharacteristics by origin {
 
 	private var sourceLastUpdate = 0L
 	override val value: T

@@ -6,6 +6,7 @@ import com.greentree.engine.moon.assets.asset.Group4
 import com.greentree.engine.moon.assets.asset.Group5
 import com.greentree.engine.moon.assets.asset.Group6
 import com.greentree.engine.moon.assets.asset.group
+import com.greentree.engine.moon.assets.provider.context.AssetContext
 
 private inline fun max(vararg elements: Long) = elements.max()
 
@@ -46,7 +47,7 @@ data class M2AssetProvider<T1 : Any, T2 : Any>(val source1: AssetProvider<T1>, v
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified)
 
-	override fun isValid() = source1.isValid() && source2.isValid()
+	override fun isValid(ctx: AssetContext) = source1.isValid(ctx) && source2.isValid(ctx)
 	override fun isConst() = source1.isConst() && source2.isConst()
 
 	override fun toString(): String {
@@ -65,7 +66,7 @@ data class M3AssetProvider<T1 : Any, T2 : Any, T3 : Any>(
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified, source3.lastModified)
 
-	override fun isValid() = source1.isValid() && source2.isValid() && source3.isValid()
+	override fun isValid(ctx: AssetContext) = source1.isValid(ctx) && source2.isValid(ctx) && source3.isValid(ctx)
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst()
 
 	override fun toString(): String {
@@ -87,7 +88,9 @@ data class M4AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any>(
 	override val lastModified
 		get() = max(source1.lastModified, source2.lastModified, source3.lastModified, source4.lastModified)
 
-	override fun isValid() = source1.isValid() && source2.isValid() && source3.isValid() && source4.isValid()
+	override fun isValid(ctx: AssetContext) =
+		source1.isValid(ctx) && source2.isValid(ctx) && source3.isValid(ctx) && source4.isValid(ctx)
+
 	override fun isConst() = source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst()
 
 	override fun toString(): String {
@@ -116,8 +119,10 @@ data class M5AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any>(
 			source5.lastModified
 		)
 
-	override fun isValid() =
-		source1.isValid() && source2.isValid() && source3.isValid() && source4.isValid() && source5.isValid()
+	override fun isValid(ctx: AssetContext) =
+		source1.isValid(ctx) && source2.isValid(ctx) && source3.isValid(ctx) && source4.isValid(ctx) && source5.isValid(
+			ctx
+		)
 
 	override fun isConst() =
 		source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst() && source5.isConst()
@@ -157,8 +162,10 @@ data class M6AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 
 			source6.lastModified
 		)
 
-	override fun isValid() =
-		source1.isValid() && source2.isValid() && source3.isValid() && source4.isValid() && source5.isValid() && source6.isValid()
+	override fun isValid(ctx: AssetContext) =
+		source1.isValid(ctx) && source2.isValid(ctx) && source3.isValid(ctx) && source4.isValid(ctx) && source5.isValid(
+			ctx
+		) && source6.isValid(ctx)
 
 	override fun isConst() =
 		source1.isConst() && source2.isConst() && source3.isConst() && source4.isConst() && source5.isConst() && source6.isConst()
@@ -179,8 +186,8 @@ data class MIAssetProvider<T : Any>(
 	override val lastModified
 		get() = source.maxOf { it.lastModified }
 
-	override fun isValid() =
-		source.all { it.isValid() }
+	override fun isValid(ctx: AssetContext) =
+		source.all { it.isValid(ctx) }
 
 	override fun isConst() =
 		source.all { it.isConst() }

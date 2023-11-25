@@ -1,5 +1,7 @@
 package com.greentree.engine.moon.assets.provider
 
+import com.greentree.engine.moon.assets.provider.context.AssetContext
+
 class DefaultAssetProvider<T : Any> private constructor(private val sources: Iterable<AssetProvider<T>>) :
 	AssetProvider<T> {
 
@@ -22,12 +24,12 @@ class DefaultAssetProvider<T : Any> private constructor(private val sources: Ite
 
 	override fun value(ctx: AssetContext): T {
 		for(source in sources)
-			if(source.isValid())
+			if(source.isValid(ctx))
 				return source.value(ctx)
 		throw NoSuchElementException("not have valid source. sources:$sources")
 	}
 
-	override fun isValid() = sources.any { it.isValid() }
+	override fun isValid(ctx: AssetContext) = sources.any { it.isValid(ctx) }
 
 	override fun toString(): String {
 		var sources = sources.toString()

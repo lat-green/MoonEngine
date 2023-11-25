@@ -6,11 +6,19 @@ import com.greentree.engine.moon.assets.asset.Group4
 import com.greentree.engine.moon.assets.asset.Group5
 import com.greentree.engine.moon.assets.asset.Group6
 import com.greentree.engine.moon.assets.asset.Value1Function
+import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.context.lastValue
 import java.io.Serializable
 
 interface AssetFunction1<in T : Any, R : Any> : (AssetContext, T) -> R, Serializable {
 
-	fun isEverValid() = false
+	fun isValid(ctx: AssetContext, value: T) = try {
+		invoke(ctx, value)
+		true
+	} catch(e: Exception) {
+		false
+	}
+
 	fun isValueSerializable() = false
 
 	override fun invoke(ctx: AssetContext, value: T): R
