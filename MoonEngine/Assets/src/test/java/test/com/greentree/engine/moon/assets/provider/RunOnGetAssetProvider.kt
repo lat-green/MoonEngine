@@ -1,11 +1,12 @@
 package test.com.greentree.engine.moon.assets.provider
 
 import com.greentree.engine.moon.assets.provider.AssetProvider
-import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.request.AssetRequest
+import com.greentree.engine.moon.assets.provider.response.AssetResponse
 
 class RunOnGetAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
-	private val callback: (ctx: AssetContext) -> Unit,
+	private val callback: (ctx: AssetRequest) -> Unit,
 ) :
 	AssetProvider<T> {
 
@@ -16,13 +17,10 @@ class RunOnGetAssetProvider<T : Any>(
 		callback.run()
 	})
 
-	override fun value(ctx: AssetContext): T {
+	override fun value(ctx: AssetRequest): AssetResponse<T> {
 		callback(ctx)
 		return origin.value(ctx)
 	}
-
-	override fun isConst() = origin.isConst()
-	override fun isValid(ctx: AssetContext) = origin.isValid(ctx)
 
 	override val lastModified: Long
 		get() = origin.lastModified

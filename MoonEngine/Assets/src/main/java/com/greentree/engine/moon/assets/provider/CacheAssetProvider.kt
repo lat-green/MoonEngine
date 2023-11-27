@@ -1,46 +1,45 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.provider.context.AssetContext
-import com.greentree.engine.moon.assets.provider.context.LastValue
+import com.greentree.engine.moon.assets.provider.request.AssetRequest
+import com.greentree.engine.moon.assets.provider.request.LastValue
+import com.greentree.engine.moon.assets.provider.request.TryNotUpdate
+import com.greentree.engine.moon.assets.provider.request.contains
+import com.greentree.engine.moon.assets.provider.response.AssetResponse
 
 class CacheAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
-) : AssetProvider<T> by origin {
+) : AssetProvider<T> {
 
-	private var cache: T? = null
 	private var lastUpdate = 0L
 	private var needUpdate = false
-	override val value: T
-		get() = cache ?: super.value
+	private lateinit var cache: AssetResponse<T>
 
-	override fun value(ctx: AssetContext): T {
-		var ctx = ctx
-		if(needUpdate) {
+	override fun value(ctx: AssetRequest): AssetResponse<T> {
+		updateLastModified()
+		if(!::cache.isInitialized || (needUpdate && TryNotUpdate !in ctx)) {
+			needUpdate = false
+			var ctx = ctx
+			ctx = ctx.minusKey(LastValue)
+			if(::cache.isInitialized)
+				ctx += LastValue(cache)
 			val cache = origin.value(ctx)
 			this.cache = cache
 			return cache
 		}
+		return cache
+	}
+
+	private fun updateLastModified() {
 		val lastUpdate = origin.lastModified
 		if(lastUpdate > this.lastUpdate) {
 			this.lastUpdate = lastUpdate
-			ctx = ctx.minusKey(LastValue)
-			cache?.let {
-				ctx += LastValue(it)
-			}
-			val cache = origin.value(ctx)
-			this.cache = cache
-			return cache
+			needUpdate = true
 		}
-		return cache!!
 	}
 
 	override val lastModified: Long
 		get() {
-			val lastUpdate = origin.lastModified
-			if(lastUpdate > this.lastUpdate) {
-				this.lastUpdate = lastUpdate
-				needUpdate = true
-			}
+			updateLastModified()
 			return lastUpdate
 		}
 }

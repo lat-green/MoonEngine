@@ -1,24 +1,18 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.ConstAsset
-import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.request.AssetRequest
+import com.greentree.engine.moon.assets.provider.response.ConstResult
 
-class ConstAssetProvider<T : Any>(override val value: T) : AssetProvider<T> {
-
-	companion object {
-
-		fun <T : Any> newAsset(value: T?): Asset<T> = ConstAsset(value!!)
-	}
+data class ConstAssetProvider<T : Any>(val value: T) : AssetProvider<T> {
 
 	override val lastModified: Long
 		get() = 0L
 
-	override fun value(ctx: AssetContext) = value
-
-	override fun isConst() = true
+	override fun value(ctx: AssetRequest) = ConstResult(value)
 
 	override fun toString(): String {
 		return "Const[$value]"
 	}
 }
+
+fun <T : Any> ConstAssetProvider(value: T?) = ConstAssetProvider(value!!)

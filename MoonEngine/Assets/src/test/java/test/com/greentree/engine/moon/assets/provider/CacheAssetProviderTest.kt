@@ -3,8 +3,9 @@ package test.com.greentree.engine.moon.assets.provider
 import com.greentree.commons.tests.ExecuteCounter
 import com.greentree.engine.moon.assets.provider.CacheAssetProvider
 import com.greentree.engine.moon.assets.provider.MutableAssetProvider
-import com.greentree.engine.moon.assets.provider.context.LastValue
-import com.greentree.engine.moon.assets.provider.context.contains
+import com.greentree.engine.moon.assets.provider.request.LastValue
+import com.greentree.engine.moon.assets.provider.request.TryNotUpdate
+import com.greentree.engine.moon.assets.provider.request.contains
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -45,6 +46,17 @@ class CacheAssetProviderTest {
 	}
 
 	@Test
+	fun getValueOnceBeforeAndAfterChangeWithTryNotUpdate() {
+		ExecuteCounter(1).use {
+			val m = MutableAssetProvider("1")
+			val asset = CacheAssetProvider(RunOnGetAssetProvider(m, it))
+			asset.value()
+			m.value = "2"
+			asset.value(TryNotUpdate)
+		}
+	}
+
+	@Test
 	fun hasLastValue() {
 		ExecuteCounter(1).use {
 			val m = MutableAssetProvider("1")
@@ -66,18 +78,8 @@ class CacheAssetProviderTest {
 	fun getValue() {
 		val m = MutableAssetProvider("1")
 		val asset = CacheAssetProvider(m)
-		assertEquals(asset.value(), "1")
+		assertEquals(asset.value(), m.value())
 		m.value = "2"
-		assertEquals(asset.value(), "2")
-	}
-
-	@Test
-	fun getCache() {
-		val m = MutableAssetProvider("1")
-		val asset = CacheAssetProvider(m)
-
-		assertEquals(asset.value, "1")
-		m.value = "2"
-		assertEquals(asset.value, "1")
+		assertEquals(asset.value(), m.value())
 	}
 }

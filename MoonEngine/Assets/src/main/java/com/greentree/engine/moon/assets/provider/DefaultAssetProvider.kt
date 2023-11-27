@@ -1,6 +1,9 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.request.AssetRequest
+import com.greentree.engine.moon.assets.provider.response.AssetResponse
+import com.greentree.engine.moon.assets.provider.response.BaseNotValidWithException
+import com.greentree.engine.moon.assets.provider.response.ResultResponse
 
 class DefaultAssetProvider<T : Any> private constructor(private val sources: Iterable<AssetProvider<T>>) :
 	AssetProvider<T> {
@@ -10,26 +13,20 @@ class DefaultAssetProvider<T : Any> private constructor(private val sources: Ite
 		fun <T : Any> newAsset(sources: Iterable<AssetProvider<T>>) = newAsset(sources.toList())
 
 		fun <T : Any> newAsset(sources: Collection<AssetProvider<T>>): AssetProvider<T> {
-			val assets = sources.filter { !it.isConst() || it.isValid() }
-			if(assets.size == 1)
-				return assets.first()
-			for(asset in assets)
-				if(asset.isConst() && asset.isValid())
-					return asset
-				else
-					break
-			return DefaultAssetProvider(assets)
+			if(sources.size == 1)
+				return sources.first()
+			return DefaultAssetProvider(sources)
 		}
 	}
 
-	override fun value(ctx: AssetContext): T {
+	override fun value(ctx: AssetRequest): AssetResponse<T> {
 		for(source in sources)
-			if(source.isValid(ctx))
-				return source.value(ctx)
-		throw NoSuchElementException("not have valid source. sources:$sources")
+			when(val source = source.value(ctx)) {
+				is ResultResponse -> return source
+				else -> continue
+			}
+		return BaseNotValidWithException(NoSuchElementException("not have valid source. sources:$sources"))
 	}
-
-	override fun isValid(ctx: AssetContext) = sources.any { it.isValid(ctx) }
 
 	override fun toString(): String {
 		var sources = sources.toString()

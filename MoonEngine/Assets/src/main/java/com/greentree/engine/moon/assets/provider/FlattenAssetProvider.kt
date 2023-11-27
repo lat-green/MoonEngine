@@ -1,6 +1,9 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.request.AssetRequest
+import com.greentree.engine.moon.assets.provider.response.AssetResponse
+import com.greentree.engine.moon.assets.provider.response.NotValid
+import com.greentree.engine.moon.assets.provider.response.ResultResponse
 import java.lang.Long.*
 
 @Deprecated("lastModified unsupported update origin.value.lastModified")
@@ -9,13 +12,17 @@ class FlattenAssetProvider<T : Any>(
 ) : AssetProvider<T>, AssetProviderCharacteristics by origin {
 
 	private var sourceLastUpdate = 0L
-	override val value: T
-		get() = origin.value.value
 
-	override fun value(ctx: AssetContext): T {
-		val source = origin.value(ctx)
-		sourceLastUpdate = max(sourceLastUpdate, source.lastModified)
-		return source.value(ctx)
+	override fun value(ctx: AssetRequest): AssetResponse<T> {
+		return when(val source = origin.value(ctx)) {
+			is ResultResponse -> {
+				val source = source.value
+				sourceLastUpdate = source.lastModified
+				return source.value(ctx)
+			}
+
+			is NotValid -> source
+		} as AssetResponse<T>
 	}
 
 	override val lastModified

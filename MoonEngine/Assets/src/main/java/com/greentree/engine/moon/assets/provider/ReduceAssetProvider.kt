@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.assets.provider
 
-import com.greentree.engine.moon.assets.provider.context.AssetContext
+import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import java.lang.Long.*
 
 class ReduceAssetProvider<T : Any>(origin: AssetProvider<T>) : AssetProvider<T> {
@@ -12,10 +12,8 @@ class ReduceAssetProvider<T : Any>(origin: AssetProvider<T>) : AssetProvider<T> 
 		}
 	private var sourceLastUpdate = 0L
 
-	override fun value(ctx: AssetContext) = origin.value(ctx)
+	override fun value(ctx: AssetRequest) = origin.value(ctx)
 
 	override val lastModified
 		get() = max(sourceLastUpdate, origin.lastModified)
-
-	override fun isValid(ctx: AssetContext) = origin.isValid(ctx)
 }
