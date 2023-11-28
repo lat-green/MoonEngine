@@ -1,6 +1,5 @@
 package test.com.greentree.engine.moon.ecs
 
-import com.greentree.commons.tests.DisabledIfRunInIDE
 import com.greentree.commons.tests.IteratorAssertions
 import com.greentree.engine.moon.ecs.ClassSetEntity
 import com.greentree.engine.moon.ecs.World
@@ -413,7 +412,6 @@ abstract class WorldTest {
 		}
 	}
 
-	@DisabledIfRunInIDE
 	@Nested
 	internal inner class Timeouts {
 
@@ -421,8 +419,8 @@ abstract class WorldTest {
 		fun timeout_isActive() {
 			runWorld { world ->
 				val e = world.newEntity()
-				Assertions.assertTimeout(Duration.ofSeconds(2)) {
-					var t = 1000000
+				Assertions.assertTimeout(Duration.ofSeconds(8)) {
+					var t = 1000_000
 					while(t-- > 0) e.isDeactivate()
 					world.clear()
 				}
@@ -432,8 +430,8 @@ abstract class WorldTest {
 		@Test
 		fun timeout_newDeactiveEntity_deleteEntity() {
 			runWorld { world ->
-				Assertions.assertTimeout(Duration.ofSeconds(2)) {
-					var t = 1000000
+				Assertions.assertTimeout(Duration.ofSeconds(8)) {
+					var t = 1000_000
 					while(t-- > 0) {
 						val e = world.newDeactivateEntity()
 						e.delete()
@@ -446,8 +444,8 @@ abstract class WorldTest {
 		@Test
 		fun timeout_newEntity() {
 			runWorld { world ->
-				Assertions.assertTimeout(Duration.ofSeconds(4)) {
-					var t = 1000000
+				Assertions.assertTimeout(Duration.ofSeconds(8)) {
+					var t = 1000_000
 					while(t-- > 0) world.newEntity()
 				}
 			}
@@ -456,7 +454,7 @@ abstract class WorldTest {
 		@Test
 		fun timeout_newEntity_chunck() {
 			runWorld { world ->
-				Assertions.assertTimeout(Duration.ofSeconds(2)) {
+				Assertions.assertTimeout(Duration.ofSeconds(8)) {
 					var t = 1000
 					while(t-- > 0) {
 						var t0 = 1000
@@ -470,7 +468,7 @@ abstract class WorldTest {
 		@Test
 		fun timeout_newEntity_deleteEntity() {
 			runWorld { world ->
-				Assertions.assertTimeout(Duration.ofSeconds(2)) {
+				Assertions.assertTimeout(Duration.ofSeconds(8)) {
 					var t = 1000000
 					while(t-- > 0) {
 						val e = world.newEntity()

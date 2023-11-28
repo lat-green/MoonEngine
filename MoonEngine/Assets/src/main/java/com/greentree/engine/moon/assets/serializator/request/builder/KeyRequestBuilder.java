@@ -2,7 +2,6 @@ package com.greentree.engine.moon.assets.serializator.request.builder;
 
 import com.greentree.commons.reflection.info.TypeInfoBuilder;
 import com.greentree.engine.moon.assets.key.AssetKey;
-import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.key.ResultAssetKey;
 
 public interface KeyRequestBuilder<T, R> extends RequestBuilder<R> {
@@ -18,10 +17,5 @@ public interface KeyRequestBuilder<T, R> extends RequestBuilder<R> {
     }
 
     KeyRequestBuilder<T, R> set(AssetKey key);
-
-    default KeyRequestBuilder<T, R> setResource(String resource) {
-        final var key = new ResourceAssetKey(resource);
-        return set(key);
-    }
 
 }

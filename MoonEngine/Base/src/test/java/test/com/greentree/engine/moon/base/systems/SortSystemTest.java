@@ -1,6 +1,9 @@
 package test.com.greentree.engine.moon.base.systems;
 
+import com.greentree.engine.moon.base.info.AllPostDestroySceneCWRDMethodInfo;
 import com.greentree.engine.moon.base.info.AnnotatedCWRDMethodComponentInfo;
+import com.greentree.engine.moon.base.info.AnnotatedCWRDMethodPropertyInfo;
+import com.greentree.engine.moon.base.scene.SceneManagerProperty;
 import com.greentree.engine.moon.base.sorter.MergeSorter;
 import com.greentree.engine.moon.base.sorter.OnCWRDMethodSorter;
 import com.greentree.engine.moon.ecs.system.ECSSystem;
@@ -40,6 +43,19 @@ public class SortSystemTest {
         var info = new AnnotatedCWRDMethodComponentInfo();
         var creates = info.getDestroy(new DSystem(), "init");
         IterAssertions.assertEqualsAsList(creates.toList(), List.of(TestComponent1.class));
+    }
+
+    @Test
+    void ASystem_getPostDestroy() {
+        var info = new AllPostDestroySceneCWRDMethodInfo(new AnnotatedCWRDMethodPropertyInfo());
+        var creates = info.getPostDestroy(new ASystem(), "destroy");
+        IterAssertions.assertEqualsAsList(creates.toList(), List.of(SceneManagerProperty.class));
+    }
+    @Test
+    void BSystem_getPostDestroy() {
+        var info = new AllPostDestroySceneCWRDMethodInfo(new AnnotatedCWRDMethodPropertyInfo());
+        var creates = info.getPostDestroy(new BSystem(), "destroy");
+        IterAssertions.assertEqualsAsList(creates.toList(), List.of());
     }
 
 }

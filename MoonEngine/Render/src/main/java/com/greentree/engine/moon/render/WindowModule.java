@@ -1,6 +1,7 @@
 package com.greentree.engine.moon.render;
 
 import com.greentree.commons.action.ListenerCloser;
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoaderKt;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.property.modules.CreateProperty;
 import com.greentree.engine.moon.base.property.modules.DestroyProperty;
@@ -28,7 +29,7 @@ public final class WindowModule implements LaunchModule, TerminateModule {
     public void launch(EngineProperties properties) {
         final var manager = properties.get(AssetManagerProperty.class).manager;
         final var library = properties.get(WindowLibraryProperty.class).library();
-        final var wini = manager.load(Properties.class, "window.ini").getValue();
+        final var wini = AssetLoaderKt.load(manager, Properties.class, "window.ini").getValue();
         final var title = wini.getProperty("window.title");
         final var width = Integer.parseInt(wini.getProperty("window.width"));
         final var height = Integer.parseInt(wini.getProperty("window.height"));

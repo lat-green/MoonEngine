@@ -6,8 +6,8 @@ import com.greentree.engine.moon.assets.asset.ConstAsset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
+import com.greentree.engine.moon.assets.serializator.loader.load
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
-import com.greentree.engine.moon.assets.serializator.manager.load
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.lang.Thread.*

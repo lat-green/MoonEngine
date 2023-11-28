@@ -3,8 +3,8 @@ package com.greentree.engine.moon.render.assets.material
 import com.greentree.commons.graphics.smart.texture.Texture
 import com.greentree.commons.image.Color
 import com.greentree.commons.image.image.ColorImageData
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.Value6Function
+import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.DefaultAssetKey
@@ -13,8 +13,6 @@ import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager
-import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey
 import com.greentree.engine.moon.render.assets.texture.Texture2DAssetKey
 import com.greentree.engine.moon.render.texture.Texture2DType

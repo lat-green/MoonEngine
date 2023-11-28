@@ -4,6 +4,7 @@ import com.greentree.commons.graphics.smart.mesh.Mesh;
 import com.greentree.commons.graphics.smart.shader.Shader;
 import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoaderKt;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.component.CreateComponent;
 import com.greentree.engine.moon.base.component.ReadComponent;
@@ -32,8 +33,8 @@ public class SpriteMeshGenerator implements WorldInitSystem, UpdateSystem {
     @Override
     public void init(World world, SceneProperties sceneProperties) {
         var manager = sceneProperties.get(AssetManagerProperty.class).manager;
-        mesh = manager.load(Mesh.class, MeshUtil.QUAD_SPRITE);
-        shader = manager.load(Shader.class, MaterialUtil.getDefaultSpriteShader());
+        mesh = AssetLoaderKt.load(manager, Mesh.class, MeshUtil.QUAD_SPRITE);
+        shader = AssetLoaderKt.load(manager, Shader.class, MaterialUtil.getDefaultSpriteShader());
         sprite_meshes = SPRITE_MESHES.build(world);
         sprite_renders = SPRITE_NO_MESH_RENDERS.build(world);
     }

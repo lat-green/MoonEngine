@@ -18,8 +18,8 @@ class CacheAssetLoader(private val origin: AssetLoader, private val factory: Cac
 		} as Asset<T>
 	}
 
-	fun <T : Any> loadCache(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T>? {
-		return cache.get(type)?.get(key) as Asset<T>?
+	fun <T : Any> loadCache(type: TypeInfo<T>, key: AssetKey): Asset<T>? {
+		return cache[type]?.get(key) as Asset<T>?
 	}
 
 	override fun toString(): String {

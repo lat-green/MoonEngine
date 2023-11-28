@@ -3,7 +3,7 @@ package com.greentree.engine.moon.base.info
 import com.greentree.engine.moon.base.scene.SceneManagerProperty
 import java.util.stream.Stream
 
-class AllReadSceneCWRDMethodInfo(private val origin: CWRDMethodInfo) : CWRDMethodInfo {
+class AllPostDestroySceneCWRDMethodInfo(private val origin: CWRDMethodInfo) : CWRDMethodInfo {
 
 	override fun getCreate(`object`: Any, method: String): Stream<out Class<*>> {
 		return Stream.empty()
@@ -22,7 +22,7 @@ class AllReadSceneCWRDMethodInfo(private val origin: CWRDMethodInfo) : CWRDMetho
 	}
 
 	override fun getPostDestroy(obj: Any, method: String): Stream<out Class<*>> {
-		if("terminate" != method)
+		if("terminate" != method && "destroy" != method)
 			return Stream.empty()
 		val other = mutableListOf<Class<*>>()
 		other.addAll(origin.getCreate(obj, method).toList())

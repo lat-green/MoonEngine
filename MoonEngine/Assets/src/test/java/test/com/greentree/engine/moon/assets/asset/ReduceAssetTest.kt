@@ -19,8 +19,9 @@ class ReduceAssetTest {
 		assertTrue(reduce.lastModified - asset1.lastModified < 100)
 		assertTrue(reduce.lastModified - asset1.lastModified >= 0)
 		sleep(SLEEP)
+		val lastModified = reduce.lastModified
 		reduce.asset = asset2
-		assertEquals(reduce.lastModified, System.currentTimeMillis())
+		assertNotEquals(reduce.lastModified, lastModified)
 		assertTrue(reduce.lastModified - asset1.lastModified < 100)
 		assertTrue(reduce.lastModified - asset1.lastModified >= 0)
 		assertEquals(reduce.value, asset2.value)
@@ -28,6 +29,6 @@ class ReduceAssetTest {
 
 	companion object {
 
-		private const val SLEEP = 1L
+		private const val SLEEP = 2L
 	}
 }

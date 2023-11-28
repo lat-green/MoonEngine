@@ -26,6 +26,7 @@ public record OnCWRDMethodSorter(CWRDMethodInfo info) implements MethodSorter {
             info.getWrite(v, method).forEach(c -> write.get(c).add(v));
             info.getRead(v, method).forEach(c -> read.get(c).add(v));
             info.getDestroy(v, method).forEach(c -> destroy.get(c).add(v));
+            info.getPostDestroy(v, method).forEach(c -> postDestroy.get(c).add(v));
         }
         for (var entry : create.entrySet()) {
             final var c = entry.getKey();

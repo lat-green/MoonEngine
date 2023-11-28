@@ -11,28 +11,28 @@ interface DefaultLoader {
 
 	interface Context {
 
-		fun <T : Any> load(type: TypeInfo<T>, key: AssetKeyType): T?
+		fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType): T?
 	}
 }
 
-inline fun <reified T : Any> DefaultLoader.Context.load(key: AssetKeyType): T? {
+inline fun <reified T : Any> DefaultLoader.Context.loadDefault(key: AssetKeyType): T? {
 	val type = TypeInfoBuilder.getTypeInfo(T::class.java)
-	return load(type, key)
+	return loadDefault(type, key)
 }
 
-inline fun <reified T : Any> DefaultLoader.Context.load(key: AssetKey): T? {
-	return load<T>(key.type())
+inline fun <reified T : Any> DefaultLoader.Context.loadDefault(key: AssetKey): T? {
+	return loadDefault<T>(key.type())
 }
 
-inline fun <reified T : Any> DefaultLoader.Context.load(): T? {
+inline fun <reified T : Any> DefaultLoader.Context.loadDefault(): T? {
 	val type = TypeInfoBuilder.getTypeInfo(T::class.java)
-	return load(type, AssetKeyType.DEFAULT)
+	return loadDefault(type, AssetKeyType.DEFAULT)
 }
 
-fun <T : Any> DefaultLoader.Context.load(type: TypeInfo<T>, key: AssetKey): T? {
-	return load(type, key.type())
+fun <T : Any> DefaultLoader.Context.loadDefault(type: TypeInfo<T>, key: AssetKey): T? {
+	return loadDefault(type, key.type())
 }
 
-fun <T : Any> DefaultLoader.Context.load(type: TypeInfo<T>): T? {
-	return load(type, AssetKeyType.DEFAULT)
+fun <T : Any> DefaultLoader.Context.loadDefault(type: TypeInfo<T>): T? {
+	return loadDefault(type, AssetKeyType.DEFAULT)
 }

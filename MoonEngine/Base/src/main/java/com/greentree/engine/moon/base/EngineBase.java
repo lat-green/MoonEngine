@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.base;
 
-import com.greentree.engine.moon.base.info.AllReadSceneCWRDMethodInfo;
+import com.greentree.engine.moon.base.info.AllPostDestroySceneCWRDMethodInfo;
 import com.greentree.engine.moon.base.info.AnnotatedCWRDMethodPropertyInfo;
 import com.greentree.engine.moon.base.info.MergeCWRDMethodInfo;
 import com.greentree.engine.moon.base.modules.scanner.CollectionModuleDefenitionScanner;
@@ -26,7 +26,7 @@ public class EngineBase {
 
     static {
         var info = new AnnotatedCWRDMethodPropertyInfo();
-        SORTER = new OnCWRDMethodSorter(new MergeCWRDMethodInfo(info, new AllReadSceneCWRDMethodInfo(info)));
+        SORTER = new OnCWRDMethodSorter(new MergeCWRDMethodInfo(info, new AllPostDestroySceneCWRDMethodInfo(info)));
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

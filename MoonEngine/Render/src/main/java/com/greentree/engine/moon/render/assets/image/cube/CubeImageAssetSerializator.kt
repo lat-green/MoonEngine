@@ -1,15 +1,13 @@
 package com.greentree.engine.moon.render.assets.image.cube
 
 import com.greentree.commons.image.image.ImageData
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.Value6Function
+import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager
-import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.render.texture.CubeImageData
 
 class CubeImageAssetSerializator : AssetSerializator<CubeImageData> {

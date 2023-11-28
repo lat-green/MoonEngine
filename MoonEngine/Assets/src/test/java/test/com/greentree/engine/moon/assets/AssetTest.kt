@@ -1,8 +1,8 @@
 package test.com.greentree.engine.moon.assets
 
 import com.greentree.commons.util.cortege.Pair
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.Value1Function
+import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
@@ -27,11 +27,9 @@ class AssetTest {
 
 	class StringToIntAssetSerializator : AssetSerializator<Int> {
 
-		override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Int>? {
+		override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Int> {
 			val str = manager.load<String>(key)
-			if(str.isValid())
-				return str.map(StringToInt())
-			return null
+			return str.map(StringToInt())
 		}
 
 		private class StringToInt : Value1Function<String, Int> {
@@ -58,7 +56,7 @@ class AssetTest {
 	@MethodSource(value = ["requests"])
 	@ParameterizedTest
 	fun <T> AssetManager_load(pair: Pair<KeyLoadRequestImpl<out T>, out T>) {
-		val request: KeyLoadRequestImpl<out T> = pair.first
+		val request = pair.first
 		val result = pair.seconde
 		val res = manager.load(request)
 		assertEquals(res.value, result)

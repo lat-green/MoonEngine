@@ -1,13 +1,11 @@
 package com.greentree.engine.moon.render.assets.texture.cube
 
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.Value1Function
+import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager
-import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.render.texture.CubeImageData
 import com.greentree.engine.moon.render.texture.CubeTextureData
 import com.greentree.engine.moon.render.texture.Texture3DType

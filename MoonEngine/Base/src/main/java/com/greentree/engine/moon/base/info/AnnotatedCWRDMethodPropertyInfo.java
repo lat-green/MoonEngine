@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.base.info;
 
+import com.greentree.engine.moon.base.component.UseStage;
 import com.greentree.engine.moon.base.property.modules.CreateProperty;
 import com.greentree.engine.moon.base.property.modules.DestroyProperty;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
@@ -13,43 +14,23 @@ import java.util.stream.Stream;
 public class AnnotatedCWRDMethodPropertyInfo implements CWRDMethodInfo {
 
     @Override
-    public Stream<Class<?>> getCreate(Object object, String method) {
-        final var an = get(object, method, CreateProperty.class);
-        return an.flatMap(x -> Stream.of(x.value()));
+    public Stream<? extends Class<?>> getCreate(Object object, String method) {
+        return UseStage.CREATE.getProperty(object, method);
     }
 
     @Override
-    public Stream<Class<?>> getWrite(Object object, String method) {
-        final var an = get(object, method, WriteProperty.class);
-        return an.flatMap(x -> Stream.of(x.value()));
+    public Stream<? extends Class<?>> getWrite(Object object, String method) {
+        return UseStage.WRITE.getProperty(object, method);
     }
 
     @Override
-    public Stream<Class<?>> getRead(Object object, String method) {
-        final var an = get(object, method, ReadProperty.class);
-        return an.flatMap(x -> Stream.of(x.value()));
+    public Stream<? extends Class<?>> getRead(Object object, String method) {
+        return UseStage.READ.getProperty(object, method);
     }
 
     @Override
-    public Stream<Class<?>> getDestroy(Object object, String method) {
-        final var an = get(object, method, DestroyProperty.class);
-        return an.flatMap(x -> Stream.of(x.value()));
-    }
-
-    private static <A extends Annotation> Stream<A> get(Object object, String methodName, Class<A> annotationClass) {
-        final var method = getMethod(object.getClass(), methodName);
-        if (method == null)
-            throw new IllegalArgumentException(object + " " + method + " " + annotationClass);
-        return AnnotationUtil.getAnnotations(method, annotationClass);
-    }
-
-    private static Method getMethod(Class<?> cls, String method) {
-        for (var m : cls.getMethods())
-            if (m.getName().equals(method))
-                return m;
-        if (cls != Object.class)
-            return getMethod(cls.getSuperclass(), method);
-        return null;
+    public Stream<? extends Class<?>> getDestroy(Object object, String method) {
+        return UseStage.DESTROY.getProperty(object, method);
     }
 
 }

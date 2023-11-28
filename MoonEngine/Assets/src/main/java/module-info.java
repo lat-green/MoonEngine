@@ -3,7 +3,6 @@ open module engine.moon.assets {
     requires transitive commons.data;
     requires transitive commons.reflection;
     requires transitive engine.moon.kernel;
-    requires transitive kotlinx.coroutines.core;
     exports com.greentree.engine.moon.assets;
     exports com.greentree.engine.moon.assets.asset;
     exports com.greentree.engine.moon.assets.key;

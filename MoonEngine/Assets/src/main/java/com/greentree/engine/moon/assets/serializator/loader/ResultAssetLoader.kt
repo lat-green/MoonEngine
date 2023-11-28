@@ -1,6 +1,7 @@
 package com.greentree.engine.moon.assets.serializator.loader
 
 import com.greentree.commons.reflection.info.TypeInfo
+import com.greentree.engine.moon.assets.NotSupportedKeyType
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.ConstAsset
 import com.greentree.engine.moon.assets.key.AssetKey
@@ -15,6 +16,6 @@ class ResultAssetLoader : AssetLoader {
 				return ConstAsset(result as T)
 			return null
 		}
-		return null
+		throw NotSupportedKeyType
 	}
 }
