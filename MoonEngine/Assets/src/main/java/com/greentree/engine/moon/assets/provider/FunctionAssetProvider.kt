@@ -7,7 +7,6 @@ import com.greentree.engine.moon.assets.provider.response.BaseResult
 import com.greentree.engine.moon.assets.provider.response.ConstNotValidWithException
 import com.greentree.engine.moon.assets.provider.response.ConstResult
 import com.greentree.engine.moon.assets.provider.response.NotValid
-import com.greentree.engine.moon.assets.provider.response.ResultResponse
 import com.greentree.engine.moon.assets.provider.response.WithException
 
 class FunctionAssetProvider<T : Any, R : Any>(
