@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.assets.asset
+package com.greentree.engine.moon.assets
 
 fun <T1, T2> group(t1: T1, t2: T2) = Group2(t1, t2)
 fun <T1, T2, T3> group(t1: T1, t2: T2, t3: T3) = Group3(t1, t2, t3)

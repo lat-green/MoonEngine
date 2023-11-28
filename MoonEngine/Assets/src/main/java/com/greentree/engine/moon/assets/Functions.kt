@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.assets.asset
+package com.greentree.engine.moon.assets
 
 import org.apache.logging.log4j.LogManager
 import java.io.Serializable

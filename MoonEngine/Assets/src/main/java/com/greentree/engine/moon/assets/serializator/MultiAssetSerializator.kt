@@ -6,6 +6,7 @@ import com.greentree.commons.util.exception.MultiException
 import com.greentree.commons.util.iterator.IteratorUtil.*
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import org.apache.logging.log4j.LogManager
 
@@ -19,7 +20,7 @@ class MultiAssetSerializator<T : Any>(private val serializators: Iterable<AssetS
 			return type as TypeInfo<T>
 		}
 
-	override fun load(manager: AssetManager, key: AssetKey): Asset<T> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<T> {
 		val exceptions = ArrayList<Throwable>()
 		for(serializator in serializators) {
 			return try {

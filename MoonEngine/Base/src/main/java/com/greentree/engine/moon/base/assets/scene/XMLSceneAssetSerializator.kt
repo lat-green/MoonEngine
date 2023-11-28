@@ -4,10 +4,12 @@ import com.greentree.commons.reflection.ClassUtil
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.xml.XMLElement
 import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.Value1Function
+import com.greentree.engine.moon.assets.Value1Function
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
+import com.greentree.engine.moon.assets.serializator.loader.load
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.assets.serializator.manager.loadAsync
@@ -43,7 +45,7 @@ import java.io.File
 
 object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 
-	override fun load(manager: AssetManager, key: AssetKey): Asset<Scene> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Scene> {
 		val res = manager.load<XMLElement>(key)
 		return res.map(XMLWorldFunction)
 	}

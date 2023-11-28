@@ -1,5 +1,9 @@
 package com.greentree.engine.moon.assets.asset
 
+import com.greentree.engine.moon.assets.SourceNotValid
+import com.greentree.engine.moon.assets.Value1Function
+import com.greentree.engine.moon.assets.invoke
+
 class CacheFunctionAsset<T : Any, R : Any> private constructor(
 	private val source: Asset<T>,
 	private val function: Value1Function<T, R>,
@@ -37,7 +41,6 @@ class CacheFunctionAsset<T : Any, R : Any> private constructor(
 			require(value != null) { "$function(${source.value})" }
 			return value
 		}
-	
 	override var lastModified: Long = System.currentTimeMillis()
 		private set
 		get() {

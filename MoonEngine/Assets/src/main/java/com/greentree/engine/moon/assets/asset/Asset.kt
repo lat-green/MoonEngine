@@ -1,5 +1,13 @@
 package com.greentree.engine.moon.assets.asset
 
+import com.greentree.engine.moon.assets.Group2
+import com.greentree.engine.moon.assets.Value1Function
+import com.greentree.engine.moon.assets.Value1FunctionImpl
+import com.greentree.engine.moon.assets.Value2Function
+import com.greentree.engine.moon.assets.Value3Function
+import com.greentree.engine.moon.assets.Value4Function
+import com.greentree.engine.moon.assets.Value5Function
+import com.greentree.engine.moon.assets.Value6Function
 import java.io.Serializable
 
 interface Asset<out T : Any> : AssetCharacteristics, Serializable {

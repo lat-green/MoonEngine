@@ -7,10 +7,13 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import org.apache.logging.log4j.MarkerManager
 import kotlin.reflect.KClass
 
 interface AssetManager {
+
+	fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T>
 
 	fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType): T?
 	fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T>

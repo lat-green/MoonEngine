@@ -2,7 +2,6 @@ package com.greentree.engine.moon.base.assets
 
 import com.greentree.engine.moon.assets.serializator.addSerializator
 import com.greentree.engine.moon.base.AssetManagerProperty
-import com.greentree.engine.moon.base.assets.json.JSONAssetSerializator
 import com.greentree.engine.moon.base.assets.number.BooleanAssetSerializator
 import com.greentree.engine.moon.base.assets.number.ByteAssetSerializator
 import com.greentree.engine.moon.base.assets.number.DoubleAssetSerializator
@@ -31,13 +30,12 @@ class BaseAssetSerializatorModule : LaunchModule {
 
 	@WriteProperty(AssetManagerProperty::class, SceneManagerProperty::class)
 	override fun launch(context: EngineProperties) {
-		val manager = context.get(AssetManagerProperty::class.java).manager
+		val manager = context[AssetManagerProperty::class.java].manager
 		manager.addSerializator(ResourceToTextSerializator())
 		manager.addSerializator(PropertyStringAssetSerializator())
 		manager.addSerializator(PropertiesAssetSerializator())
 		manager.addSerializator(ResourceToXMLAssetSerializator)
 		manager.addSerializator(TextToXMLAssetSerializator)
-		manager.addSerializator(JSONAssetSerializator())
 		manager.addSerializator(XMLSceneAssetSerializator)
 		manager.addSerializator(RefStringBuilderAssetSerializator)
 		manager.addSerializator(RefStringBuilderInsertAssetSerializator)
@@ -46,12 +44,12 @@ class BaseAssetSerializatorModule : LaunchModule {
 
 		manager.addSerializator(EntityAssetSerializator)
 		manager.addDefaultLoader(EntityDefault)
-		manager.addSerializator(LongAssetSerializator())
-		manager.addSerializator(IntAssetSerializator())
-		manager.addSerializator(DoubleAssetSerializator())
-		manager.addSerializator(FloatAssetSerializator())
-		manager.addSerializator(ByteAssetSerializator())
-		manager.addSerializator(ShortAssetSerializator())
-		manager.addSerializator(BooleanAssetSerializator())
+		manager.addSerializator(LongAssetSerializator)
+		manager.addSerializator(IntAssetSerializator)
+		manager.addSerializator(DoubleAssetSerializator)
+		manager.addSerializator(FloatAssetSerializator)
+		manager.addSerializator(ByteAssetSerializator)
+		manager.addSerializator(ShortAssetSerializator)
+		manager.addSerializator(BooleanAssetSerializator)
 	}
 }

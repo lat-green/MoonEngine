@@ -2,20 +2,20 @@ package com.greentree.engine.moon.render.assets.image.cube;
 
 import com.greentree.commons.image.image.ImageData;
 import com.greentree.commons.util.iterator.IteratorUtil;
+import com.greentree.engine.moon.assets.Value6Function;
 import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.asset.AssetKt;
-import com.greentree.engine.moon.assets.asset.Value6Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.key.ResourceAssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey;
 import com.greentree.engine.moon.render.texture.CubeImageData;
 
 public class PropertiesCubeImageAssetSerializator implements AssetSerializator<CubeImageData> {
 
     @Override
-    public Asset<CubeImageData> load(AssetManager context, AssetKey ckey) {
+    public Asset<CubeImageData> load(AssetLoader.Context context, AssetKey ckey) {
         final var posx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posx"));
         final var negx_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "negx"));
         final var posy_res = new ResourceAssetKey(new PropertyAssetKey(ckey, "posy"));

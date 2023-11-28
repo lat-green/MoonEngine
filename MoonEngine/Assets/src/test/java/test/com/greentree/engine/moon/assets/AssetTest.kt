@@ -2,14 +2,14 @@ package test.com.greentree.engine.moon.assets
 
 import com.greentree.commons.util.cortege.Pair
 import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.Value1Function
+import com.greentree.engine.moon.assets.Value1Function
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
+import com.greentree.engine.moon.assets.serializator.loader.load
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
 import com.greentree.engine.moon.assets.serializator.manager.MutableAssetManager
-import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequest
 import com.greentree.engine.moon.assets.serializator.request.KeyLoadRequestImpl
 import com.greentree.engine.moon.assets.serializator.request.load
@@ -27,7 +27,7 @@ class AssetTest {
 
 	class StringToIntAssetSerializator : AssetSerializator<Int> {
 
-		override fun load(manager: AssetManager, key: AssetKey): Asset<Int>? {
+		override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Int>? {
 			val str = manager.load<String>(key)
 			if(str.isValid())
 				return str.map(StringToInt())

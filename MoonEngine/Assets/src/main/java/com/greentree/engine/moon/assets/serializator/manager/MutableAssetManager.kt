@@ -12,7 +12,7 @@ import com.greentree.engine.moon.assets.serializator.loader.NamedAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.OneSerializator
 import java.util.function.Function
 
-interface MutableAssetManager : AssetManager, AsyncAssetManager {
+interface MutableAssetManager : AssetManager {
 
 	fun addLoader(loader: AssetLoader)
 	fun addDefaultLoader(loader: DefaultLoader)

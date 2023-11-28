@@ -19,7 +19,6 @@ open module engine.moon.base {
     exports com.greentree.engine.moon.base;
     exports com.greentree.engine.moon.base.assets;
     exports com.greentree.engine.moon.base.assets.xml;
-    exports com.greentree.engine.moon.base.assets.json;
     exports com.greentree.engine.moon.base.assets.text;
     exports com.greentree.engine.moon.base.assets.array;
     exports com.greentree.engine.moon.base.assets.number;

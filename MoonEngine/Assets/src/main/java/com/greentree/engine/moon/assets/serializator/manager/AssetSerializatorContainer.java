@@ -8,6 +8,7 @@ import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.MultiAssetSerializator;
 import com.greentree.engine.moon.assets.serializator.TypedAssetSerializator;
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
 import com.greentree.engine.moon.assets.serializator.manager.cache.Cache;
 import com.greentree.engine.moon.assets.serializator.manager.cache.CacheFactory;
 
@@ -47,7 +48,7 @@ final class AssetSerializatorContainer {
         info.addGeneratedSerializator(serializator);
     }
 
-    public <T> Asset<T> load(AssetManager manager, TypeInfo<T> type, AssetKey key) {
+    public <T> Asset<T> load(AssetLoader.Context manager, TypeInfo<T> type, AssetKey key) {
         var info = getInfo(type);
         return info.load(manager, key);
     }
@@ -110,7 +111,7 @@ final class AssetSerializatorContainer {
         }
 
         @Override
-        public Asset<T> load(AssetManager manager, AssetKey key) {
+        public Asset<T> load(AssetLoader.Context manager, AssetKey key) {
             return cache.set(key, () -> serializator.load(manager, key));
         }
 

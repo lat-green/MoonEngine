@@ -1,5 +1,12 @@
 package com.greentree.engine.moon.assets.asset
 
+import com.greentree.engine.moon.assets.Group2
+import com.greentree.engine.moon.assets.Group3
+import com.greentree.engine.moon.assets.Group4
+import com.greentree.engine.moon.assets.Group5
+import com.greentree.engine.moon.assets.Group6
+import com.greentree.engine.moon.assets.group
+
 private inline fun max(vararg elements: Long) = elements.max()
 
 inline fun <T1 : Any, T2 : Any> merge(t1: Asset<T1>, t2: Asset<T2>) = M2Asset(t1, t2)

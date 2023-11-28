@@ -1,11 +1,11 @@
 package com.greentree.engine.moon.render.assets.shader;
 
+import com.greentree.engine.moon.assets.Value1Function;
 import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.assets.asset.AssetKt;
-import com.greentree.engine.moon.assets.asset.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
 import com.greentree.engine.moon.render.shader.ShaderDataImpl;
 import com.greentree.engine.moon.render.shader.ShaderLanguage;
 import com.greentree.engine.moon.render.shader.ShaderType;
@@ -13,7 +13,7 @@ import com.greentree.engine.moon.render.shader.ShaderType;
 public class ShaderDataAssetSerializator implements AssetSerializator<ShaderDataImpl> {
 
     @Override
-    public Asset<ShaderDataImpl> load(AssetManager manager, AssetKey ckey) {
+    public Asset<ShaderDataImpl> load(AssetLoader.Context manager, AssetKey ckey) {
         if (ckey instanceof ShaderAssetKey key) {
             final var text = manager.load(String.class, key.text());
             final var type = key.shaderType();

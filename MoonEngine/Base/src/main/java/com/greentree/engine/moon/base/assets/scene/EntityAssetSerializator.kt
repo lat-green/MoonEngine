@@ -2,11 +2,11 @@ package com.greentree.engine.moon.base.assets.scene
 
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder.*
+import com.greentree.engine.moon.assets.Value1Function
 import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.Value1Function
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.ecs.ClassSetEntity
 import com.greentree.engine.moon.ecs.PrototypeEntity
 import com.greentree.engine.moon.ecs.component.Component
@@ -16,7 +16,7 @@ object EntityAssetSerializator : AssetSerializator<PrototypeEntity> {
 
 	private val TYPE: TypeInfo<Iterable<Component>> = getTypeInfo(Iterable::class.java, Component::class.java)
 
-	override fun load(manager: AssetManager, key: AssetKey): Asset<PrototypeEntity> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<PrototypeEntity> {
 		val components = manager.load(TYPE, key)
 		return components.map(ComponentsToEntity)
 	}

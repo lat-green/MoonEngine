@@ -4,13 +4,15 @@ import com.greentree.commons.graphics.smart.texture.Texture
 import com.greentree.commons.image.Color
 import com.greentree.commons.image.image.ColorImageData
 import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.Value6Function
+import com.greentree.engine.moon.assets.Value6Function
 import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.DefaultAssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
+import com.greentree.engine.moon.assets.serializator.loader.load
 import com.greentree.engine.moon.assets.serializator.manager.AssetManager
 import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.base.assets.text.PropertyAssetKey
@@ -19,7 +21,7 @@ import com.greentree.engine.moon.render.texture.Texture2DType
 
 class PBRMaterialPropertiesAssetSerializator : AssetSerializator<BaseDeferredMaterial> {
 
-	override fun load(manager: AssetManager, key: AssetKey): Asset<BaseDeferredMaterial> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<BaseDeferredMaterial> {
 		val albedo = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.albedo")), DEFAULT_ALBEDO)
 //		val albedo = ResourceAssetKey(PropertyAssetKey(key, "texture.albedo"))
 		val normal = DefaultAssetKey(ResourceAssetKey(PropertyAssetKey(key, "texture.normal")), DEFAULT_NORMAL)

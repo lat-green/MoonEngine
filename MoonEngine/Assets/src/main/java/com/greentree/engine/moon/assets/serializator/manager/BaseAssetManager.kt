@@ -14,7 +14,7 @@ import com.greentree.engine.moon.assets.serializator.loader.ResultAssetLoader
 import com.greentree.engine.moon.assets.serializator.manager.cache.HashMapCacheFactory
 import org.apache.logging.log4j.LogManager
 
-class BaseAssetManager : MutableAssetManager, AsyncAssetManager, AssetLoader.Context, DefaultLoader.Context {
+class BaseAssetManager : MutableAssetManager, AssetLoader.Context, DefaultLoader.Context {
 
 	private val defaultLoaders = mutableListOf<DefaultLoader>()
 	private val multiDefaultLoaders = MultiDefaultAssetLoader(defaultLoaders)
@@ -41,6 +41,8 @@ class BaseAssetManager : MutableAssetManager, AsyncAssetManager, AssetLoader.Con
 	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> {
 		return load(this, type, key)
 	}
+
+	override fun <T : Any> load(cls: Class<T>, key: AssetKey) = super<MutableAssetManager>.load(cls, key)
 
 	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKeyType) = multiDefaultLoaders.load(this, type, key)
 	override fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType) = multiDefaultLoaders.load(this, type, key)
