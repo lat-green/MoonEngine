@@ -23,7 +23,7 @@ val EXECUTOR = Executors.newFixedThreadPool(
 	thread
 }
 
-private object AsyncHandler : ChainHandler {
+private data object AsyncHandler : ChainHandler {
 
 	override fun <T : Any> load(chain: Chain, type: TypeInfo<T>, key: AssetKey): Asset<T> {
 		val res = chain.loadCache(type, key)

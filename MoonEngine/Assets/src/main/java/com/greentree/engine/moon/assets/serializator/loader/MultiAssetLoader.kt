@@ -1,6 +1,8 @@
 package com.greentree.engine.moon.assets.serializator.loader
 
 import com.greentree.commons.reflection.info.TypeInfo
+import com.greentree.engine.moon.assets.NotSupportedKeyType
+import com.greentree.engine.moon.assets.NotSupportedType
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 
@@ -9,14 +11,12 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
 		val exceptions = mutableListOf<Exception>()
 		val results = mutableListOf<Asset<T>>()
-		for(loader in loaders) {
-			try {
-				val result = loader.load(context, type, key)
-				if(result != null)
-					results.add(result)
-			} catch(e: Exception) {
-				exceptions.add(e)
-			}
+		for(loader in loaders) try {
+			results.add(loader.load(context, type, key))
+		} catch(_: NotSupportedType) {
+		} catch(_: NotSupportedKeyType) {
+		} catch(e: Exception) {
+			exceptions.add(e)
 		}
 		for(it in results)
 			if(it.isValid())
@@ -25,7 +25,7 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 			if(!it.isConst())
 				return it
 
-		fun toMultiException(exceptions: Collection<out Throwable>): Throwable {
+		fun toMultiException(exceptions: Collection<Throwable>): Throwable {
 			if(exceptions.size == 1)
 				throw exceptions.first()
 			val exception = NoOneLoaderCanNotLoadType(type, key, loaders)

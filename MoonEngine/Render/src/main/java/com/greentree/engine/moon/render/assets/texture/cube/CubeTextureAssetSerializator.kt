@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.render.assets.texture.cube
 
+import com.greentree.engine.moon.assets.NotSupportedKeyType
 import com.greentree.engine.moon.assets.Value1Function
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
@@ -12,13 +13,13 @@ import com.greentree.engine.moon.render.texture.Texture3DType
 
 class CubeTextureAssetSerializator : AssetSerializator<CubeTextureData> {
 
-	override fun load(manager: AssetLoader.Context, ckey: AssetKey): Asset<CubeTextureData>? {
+	override fun load(manager: AssetLoader.Context, ckey: AssetKey): Asset<CubeTextureData> {
 		if(ckey is CubeTextureAssetKey) {
 			val image = manager.load<CubeImageData>(ckey.image)
 			val type = ckey.type().type
 			return image.map(CubeImageToTexture(type))
 		}
-		return null
+		throw NotSupportedKeyType
 	}
 
 	private class CubeImageToTexture(val type: Texture3DType) : Value1Function<CubeImageData, CubeTextureData> {

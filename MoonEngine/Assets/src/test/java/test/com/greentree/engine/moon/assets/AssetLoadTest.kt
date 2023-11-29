@@ -1,6 +1,7 @@
 package test.com.greentree.engine.moon.assets
 
 import com.greentree.commons.util.time.PointTimer
+import com.greentree.engine.moon.assets.NotSupportedKeyType
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.asset.ConstAsset
 import com.greentree.engine.moon.assets.key.AssetKey
@@ -18,12 +19,12 @@ class AssetLoadTest {
 
 	init {
 		manager.addSerializator(object : AssetSerializator<String> {
-			override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<String>? {
+			override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<String> {
 				if(key is StringAssetKey) {
 					sleep(SLEEP)
 					return ConstAsset(key.value)
 				}
-				return null
+				throw NotSupportedKeyType
 			}
 		})
 	}

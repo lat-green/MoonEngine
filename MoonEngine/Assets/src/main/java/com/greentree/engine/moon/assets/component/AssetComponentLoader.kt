@@ -9,7 +9,7 @@ import kotlin.reflect.KClass
 
 interface AssetComponentLoader {
 
-	fun <T: Any> load(ctx: Context, type: TypeInfo<T>, key: AssetKey): T
+	fun <T: Any> load(context: Context, type: TypeInfo<T>, key: AssetKey): T
 
 	interface Context {
 

@@ -14,7 +14,7 @@ class Generator(generator: Function<in TypeInfo<*>, out AssetSerializator<*>>) :
 		override fun create(type: TypeInfo<*>) = generator.apply(type)
 	}
 
-	override fun <T : Any> load(manager: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T>? {
+	override fun <T : Any> load(manager: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
 		return (serializators.apply(type) as AssetSerializator<T>).load(manager, key)
 	}
 }

@@ -25,11 +25,9 @@ class MapIterableAssetSerializator<T : Any, R : Any>(
 	override val type: TypeInfo<Iterable<R>>
 		get() = R_ITER_TYPE
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Iterable<R>>? {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Iterable<R>> {
 		val iter = manager.load(T_ITER_TYPE, key)
-		if(iter.isValid())
-			return IterableAsset(MapIterableValue(manager, iter, R_TYPE))
-		return null
+		return IterableAsset(MapIterableValue(manager, iter, R_TYPE))
 	}
 
 	private class MapIterableValue<T : Any, R : Any>(

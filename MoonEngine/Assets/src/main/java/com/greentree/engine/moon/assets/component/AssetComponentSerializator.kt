@@ -9,5 +9,5 @@ interface AssetComponentSerializator<T : Any> {
 	val type: TypeInfo<T>
 		get() = TypeUtil.getFirstAtgument(javaClass, AssetComponentSerializator::class.java)
 
-	fun load(ctx: AssetComponentLoader.Context, key: AssetKey): T
+	fun load(context: AssetComponentLoader.Context, key: AssetKey): T
 }

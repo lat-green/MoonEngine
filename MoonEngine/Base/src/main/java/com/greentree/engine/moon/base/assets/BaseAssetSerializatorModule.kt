@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.base.assets
 
+import com.greentree.engine.moon.assets.component.addSerializator
 import com.greentree.engine.moon.assets.serializator.addSerializator
 import com.greentree.engine.moon.base.AssetManagerProperty
 import com.greentree.engine.moon.base.assets.number.BooleanAssetSerializator
