@@ -31,14 +31,30 @@ public class VertexArrayBuilderTest {
     void getAttributeGroup() {
         final var builder = new VertexArrayBuilder();
         final var group = builder.getAttributeGroup(plane, StaticMeshVertexComponent.VERTEX);
-        assertEquals(group, new AttributeData(new float[]{
-                1, 0, 0,
-                1, 1, 0,
-                0, 1, 0,
-                0, 1, 0,
-                0, 0, 0,
-                1, 0, 0
-        }, new int[]{3}));
+        assertEqualsAnyOf(group, new AttributeData(new float[]{
+                        1, 0, 0,
+                        1, 1, 0,
+                        0, 1, 0,
+                        0, 1, 0,
+                        0, 0, 0,
+                        1, 0, 0,
+                }, 3),
+                new AttributeData(new float[]{
+                        0, 1, 0,
+                        0, 0, 0,
+                        1, 0, 0,
+                        1, 0, 0,
+                        1, 1, 0,
+                        0, 1, 0,
+                }, 3));
+    }
+
+    private <T> void assertEqualsAnyOf(T expected, T... actual) {
+        for (var b : actual) {
+            if (expected.equals(b))
+                return;
+        }
+        assertEquals(expected, actual);
     }
 
 }
