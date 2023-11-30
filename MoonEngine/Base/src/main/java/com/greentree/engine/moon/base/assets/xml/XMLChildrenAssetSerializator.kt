@@ -9,20 +9,20 @@ import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
 
-object XMLChildrenAssetSerializator : AssetSerializator<XMLElement> {
+object XMLChildrenAssetSerializator : AssetSerializator<Iterable<XMLElement>> {
 
-	override fun load(context: AssetLoader.Context, key: AssetKey): Asset<XMLElement> {
+	override fun load(context: AssetLoader.Context, key: AssetKey): Asset<Collection<XMLElement>> {
 		if(key is XMLChildrenAssetKey) {
-			val resource = context.load<XMLElement>(key.xml)
-			return resource.map(XMLToChildren(key.name))
+			val xml = context.load<XMLElement>(key.xml)
+			return xml.map(XMLToChildren(key.name))
 		}
 		throw NotSupportedKeyType
 	}
 
-	private class XMLToChildren(val name: String) : Value1Function<XMLElement, XMLElement> {
+	private class XMLToChildren(val name: String) : Value1Function<XMLElement, Collection<XMLElement>> {
 
-		override fun apply(value: XMLElement) = value.getChildren(name)
+		override fun apply(value: XMLElement): Collection<XMLElement> = value.getChildrens(name)
 
-		override fun toString() = "XMLToChildren"
+		override fun toString() = "XMLToChildrens"
 	}
 }

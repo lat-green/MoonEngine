@@ -42,6 +42,7 @@
                 <value type="CubeTextureAssetKey">
                     <field name="image">
                         <value>skybox/test_SB/.skybox</value>
+                        <!--                        <value>skybox/storforsen/.skybox</value>-->
                     </field>
                 </value>
             </field>

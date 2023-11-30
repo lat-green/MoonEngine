@@ -81,9 +81,6 @@ void main()
 
     vec2 TexCoords = fs_in.TexCoords;
 
-    //    FragColor = vec4(1, 0, 0, 1);
-    //    return;
-
     Color col;
 
     col.normal = texture(material.normal, TexCoords).rgb;
@@ -93,6 +90,11 @@ void main()
     col.albedo = texture(material.albedo, TexCoords).rgb;
     col.roughness = texture(material.roughness, TexCoords).r;
     col.metallic = texture(material.metallic, TexCoords).r;
+
+    //    FragColor = vec4(vec3(abs(col.roughness * col.metallic)), 1);
+    //    FragColor = vec4(vec3(length(col.normal)), 1);
+    //    FragColor = vec4(abs(col.normal), 1);
+    //    return;
 
     vec3 V = normalize(viewPos - fs_in.FragPos);
     vec3 F0 = vec3(0.04);

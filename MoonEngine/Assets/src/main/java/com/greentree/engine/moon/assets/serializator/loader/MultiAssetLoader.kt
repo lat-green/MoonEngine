@@ -1,6 +1,7 @@
 package com.greentree.engine.moon.assets.serializator.loader
 
 import com.greentree.commons.reflection.info.TypeInfo
+import com.greentree.engine.moon.assets.NotSupportedKeyAndType
 import com.greentree.engine.moon.assets.NotSupportedKeyType
 import com.greentree.engine.moon.assets.NotSupportedType
 import com.greentree.engine.moon.assets.asset.Asset
@@ -15,6 +16,7 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 			results.add(loader.load(context, type, key))
 		} catch(_: NotSupportedType) {
 		} catch(_: NotSupportedKeyType) {
+		} catch(_: NotSupportedKeyAndType) {
 		} catch(e: Exception) {
 			exceptions.add(e)
 		}

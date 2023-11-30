@@ -1,6 +1,5 @@
 package com.greentree.engine.moon.base.assets
 
-import com.greentree.engine.moon.assets.component.addSerializator
 import com.greentree.engine.moon.assets.serializator.addSerializator
 import com.greentree.engine.moon.base.AssetManagerProperty
 import com.greentree.engine.moon.base.assets.number.BooleanAssetSerializator
@@ -21,7 +20,6 @@ import com.greentree.engine.moon.base.assets.text.ResourceToTextSerializator
 import com.greentree.engine.moon.base.assets.xml.ResourceToXMLAssetSerializator
 import com.greentree.engine.moon.base.assets.xml.TextToXMLAssetSerializator
 import com.greentree.engine.moon.base.assets.xml.XMLChildrenAssetSerializator
-import com.greentree.engine.moon.base.assets.xml.XMLChildrensAssetSerializator
 import com.greentree.engine.moon.base.property.modules.WriteProperty
 import com.greentree.engine.moon.base.scene.SceneManagerProperty
 import com.greentree.engine.moon.modules.LaunchModule
@@ -32,19 +30,25 @@ class BaseAssetSerializatorModule : LaunchModule {
 	@WriteProperty(AssetManagerProperty::class, SceneManagerProperty::class)
 	override fun launch(context: EngineProperties) {
 		val manager = context[AssetManagerProperty::class.java].manager
-		manager.addSerializator(ResourceToTextSerializator())
-		manager.addSerializator(PropertyStringAssetSerializator())
-		manager.addSerializator(PropertiesAssetSerializator())
+		manager.addDefaultLoader(EntityDefault)
+
 		manager.addSerializator(ResourceToXMLAssetSerializator)
 		manager.addSerializator(TextToXMLAssetSerializator)
-		manager.addSerializator(XMLSceneAssetSerializator)
-		manager.addSerializator(RefStringBuilderAssetSerializator)
+
+		manager.addSerializator(ResourceToTextSerializator)
+		manager.addSerializator(PropertyStringAssetSerializator)
 		manager.addSerializator(RefStringBuilderInsertAssetSerializator)
+
+		manager.addSerializator(PropertiesAssetSerializator)
+
+		manager.addSerializator(XMLSceneAssetSerializator)
+
+		manager.addSerializator(RefStringBuilderAssetSerializator)
+
 		manager.addSerializator(XMLChildrenAssetSerializator)
-		manager.addSerializator(XMLChildrensAssetSerializator)
 
 		manager.addSerializator(EntityAssetSerializator)
-		manager.addDefaultLoader(EntityDefault)
+
 		manager.addSerializator(LongAssetSerializator)
 		manager.addSerializator(IntAssetSerializator)
 		manager.addSerializator(DoubleAssetSerializator)

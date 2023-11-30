@@ -10,7 +10,7 @@ import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
 import java.util.*
 
-class PropertyStringAssetSerializator : AssetSerializator<String> {
+object PropertyStringAssetSerializator : AssetSerializator<String> {
 
 	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<String> {
 		if(key is PropertyAssetKey) {

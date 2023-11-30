@@ -9,7 +9,7 @@ import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
 import java.util.*
 
-class PropertiesAssetSerializator : AssetSerializator<Properties> {
+object PropertiesAssetSerializator : AssetSerializator<Properties> {
 
 	override fun load(context: AssetLoader.Context, key: AssetKey): Asset<Properties> {
 		val res = context.load<Resource>(key)

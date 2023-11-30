@@ -8,10 +8,10 @@ class DebugAssetLoader(val loaders: AssetLoader) : AssetLoader {
 
 	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey) = run {
 		val ctx = DebugLoaderContext(context, type, key)
-		val result = loaders.load(ctx, type, key)!!
+		val result = loaders.load(ctx, type, key)
 		ctx.result = result
 		ctx.end()
-		if(ctx.time != null)
+		if(ctx.time != -1L)
 			println(ctx.xml())
 		result
 	}
@@ -29,7 +29,7 @@ class DebugAssetLoader(val loaders: AssetLoader) : AssetLoader {
 
 		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> {
 			val child = DebugLoaderContext(origin, type, key)
-			val result = loaders.load(child, type, key)!!
+			val result = loaders.load(child, type, key)
 			child.result = result
 			child.end()
 			children.add(child)

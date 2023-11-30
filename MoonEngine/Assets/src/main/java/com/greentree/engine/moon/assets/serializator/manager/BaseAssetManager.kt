@@ -5,6 +5,7 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.CacheAssetLoader
+import com.greentree.engine.moon.assets.serializator.loader.DebugAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.DefaultAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.DefaultLoader
 import com.greentree.engine.moon.assets.serializator.loader.MultiAssetLoader
@@ -22,7 +23,9 @@ class BaseAssetManager : MutableAssetManager {
 	private val loaders = mutableListOf<AssetLoader>()
 	private val multiLoaders =
 		CacheAssetLoader(
-			MultiAssetLoader(loaders),
+//			DebugAssetLoader(
+				MultiAssetLoader(loaders),
+//			),
 			HashMapCacheFactory
 		)
 
