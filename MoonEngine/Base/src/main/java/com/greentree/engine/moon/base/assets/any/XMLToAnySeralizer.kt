@@ -16,7 +16,9 @@ object XMLToAnyAssetLoader : AssetLoader {
 		return xml.map(XMLToAny(type))
 	}
 
-	private data class XMLToAny<T : Any>(val type: TypeInfo<T>) : Value1Function<XMLElement, T> {
+	private data class XMLToAny<T : Any>(
+		val type: TypeInfo<T>,
+	) : Value1Function<XMLElement, T> {
 
 		val builder = ObjectXMLBuilder()
 

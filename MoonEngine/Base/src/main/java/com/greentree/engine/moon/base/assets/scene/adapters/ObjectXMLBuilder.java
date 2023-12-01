@@ -46,12 +46,12 @@ public class ObjectXMLBuilder implements Context {
     };
 
     @SuppressWarnings("rawtypes")
-    private final Map<Class<?>, Collection<XMLTypeInjectAddapter>> injectAddapters = new AutoGenerateMap<>() {
+    private final Map<Class<?>, Collection<XMLTypeInjectAdapter>> injectAddapters = new AutoGenerateMap<>() {
 
         private static final long serialVersionUID = 1L;
 
         @Override
-        protected Collection<XMLTypeInjectAddapter> generate(Class<?> k) {
+        protected Collection<XMLTypeInjectAdapter> generate(Class<?> k) {
             return new ArrayList<>();
         }
 
@@ -95,7 +95,7 @@ public class ObjectXMLBuilder implements Context {
             @Override
             public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement element) {
                 if (type.toClass() == String.class)
-                    return () -> (T) (String) element.getContent();
+                    return () -> (T) element.getContent();
                 return null;
             }
         });
@@ -150,7 +150,7 @@ public class ObjectXMLBuilder implements Context {
 
             @Override
             public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_element) {
-                if(type.isInterface() || Modifier.isAbstract(type.toClass().getModifiers()))
+                if (type.isInterface() || Modifier.isAbstract(type.toClass().getModifiers()))
                     return null;
                 final var names = getNames(xml_element);
                 final var cls = type.toClass();
@@ -217,7 +217,7 @@ public class ObjectXMLBuilder implements Context {
                 return (T) result;
             }
         });
-        add(new XMLTypeInjectAddapter<Collection>() {
+        add(new XMLTypeInjectAdapter<Collection>() {
 
             @SuppressWarnings("unchecked")
             @Override
@@ -241,22 +241,22 @@ public class ObjectXMLBuilder implements Context {
 
             @Override
             public <T> Constructor<T> newInstance(Context context, TypeInfo<T> type, XMLElement xml_value) {
-                if(AssetKey.class == type.toClass()) {
-                            var xml_value_text = xml_value.getContent();
-                            var xml_value_type = xml_value.getAttribute("type");
-                            AssetKey key;
-                            if(xml_value_type == null) {
-                                key = new ResourceAssetKey(xml_value_text);
-                            } else {
-                                final var cls = findClass(AssetKey.class, xml_value_type);
-                                try(var c = context.newInstance(cls, xml_value)) {
-                                    key = c.value();
-                                }
-                            }
-                            return new ValueConstructor((T) key);
+                if (AssetKey.class == type.toClass()) {
+                    var xml_value_text = xml_value.getContent();
+                    var xml_value_type = xml_value.getAttribute("type");
+                    AssetKey key;
+                    if (xml_value_type == null) {
+                        key = new ResourceAssetKey(xml_value_text);
+                    } else {
+                        final var cls = findClass(AssetKey.class, xml_value_type);
+                        try (var c = context.newInstance(cls, xml_value)) {
+                            key = c.value();
                         }
-                        return null;
+                    }
+                    return new ValueConstructor(key);
                 }
+                return null;
+            }
 
         });
     }
@@ -322,11 +322,11 @@ public class ObjectXMLBuilder implements Context {
         return null;
     }
 
-    private void add(XMLTypeInjectAddapter<?> injectaddapter) {
+    private void add(XMLTypeInjectAdapter<?> injectaddapter) {
         add(injectaddapter.getType(), injectaddapter);
     }
 
-    private void add(Class<?> type, XMLTypeInjectAddapter<?> injectaddapter) {
+    private void add(Class<?> type, XMLTypeInjectAdapter<?> injectaddapter) {
         injectAddapters.get(type).add(injectaddapter);
         final var stype = type.getSuperclass();
         if (stype != null)

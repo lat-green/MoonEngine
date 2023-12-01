@@ -8,25 +8,28 @@ class MapCache<K : Any, V>(private val map: MutableMap<K, V>) : Cache<K, V> {
 	val locks = mutableMapOf<K, StampedLock>()
 
 	override fun set(key: K, create: () -> V): V {
-		val lock = synchronized(locks) {
-			locks.getOrPut(key) { StampedLock() }
-		}
-		val stamp = lock.writeLock()
-		try {
+		val create = {
 			val timer = PointTimer()
 			timer.point()
 			try {
-				val result = map.getOrPut(key, create)
+				val result = create()
 				timer.point()
 				if(timer[0] > 1E-3)
 					println("$key ${timer[0]} $result")
-				return result
+				result
 			} catch(e: Exception) {
 				timer.point()
 				if(timer[0] > 1E-3)
 					println("$key ${timer[0]} $e")
 				throw e
 			}
+		}
+		val lock = synchronized(locks) {
+			locks.getOrPut(key) { StampedLock() }
+		}
+		val stamp = lock.writeLock()
+		try {
+			return map.getOrPut(key, create)
 		} finally {
 			lock.unlockWrite(stamp)
 		}

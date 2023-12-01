@@ -19,7 +19,6 @@ interface Context {
 
 	fun <T> build(type: TypeInfo<T>, element: XMLElement): T {
 		newInstance(type, element).use { c ->
-			if(c == null) throw NullPointerException("type:$type element:$element")
 			return c.value()
 		}
 	}
