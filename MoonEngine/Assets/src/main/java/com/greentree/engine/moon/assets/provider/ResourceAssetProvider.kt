@@ -14,7 +14,7 @@ import kotlin.math.max
 
 private const val UPDATE_DELTA = 1000L
 
-class ResourceAssetProviderImpl(private val resource: Resource) : AssetProvider<Resource> {
+class ResourceAssetProvider(private val resource: Resource) : AssetProvider<Resource> {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
 
 	override fun value(ctx: AssetRequest) =
@@ -67,6 +67,6 @@ fun newResourceAsset(resources: ResourceLocation, name: AssetProvider<String>): 
 	ResourceNamedAssetProvider(resources, name)
 
 fun newResourceAsset(resources: ResourceLocation, name: String): AssetProvider<Resource> =
-	ResourceAssetProviderImpl(resources, name)
+	ResourceAssetProvider(resources, name)
 
-fun newResourceAsset(resource: Resource): AssetProvider<Resource> = ResourceAssetProviderImpl(resource)
+fun newResourceAsset(resource: Resource): AssetProvider<Resource> = ResourceAssetProvider(resource)

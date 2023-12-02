@@ -12,15 +12,6 @@ import java.io.Serializable
 
 interface AssetFunction1<in T : Any, R : Any> : (AssetRequest, T) -> R, Serializable {
 
-	fun isValid(ctx: AssetRequest, value: T) = try {
-		invoke(ctx, value)
-		true
-	} catch(e: Exception) {
-		false
-	}
-
-	fun isValueSerializable() = false
-
 	override fun invoke(ctx: AssetRequest, value: T): R
 }
 

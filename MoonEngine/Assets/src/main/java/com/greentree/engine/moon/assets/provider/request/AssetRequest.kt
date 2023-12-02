@@ -38,6 +38,7 @@ interface AssetRequest {
 }
 
 operator fun AssetRequest.contains(key: AssetRequest.Key<*>): Boolean = get(key) != key.default
+operator fun AssetRequest.minus(key: AssetRequest.Key<*>) = minusKey(key)
 
 class CombinedAssetRequest(
 	private val left: AssetRequest,
