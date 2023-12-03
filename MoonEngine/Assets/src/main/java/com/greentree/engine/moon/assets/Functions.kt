@@ -5,7 +5,7 @@ import java.io.Serializable
 
 private val LOG = LogManager.getLogger()
 
-interface Value1Function<in T : Any, R : Any> : (T) -> R, Serializable {
+fun interface Value1Function<in T : Any, R : Any> : (T) -> R, Serializable {
 
 	fun isEverValid() = false
 
@@ -13,6 +13,13 @@ interface Value1Function<in T : Any, R : Any> : (T) -> R, Serializable {
 
 	fun apply(value: T): R
 	fun applyWithDest(value: T, dest: R): R = apply(value)
+}
+
+data class IterableValue1Function<T : Any, R : Any>(
+	val function: Value1Function<T, R>,
+) : Value1Function<Iterable<T>, Iterable<R>> {
+
+	override fun apply(value: Iterable<T>) = value.map(function)
 }
 
 operator fun <T : Any, R : Any> Value1Function<T, R>.invoke(value: T, dest: R) = applyWithDest(value, dest)

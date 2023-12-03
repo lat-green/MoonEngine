@@ -12,4 +12,6 @@ interface AssetSerializator<T : Any> {
 		get() = TypeUtil.getFirstAtgument(javaClass, AssetSerializator::class.java)
 
 	fun load(context: AssetLoader.Context, key: AssetKey): Asset<T>
+
+	companion object
 }

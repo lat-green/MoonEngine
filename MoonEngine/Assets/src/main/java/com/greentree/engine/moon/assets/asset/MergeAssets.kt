@@ -32,6 +32,8 @@ inline fun <T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 : Any> merge(
 ) =
 	M6Asset(t1, t2, t3, t4, t5, t6)
 
+fun <T : Any> merge(source: Iterable<Asset<T>>) = MIAsset(source)
+
 data class M2Asset<T1 : Any, T2 : Any>(val source1: Asset<T1>, val source2: Asset<T2>) :
 	Asset<Group2<T1, T2>> {
 

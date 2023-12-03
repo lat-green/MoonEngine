@@ -16,7 +16,9 @@ object ResourceToTextSerializator : AssetSerializator<String> {
 		return res.map(ResourceToText)
 	}
 
-	private object ResourceToText : Value1Function<Resource, String> {
+	object ResourceToText : Value1Function<Resource, String> {
+
+		private fun readResolve(): Any = ResourceToText
 
 		override fun apply(res: Resource): String {
 			return res.open().use { InputStreamUtil.readString(it) }
