@@ -14,7 +14,7 @@ import kotlin.reflect.KClass
 
 interface AssetManager : AssetLoader.Context {
 
-	fun build(ctx: ChainHandler): Chain
+	fun build(handler: ChainHandler): Chain
 
 	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> = root.load(type, key)
 
