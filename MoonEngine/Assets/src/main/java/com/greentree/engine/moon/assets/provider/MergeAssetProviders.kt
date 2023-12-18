@@ -5,6 +5,7 @@ import com.greentree.engine.moon.assets.Group3
 import com.greentree.engine.moon.assets.Group4
 import com.greentree.engine.moon.assets.Group5
 import com.greentree.engine.moon.assets.Group6
+import com.greentree.engine.moon.assets.change.ChangeHandler
 import com.greentree.engine.moon.assets.group
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.response.AssetResponse
@@ -137,8 +138,11 @@ data class M2AssetProvider<T1 : Any, T2 : Any>(val source1: AssetProvider<T1>, v
 
 	override fun value(ctx: AssetRequest) = groupResponse(source1.value(ctx), source2.value(ctx))
 
-	override val lastModified
-		get() = max(source1.lastModified, source2.lastModified)
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequence {
+			yieldAll(source1.changeHandlers)
+			yieldAll(source2.changeHandlers)
+		}
 
 	override fun toString(): String {
 		return "Merge($source1, $source2)"
@@ -153,8 +157,13 @@ data class M3AssetProvider<T1 : Any, T2 : Any, T3 : Any>(
 	AssetProvider<Group3<T1, T2, T3>> {
 
 	override fun value(ctx: AssetRequest) = groupResponse(source1.value(ctx), source2.value(ctx), source3.value(ctx))
-	override val lastModified
-		get() = max(source1.lastModified, source2.lastModified, source3.lastModified)
+
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequence {
+			yieldAll(source1.changeHandlers)
+			yieldAll(source2.changeHandlers)
+			yieldAll(source3.changeHandlers)
+		}
 
 	override fun toString(): String {
 		return "Merge($source1, $source2, $source3)"
@@ -172,8 +181,13 @@ data class M4AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any>(
 	override fun value(ctx: AssetRequest) =
 		groupResponse(source1.value(ctx), source2.value(ctx), source3.value(ctx), source4.value(ctx))
 
-	override val lastModified
-		get() = max(source1.lastModified, source2.lastModified, source3.lastModified, source4.lastModified)
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequence {
+			yieldAll(source1.changeHandlers)
+			yieldAll(source2.changeHandlers)
+			yieldAll(source3.changeHandlers)
+			yieldAll(source4.changeHandlers)
+		}
 
 	override fun toString(): String {
 		return "Merge($source1, $source2, $source3, $source4)"
@@ -198,14 +212,14 @@ data class M5AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any>(
 			source5.value(ctx)
 		)
 
-	override val lastModified
-		get() = max(
-			source1.lastModified,
-			source2.lastModified,
-			source3.lastModified,
-			source4.lastModified,
-			source5.lastModified
-		)
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequence {
+			yieldAll(source1.changeHandlers)
+			yieldAll(source2.changeHandlers)
+			yieldAll(source3.changeHandlers)
+			yieldAll(source4.changeHandlers)
+			yieldAll(source5.changeHandlers)
+		}
 
 	override fun toString(): String {
 		return "Merge($source1, $source2, $source3, $source4, $source5)"
@@ -232,15 +246,15 @@ data class M6AssetProvider<T1 : Any, T2 : Any, T3 : Any, T4 : Any, T5 : Any, T6 
 			source6.value(ctx)
 		)
 
-	override val lastModified
-		get() = max(
-			source1.lastModified,
-			source2.lastModified,
-			source3.lastModified,
-			source4.lastModified,
-			source5.lastModified,
-			source6.lastModified
-		)
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequence {
+			yieldAll(source1.changeHandlers)
+			yieldAll(source2.changeHandlers)
+			yieldAll(source3.changeHandlers)
+			yieldAll(source4.changeHandlers)
+			yieldAll(source5.changeHandlers)
+			yieldAll(source5.changeHandlers)
+		}
 
 	override fun toString(): String {
 		return "Merge($source1, $source2, $source3, $source4, $source5, $source6)"
@@ -255,8 +269,11 @@ data class MIAssetProvider<T : Any>(
 	override fun value(ctx: AssetRequest) =
 		groupResponse(source.map { it.value(ctx) })
 
-	override val lastModified
-		get() = source.maxOf { it.lastModified }
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequence {
+			for(s in source)
+				yieldAll(s.changeHandlers)
+		}
 
 	override fun toString(): String {
 		return "Merge($source)"

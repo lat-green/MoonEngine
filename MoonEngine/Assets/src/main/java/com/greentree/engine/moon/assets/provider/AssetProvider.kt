@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.assets.provider
 
+import com.greentree.engine.moon.assets.change.ChangeHandler
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.request.EmptyAssetRequest
 import com.greentree.engine.moon.assets.provider.response.AssetResponse
@@ -12,8 +13,11 @@ interface AssetProvider<T : Any> : AssetProviderCharacteristics, Serializable {
 
 interface AssetProviderCharacteristics {
 
-	val lastModified: Long
+	val changeHandlers: Sequence<ChangeHandler>
 }
+
+val AssetProviderCharacteristics.lastModified: Long
+	get() = changeHandlers.maxOfOrNull { it.lastModified } ?: 0L
 
 fun <T : Any, R : Any> AssetProvider<T>.map(function: AssetFunction1<T, R>) =
 	FunctionAssetProvider(this, function)

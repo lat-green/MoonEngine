@@ -34,4 +34,10 @@ class MutableAssetProviderTest {
 		asset.value = "1"
 		assertEquals(asset.lastModified, lastModified)
 	}
+
+	@Test
+	fun changeHandlers() {
+		val asset = MutableAssetProvider("1")
+		assertEquals(asset.changeHandlers.toList(), listOf(asset))
+	}
 }

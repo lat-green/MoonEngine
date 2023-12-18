@@ -7,8 +7,7 @@ import com.greentree.engine.moon.assets.provider.response.AssetResponse
 class RunOnGetAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
 	private val callback: (ctx: AssetRequest) -> Unit,
-) :
-	AssetProvider<T> {
+) : AssetProvider<T> by origin {
 
 	constructor(
 		origin: AssetProvider<T>,
@@ -21,7 +20,4 @@ class RunOnGetAssetProvider<T : Any>(
 		callback(ctx)
 		return origin.value(ctx)
 	}
-
-	override val lastModified: Long
-		get() = origin.lastModified
 }

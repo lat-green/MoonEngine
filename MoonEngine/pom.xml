@@ -116,6 +116,11 @@
             </dependency>
             <dependency>
                 <groupId>com.greentree.engine.moon</groupId>
+                <artifactId>cooker</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.greentree.engine.moon</groupId>
                 <artifactId>debug</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -172,6 +177,7 @@
         <module>Assimp</module>
         <module>Base</module>
         <module>Collision2D</module>
+        <module>Cooker</module>
         <module>ECS</module>
         <module>Kernel</module>
         <module>Mesh</module>

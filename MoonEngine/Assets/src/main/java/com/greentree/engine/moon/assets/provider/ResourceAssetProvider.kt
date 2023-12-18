@@ -3,6 +3,7 @@ package com.greentree.engine.moon.assets.provider
 import com.greentree.commons.data.resource.Resource
 import com.greentree.commons.data.resource.ResourceNotFoundException
 import com.greentree.commons.data.resource.location.ResourceLocation
+import com.greentree.engine.moon.assets.change.ChangeHandler
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.request.TryNotUpdate
 import com.greentree.engine.moon.assets.provider.response.AssetResponse
@@ -14,7 +15,7 @@ import kotlin.math.max
 
 private const val UPDATE_DELTA = 1000L
 
-class ResourceAssetProvider(private val resource: Resource) : AssetProvider<Resource> {
+class ResourceAssetProvider(private val resource: Resource) : AssetProvider<Resource>, ChangeHandler {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
 
 	override fun value(ctx: AssetRequest) =
@@ -23,6 +24,8 @@ class ResourceAssetProvider(private val resource: Resource) : AssetProvider<Reso
 		else
 			BaseResult(resource)
 
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequenceOf(this)
 	override val lastModified
 		get() = if(resource.exists()) resource.lastModified() else 0
 
@@ -34,7 +37,7 @@ class ResourceAssetProvider(private val resource: Resource) : AssetProvider<Reso
 data class ResourceNamedAssetProvider(
 	private val resources: ResourceLocation,
 	private val name: AssetProvider<String>,
-) : AssetProvider<Resource> {
+) : AssetProvider<Resource>, ChangeHandler {
 
 	private var lastModifiedUpdate = System.currentTimeMillis()
 
@@ -52,6 +55,8 @@ data class ResourceNamedAssetProvider(
 		} as AssetResponse<Resource>
 	}
 
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequenceOf(this)
 	override val lastModified
 		get() = when(val n = name.value(TryNotUpdate)) {
 			is ResultResponse -> max(name.lastModified, resources.getResource(n.value).lastModified())

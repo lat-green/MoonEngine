@@ -19,7 +19,4 @@ class FunctionAssetProvider<T : Any, R : Any>(
 		val source = source.value(ctx.minusKey(LastValue))
 		return source.map { function(ctx, it) }
 	}
-
-	override val lastModified: Long
-		get() = source.lastModified
 }

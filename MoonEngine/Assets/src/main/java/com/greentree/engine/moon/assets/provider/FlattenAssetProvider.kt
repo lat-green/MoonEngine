@@ -4,7 +4,6 @@ import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.response.AssetResponse
 import com.greentree.engine.moon.assets.provider.response.NotValid
 import com.greentree.engine.moon.assets.provider.response.ResultResponse
-import java.lang.Long.*
 
 @Deprecated("lastModified unsupported update origin.value.lastModified")
 class FlattenAssetProvider<T : Any>(
@@ -24,7 +23,4 @@ class FlattenAssetProvider<T : Any>(
 			is NotValid -> source
 		} as AssetResponse<T>
 	}
-
-	override val lastModified
-		get() = max(origin.lastModified, sourceLastUpdate)
 }

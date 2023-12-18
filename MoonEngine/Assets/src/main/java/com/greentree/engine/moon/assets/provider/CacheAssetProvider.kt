@@ -8,16 +8,15 @@ import com.greentree.engine.moon.assets.provider.response.AssetResponse
 
 class CacheAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
-) : AssetProvider<T> {
+) : AssetProvider<T>, AssetProviderCharacteristics by origin {
 
 	private var lastUpdate = 0L
-	private var needUpdate = false
 	private lateinit var cache: AssetResponse<T>
 
 	override fun value(ctx: AssetRequest): AssetResponse<T> {
-		updateLastModified()
-		if(!::cache.isInitialized || (needUpdate && TryNotUpdate !in ctx)) {
-			needUpdate = false
+		val lastUpdate = origin.lastModified
+		if(!::cache.isInitialized || (lastUpdate > this.lastUpdate && TryNotUpdate !in ctx)) {
+			this.lastUpdate = lastUpdate
 			var ctx = ctx
 			ctx = ctx.minusKey(LastValue)
 			if(::cache.isInitialized)
@@ -28,18 +27,4 @@ class CacheAssetProvider<T : Any>(
 		}
 		return cache
 	}
-
-	private fun updateLastModified() {
-		val lastUpdate = origin.lastModified
-		if(lastUpdate > this.lastUpdate) {
-			this.lastUpdate = lastUpdate
-			needUpdate = true
-		}
-	}
-
-	override val lastModified: Long
-		get() {
-			updateLastModified()
-			return lastUpdate
-		}
 }

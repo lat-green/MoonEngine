@@ -1,5 +1,6 @@
 package com.greentree.engine.moon.assets.provider
 
+import com.greentree.engine.moon.assets.change.ChangeHandler
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.response.AssetResponse
 import com.greentree.engine.moon.assets.provider.response.BaseNotValidWithException
@@ -28,12 +29,15 @@ class DefaultAssetProvider<T : Any> private constructor(private val sources: Ite
 		return BaseNotValidWithException(NoSuchElementException("not have valid source. sources:$sources"))
 	}
 
+	override val changeHandlers: Sequence<ChangeHandler>
+		get() = sequence {
+			for(s in sources)
+				yieldAll(s.changeHandlers)
+		}
+
 	override fun toString(): String {
 		var sources = sources.toString()
 		sources = sources.substring(1, sources.length - 1)
 		return "Default(${sources})"
 	}
-
-	override val lastModified
-		get() = sources.maxOf { it.lastModified }
 }
