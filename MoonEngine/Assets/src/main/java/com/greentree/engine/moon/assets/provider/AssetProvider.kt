@@ -3,12 +3,11 @@ package com.greentree.engine.moon.assets.provider
 import com.greentree.engine.moon.assets.change.ChangeHandler
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.request.EmptyAssetRequest
-import com.greentree.engine.moon.assets.provider.response.AssetResponse
 import java.io.Serializable
 
 interface AssetProvider<T : Any> : AssetProviderCharacteristics, Serializable {
 
-	fun value(ctx: AssetRequest = EmptyAssetRequest): AssetResponse<T>
+	fun value(ctx: AssetRequest = EmptyAssetRequest): T
 }
 
 interface AssetProviderCharacteristics {

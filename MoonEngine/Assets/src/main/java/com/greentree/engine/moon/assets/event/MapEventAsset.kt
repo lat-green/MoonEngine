@@ -4,7 +4,6 @@ import com.greentree.commons.action.observable.RunObservable
 import com.greentree.engine.moon.assets.provider.AssetFunction1
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.request.LastValue
-import com.greentree.engine.moon.assets.provider.response.AssetResponse
 
 class MapEventAsset<T : Any, R : Any>(
 	val source: EventAsset<T>,

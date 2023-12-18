@@ -2,7 +2,6 @@ package test.com.greentree.engine.moon.assets.provider
 
 import com.greentree.engine.moon.assets.provider.AssetProvider
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
-import com.greentree.engine.moon.assets.provider.response.AssetResponse
 
 class RunOnGetAssetProvider<T : Any>(
 	private val origin: AssetProvider<T>,
@@ -16,7 +15,7 @@ class RunOnGetAssetProvider<T : Any>(
 		callback.run()
 	})
 
-	override fun value(ctx: AssetRequest): AssetResponse<T> {
+	override fun value(ctx: AssetRequest): T {
 		callback(ctx)
 		return origin.value(ctx)
 	}
