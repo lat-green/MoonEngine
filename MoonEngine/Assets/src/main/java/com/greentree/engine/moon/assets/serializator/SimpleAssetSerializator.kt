@@ -3,10 +3,10 @@ package com.greentree.engine.moon.assets.serializator
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder
 import com.greentree.commons.reflection.info.TypeUtil
-import com.greentree.engine.moon.assets.Value1Function
+import com.greentree.engine.moon.assets.provider.AssetFunction1
 import com.greentree.engine.moon.assets.serializator.manager.MutableAssetManager
 
-interface SimpleAssetSerializator<T : Any, R : Any> : Value1Function<T, R> {
+interface SimpleAssetSerializator<T : Any, R : Any> : AssetFunction1<T, R> {
 
 	val resultType
 		get() = TypeUtil.getTtype(

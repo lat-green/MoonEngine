@@ -1,13 +1,12 @@
 package com.greentree.engine.moon.mesh.assimp.assets.mesh;
 
 import com.greentree.commons.data.resource.Resource;
-import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.AssetKt;
 import com.greentree.engine.moon.assets.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.provider.AssetProvider;
+import com.greentree.engine.moon.assets.provider.AssetProviderKt;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.mesh.assimp.AssimpScene;
 import org.lwjgl.assimp.AIScene;
 import org.lwjgl.assimp.Assimp;
@@ -19,9 +18,9 @@ import java.nio.ByteBuffer;
 public class AssimpSceneAssetSerializator implements AssetSerializator<AssimpScene> {
 
     @Override
-    public Asset<AssimpScene> load(AssetLoader.Context manager, AssetKey ckey) {
+    public AssetProvider<AssimpScene> load(AssetLoader.Context manager, AssetKey ckey) {
         final var resource = manager.load(Resource.class, ckey);
-        return AssetKt.map(resource, new AssimpSceneAsssetFunction());
+        return AssetProviderKt.map(resource, new AssimpSceneAsssetFunction());
     }
 
     public static final class AssimpSceneAsssetFunction implements Value1Function<Resource, AssimpScene> {

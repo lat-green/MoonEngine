@@ -2,22 +2,21 @@ package com.greentree.engine.moon.opengl.assets.texture;
 
 import com.greentree.common.graphics.sgl.enums.gl.GLPixelFormat;
 import com.greentree.common.graphics.sgl.texture.gl.cubemap.GLCubeMapTexture;
-import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.AssetKt;
 import com.greentree.engine.moon.assets.Value1Function;
 import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.provider.AssetProvider;
+import com.greentree.engine.moon.assets.provider.AssetProviderKt;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager;
 import com.greentree.engine.moon.opengl.GLEnums;
 import com.greentree.engine.moon.render.texture.CubeTextureData;
 
 public class GLCubeTextureAssetSerializator implements AssetSerializator<GLCubeMapTexture> {
 
     @Override
-    public Asset<GLCubeMapTexture> load(AssetLoader.Context manager, AssetKey key) {
+    public AssetProvider<GLCubeMapTexture> load(AssetLoader.Context manager, AssetKey key) {
         final var texture = manager.load(CubeTextureData.class, key);
-        return AssetKt.map(texture, new GLCubeMapAsset());
+        return AssetProviderKt.map(texture, new GLCubeMapAsset());
     }
 
     public class GLCubeMapAsset implements Value1Function<CubeTextureData, GLCubeMapTexture> {

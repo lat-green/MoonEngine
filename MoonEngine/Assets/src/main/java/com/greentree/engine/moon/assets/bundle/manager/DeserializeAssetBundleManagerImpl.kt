@@ -40,7 +40,7 @@ class DeserializeAssetBundleManagerImpl : DeserializeAssetBundleManager, AssetDe
 		deserializers.add(deserializer)
 	}
 
-	override fun <T: Any> deserialize(type: TypeInfo<T>, name: String) = load(type, name)
+	override fun <T : Any> deserialize(type: TypeInfo<T>, name: String) = load(type, name)
 }
 
 private fun <T : Any> AssetBundle.getStream(type: TypeInfo<T>, name: String): InputStream? {

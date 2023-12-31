@@ -1,8 +1,10 @@
 package com.greentree.engine.moon.assets.serializator.manager
 
 import com.greentree.commons.reflection.info.TypeInfo
+import com.greentree.engine.moon.assets.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.AssetKeyType
+import com.greentree.engine.moon.assets.provider.AssetProvider
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.CacheAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.DefaultAssetLoader
@@ -15,7 +17,7 @@ import com.greentree.engine.moon.assets.serializator.manager.chain.Chain
 import com.greentree.engine.moon.assets.serializator.manager.chain.ChainHandler
 import org.apache.logging.log4j.LogManager
 
-class BaseAssetManager : MutableAssetManager, AssetLoader.Context {
+class BaseAssetManager : MutableAssetManager {
 
 	private val defaultLoaders = mutableListOf<DefaultLoader>()
 	private val multiDefaultLoaders = MultiDefaultAssetLoader(defaultLoaders)
@@ -43,7 +45,8 @@ class BaseAssetManager : MutableAssetManager, AssetLoader.Context {
 
 	override fun build(ctx: ChainHandler): Chain = BaseChain(ctx)
 
-	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey) = multiLoaders.load(this, type, key)
+	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> =
+		BaseAsset(multiLoaders.load(context, type, key))
 
 	private inner class BaseChain(val ctx: ChainHandler) : Chain {
 
@@ -70,5 +73,14 @@ class BaseAssetManager : MutableAssetManager, AssetLoader.Context {
 		private val LOG = LogManager.getLogger(
 			BaseAssetManager::class.java
 		)
+	}
+
+	private val context = BaseAssetLoaderContext()
+
+	private inner class BaseAssetLoaderContext : AssetLoader.Context {
+
+		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): AssetProvider<T> {
+			return multiLoaders.load(context, type, key)
+		}
 	}
 }

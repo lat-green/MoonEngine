@@ -2,9 +2,11 @@ package test.com.greentree.engine.moon.assets
 
 import com.greentree.commons.util.cortege.Pair
 import com.greentree.engine.moon.assets.Value1Function
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
+import com.greentree.engine.moon.assets.provider.map
+import com.greentree.engine.moon.assets.provider.toAssetFunction
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
@@ -27,9 +29,9 @@ class AssetTest {
 
 	class StringToIntAssetSerializator : AssetSerializator<Int> {
 
-		override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Int> {
+		override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<Int> {
 			val str = manager.load<String>(key)
-			return str.map(StringToInt())
+			return str.map(StringToInt().toAssetFunction())
 		}
 
 		private class StringToInt : Value1Function<String, Int> {

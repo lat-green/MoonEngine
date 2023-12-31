@@ -2,13 +2,13 @@ package test.com.greentree.engine.moon.assets
 
 import com.greentree.commons.util.time.PointTimer
 import com.greentree.engine.moon.assets.NotSupportedKeyType
-import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.ConstAsset
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
+import com.greentree.engine.moon.assets.provider.ConstAssetProvider
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
-import com.greentree.engine.moon.assets.serializator.loader.load
 import com.greentree.engine.moon.assets.serializator.manager.BaseAssetManager
+import com.greentree.engine.moon.assets.serializator.manager.load
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import java.lang.Thread.*
@@ -19,10 +19,10 @@ class AssetLoadTest {
 
 	init {
 		manager.addSerializator(object : AssetSerializator<String> {
-			override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<String> {
+			override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<String> {
 				if(key is StringAssetKey) {
 					sleep(SLEEP)
-					return ConstAsset(key.value)
+					return ConstAssetProvider(key.value)
 				}
 				throw NotSupportedKeyType
 			}

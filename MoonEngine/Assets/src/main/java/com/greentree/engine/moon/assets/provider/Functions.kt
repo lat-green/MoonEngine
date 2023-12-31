@@ -25,6 +25,8 @@ class AssetFunction1Impl<T : Any, R : Any>(private val origin: Value1Function<T,
 			return origin.applyWithDest(value, lastValue)
 		return origin(value)
 	}
+
+	override fun toString() = origin.toString()
 }
 
 interface AssetFunction2<T1 : Any, T2 : Any, R : Any> : AssetFunction1<Group2<out T1, out T2>, R> {

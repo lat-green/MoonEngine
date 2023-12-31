@@ -2,8 +2,9 @@ package com.greentree.engine.moon.assets.serializator
 
 import com.greentree.commons.util.exception.MultiException
 import com.greentree.commons.util.iterator.IteratorUtil.*
-import com.greentree.engine.moon.assets.asset.Asset
+import com.greentree.engine.moon.assets.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import org.apache.logging.log4j.LogManager
 
@@ -13,7 +14,7 @@ class MultiAssetSerializator<T : Any>(private val serializators: Iterable<AssetS
 	override val type
 		get() = TODO()
 
-	override fun load(context: AssetLoader.Context, key: AssetKey): Asset<T> {
+	override fun load(context: AssetLoader.Context, key: AssetKey): AssetProvider<T> {
 		val exceptions = ArrayList<Throwable>()
 		for(serializator in serializators) try {
 			return serializator.load(context, key)

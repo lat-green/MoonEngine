@@ -2,9 +2,9 @@ package com.greentree.engine.moon.base.assets.text
 
 import com.greentree.engine.moon.assets.NotSupportedKeyType
 import com.greentree.engine.moon.assets.Value2Function
-import com.greentree.engine.moon.assets.asset.Asset
-import com.greentree.engine.moon.assets.asset.map
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
+import com.greentree.engine.moon.assets.provider.map
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
@@ -12,7 +12,7 @@ import java.util.*
 
 object PropertyStringAssetSerializator : AssetSerializator<String> {
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<String> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<String> {
 		if(key is PropertyAssetKey) {
 			val prop = manager.load<Properties>(key.properties)
 			val name = manager.load<String>(key.name)

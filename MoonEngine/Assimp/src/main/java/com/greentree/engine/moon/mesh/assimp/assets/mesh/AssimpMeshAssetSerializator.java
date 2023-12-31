@@ -1,9 +1,9 @@
 package com.greentree.engine.moon.mesh.assimp.assets.mesh;
 
 import com.greentree.engine.moon.assets.Value1Function;
-import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.AssetKt;
 import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.provider.AssetProvider;
+import com.greentree.engine.moon.assets.provider.AssetProviderKt;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
 import com.greentree.engine.moon.mesh.GraphicsMesh;
@@ -13,9 +13,9 @@ import com.greentree.engine.moon.mesh.assimp.AssimpScene;
 public class AssimpMeshAssetSerializator implements AssetSerializator<GraphicsMesh> {
 
     @Override
-    public Asset<GraphicsMesh> load(AssetLoader.Context manager, AssetKey key) {
+    public AssetProvider<GraphicsMesh> load(AssetLoader.Context manager, AssetKey key) {
         final var scene = manager.load(AssimpScene.class, key);
-        return AssetKt.map(scene, new AssimpAsssetFunction());
+        return AssetProviderKt.map(scene, new AssimpAsssetFunction());
     }
 
     public static final class AssimpAsssetFunction

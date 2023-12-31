@@ -5,8 +5,9 @@ import com.greentree.commons.data.resource.location.ResourceLocation
 import com.greentree.engine.moon.assets.change.ChangeHandler
 import com.greentree.engine.moon.assets.provider.request.AssetRequest
 import com.greentree.engine.moon.assets.provider.request.TryNotUpdate
+import kotlin.reflect.KProperty
 
-private const val UPDATE_DELTA = 1000L
+private const val UPDATE_DELTA = 10000L
 
 class ResourceAssetProvider(private val resource: Resource) : AssetProvider<Resource>, ChangeHandler {
 	constructor(resources: ResourceLocation, name: String) : this(resources.getResource(name))
@@ -15,8 +16,10 @@ class ResourceAssetProvider(private val resource: Resource) : AssetProvider<Reso
 
 	override val changeHandlers: Sequence<ChangeHandler>
 		get() = sequenceOf(this)
-	override val lastModified
-		get() = if(resource.exists()) resource.lastModified() else 0
+	override val lastModified by getOnePerDelta(UPDATE_DELTA) {
+		if(resource.exists())
+			resource.lastModified() else 0
+	}
 
 	override fun toString(): String {
 		return "ResourceAsset[$resource]"
@@ -37,8 +40,15 @@ data class ResourceNamedAssetProvider(
 			yieldAll(name.changeHandlers)
 			yield(this@ResourceNamedAssetProvider)
 		}
-	override val lastModified
-		get() = resources.getResource(name.value(TryNotUpdate)).lastModified()
+	override val lastModified by getOnePerDelta(UPDATE_DELTA) {
+		kotlin.runCatching {
+			name.value(TryNotUpdate)
+		}.map {
+			resources.getResource(it).lastModified()
+		}.getOrElse {
+			0L
+		}
+	}
 
 	override fun toString(): String {
 		return "ResourceNamedAsset($name)"
@@ -52,3 +62,23 @@ fun newResourceAsset(resources: ResourceLocation, name: String): AssetProvider<R
 	ResourceAssetProvider(resources, name)
 
 fun newResourceAsset(resource: Resource): AssetProvider<Resource> = ResourceAssetProvider(resource)
+
+private class GetPerDelta<R>(
+	val updateDelta: Long,
+	val block: () -> R,
+) {
+
+	private var nextGetTime = System.currentTimeMillis() + updateDelta
+	private var value = block()
+
+	operator fun getValue(thisRef: Any?, property: KProperty<*>): R {
+		val currentTime = System.currentTimeMillis()
+		if(nextGetTime < currentTime) {
+			nextGetTime = currentTime + updateDelta
+			value = block()
+		}
+		return value
+	}
+}
+
+private fun <R> getOnePerDelta(updateDelta: Long, block: () -> R) = GetPerDelta(updateDelta, block)

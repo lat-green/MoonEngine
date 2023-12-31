@@ -3,15 +3,16 @@ package com.greentree.engine.moon.base.assets.any
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.xml.XMLElement
 import com.greentree.engine.moon.assets.Value1Function
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
+import com.greentree.engine.moon.assets.provider.map
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
 import com.greentree.engine.moon.base.assets.scene.adapters.ObjectXMLBuilder
 
 object XMLToAnyAssetLoader : AssetLoader {
 
-	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
+	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): AssetProvider<T> {
 		val xml = context.load<XMLElement>(key)
 		return xml.map(XMLToAny(type))
 	}

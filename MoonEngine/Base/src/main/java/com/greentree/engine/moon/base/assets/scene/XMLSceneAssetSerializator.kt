@@ -3,15 +3,16 @@ package com.greentree.engine.moon.base.assets.scene
 import com.greentree.commons.reflection.ClassUtil
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.xml.XMLElement
+import com.greentree.engine.moon.assets.Asset
 import com.greentree.engine.moon.assets.Value1Function
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
+import com.greentree.engine.moon.assets.provider.map
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.load
 import com.greentree.engine.moon.assets.serializator.manager.load
-import com.greentree.engine.moon.assets.serializator.manager.loadAsync
 import com.greentree.engine.moon.base.AssetManagerProperty
 import com.greentree.engine.moon.base.assets
 import com.greentree.engine.moon.base.assets.scene.adapters.Constructor
@@ -44,7 +45,7 @@ import java.io.File
 
 object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): Asset<Scene> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<Scene> {
 		val res = manager.load<XMLElement>(key)
 		return res.map(XMLWorldFunction)
 	}
@@ -67,11 +68,11 @@ object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 								if(type.typeArguments.size == 0) throw UnsupportedOperationException("asset type without Type Arguments")
 								val value_type = type.typeArguments[0].boxing
 								c.newInstance(AssetKey::class.java, xml_value).use { key ->
-									val value = context.loadAsync(value_type, key.value())
-									if(!value.isValid()) {
-										value.value
-										throw UnsupportedOperationException("build not valid asset $value from $xml_value")
-									}
+									val value = context.load(value_type, key.value())
+//									if(!value.isValid()) {
+//										value.value
+//										throw UnsupportedOperationException("build not valid asset $value from $xml_value")
+//									}
 									return ValueConstructor(value as T)
 								}
 							}

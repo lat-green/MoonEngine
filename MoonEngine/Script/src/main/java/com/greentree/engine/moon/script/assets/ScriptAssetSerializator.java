@@ -2,9 +2,9 @@ package com.greentree.engine.moon.script.assets;
 
 import com.greentree.commons.data.resource.Resource;
 import com.greentree.engine.moon.assets.Value1Function;
-import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.AssetKt;
 import com.greentree.engine.moon.assets.key.AssetKey;
+import com.greentree.engine.moon.assets.provider.AssetProvider;
+import com.greentree.engine.moon.assets.provider.AssetProviderKt;
 import com.greentree.engine.moon.assets.serializator.AssetSerializator;
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
 import com.greentree.engine.moon.script.javascript.JavaScriptScript;
@@ -15,9 +15,9 @@ import java.io.IOException;
 public final class ScriptAssetSerializator implements AssetSerializator<JavaScriptScript> {
 
     @Override
-    public Asset<JavaScriptScript> load(AssetLoader.Context context, AssetKey key) {
+    public AssetProvider<JavaScriptScript> load(AssetLoader.Context context, AssetKey key) {
         final var res = context.load(Resource.class, key);
-        return AssetKt.map(res, ScriptFunction.INSTANCE);
+        return AssetProviderKt.map(res, ScriptFunction.INSTANCE);
     }
 
     private static final class ScriptFunction

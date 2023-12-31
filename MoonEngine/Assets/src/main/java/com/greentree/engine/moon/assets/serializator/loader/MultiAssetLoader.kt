@@ -4,14 +4,14 @@ import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.engine.moon.assets.NotSupportedKeyAndType
 import com.greentree.engine.moon.assets.NotSupportedKeyType
 import com.greentree.engine.moon.assets.NotSupportedType
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
 
 class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader {
 
-	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): Asset<T> {
+	override fun <T : Any> load(context: AssetLoader.Context, type: TypeInfo<T>, key: AssetKey): AssetProvider<T> {
 		val exceptions = mutableListOf<Exception>()
-		val results = mutableListOf<Asset<T>>()
+		val results = mutableListOf<AssetProvider<T>>()
 		for(loader in loaders) try {
 			results.add(loader.load(context, type, key))
 		} catch(_: NotSupportedType) {
@@ -20,12 +20,12 @@ class MultiAssetLoader(private val loaders: Iterable<AssetLoader>) : AssetLoader
 		} catch(e: Exception) {
 			exceptions.add(e)
 		}
-		for(it in results)
-			if(it.isValid())
-				return it
-		for(it in results)
-			if(!it.isConst())
-				return it
+
+		if(results.isNotEmpty()) {
+			if(results.size == 1)
+				return results.first()
+			return results.minBy { it.toString().length }
+		}
 
 		fun toMultiException(exceptions: Collection<Throwable>): Throwable {
 			if(exceptions.size == 1)

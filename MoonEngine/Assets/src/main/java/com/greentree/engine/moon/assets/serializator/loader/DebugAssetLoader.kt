@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.assets.serializator.loader
 
 import com.greentree.commons.reflection.info.TypeInfo
-import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
+import com.greentree.engine.moon.assets.provider.AssetProvider
 
 class DebugAssetLoader(val loaders: AssetLoader) : AssetLoader {
 
@@ -27,7 +27,7 @@ class DebugAssetLoader(val loaders: AssetLoader) : AssetLoader {
 		lateinit var result: Any
 		var time = -1L
 
-		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> {
+		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): AssetProvider<T> {
 			val child = DebugLoaderContext(origin, type, key)
 			val result = loaders.load(child, type, key)
 			child.result = result

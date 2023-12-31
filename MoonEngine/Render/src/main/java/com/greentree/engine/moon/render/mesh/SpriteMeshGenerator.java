@@ -2,8 +2,7 @@ package com.greentree.engine.moon.render.mesh;
 
 import com.greentree.commons.graphics.smart.mesh.Mesh;
 import com.greentree.commons.graphics.smart.shader.Shader;
-import com.greentree.engine.moon.assets.asset.Asset;
-import com.greentree.engine.moon.assets.asset.AssetKt;
+import com.greentree.engine.moon.assets.Asset;
 import com.greentree.engine.moon.assets.serializator.manager.AssetManagerKt;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.component.CreateComponent;
@@ -48,11 +47,11 @@ public class SpriteMeshGenerator implements WorldInitSystem, UpdateSystem {
             e.add(c);
         }
         for (var e : sprite_renders) {
-            final var c = new MeshRenderer(AssetKt.map(shader, e.get(SpriteRenderer.class).texture(), (s, t) -> {
-                var m = s.newMaterial();
-                m.put("render_texture", t);
+            final var c = new MeshRenderer(() -> {
+                var m = shader.getValue().newMaterial();
+                m.put("render_texture", e.get(SpriteRenderer.class).texture().getValue());
                 return m;
-            }));
+            });
             e.add(c);
         }
     }
