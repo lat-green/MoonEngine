@@ -14,9 +14,17 @@ object ConsoleAsserImporterContext : AssetImporter.Context {
 		}
 
 		override fun inputInt(name: String) = ref {
-			print("$name:")
-			val text = sc.nextLine()
-			text.toInt()
+			var result: Int
+			do {
+				print("$name:")
+				val text = sc.nextLine()
+				try {
+					result = text.toInt()
+					break
+				} catch(_: Exception) {
+				}
+			} while(true)
+			result
 		}
 
 		override fun inputRadio(name: String, values: Iterable<String>): Ref<String> = ref {

@@ -42,21 +42,24 @@ private data object AsyncHandler : ChainHandler {
 	}
 }
 
-fun <T : Any> AssetManager.loadAsync(type: TypeInfo<T>, key: AssetKey) = build(AsyncHandler).load(type, key)
+fun <T : Any> ChainAssetManager.loadAsync(type: TypeInfo<T>, key: AssetKey) = build(AsyncHandler).load(type, key)
 
-fun <T : Any> AssetManager.loadAsync(type: TypeInfo<T>, key: Any) = loadAsync(type, ResultAssetKey(key))
-fun <T : Any> AssetManager.loadAsync(type: TypeInfo<T>, resource: String) = loadAsync(type, ResourceAssetKey(resource))
+fun <T : Any> ChainAssetManager.loadAsync(type: TypeInfo<T>, key: Any) = loadAsync(type, ResultAssetKey(key))
+fun <T : Any> ChainAssetManager.loadAsync(type: TypeInfo<T>, resource: String) =
+	loadAsync(type, ResourceAssetKey(resource))
 
-fun <T : Any> AssetManager.loadAsync(cls: Class<T>, key: AssetKey) = loadAsync(TypeInfoBuilder.getTypeInfo(cls), key)
-fun <T : Any> AssetManager.loadAsync(cls: Class<T>, key: Any) = loadAsync(TypeInfoBuilder.getTypeInfo(cls), key)
-fun <T : Any> AssetManager.loadAsync(cls: Class<T>, resource: String) =
+fun <T : Any> ChainAssetManager.loadAsync(cls: Class<T>, key: AssetKey) =
+	loadAsync(TypeInfoBuilder.getTypeInfo(cls), key)
+
+fun <T : Any> ChainAssetManager.loadAsync(cls: Class<T>, key: Any) = loadAsync(TypeInfoBuilder.getTypeInfo(cls), key)
+fun <T : Any> ChainAssetManager.loadAsync(cls: Class<T>, resource: String) =
 	loadAsync(TypeInfoBuilder.getTypeInfo(cls), resource)
 
-inline fun <reified T : Any> AssetManager.loadAsync(key: AssetKey) =
+inline fun <reified T : Any> ChainAssetManager.loadAsync(key: AssetKey) =
 	loadAsync(TypeInfoBuilder.getTypeInfo(T::class.java), key)
 
-inline fun <reified T : Any> AssetManager.loadAsync(key: Any) =
+inline fun <reified T : Any> ChainAssetManager.loadAsync(key: Any) =
 	loadAsync(TypeInfoBuilder.getTypeInfo(T::class.java), key)
 
-inline fun <reified T : Any> AssetManager.loadAsync(resource: String) =
+inline fun <reified T : Any> ChainAssetManager.loadAsync(resource: String) =
 	loadAsync(TypeInfoBuilder.getTypeInfo(T::class.java), resource)

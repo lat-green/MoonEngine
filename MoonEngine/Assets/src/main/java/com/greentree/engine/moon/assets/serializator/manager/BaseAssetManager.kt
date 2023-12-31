@@ -5,7 +5,6 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.CacheAssetLoader
-import com.greentree.engine.moon.assets.serializator.loader.DebugAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.DefaultAssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.DefaultLoader
 import com.greentree.engine.moon.assets.serializator.loader.MultiAssetLoader
@@ -16,7 +15,7 @@ import com.greentree.engine.moon.assets.serializator.manager.chain.Chain
 import com.greentree.engine.moon.assets.serializator.manager.chain.ChainHandler
 import org.apache.logging.log4j.LogManager
 
-class BaseAssetManager : MutableAssetManager {
+class BaseAssetManager : MutableAssetManager, AssetLoader.Context {
 
 	private val defaultLoaders = mutableListOf<DefaultLoader>()
 	private val multiDefaultLoaders = MultiDefaultAssetLoader(defaultLoaders)
@@ -24,7 +23,7 @@ class BaseAssetManager : MutableAssetManager {
 	private val multiLoaders =
 		CacheAssetLoader(
 //			DebugAssetLoader(
-				MultiAssetLoader(loaders),
+			MultiAssetLoader(loaders),
 //			),
 			HashMapCacheFactory
 		)
