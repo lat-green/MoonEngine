@@ -4,13 +4,13 @@ import com.greentree.engine.moon.cooker.info.AssetInfo
 import com.greentree.engine.moon.cooker.info.ImportAssetInfo
 import com.greentree.engine.moon.cooker.info.PrimaryImportAssetInfoProxy
 
-class PrimaryTypeAssertImportFilter(
-	private val type: String,
+class PrimaryFilterAssetImportFilter(
+	private val filter: (AssetInfo) -> Boolean,
 ) : AssetImportFilter {
 
 	override fun doFilter(chain: AssetImportFilter.Chain, asset: AssetInfo): ImportAssetInfo? {
 		val result = chain.doFilter(asset) ?: return null
-		if(!result.isPrimary && asset.fileType == type)
+		if(!result.isPrimary && filter(asset))
 			return PrimaryImportAssetInfoProxy(result)
 		return result
 	}

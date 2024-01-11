@@ -14,7 +14,9 @@ import org.apache.maven.plugins.annotations.Mojo
 import org.apache.maven.plugins.annotations.Parameter
 import org.apache.maven.plugins.annotations.ResolutionScope
 import org.apache.maven.project.MavenProject
+import java.io.BufferedInputStream
 import java.io.File
+import java.io.FileInputStream
 import java.lang.reflect.Modifier
 import java.net.URL
 import java.net.URLClassLoader
@@ -48,8 +50,9 @@ class CompileAssetsMojo : AbstractMojo() {
 				log.warn("skip $assetDirectory is not exists")
 				return
 			}
+			val allClasses = getAllClasses(mavenProject)
 			val assetCookerModules =
-				getAllClasses(mavenProject)
+				allClasses
 					.filter {
 						AssetCookerModule::class.java.isAssignableFrom(it)
 					}.filter {
@@ -64,6 +67,13 @@ class CompileAssetsMojo : AbstractMojo() {
 				override fun ask(text: String): Boolean {
 					TODO("Not yet implemented")
 				}
+
+				override fun <T> findClass(baseClass: Class<T>, name: String) = allClasses.filter {
+					baseClass.isAssignableFrom(it) && it.name.endsWith(name)
+				}.minByOrNull { it.name.length } as Class<out T>?
+					?: throw ClassNotFoundException("baseClass = $baseClass, name = $name")
+
+				override fun readFile(name: String) = BufferedInputStream(FileInputStream(File(assetDirectory, name)))
 			}
 			for(file in getAllFiles(assetDirectory)) {
 				try {

@@ -5,12 +5,14 @@ import com.greentree.commons.xml.XMLElement;
 import com.greentree.engine.moon.cooker.AssetCookerModule;
 import com.greentree.engine.moon.cooker.AssetImportManagerProperty;
 import com.greentree.engine.moon.cooker.filter.DependencyTypeAssetImportFilter;
-import com.greentree.engine.moon.cooker.filter.PrimaryTypeAssertImportFilter;
+import com.greentree.engine.moon.cooker.filter.PrimaryFilterAssetImportFilter;
+import com.greentree.engine.moon.cooker.filter.PrimaryTypeAssetImportFilter;
 import com.greentree.engine.moon.modules.property.EngineProperties;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class TestAssetCookerModule implements AssetCookerModule {
 
@@ -35,7 +37,7 @@ public class TestAssetCookerModule implements AssetCookerModule {
                 throw new RuntimeException(e);
             }
         }));
-        manager.addFilter(new DependencyTypeAssetImportFilter(asset -> "xml".equals(asset.getFileType()), asset -> {
+        manager.addFilter(new DependencyTypeAssetImportFilter(asset -> "xml".equals(asset.getFileType()) || "scene".equals(asset.getFileType()), asset -> {
             try (final var in = asset.open()) {
                 var xml = SAXXMLParser.parse(in);
                 return getDependencies(xml);
@@ -43,24 +45,25 @@ public class TestAssetCookerModule implements AssetCookerModule {
                 throw new RuntimeException(e);
             }
         }));
-        manager.addFilter(new PrimaryTypeAssertImportFilter("glsl"));
-        manager.addFilter(new PrimaryTypeAssertImportFilter("xml"));
-        manager.addFilter(new PrimaryTypeAssertImportFilter("ini"));
+        manager.addFilter(new PrimaryTypeAssetImportFilter("glsl"));
+        manager.addFilter(new PrimaryTypeAssetImportFilter("ini"));
+        manager.addFilter(new PrimaryFilterAssetImportFilter(asset -> "scene/world1.scene".equals(asset.getFileName())));
+        manager.addImporter(new EntityRefIncludeAssetImporter());
     }
 
     private Collection<String> getDependencies(XMLElement xml) {
         var ch = xml.getChildrens();
         if (ch.isEmpty()) {
-            var content = xml.getContent();
-            if (content.isBlank())
-                return Set.of();
-            if (isNumber(content))
-                return Set.of();
-            if (content.contains("{") || content.contains("}") || content.contains("$"))
-                return Set.of();
-            return Set.of(content);
+            var result = new HashSet<String>();
+            result.add(xml.getContent());
+            result.removeIf(content -> content.isBlank() || content.contains("{") || content.contains("}") || content.contains("$") || isNumber(content));
+            return result;
         }
-        return ch.stream().flatMap(x -> getDependencies(x).stream()).distinct().toList();
+        var result = ch.stream().flatMap(x -> getDependencies(x).stream());
+        if ("entity_ref".equals(xml.getName())) {
+            return Stream.concat(result, xml.getAttributes().values().stream()).distinct().toList();
+        }
+        return result.distinct().toList();
     }
 
     private boolean isNumber(String text) {

@@ -27,7 +27,7 @@ public class InitSceneModule implements LaunchModule, UpdateModule {
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager;
         scenes = context.get(SceneManagerProperty.class).manager();
-        scene = AssetLoaderKt.load(manager.build(AsyncHandler.INSTANCE), Scene.class, "scene/world1.xml");
+        scene = AssetLoaderKt.load(manager.build(AsyncHandler.INSTANCE), Scene.class, "scene/world1.scene");
         lastUpdate = AssetProviderKt.getLastModified(scene);
         scenes.set(scene.value(EmptyAssetRequest.INSTANCE));
     }

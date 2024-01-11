@@ -46,7 +46,7 @@ class FolderAssetImportManager(
 		var chain: AssetImportFilter.Chain = RootChain(context)
 		for(filter in assetImportFilters)
 			chain = WrapAssetImportFilterChain(filter, chain)
-		val asset = FileAssetInfo(file)
+		val asset = FileAssetInfo(inputFolder, file.absoluteFile)
 		val importedAsset = chain.doFilter(asset) ?: return null
 		val outputFile = File(outputFolder, FileUtil.getLocalPath(inputFolder, file))
 		assets.add(importedAsset to outputFile)
