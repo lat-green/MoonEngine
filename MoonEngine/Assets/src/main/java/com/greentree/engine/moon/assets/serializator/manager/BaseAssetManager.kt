@@ -1,7 +1,6 @@
 package com.greentree.engine.moon.assets.serializator.manager
 
 import com.greentree.commons.reflection.info.TypeInfo
-import com.greentree.engine.moon.assets.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.provider.AssetProvider
@@ -45,8 +44,7 @@ class BaseAssetManager : MutableAssetManager {
 
 	override fun build(ctx: ChainHandler): Chain = BaseChain(ctx)
 
-	override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey): Asset<T> =
-		BaseAsset(multiLoaders.load(context, type, key))
+	override fun <T : Any> wrap(provider: AssetProvider<T>) = BaseAsset(provider)
 
 	private inner class BaseChain(val ctx: ChainHandler) : Chain {
 

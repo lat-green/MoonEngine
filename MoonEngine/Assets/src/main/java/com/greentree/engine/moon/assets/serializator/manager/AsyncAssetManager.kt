@@ -23,7 +23,7 @@ val EXECUTOR = Executors.newFixedThreadPool(
 	thread
 }
 
-private data object AsyncHandler : ChainHandler {
+data object AsyncHandler : ChainHandler {
 
 	override fun <T : Any> load(chain: Chain, type: TypeInfo<T>, key: AssetKey): AssetProvider<T> {
 		val res = chain.loadCache(type, key)
@@ -42,7 +42,10 @@ private data object AsyncHandler : ChainHandler {
 	}
 }
 
-fun <T : Any> ChainAssetManager.loadAsync(type: TypeInfo<T>, key: AssetKey) = build(AsyncHandler).load(type, key)
+fun <T : Any> ChainAssetManager.loadAsyncProvider(type: TypeInfo<T>, key: AssetKey) =
+	build(AsyncHandler).load(type, key)
+
+fun <T : Any> ChainAssetManager.loadAsync(type: TypeInfo<T>, key: AssetKey) = wrap(build(AsyncHandler).load(type, key))
 
 fun <T : Any> ChainAssetManager.loadAsync(type: TypeInfo<T>, key: Any) = loadAsync(type, ResultAssetKey(key))
 fun <T : Any> ChainAssetManager.loadAsync(type: TypeInfo<T>, resource: String) =

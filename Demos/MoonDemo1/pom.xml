@@ -30,6 +30,10 @@
     <dependencies>
         <dependency>
             <groupId>com.greentree.engine.moon</groupId>
+            <artifactId>cooker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.greentree.engine.moon</groupId>
             <artifactId>debug</artifactId>
         </dependency>
         <dependency>
@@ -45,5 +49,25 @@
             <artifactId>assimp</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.greentree.engine.moon</groupId>
+                <artifactId>asset-compile-plugin</artifactId>
+                <version>0.3.6</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>cook</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <assetDirectory>Assets</assetDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

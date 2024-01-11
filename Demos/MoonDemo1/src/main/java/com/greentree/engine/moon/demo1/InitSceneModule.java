@@ -3,7 +3,8 @@ package com.greentree.engine.moon.demo1;
 import com.greentree.engine.moon.assets.provider.AssetProvider;
 import com.greentree.engine.moon.assets.provider.AssetProviderKt;
 import com.greentree.engine.moon.assets.provider.request.EmptyAssetRequest;
-import com.greentree.engine.moon.assets.serializator.manager.AsyncAssetManagerKt;
+import com.greentree.engine.moon.assets.serializator.loader.AssetLoaderKt;
+import com.greentree.engine.moon.assets.serializator.manager.AsyncHandler;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
@@ -26,9 +27,7 @@ public class InitSceneModule implements LaunchModule, UpdateModule {
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager;
         scenes = context.get(SceneManagerProperty.class).manager();
-        scene = AsyncAssetManagerKt.loadAsync(manager, Scene.class, "scene/world1.xml");
-//        scene = AsyncAssetManagerKt.loadAsync(manager, Scene.class, "scene/big.xml");
-//        scene = AssetLoaderKt.load(manager, Scene.class, "scene/world1.xml");
+        scene = AssetLoaderKt.load(manager.build(AsyncHandler.INSTANCE), Scene.class, "scene/world1.xml");
         lastUpdate = AssetProviderKt.getLastModified(scene);
         scenes.set(scene.value(EmptyAssetRequest.INSTANCE));
     }

@@ -14,5 +14,6 @@ open module engine.moon.assets {
     exports com.greentree.engine.moon.assets.serializator.request;
     exports com.greentree.engine.moon.assets.serializator.loader;
     exports com.greentree.engine.moon.assets.serializator.manager;
+    exports com.greentree.engine.moon.assets.serializator.manager.chain;
     exports com.greentree.engine.moon.assets.serializator.manager.cache;
 }
