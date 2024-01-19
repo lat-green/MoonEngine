@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE entity SYSTEM "D:\programing\MoonEngine\Program Files\scene.dtd">
+<!DOCTYPE entity SYSTEM "C:\programing\MoonEngine\Program Files\scene.dtd">
 
 <entity name="${name}">
     <component type="Transform">

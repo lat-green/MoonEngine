@@ -45,6 +45,8 @@ public class ControllerSystem1 implements WorldInitSystem, UpdateSystem {
             final var co = c.get(Controller1.class);
             final var t = c.get(Transform.class).position;
             final var minY = c.get(MinY.class).value();
+            var a = input.getValue(PlayerButton1.Jump);
+            var b = input.getValue(PlayerInput1.Move);
             var move = input.get(PlayerInput1.Move);
             var jump = input.get(PlayerButton1.Jump);
             t.x(t.x() + co.speed() * move * time.delta());

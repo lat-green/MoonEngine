@@ -3,9 +3,9 @@ package com.greentree.engine.moon.cooker
 import com.greentree.commons.data.FileUtil
 import com.greentree.engine.moon.cooker.filter.AssetImportFilter
 import com.greentree.engine.moon.cooker.info.AssetInfo
+import com.greentree.engine.moon.cooker.info.AssetInfoImportAssetInfo
 import com.greentree.engine.moon.cooker.info.FileAssetInfo
 import com.greentree.engine.moon.cooker.info.ImportAssetInfo
-import com.greentree.engine.moon.cooker.info.ImportAssetInfoImpl
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -36,7 +36,7 @@ class FolderAssetImportManager(
 				if(importedAsset != null)
 					return importedAsset
 			}
-			return ImportAssetInfoImpl(asset)
+			return AssetInfoImportAssetInfo(asset)
 		}
 
 		override fun isPrimary(asset: AssetInfo) = false

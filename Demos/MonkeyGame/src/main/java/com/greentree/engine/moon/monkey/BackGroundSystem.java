@@ -2,6 +2,7 @@ package com.greentree.engine.moon.monkey;
 
 import com.greentree.commons.math.vector.Vector3f;
 import com.greentree.engine.moon.base.name.Names;
+import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.transform.Transform;
 import com.greentree.engine.moon.ecs.scene.SceneProperties;
 import com.greentree.engine.moon.ecs.system.InitSystem;
@@ -11,6 +12,7 @@ public class BackGroundSystem implements InitSystem, UpdateSystem {
 
     private Vector3f bg1, bg2, camera;
 
+    @ReadProperty(Names.class)
     @Override
     public void init(SceneProperties properties) {
         var names = properties.get(Names.class);

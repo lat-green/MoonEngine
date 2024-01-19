@@ -7,6 +7,7 @@ import com.greentree.engine.moon.assets.Asset
 import com.greentree.engine.moon.assets.Value1Function
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
+import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.provider.AssetProvider
 import com.greentree.engine.moon.assets.provider.map
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
@@ -82,6 +83,23 @@ object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 
 						override fun getLoadOnly(): Class<*> {
 							return Asset::class.java
+						}
+					})
+					builder.add(object : XMLTypeAddapter {
+						override fun <T : Any> newInstance(
+							c: Context,
+							type: TypeInfo<T>,
+							xml_value: XMLElement,
+						): Constructor<T>? {
+							val cs = xml_value.childrens ?: return null
+							if(cs.isEmpty())
+								return null
+							return ValueConstructor(
+								context.load(
+									type,
+									ResultAssetKey(cs.first())
+								).value
+							)
 						}
 					})
 					builder.add(object : XMLTypeAddapter {

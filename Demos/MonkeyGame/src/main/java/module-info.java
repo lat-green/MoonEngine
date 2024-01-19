@@ -1,5 +1,6 @@
 import com.greentree.engine.moon.ecs.system.ECSSystem;
-import com.greentree.engine.moon.monkey.InitControllerSystem;
+import com.greentree.engine.moon.modules.EngineModule;
+import com.greentree.engine.moon.monkey.InitControllerModule;
 
 open module game.moon.monkey {
     requires transitive engine.moon.opengl;
@@ -7,5 +8,5 @@ open module game.moon.monkey {
     requires transitive engine.moon.collision2d;
     requires transitive commons.util;
     //	requires transitive common.cooker;
-    provides ECSSystem with InitControllerSystem;
+    provides EngineModule with InitControllerModule;
 }

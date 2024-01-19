@@ -319,7 +319,7 @@ public class ObjectXMLBuilder implements Context {
         }
         if (error != null)
             throw error;
-        return null;
+        throw new IllegalArgumentException("can not load " + type + " " + xml_element);
     }
 
     private void add(XMLTypeInjectAdapter<?> injectaddapter) {

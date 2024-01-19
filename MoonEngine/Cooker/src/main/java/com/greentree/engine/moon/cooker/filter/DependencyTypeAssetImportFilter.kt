@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.cooker.filter
 
-import com.greentree.engine.moon.cooker.AddDependenciesImportAssetInfoProxy
+import com.greentree.engine.moon.cooker.info.AddDependenciesImportAssetInfoProxy
 import com.greentree.engine.moon.cooker.info.AssetInfo
 import com.greentree.engine.moon.cooker.info.ImportAssetInfo
 
