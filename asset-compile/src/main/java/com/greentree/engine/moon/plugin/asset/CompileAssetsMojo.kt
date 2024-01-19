@@ -1,6 +1,5 @@
 package com.greentree.engine.moon.plugin.asset
 
-import com.greentree.commons.util.time.PointTimer
 import com.greentree.engine.moon.cooker.AssetCookerModule
 import com.greentree.engine.moon.cooker.AssetImportManagerProperty
 import com.greentree.engine.moon.cooker.AssetImporter
@@ -76,23 +75,8 @@ class CompileAssetsMojo : AbstractMojo() {
 
 				override fun readFile(name: String) = BufferedInputStream(FileInputStream(File(assetDirectory, name)))
 			}
-			for(file in getAllFiles(assetDirectory)) {
-				try {
-					val timer = PointTimer()
-					timer.point()
-					val info = importManager.importAsset(ctx, file)
-					timer.point()
-					val time = timer[0]
-					if(time > 1E-3)
-						when(info) {
-							null -> log.debug("ignore $file ($time s)")
-							else -> log.info("import $file ($time s)")
-						}
-				} catch(e: Exception) {
-					log.warn("can't import $file", e)
-				}
-			}
-			importManager.build()
+			for(info in importManager.importAssets(ctx, getAllFiles(assetDirectory)))
+				log.info("import $info")
 			for(m in assetCookerModules)
 				m.terminate()
 		} catch(e: Throwable) {

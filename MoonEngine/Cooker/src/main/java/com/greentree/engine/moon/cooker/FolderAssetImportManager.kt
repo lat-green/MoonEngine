@@ -7,7 +7,6 @@ import com.greentree.engine.moon.cooker.info.FileAssetInfo
 import com.greentree.engine.moon.cooker.info.ImportAssetInfo
 import com.greentree.engine.moon.cooker.info.ImportAssetInfoImpl
 import java.io.File
-import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
@@ -18,7 +17,6 @@ class FolderAssetImportManager(
 	private val outputFolder: File,
 ) : AssetImportManager {
 
-	private val assets = mutableListOf<BuildAssetInfo>()
 	private val assetImporters = mutableListOf<AssetImporter>()
 	private val assetImportFilters = mutableListOf<AssetImportFilter>()
 
@@ -30,7 +28,7 @@ class FolderAssetImportManager(
 		assetImportFilters.add(filter)
 	}
 
-	private inner class RootChain(val context: AssetImporter.Context) : AssetImportFilter.Chain {
+	private inner class RootChain(val context: AssetImporter.Context) : AssetImportFilter.ChainAndChainIsPrimary {
 
 		override fun doFilter(asset: AssetInfo): ImportAssetInfo {
 			for(assetImporter in assetImporters) {
@@ -40,33 +38,41 @@ class FolderAssetImportManager(
 			}
 			return ImportAssetInfoImpl(asset)
 		}
+
+		override fun isPrimary(asset: AssetInfo) = false
 	}
 
-	fun importAsset(context: AssetImporter.Context, file: File): ImportAssetInfo? {
-		var chain: AssetImportFilter.Chain = RootChain(context)
+	private fun importAsset(
+		chain: AssetImportFilter.ChainAndChainIsPrimary,
+		asset: AssetInfo,
+		file: File,
+	): BuildAssetInfo? {
+		val info = chain.doFilter(asset)
+		if(info != null) {
+			val outputFile = File(outputFolder, FileUtil.getLocalPath(inputFolder, file))
+			return BuildAssetInfo(info, outputFile)
+		}
+		return null
+	}
+
+	fun importAssets(context: AssetImporter.Context, assets: Iterable<File>): Iterable<ImportAssetInfo> {
+		var chain: AssetImportFilter.ChainAndChainIsPrimary = RootChain(context)
 		for(filter in assetImportFilters)
 			chain = WrapAssetImportFilterChain(filter, chain)
-		val asset = FileAssetInfo(inputFolder, file.absoluteFile)
-		val importedAsset = chain.doFilter(asset) ?: return null
-		val outputFile = File(outputFolder, FileUtil.getLocalPath(inputFolder, file))
-		assets.add(
-			BuildAssetInfo(
-				importedAsset,
-				outputFile,
-				file
-			)
-		)
-		return importedAsset
-	}
-
-	fun build() {
 		val toBuild = mutableSetOf<BuildAssetInfo>()
-		for(p in assets)
-			if(p.info.isPrimary)
-				toBuild.add(p)
+		for(file in assets) {
+			val asset = FileAssetInfo(inputFolder, file.absoluteFile)
+			if(chain.isPrimary(asset)) {
+				importAsset(chain, asset, file)?.let {
+					toBuild.add(it)
+				}
+			}
+		}
 		var dependencies: Collection<BuildAssetInfo> = toBuild
 		do {
-			dependencies = dependencies.flatMap { it.info.dependencies }.map { assets.found(it) }
+			dependencies = dependencies.flatMap { it.info.dependencies }.map {
+				toBuild.found(it) ?: found(chain, assets, it)
+			}
 		} while(toBuild.addAll(dependencies))
 		for((importedAsset, outputFile) in toBuild) {
 			outputFile.parentFile.mkdirs()
@@ -77,23 +83,39 @@ class FolderAssetImportManager(
 				}
 			}
 		}
+		return toBuild.map { it.info }
+	}
+
+	private fun found(
+		chain: AssetImportFilter.ChainAndChainIsPrimary,
+		files: Iterable<File>,
+		name: String,
+	): BuildAssetInfo {
+		val name = name.replace('\\', '/')
+		for(file in files)
+			if(file.absolutePath.replace('\\', '/').endsWith(name)) {
+				val asset = FileAssetInfo(inputFolder, file.absoluteFile)
+				importAsset(chain, asset, file)?.let {
+					return it
+				}
+			}
+		throw IllegalArgumentException("not found dependency $name in $files")
 	}
 }
 
 private data class BuildAssetInfo(
 	val info: ImportAssetInfo,
 	val outputFile: File,
-	val inputFile: File,
 )
 
-private fun Iterable<BuildAssetInfo>.found(name: String): BuildAssetInfo {
+private fun Iterable<BuildAssetInfo>.found(name: String): BuildAssetInfo? {
 	val name = name.replace('\\', '/')
 	for(p in this) {
 		val file = p.outputFile
 		if(file.absolutePath.replace('\\', '/').endsWith(name))
 			return p
 	}
-	throw FileNotFoundException("$name in ${map { it.outputFile }}")
+	return null
 }
 
 fun InputStream.mytransferTo(out: OutputStream): Long {

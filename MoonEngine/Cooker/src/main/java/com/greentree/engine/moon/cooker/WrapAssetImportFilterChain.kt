@@ -5,8 +5,10 @@ import com.greentree.engine.moon.cooker.info.AssetInfo
 
 class WrapAssetImportFilterChain(
 	private val filter: AssetImportFilter,
-	private val chain: AssetImportFilter.Chain,
-) : AssetImportFilter.Chain {
+	private val chain: AssetImportFilter.ChainAndChainIsPrimary,
+) : AssetImportFilter.ChainAndChainIsPrimary {
 
 	override fun doFilter(asset: AssetInfo) = filter.doFilter(chain, asset)
+
+	override fun isPrimary(asset: AssetInfo) = filter.isPrimary(chain, asset)
 }

@@ -37,16 +37,16 @@
             <property name="width">800</property>
             <property name="height">600</property>
         </component>
-        <!--        <component type="SkyBoxComponent">-->
-        <!--            <field name="texture">-->
-        <!--                <value type="CubeTextureAssetKey">-->
-        <!--                    <field name="image">-->
-        <!--                        <value>skybox/test_SB/.skybox</value>-->
-        <!--                        &lt;!&ndash;                        <value>skybox/storforsen/.skybox</value>&ndash;&gt;-->
-        <!--                    </field>-->
-        <!--                </value>-->
-        <!--            </field>-->
-        <!--        </component>-->
+        <component type="SkyBoxComponent">
+            <field name="texture">
+                <value type="CubeTextureAssetKey">
+                    <field name="image">
+                        <value>skybox/test_SB/.skybox</value>
+                        <!--                        <value>skybox/storforsen/.skybox</value>-->
+                    </field>
+                </value>
+            </field>
+        </component>
         <component type="Controller3D">
             <field name="speed">
                 <value>15</value>
@@ -72,96 +72,96 @@
         </component>
     </entity>
 
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">4</property>-->
-    <!--        <property name="material">material/gold/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">2</property>-->
-    <!--        <property name="material">material/grass/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">0</property>-->
-    <!--        <property name="material">material/gravel/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">-2</property>-->
-    <!--        <property name="material">material/rustediron2/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">2</property>-->
-    <!--        <property name="z">-4</property>-->
-    <!--        <property name="material">material/rustediron2/min/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">0</property>-->
-    <!--        <property name="z">4</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">0</property>-->
-    <!--        <property name="z">2</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">0</property>-->
-    <!--        <property name="z">0</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">0</property>-->
-    <!--        <property name="z">-2</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">0</property>-->
-    <!--        <property name="z">-4</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">-2</property>-->
-    <!--        <property name="z">4</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">-2</property>-->
-    <!--        <property name="z">2</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">-2</property>-->
-    <!--        <property name="z">0</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">-2</property>-->
-    <!--        <property name="z">-2</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
-    <!--    <entity_ref file="scene/entity1.xml">-->
-    <!--        <property name="x">3</property>-->
-    <!--        <property name="y">-2</property>-->
-    <!--        <property name="z">-4</property>-->
-    <!--        <property name="material">material/brick/.material</property>-->
-    <!--    </entity_ref>-->
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">4</property>
+        <property name="material">material/gold/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">2</property>
+        <property name="material">material/grass/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">0</property>
+        <property name="material">material/gravel/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">-2</property>
+        <property name="material">material/rustediron2/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">2</property>
+        <property name="z">-4</property>
+        <property name="material">material/rustediron2/min/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">0</property>
+        <property name="z">4</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">0</property>
+        <property name="z">2</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">0</property>
+        <property name="z">0</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">0</property>
+        <property name="z">-2</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">0</property>
+        <property name="z">-4</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">-2</property>
+        <property name="z">4</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">-2</property>
+        <property name="z">2</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">-2</property>
+        <property name="z">0</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">-2</property>
+        <property name="z">-2</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
+    <entity_ref file="scene/entity1.xml">
+        <property name="x">3</property>
+        <property name="y">-2</property>
+        <property name="z">-4</property>
+        <property name="material">material/brick/.material</property>
+    </entity_ref>
 
     <entity_ref file="scene/wall.xml">
         <property name="x">20</property>
