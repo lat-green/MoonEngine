@@ -10,7 +10,7 @@ class PrimaryFilterAssetImportFilter(
 
 	override fun doFilter(chain: AssetImportFilter.Chain, asset: AssetInfo): ImportAssetInfo? {
 		val result = chain.doFilter(asset) ?: return null
-		if(!result.isPrimary && filter(asset))
+		if(filter(asset))
 			return PrimaryImportAssetInfoProxy(result)
 		return result
 	}

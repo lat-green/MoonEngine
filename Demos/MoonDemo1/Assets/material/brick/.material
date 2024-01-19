@@ -3,3 +3,4 @@ texture.normal=material/brick/Bricks071_1K_NormalGL.bmp
 texture.displacement=material/brick/Bricks071_1K_Displacement.bmp
 texture.roughness=material/brick/Bricks071_1K_Roughness.bmp
 texture.ambient_occlusion=material/brick/Bricks071_1K_AmbientOcclusion.bmp
+shader=shader/pbr_mapping/pbr_mapping.glsl

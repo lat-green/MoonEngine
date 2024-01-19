@@ -3,14 +3,11 @@ package com.greentree.engine.moon.cooker.filter
 import com.greentree.engine.moon.cooker.info.AssetInfo
 import com.greentree.engine.moon.cooker.info.ImportAssetInfo
 
-class IgnoreTypeAssertImportFilter(
-	private val type: String,
-) : AssetImportFilter {
+interface PostAssetImportFilter : AssetImportFilter {
 
 	override fun doFilter(chain: AssetImportFilter.Chain, asset: AssetInfo): ImportAssetInfo? {
-		val type = asset.fileType
-		if(this.type == type)
-			return null
-		return chain.doFilter(asset)
+		return doPostFilter(chain.doFilter(asset) ?: return null)
 	}
+
+	fun doPostFilter(asset: ImportAssetInfo): ImportAssetInfo?
 }

@@ -5,9 +5,9 @@ import com.greentree.engine.moon.cooker.info.ImportAssetInfo
 
 interface AssetImportFilter {
 
-	fun doFilter(chain: Chain, asset: AssetInfo): ImportAssetInfo?
+	fun doFilter(chain: Chain, asset: AssetInfo): ImportAssetInfo? = chain.doFilter(asset)
 
-	fun interface Chain {
+	interface Chain {
 
 		fun doFilter(asset: AssetInfo): ImportAssetInfo?
 	}

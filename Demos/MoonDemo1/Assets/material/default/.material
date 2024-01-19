@@ -1,3 +1,4 @@
 texture.albedo=color(0.75)
 texture.metallic=color(0.1)
 texture.roughness=color(0.0)
+shader=shader/pbr_mapping/pbr_mapping.glsl

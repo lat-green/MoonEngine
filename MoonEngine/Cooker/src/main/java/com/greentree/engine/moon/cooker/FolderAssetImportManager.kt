@@ -18,7 +18,7 @@ class FolderAssetImportManager(
 	private val outputFolder: File,
 ) : AssetImportManager {
 
-	private val assets = mutableListOf<Pair<ImportAssetInfo, File>>()
+	private val assets = mutableListOf<BuildAssetInfo>()
 	private val assetImporters = mutableListOf<AssetImporter>()
 	private val assetImportFilters = mutableListOf<AssetImportFilter>()
 
@@ -38,7 +38,7 @@ class FolderAssetImportManager(
 				if(importedAsset != null)
 					return importedAsset
 			}
-			return ImportAssetInfoImpl(asset, false)
+			return ImportAssetInfoImpl(asset)
 		}
 	}
 
@@ -49,18 +49,24 @@ class FolderAssetImportManager(
 		val asset = FileAssetInfo(inputFolder, file.absoluteFile)
 		val importedAsset = chain.doFilter(asset) ?: return null
 		val outputFile = File(outputFolder, FileUtil.getLocalPath(inputFolder, file))
-		assets.add(importedAsset to outputFile)
+		assets.add(
+			BuildAssetInfo(
+				importedAsset,
+				outputFile,
+				file
+			)
+		)
 		return importedAsset
 	}
 
 	fun build() {
-		val toBuild = mutableSetOf<Pair<ImportAssetInfo, File>>()
+		val toBuild = mutableSetOf<BuildAssetInfo>()
 		for(p in assets)
-			if(p.first.isPrimary)
+			if(p.info.isPrimary)
 				toBuild.add(p)
-		var dependencies: Collection<Pair<ImportAssetInfo, File>> = toBuild
+		var dependencies: Collection<BuildAssetInfo> = toBuild
 		do {
-			dependencies = dependencies.flatMap { it.first.dependencies }.map { assets.found(it) }
+			dependencies = dependencies.flatMap { it.info.dependencies }.map { assets.found(it) }
 		} while(toBuild.addAll(dependencies))
 		for((importedAsset, outputFile) in toBuild) {
 			outputFile.parentFile.mkdirs()
@@ -74,14 +80,20 @@ class FolderAssetImportManager(
 	}
 }
 
-private fun Iterable<Pair<ImportAssetInfo, File>>.found(name: String): Pair<ImportAssetInfo, File> {
+private data class BuildAssetInfo(
+	val info: ImportAssetInfo,
+	val outputFile: File,
+	val inputFile: File,
+)
+
+private fun Iterable<BuildAssetInfo>.found(name: String): BuildAssetInfo {
 	val name = name.replace('\\', '/')
 	for(p in this) {
-		val file = p.second
+		val file = p.outputFile
 		if(file.absolutePath.replace('\\', '/').endsWith(name))
 			return p
 	}
-	throw FileNotFoundException("$name in ${map { it.second }}")
+	throw FileNotFoundException("$name in ${map { it.outputFile }}")
 }
 
 fun InputStream.mytransferTo(out: OutputStream): Long {

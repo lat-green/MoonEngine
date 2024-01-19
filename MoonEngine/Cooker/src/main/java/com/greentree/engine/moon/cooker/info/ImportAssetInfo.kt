@@ -4,8 +4,8 @@ import java.io.InputStream
 
 interface ImportAssetInfo {
 
-	fun open(): InputStream
-
 	val isPrimary: Boolean
 	val dependencies: Iterable<String>
+
+	fun open(): InputStream
 }

@@ -19,10 +19,14 @@ object PropertiesAssetSerializator : AssetSerializator<Properties> {
 
 	private object ResourceToProperties : Value1Function<Resource, Properties> {
 
+		override fun applyWithDest(value: Resource, dest: Properties): Properties {
+			value.open().use { dest.load(it) }
+			return dest
+		}
+
 		override fun apply(res: Resource): Properties {
 			val prop = Properties()
-			res.open().use { prop.load(it) }
-			return prop
+			return applyWithDest(res, prop)
 		}
 
 		override fun toString(): String {

@@ -43,7 +43,7 @@ data class ResourceNamedAssetProvider(
 	override val lastModified by getOnePerDelta(UPDATE_DELTA) {
 		kotlin.runCatching {
 			name.value(TryNotUpdate)
-		}.map {
+		}.mapCatching {
 			resources.getResource(it).lastModified()
 		}.getOrElse {
 			0L
@@ -55,8 +55,14 @@ data class ResourceNamedAssetProvider(
 	}
 }
 
-fun newResourceAsset(resources: ResourceLocation, name: AssetProvider<String>): AssetProvider<Resource> =
-	ResourceNamedAssetProvider(resources, name)
+fun newResourceAsset(resources: ResourceLocation, name: AssetProvider<String>): AssetProvider<Resource> {
+	if(name is ConstAssetProvider && resources.isExist(name.value))
+		try {
+			return newResourceAsset(resources.getResource(name.value))
+		} catch(e: Exception) {
+		}
+	return ResourceNamedAssetProvider(resources, name)
+}
 
 fun newResourceAsset(resources: ResourceLocation, name: String): AssetProvider<Resource> =
 	ResourceAssetProvider(resources, name)

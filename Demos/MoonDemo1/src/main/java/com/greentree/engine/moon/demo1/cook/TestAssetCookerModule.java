@@ -11,17 +11,16 @@ import com.greentree.engine.moon.modules.property.EngineProperties;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
 import java.util.stream.Stream;
 
 public class TestAssetCookerModule implements AssetCookerModule {
 
-    private final Map<String, Long> count = new HashMap<>();
-
     @Override
     public void launch(EngineProperties properties) {
         var manager = properties.get(AssetImportManagerProperty.class).manager();
-        count.clear();
         manager.addFilter(new DependencyTypeAssetImportFilter(asset -> {
             if ("glsl".equals(asset.getFileType()))
                 return true;
@@ -45,8 +44,7 @@ public class TestAssetCookerModule implements AssetCookerModule {
                 throw new RuntimeException(e);
             }
         }));
-        manager.addFilter(new PrimaryTypeAssetImportFilter("glsl"));
-        manager.addFilter(new PrimaryTypeAssetImportFilter("ini"));
+        manager.addFilter(new PrimaryTypeAssetImportFilter("properties"));
         manager.addFilter(new PrimaryFilterAssetImportFilter(asset -> "scene/world1.scene".equals(asset.getFileName())));
         manager.addImporter(new EntityRefIncludeAssetImporter());
     }

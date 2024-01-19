@@ -2,3 +2,4 @@ texture.albedo=material/rustediron2/min/rustediron2_basecolor-min.png
 texture.normal=material/rustediron2/min/rustediron2_normal-min.png
 texture.metallic=material/rustediron2/min/rustediron2_metallic-min.png
 texture.roughness=material/rustediron2/min/rustediron2_roughness-min.png
+shader=shader/pbr_mapping/pbr_mapping.glsl
