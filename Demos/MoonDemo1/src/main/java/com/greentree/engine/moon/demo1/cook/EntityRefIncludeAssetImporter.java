@@ -61,7 +61,7 @@ public class EntityRefIncludeAssetImporter implements AssetImporter {
                 };
                 var fullType = context.findClass(baseType, attributes.get("type")).getName();
                 attributes.put("type", fullType);
-            } catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException ignored) {
             }
         }
         return new XMLElement(xml.getChildrens().stream().map(x -> includeEntityRefs(context, x)).toList(), attributes, xml.getName(), xml.getContent());
