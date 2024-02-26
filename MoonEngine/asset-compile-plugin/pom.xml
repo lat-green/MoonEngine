@@ -2,23 +2,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.greentree.engine.moon</groupId>
+    <parent>
+        <groupId>com.greentree.engine.moon</groupId>
+        <artifactId>root</artifactId>
+        <version>0.3.6</version>
+    </parent>
+
     <artifactId>asset-compile-plugin</artifactId>
-    <version>0.3.6</version>
 
     <packaging>maven-plugin</packaging>
 
     <properties>
-        <kotlin.version>1.9.0-Beta</kotlin.version>
-        <moon.version>0.3.6</moon.version>
-
-        <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
         <mavenVersion>3.8.1</mavenVersion>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version.source>1.8</java.version.source>
+        <java.version.target>${java.version.source}</java.version.target>
     </properties>
 
     <dependencies>
@@ -26,12 +23,10 @@
         <dependency>
             <groupId>com.greentree.engine.moon</groupId>
             <artifactId>modules</artifactId>
-            <version>${moon.version}</version>
         </dependency>
         <dependency>
             <groupId>com.greentree.engine.moon</groupId>
             <artifactId>cooker</artifactId>
-            <version>${moon.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -67,34 +62,9 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
-        <!--        <pluginManagement>-->
-        <!--            <plugins>-->
-        <!--                <plugin>-->
-        <!--                    <groupId>org.apache.maven.plugins</groupId>-->
-        <!--                    <artifactId>maven-plugin-plugin</artifactId>-->
-        <!--                    <version>3.2</version>-->
-        <!--                    <executions>-->
-        <!--                        <execution>-->
-        <!--                            <id>mojo-descriptor</id>-->
-        <!--                            <goals>-->
-        <!--                                <goal>descriptor</goal>-->
-        <!--                            </goals>-->
-        <!--                        </execution>-->
-        <!--                    </executions>-->
-        <!--                    <configuration>-->
-        <!--                        <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>-->
-        <!--                    </configuration>-->
-        <!--                </plugin>-->
-        <!--            </plugins>-->
-        <!--        </pluginManagement>-->
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
