@@ -5,7 +5,6 @@ import com.greentree.commons.image.image.ByteArrayImageData
 import com.greentree.commons.image.image.ImageData
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeUtil
-import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.serializator.loader.DefaultLoader
 
 class ImageDataDefaultLoader : DefaultLoader {
@@ -26,8 +25,8 @@ class ImageDataDefaultLoader : DefaultLoader {
 //		private val IMAGE = ImageData.BLACK
 	}
 
-	override fun <T : Any> load(context: DefaultLoader.Context, type: TypeInfo<T>, key: AssetKeyType): T? {
-		if(TypeUtil.isExtends(type, ImageData::class.java) && key === AssetKeyType.DEFAULT) {
+	override fun <T : Any> load(context: DefaultLoader.Context, type: TypeInfo<T>): T? {
+		if(TypeUtil.isExtends(type, ImageData::class.java)) {
 			return IMAGE as T
 		}
 		return null

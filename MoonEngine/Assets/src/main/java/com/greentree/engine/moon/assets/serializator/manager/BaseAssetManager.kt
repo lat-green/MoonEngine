@@ -2,7 +2,6 @@ package com.greentree.engine.moon.assets.serializator.manager
 
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.engine.moon.assets.key.AssetKey
-import com.greentree.engine.moon.assets.key.AssetKeyType
 import com.greentree.engine.moon.assets.provider.AssetProvider
 import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.assets.serializator.loader.CacheAssetLoader
@@ -50,8 +49,8 @@ class BaseAssetManager : MutableAssetManager {
 
 		val root = RootChain(this)
 
-		override fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType) =
-			ctx.loadDefault(root, type, key)
+		override fun <T : Any> loadDefault(type: TypeInfo<T>) =
+			ctx.loadDefault(root, type)
 
 		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey) = ctx.load(root, type, key)
 		override fun <T : Any> loadCache(type: TypeInfo<T>, key: AssetKey) = ctx.loadCache(root, type, key)
@@ -59,8 +58,8 @@ class BaseAssetManager : MutableAssetManager {
 
 	private inner class RootChain(val chain: Chain) : Chain {
 
-		override fun <T : Any> loadDefault(type: TypeInfo<T>, key: AssetKeyType) =
-			multiDefaultLoaders.load(chain, type, key)
+		override fun <T : Any> loadDefault(type: TypeInfo<T>) =
+			multiDefaultLoaders.load(chain, type)
 
 		override fun <T : Any> load(type: TypeInfo<T>, key: AssetKey) = multiLoaders.load(chain, type, key)
 		override fun <T : Any> loadCache(type: TypeInfo<T>, key: AssetKey) = multiLoaders.loadCache(type, key)

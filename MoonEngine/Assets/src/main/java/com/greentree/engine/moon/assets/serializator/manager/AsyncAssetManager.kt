@@ -5,10 +5,6 @@ import com.greentree.commons.reflection.info.TypeInfoBuilder
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
-import com.greentree.engine.moon.assets.provider.AssetProvider
-import com.greentree.engine.moon.assets.provider.ConstAssetProvider
-import com.greentree.engine.moon.assets.provider.ReduceAssetProvider
-import com.greentree.engine.moon.assets.serializator.manager.chain.Chain
 import com.greentree.engine.moon.assets.serializator.manager.chain.ChainHandler
 import java.lang.Thread.*
 import java.util.concurrent.Executors
@@ -24,22 +20,21 @@ val EXECUTOR = Executors.newFixedThreadPool(
 }
 
 data object AsyncHandler : ChainHandler {
-
-	override fun <T : Any> load(chain: Chain, type: TypeInfo<T>, key: AssetKey): AssetProvider<T> {
-		val res = chain.loadCache(type, key)
-		if(res != null)
-			return res
-		val default = chain.loadDefault(type, key.type()) ?: return chain.load(type, key)
-		val result = ReduceAssetProvider(ConstAssetProvider(default))
-		EXECUTOR.submit {
-			try {
-				result.origin = chain.load(type, key)
-			} catch(e: Exception) {
-				e.printStackTrace()
-			}
-		}
-		return result
-	}
+//	override fun <T : Any> load(chain: Chain, type: TypeInfo<T>, key: AssetKey): AssetProvider<T> {
+//		val res = chain.loadCache(type, key)
+//		if(res != null)
+//			return res
+//		val default = chain.loadDefault(type) ?: return chain.load(type, key)
+//		val result = ReduceAssetProvider(ConstAssetProvider(default))
+//		EXECUTOR.submit {
+//			try {
+//				result.origin = chain.load(type, key)
+//			} catch(e: Exception) {
+//				e.printStackTrace()
+//			}
+//		}
+//		return result
+//	}
 }
 
 fun <T : Any> ChainAssetManager.loadAsyncProvider(type: TypeInfo<T>, key: AssetKey) =

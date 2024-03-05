@@ -17,7 +17,7 @@ class CubeTextureAssetSerializator : AssetSerializator<CubeTextureData> {
 	override fun load(manager: AssetLoader.Context, ckey: AssetKey): AssetProvider<CubeTextureData> {
 		if(ckey is CubeTextureAssetKey) {
 			val image = manager.load<CubeImageData>(ckey.image)
-			val type = ckey.type().type
+			val type = ckey.textureType
 			return image.map(CubeImageToTexture(type))
 		}
 		throw NotSupportedKeyType
