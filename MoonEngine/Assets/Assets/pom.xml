@@ -1,27 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.greentree.engine.moon</groupId>
-        <artifactId>root</artifactId>
+        <artifactId>assets-parent</artifactId>
         <version>0.3.6</version>
     </parent>
 
-    <artifactId>cooker</artifactId>
+    <artifactId>assets</artifactId>
 
-    <name>Cooker</name>
+    <name>Assets</name>
 
     <dependencies>
         <dependency>
             <groupId>com.greentree.engine.moon</groupId>
-            <artifactId>modules</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.greentree.engine.moon</groupId>
-            <artifactId>assets</artifactId>
+            <artifactId>kernel</artifactId>
         </dependency>
 
         <dependency>
@@ -37,4 +31,5 @@
             <artifactId>tests</artifactId>
         </dependency>
     </dependencies>
+
 </project>

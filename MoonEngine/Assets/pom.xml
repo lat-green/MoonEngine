@@ -4,32 +4,20 @@
 
     <parent>
         <groupId>com.greentree.engine.moon</groupId>
-        <artifactId>root</artifactId>
+        <artifactId>moon-engine-parent</artifactId>
         <version>0.3.6</version>
     </parent>
 
-    <artifactId>assets</artifactId>
+    <artifactId>assets-parent</artifactId>
 
-    <name>Assets</name>
+    <name>MoonEngine Assets Parent</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.greentree.engine.moon</groupId>
-            <artifactId>kernel</artifactId>
-        </dependency>
+    <packaging>pom</packaging>
 
-        <dependency>
-            <groupId>com.greentree.commons</groupId>
-            <artifactId>reflection</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.greentree.commons</groupId>
-            <artifactId>data</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.greentree.commons</groupId>
-            <artifactId>tests</artifactId>
-        </dependency>
-    </dependencies>
+    <modules>
+        <module>asset-compile-plugin</module>
+        <module>Assets</module>
+        <module>Cooker</module>
+    </modules>
 
 </project>

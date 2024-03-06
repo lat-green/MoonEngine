@@ -19,7 +19,7 @@
         <dependencies>
             <dependency>
                 <groupId>com.greentree.engine.moon</groupId>
-                <artifactId>root</artifactId>
+                <artifactId>moon-engine-parent</artifactId>
                 <version>0.3.6</version>
                 <scope>import</scope>
                 <type>pom</type>

@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.greentree.engine.moon</groupId>
-    <artifactId>root</artifactId>
+    <artifactId>moon-engine-parent</artifactId>
     <version>0.3.6</version>
 
-    <name>MoonEngine Root</name>
+    <name>MoonEngine Parent</name>
 
     <packaging>pom</packaging>
 
@@ -186,12 +186,10 @@
     </dependencyManagement>
 
     <modules>
-        <module>asset-compile-plugin</module>
         <module>Assets</module>
         <module>Assimp</module>
         <module>Base</module>
         <module>Collision2D</module>
-        <module>Cooker</module>
         <module>ECS</module>
         <module>Kernel</module>
         <module>Mesh</module>
