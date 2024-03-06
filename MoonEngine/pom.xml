@@ -19,7 +19,8 @@
         <java.version.target>21</java.version.target>
         <java.version.source>${java.version.target}</java.version.source>
 
-        <commons.version>0.3.5-SNAPSHOT</commons.version>
+        <commons.version>0.3.6</commons.version>
+        <commons.graphics.version>0.3.5-SNAPSHOT</commons.graphics.version>
         <mockito.version>5.3.1</mockito.version>
         <junit.version>5.5.2</junit.version>
         <maven-shade-plugin.version>2.4.3</maven-shade-plugin.version>
@@ -53,8 +54,10 @@
         <dependency>
             <groupId>com.greentree.commons</groupId>
             <artifactId>aop-tests</artifactId>
-            <version>${commons.version}</version>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.greentree.commons</groupId>
+            <artifactId>tests</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -75,7 +78,6 @@
             <scope>test</scope>
         </dependency>
 
-
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
@@ -95,7 +97,7 @@
             <dependency>
                 <groupId>com.greentree.commons.graphics</groupId>
                 <artifactId>graphics</artifactId>
-                <version>${commons.version}</version>
+                <version>${commons.graphics.version}</version>
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
