@@ -64,7 +64,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <assetDirectory>Assets</assetDirectory>
+                    <assetDirectory>src/main/assets</assetDirectory>
                 </configuration>
             </plugin>
         </plugins>

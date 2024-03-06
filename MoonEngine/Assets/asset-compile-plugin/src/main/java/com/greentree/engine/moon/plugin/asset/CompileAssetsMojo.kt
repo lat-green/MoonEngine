@@ -38,10 +38,11 @@ class CompileAssetsMojo : AbstractMojo() {
 	@Component
 	var pluginManager: BuildPluginManager? = null
 
-	@Parameter(property = "assetDirectory", defaultValue = "assets")
+	@Parameter(property = "assetDirectory", defaultValue = "src/main/assets")
 	var assetDirectory: File? = null
 
 	override fun execute() {
+		log.info("compile assets in $assetDirectory")
 		val mavenProject = mavenProject!!
 		try {
 			val assetDirectory = assetDirectory
