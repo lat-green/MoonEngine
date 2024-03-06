@@ -29,7 +29,6 @@
         <dependency>
             <groupId>com.greentree.commons.graphics</groupId>
             <artifactId>smart-graphics</artifactId>
-            <version>${commons.version}</version>
         </dependency>
 
     </dependencies>
