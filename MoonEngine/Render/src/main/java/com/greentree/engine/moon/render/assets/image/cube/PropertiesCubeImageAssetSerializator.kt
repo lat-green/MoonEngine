@@ -2,7 +2,7 @@ package com.greentree.engine.moon.render.assets.image.cube
 
 import com.greentree.commons.image.image.ImageData
 import com.greentree.commons.util.iterator.IteratorUtil
-import com.greentree.engine.moon.assets.exception.SourceNotValid
+import com.greentree.engine.moon.assets.exception.NotValidSource
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
@@ -30,7 +30,7 @@ data object PropertiesCubeImageAssetSerializator : AssetSerializator<CubeImageDa
 		for(a in iter)
 			for(b in iter)
 				if(a.width != b.width || a.height != b.height)
-					throw SourceNotValid
+					throw NotValidSource
 		return CubeImageData(posx, negx, posy, negy, posz, negz)
 	}
 }

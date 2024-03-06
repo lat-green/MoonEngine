@@ -17,7 +17,7 @@ interface AssetSerializator<T : Any> {
 }
 
 data class OneSerializator<T : Any>(
-	val serializator: AssetSerializator<T>,
+	private val serializator: AssetSerializator<T>,
 ) : AssetLoader {
 
 	val type by serializator::type

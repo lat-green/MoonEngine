@@ -4,16 +4,17 @@ import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 import com.greentree.engine.moon.assets.loader.load
 
-class SimpleAssetSerializatorWrapper<T : Any, R : Any>(val function: SimpleAssetSerializator<T, R>) :
-	AssetSerializator<R> {
+data class SimpleAssetSerializatorWrapper<T : Any, R : Any>(
+	private val origin: SimpleAssetSerializator<T, R>,
+) : AssetSerializator<R> {
 
-	private val resultType = function.resultType
-	private val sourceType = function.sourceType
+	private val resultType = origin.resultType
+	private val sourceType = origin.sourceType
 	override val type
 		get() = resultType
 
 	override fun load(manager: AssetLoader.Context, key: AssetKey): R {
 		val source = manager.load(sourceType, key)
-		return function(source)
+		return origin(source)
 	}
 }
