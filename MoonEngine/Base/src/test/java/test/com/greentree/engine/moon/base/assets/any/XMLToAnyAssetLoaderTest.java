@@ -2,10 +2,9 @@ package test.com.greentree.engine.moon.base.assets.any;
 
 import com.greentree.commons.reflection.info.TypeInfoBuilder;
 import com.greentree.commons.xml.XMLElement;
+import com.greentree.engine.moon.assets.SimpleAsset;
 import com.greentree.engine.moon.assets.key.AssetKey;
-import com.greentree.engine.moon.assets.provider.ConstAssetProvider;
-import com.greentree.engine.moon.assets.provider.request.EmptyAssetRequest;
-import com.greentree.engine.moon.assets.serializator.loader.AssetLoader;
+import com.greentree.engine.moon.assets.loader.AssetLoader;
 import com.greentree.engine.moon.base.assets.any.XMLToAnyAssetLoader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,9 +34,9 @@ public class XMLToAnyAssetLoaderTest {
     void loadA() {
         var field = new XMLElement(List.of(), Map.of("name", "age"), "property", "10");
         var xml = new XMLElement(List.of(field), Map.of(), "component", "");
-        Mockito.when(context.load(TypeInfoBuilder.getTypeInfo(XMLElement.class), key)).thenReturn(new ConstAssetProvider<>(xml));
+        Mockito.when(context.loadAsset(TypeInfoBuilder.getTypeInfo(XMLElement.class), key)).thenReturn(new SimpleAsset<>(xml));
         var person = XMLToAnyAssetLoader.INSTANCE.load(context, TypeInfoBuilder.getTypeInfo(Person.class), key);
-        assertEquals(person.value(EmptyAssetRequest.INSTANCE), new Person(10));
+        assertEquals(person, new Person(10));
     }
 
 }

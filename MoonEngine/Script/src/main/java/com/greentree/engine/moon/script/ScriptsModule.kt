@@ -12,6 +12,6 @@ class ScriptsModule : LaunchModule {
 	@WriteProperty(AssetManagerProperty::class)
 	override fun launch(context: EngineProperties) {
 		val manager = context.assets
-		manager.addSerializator(ScriptAssetSerializator())
+		manager.addSerializator(ScriptAssetSerializator)
 	}
 }

@@ -2,12 +2,10 @@ package com.greentree.engine.moon.base.assets.scene
 
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder.*
-import com.greentree.engine.moon.assets.Value1Function
 import com.greentree.engine.moon.assets.key.AssetKey
-import com.greentree.engine.moon.assets.provider.AssetProvider
-import com.greentree.engine.moon.assets.provider.map
+import com.greentree.engine.moon.assets.loader.AssetLoader
+import com.greentree.engine.moon.assets.loader.load
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
 import com.greentree.engine.moon.ecs.ClassSetEntity
 import com.greentree.engine.moon.ecs.PrototypeEntity
 import com.greentree.engine.moon.ecs.component.Component
@@ -17,29 +15,13 @@ object EntityAssetSerializator : AssetSerializator<PrototypeEntity> {
 
 	private val TYPE: TypeInfo<Iterable<Component>> = getTypeInfo(Iterable::class.java, Component::class.java)
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<PrototypeEntity> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): PrototypeEntity {
 		val components = manager.load(TYPE, key)
-		return components.map(ComponentsToEntity)
-	}
-
-	object ComponentsToEntity : Value1Function<Iterable<Component>, PrototypeEntity> {
-
-		override fun applyWithDest(components: Iterable<Component>, entity: PrototypeEntity): PrototypeEntity {
-			entity.clear()
-			return addEntities(entity, components)
+		val entity = ClassSetEntity()
+		entity.lock {
+			for(c in components)
+				add(c)
 		}
-
-		override fun apply(components: Iterable<Component>): PrototypeEntity {
-			val entity = ClassSetEntity()
-			return addEntities(entity, components)
-		}
-
-		private fun addEntities(entity: PrototypeEntity, components: Iterable<Component>): PrototypeEntity {
-			entity.lock {
-				for(c in components)
-					add(c)
-			}
-			return entity
-		}
+		return entity
 	}
 }

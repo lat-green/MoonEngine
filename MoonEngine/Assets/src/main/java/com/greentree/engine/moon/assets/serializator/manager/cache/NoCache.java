@@ -10,7 +10,7 @@ public class NoCache<K, R> implements Cache<K, R> {
     }
 
     @Override
-    public R set(K key, Function0<? extends R> create) {
+    public <R1 extends R> R1 set(K key, Function0<? extends R1> create) {
         return create.invoke();
     }
 

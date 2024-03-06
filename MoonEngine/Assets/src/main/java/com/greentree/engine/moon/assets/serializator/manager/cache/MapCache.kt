@@ -6,7 +6,7 @@ class MapCache<K : Any, V>(private val map: MutableMap<K, V>) : Cache<K, V> {
 
 	val locks = mutableMapOf<K, StampedLock>()
 
-	override fun set(key: K, create: () -> V): V {
+	override fun <R : V> set(key: K, create: () -> R): R {
 //		val create = {
 //			val timer = PointTimer()
 //			timer.point()
@@ -28,7 +28,7 @@ class MapCache<K : Any, V>(private val map: MutableMap<K, V>) : Cache<K, V> {
 		}
 		val stamp = lock.writeLock()
 		try {
-			return map.getOrPut(key, create)
+			return map.getOrPut(key, create) as R
 		} finally {
 			lock.unlockWrite(stamp)
 		}

@@ -13,8 +13,8 @@ public class AssimpAssetSerializatorModule implements LaunchModule {
     @Override
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager;
-        manager.addSerializator(new AssimpSceneAssetSerializator());
-        manager.addSerializator(new AssimpMeshAssetSerializator());
+        manager.addSerializator(AssimpSceneAssetSerializator.INSTANCE);
+        manager.addSerializator(AssimpMeshAssetSerializator.INSTANCE);
     }
 
 }

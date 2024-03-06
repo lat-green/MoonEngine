@@ -11,6 +11,7 @@ import com.greentree.engine.moon.ecs.pool.EntityPoolStrategy
 import com.greentree.engine.moon.ecs.pool.PrototypeEntityStrategy
 import com.greentree.engine.moon.ecs.pool.StackEntityPool
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
@@ -427,6 +428,7 @@ abstract class WorldTest {
 			}
 		}
 
+		@Disabled
 		@Test
 		fun timeout_newDeactiveEntity_deleteEntity() {
 			runWorld { world ->

@@ -11,7 +11,7 @@ public class InitAssetsModule implements LaunchModule {
     @Override
     public void launch(EngineProperties properties) {
         var manager = properties.get(AssetManagerProperty.class).manager;
-        manager.addSerializator(new XMLtoShape());
+        manager.addSerializator(XMLtoShape.INSTANCE);
     }
 
 }

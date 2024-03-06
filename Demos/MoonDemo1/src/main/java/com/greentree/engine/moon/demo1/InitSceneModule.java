@@ -1,10 +1,7 @@
 package com.greentree.engine.moon.demo1;
 
-import com.greentree.engine.moon.assets.provider.AssetProvider;
-import com.greentree.engine.moon.assets.provider.AssetProviderKt;
-import com.greentree.engine.moon.assets.provider.request.EmptyAssetRequest;
-import com.greentree.engine.moon.assets.serializator.loader.AssetLoaderKt;
-import com.greentree.engine.moon.assets.serializator.manager.AsyncHandler;
+import com.greentree.engine.moon.assets.Asset;
+import com.greentree.engine.moon.assets.serializator.manager.AssetManagerKt;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.property.modules.ReadProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
@@ -12,14 +9,12 @@ import com.greentree.engine.moon.base.scene.SceneManager;
 import com.greentree.engine.moon.base.scene.SceneManagerProperty;
 import com.greentree.engine.moon.ecs.scene.Scene;
 import com.greentree.engine.moon.modules.LaunchModule;
-import com.greentree.engine.moon.modules.UpdateModule;
 import com.greentree.engine.moon.modules.property.EngineProperties;
 
-public class InitSceneModule implements LaunchModule, UpdateModule {
+public class InitSceneModule implements LaunchModule {
 
     private SceneManager scenes;
-    private AssetProvider<Scene> scene;
-    private long lastUpdate;
+    private Asset<Scene> scene;
 
     @WriteProperty({SceneManagerProperty.class})
     @ReadProperty({AssetManagerProperty.class})
@@ -27,18 +22,8 @@ public class InitSceneModule implements LaunchModule, UpdateModule {
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager;
         scenes = context.get(SceneManagerProperty.class).manager();
-        scene = AssetLoaderKt.load(manager.build(AsyncHandler.INSTANCE), Scene.class, "scene/world1.scene");
-        lastUpdate = AssetProviderKt.getLastModified(scene);
-        scenes.set(scene.value(EmptyAssetRequest.INSTANCE));
-    }
-
-    @Override
-    public void update() {
-        var newUpdate = AssetProviderKt.getLastModified(scene);
-        if (newUpdate > lastUpdate) {
-            lastUpdate = newUpdate;
-            scenes.set(scene.value(EmptyAssetRequest.INSTANCE));
-        }
+        scene = AssetManagerKt.load(manager, Scene.class, "scene/world1.scene");
+        scenes.set(scene.getValue());
     }
 
 }

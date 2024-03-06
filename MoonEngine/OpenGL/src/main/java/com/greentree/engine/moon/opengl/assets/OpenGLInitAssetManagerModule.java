@@ -3,7 +3,6 @@ package com.greentree.engine.moon.opengl.assets;
 import com.greentree.common.graphics.sgl.vao.GLVertexArray.AttributeGroup;
 import com.greentree.commons.reflection.info.TypeInfo;
 import com.greentree.commons.reflection.info.TypeInfoBuilder;
-import com.greentree.engine.moon.assets.serializator.IterableAssetSerializator;
 import com.greentree.engine.moon.base.AssetManagerProperty;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
@@ -28,17 +27,16 @@ public final class OpenGLInitAssetManagerModule implements LaunchModule {
     @Override
     public void launch(EngineProperties context) {
         final var manager = context.get(AssetManagerProperty.class).manager;
-        manager.addSerializator(new IterableAssetSerializator<>(ATTRIBUTE_GROUP_TYPE));
-        manager.addSerializator(new GLCubeTextureAssetSerializator());
-        manager.addSerializator(new GLTextureAssetSerializator());
-        manager.addSerializator(new GLSLShaderAssetSerializator());
-        manager.addSerializator(new GLSLShaderProgramAssetSerializator());
-        manager.addSerializator(new TextureAdapterAssetSerializator());
-        manager.addSerializator(new VAORenderMeshAdapterSerializator());
+        manager.addSerializator(GLCubeTextureAssetSerializator.INSTANCE);
+        manager.addSerializator(GLTextureAssetSerializator.INSTANCE);
+        manager.addSerializator(GLSLShaderAssetSerializator.INSTANCE);
+        manager.addSerializator(GLSLShaderProgramAssetSerializator.INSTANCE);
+        manager.addSerializator(TextureAdapterAssetSerializator.INSTANCE);
+        manager.addSerializator(VAORenderMeshAdapterSerializator.INSTANCE);
         manager.addSerializator(AttributeDataSerializator.INSTANCE);
         manager.addSerializator(ShaderAssetSerializator.INSTANCE);
-        manager.addSerializator(new GLVertexArraySerializator());
-        manager.addSerializator(new FloatStaticDrawArrayBufferSerializator());
+        manager.addSerializator(GLVertexArraySerializator.INSTANCE);
+        manager.addSerializator(FloatStaticDrawArrayBufferSerializator.INSTANCE);
     }
 
 }

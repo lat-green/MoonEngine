@@ -11,7 +11,6 @@ import com.greentree.engine.moon.base.assets.number.LongAssetSerializator
 import com.greentree.engine.moon.base.assets.number.ShortAssetSerializator
 import com.greentree.engine.moon.base.assets.properties.PropertiesAssetSerializator
 import com.greentree.engine.moon.base.assets.scene.EntityAssetSerializator
-import com.greentree.engine.moon.base.assets.scene.EntityDefault
 import com.greentree.engine.moon.base.assets.scene.XMLSceneAssetSerializator
 import com.greentree.engine.moon.base.assets.text.PropertyStringAssetSerializator
 import com.greentree.engine.moon.base.assets.text.RefStringBuilderAssetSerializator
@@ -30,7 +29,6 @@ class BaseAssetSerializatorModule : LaunchModule {
 	@WriteProperty(AssetManagerProperty::class, SceneManagerProperty::class)
 	override fun launch(context: EngineProperties) {
 		val manager = context[AssetManagerProperty::class.java].manager
-		manager.addDefaultLoader(EntityDefault)
 
 		manager.addSerializator(ResourceToXMLAssetSerializator)
 		manager.addSerializator(TextToXMLAssetSerializator)

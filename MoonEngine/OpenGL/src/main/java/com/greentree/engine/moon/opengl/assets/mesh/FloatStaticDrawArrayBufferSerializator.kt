@@ -1,33 +1,19 @@
 package com.greentree.engine.moon.opengl.assets.mesh
 
 import com.greentree.common.graphics.sgl.buffer.FloatStaticDrawArrayBuffer
-import com.greentree.engine.moon.assets.Value1Function
-import com.greentree.engine.moon.assets.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
-import com.greentree.engine.moon.assets.provider.AssetProvider
-import com.greentree.engine.moon.assets.provider.map
+import com.greentree.engine.moon.assets.loader.AssetLoader
+import com.greentree.engine.moon.assets.loader.load
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
-import com.greentree.engine.moon.assets.serializator.loader.load
 
-class FloatStaticDrawArrayBufferSerializator : AssetSerializator<FloatStaticDrawArrayBuffer> {
+data object FloatStaticDrawArrayBufferSerializator : AssetSerializator<FloatStaticDrawArrayBuffer> {
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<FloatStaticDrawArrayBuffer> {
-		val vao = manager.load<FloatArray>(key)
-		return vao.map(AttributeDataToGLVertexArray)
-	}
-
-	object AttributeDataToGLVertexArray : Value1Function<FloatArray, FloatStaticDrawArrayBuffer> {
-
-		override fun apply(attribute: FloatArray): FloatStaticDrawArrayBuffer {
-			return applyWithDest(attribute, FloatStaticDrawArrayBuffer())
-		}
-
-		override fun applyWithDest(vertexes: FloatArray, vbo: FloatStaticDrawArrayBuffer): FloatStaticDrawArrayBuffer {
-			vbo.bind()
-			vbo.setData(vertexes)
-			vbo.unbind()
-			return vbo
-		}
+	override fun load(manager: AssetLoader.Context, key: AssetKey): FloatStaticDrawArrayBuffer {
+		val array = manager.load<FloatArray>(key)
+		val vbo = FloatStaticDrawArrayBuffer()
+		vbo.bind()
+		vbo.setData(array)
+		vbo.unbind()
+		return vbo
 	}
 }

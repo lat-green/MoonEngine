@@ -2,27 +2,18 @@ package com.greentree.engine.moon.base.assets.text
 
 import com.greentree.commons.util.string.RefStringBuilder
 import com.greentree.engine.moon.assets.NotSupportedKeyType
-import com.greentree.engine.moon.assets.Value1Function
 import com.greentree.engine.moon.assets.key.AssetKey
-import com.greentree.engine.moon.assets.provider.AssetProvider
-import com.greentree.engine.moon.assets.provider.map
+import com.greentree.engine.moon.assets.loader.AssetLoader
+import com.greentree.engine.moon.assets.loader.load
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
-import com.greentree.engine.moon.assets.serializator.loader.load
 
 object RefStringBuilderInsertAssetSerializator : AssetSerializator<String> {
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<String> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): String {
 		if(key is RefStringBuilderAssetKey) {
 			val text = manager.load<RefStringBuilder>(key.text)
-			return text.map(RefStringBuilderInsert(key.parameters))
+			return text.toString(key.parameters)
 		}
 		throw NotSupportedKeyType
-	}
-
-	private class RefStringBuilderInsert(val params: Map<String, String>) :
-		Value1Function<RefStringBuilder, String> {
-
-		override fun apply(value: RefStringBuilder) = value.toString(params)
 	}
 }

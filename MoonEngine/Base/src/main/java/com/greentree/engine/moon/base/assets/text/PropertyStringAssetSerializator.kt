@@ -1,36 +1,23 @@
 package com.greentree.engine.moon.base.assets.text
 
 import com.greentree.engine.moon.assets.NotSupportedKeyType
-import com.greentree.engine.moon.assets.Value2Function
+import com.greentree.engine.moon.assets.getValue
 import com.greentree.engine.moon.assets.key.AssetKey
-import com.greentree.engine.moon.assets.provider.AssetProvider
-import com.greentree.engine.moon.assets.provider.map
+import com.greentree.engine.moon.assets.loader.AssetLoader
+import com.greentree.engine.moon.assets.loader.loadAsset
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.loader.AssetLoader
-import com.greentree.engine.moon.assets.serializator.loader.load
 import java.util.*
 
 object PropertyStringAssetSerializator : AssetSerializator<String> {
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): AssetProvider<String> {
+	override fun load(manager: AssetLoader.Context, key: AssetKey): String {
 		if(key is PropertyAssetKey) {
-			val prop = manager.load<Properties>(key.properties)
-			val name = manager.load<String>(key.name)
-			return map(prop, name, GetPropertyFunction)
-		}
-		throw NotSupportedKeyType
-	}
-
-	private object GetPropertyFunction : Value2Function<Properties, String, String> {
-
-		override fun apply(properties: Properties, name: String): String {
+			val properties by manager.loadAsset<Properties>(key.properties)
+			val name by manager.loadAsset<String>(key.name)
 			if(properties.containsKey(name))
 				return properties.getProperty(name)
 			throw NullPointerException("properties not have property properties: $properties, name: $name")
 		}
-
-		override fun toString(): String {
-			return "GetPropertyFunction"
-		}
+		throw NotSupportedKeyType
 	}
 }
