@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.script;
 
 import com.greentree.commons.util.iterator.IteratorUtil;
-import com.greentree.engine.moon.assets.Asset;
+import com.greentree.engine.moon.assets.asset.Asset;
 import com.greentree.engine.moon.ecs.component.ConstComponent;
 
 import java.io.Serial;

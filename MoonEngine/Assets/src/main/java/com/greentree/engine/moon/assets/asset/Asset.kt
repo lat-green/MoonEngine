@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.assets
+package com.greentree.engine.moon.assets.asset
 
 import java.io.Serializable
 import kotlin.reflect.KProperty

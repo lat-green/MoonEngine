@@ -18,7 +18,7 @@ public class OptionsModule implements LaunchModule {
     @Override
     public void launch(EngineProperties properties) {
         var manager = properties.get(AssetManagerProperty.class).manager;
-        var ps = manager.load(getTypeInfo(Properties.class), new ResourceAssetKey("options.properties")).getValue();
+        var ps = manager.loadAsset(getTypeInfo(Properties.class), new ResourceAssetKey("options.properties")).getValue();
         properties.add(new OptionsProperty(new PropertiesOptionsProvider(ps)));
     }
 

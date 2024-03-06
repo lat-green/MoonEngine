@@ -1,15 +1,15 @@
 package test.com.greentree.engine.moon.assets
 
 import com.greentree.commons.reflection.info.TypeInfoBuilder.*
-import com.greentree.engine.moon.assets.Asset
+import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 import com.greentree.engine.moon.assets.loader.load
+import com.greentree.engine.moon.assets.manager.AssetManager
+import com.greentree.engine.moon.assets.manager.MutableAssetManager
+import com.greentree.engine.moon.assets.manager.SimpleAssetManager
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.manager.AssetManager
-import com.greentree.engine.moon.assets.serializator.manager.MutableAssetManager
-import com.greentree.engine.moon.assets.serializator.manager.SimpleAssetManager
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
@@ -35,8 +35,8 @@ class AssetTest {
 	fun <T : Any> AssetManager_double_load(pair: Pair<LoadRequest<T>, out T>) {
 		val request = pair.first
 		val result = pair.second
-		val res1 = manager.load(request)
-		val res2 = manager.load(request)
+		val res1 = manager.loadAsset(request)
+		val res2 = manager.loadAsset(request)
 		assertEquals(res1, res2)
 		assertEquals(res1.value, result)
 		assertEquals(res2.value, result)
@@ -47,14 +47,14 @@ class AssetTest {
 	fun <T : Any> AssetManager_load(pair: Pair<LoadRequest<T>, out T>) {
 		val request = pair.first
 		val result = pair.second
-		val res = manager.load(request)
+		val res = manager.loadAsset(request)
 		assertEquals(res.value, result)
 	}
 
 	@MethodSource(value = ["map_requests"])
 	@ParameterizedTest
 	fun <T : Any> AssetManager_map_load(pair: Pair<LoadRequest<T>, out T>) {
-		val res = manager.load(pair.first)
+		val res = manager.loadAsset(pair.first)
 		assertEquals(res.value, pair.second)
 	}
 
@@ -96,4 +96,4 @@ class AssetTest {
 	}
 }
 
-fun <T : Any> AssetManager.load(request: LoadRequest<T>): Asset<T> = load(getTypeInfo(request.first), request.second)
+fun <T : Any> AssetManager.loadAsset(request: LoadRequest<T>): Asset<T> = loadAsset(getTypeInfo(request.first), request.second)

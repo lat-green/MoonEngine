@@ -1,8 +1,8 @@
 package com.greentree.engine.moon.assets.loader
 
 import com.greentree.commons.reflection.info.TypeInfo
-import com.greentree.engine.moon.assets.NotSupportedKeyAndType
-import com.greentree.engine.moon.assets.NotSupportedKeyType
+import com.greentree.engine.moon.assets.exception.NotSupportedKeyAndType
+import com.greentree.engine.moon.assets.exception.NotSupportedKeyType
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 

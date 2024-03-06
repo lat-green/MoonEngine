@@ -1,9 +1,10 @@
 package test.com.greentree.engine.moon.assets
 
+import com.greentree.commons.tests.aop.AutowiredConfig
 import com.greentree.commons.util.time.PointTimer
 import com.greentree.engine.moon.assets.key.ResultAssetKey
-import com.greentree.engine.moon.assets.serializator.manager.SimpleAssetManager
-import com.greentree.engine.moon.assets.serializator.manager.load
+import com.greentree.engine.moon.assets.loader.load
+import com.greentree.engine.moon.assets.manager.SimpleAssetManager
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 

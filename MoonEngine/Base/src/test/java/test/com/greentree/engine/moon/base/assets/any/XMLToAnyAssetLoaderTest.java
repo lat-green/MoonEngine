@@ -2,7 +2,7 @@ package test.com.greentree.engine.moon.base.assets.any;
 
 import com.greentree.commons.reflection.info.TypeInfoBuilder;
 import com.greentree.commons.xml.XMLElement;
-import com.greentree.engine.moon.assets.SimpleAsset;
+import com.greentree.engine.moon.assets.asset.SimpleAsset;
 import com.greentree.engine.moon.assets.key.AssetKey;
 import com.greentree.engine.moon.assets.loader.AssetLoader;
 import com.greentree.engine.moon.base.assets.any.XMLToAnyAssetLoader;

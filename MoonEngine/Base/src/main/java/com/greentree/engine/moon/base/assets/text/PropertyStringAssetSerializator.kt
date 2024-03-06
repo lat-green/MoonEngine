@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.base.assets.text
 
-import com.greentree.engine.moon.assets.NotSupportedKeyType
-import com.greentree.engine.moon.assets.getValue
+import com.greentree.engine.moon.assets.asset.getValue
+import com.greentree.engine.moon.assets.exception.NotSupportedKeyType
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 import com.greentree.engine.moon.assets.loader.loadAsset

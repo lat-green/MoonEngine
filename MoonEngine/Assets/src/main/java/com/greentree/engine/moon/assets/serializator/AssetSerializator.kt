@@ -2,7 +2,7 @@ package com.greentree.engine.moon.assets.serializator
 
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeUtil
-import com.greentree.engine.moon.assets.NotSupportedType
+import com.greentree.engine.moon.assets.exception.NotSupportedType
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 

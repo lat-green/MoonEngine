@@ -3,14 +3,14 @@ package com.greentree.engine.moon.base.assets.scene
 import com.greentree.commons.reflection.ClassUtil
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.xml.XMLElement
-import com.greentree.engine.moon.assets.Asset
+import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 import com.greentree.engine.moon.assets.loader.load
+import com.greentree.engine.moon.assets.loader.loadAsset
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.assets.serializator.manager.load
 import com.greentree.engine.moon.base.AssetManagerProperty
 import com.greentree.engine.moon.base.assets
 import com.greentree.engine.moon.base.assets.scene.adapters.Constructor
@@ -41,7 +41,7 @@ import com.greentree.engine.moon.ecs.system.debug.PrintStreamSystemsProfiler
 import org.apache.logging.log4j.LogManager
 import java.io.File
 
-object XMLSceneAssetSerializator : AssetSerializator<Scene> {
+data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 
 	override fun load(manager: AssetLoader.Context, key: AssetKey): Scene {
 		val xml_scene = manager.load<XMLElement>(key)
@@ -61,7 +61,7 @@ object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 							if(type.typeArguments.size == 0) throw UnsupportedOperationException("asset type without Type Arguments")
 							val value_type = type.typeArguments[0].boxing
 							c.newInstance(AssetKey::class.java, xml_value).use { key ->
-								val value = context.load(value_type, key.value())
+								val value = context.loadAsset(value_type, key.value())
 //									if(!value.isValid()) {
 //										value.value
 //										throw UnsupportedOperationException("build not valid asset $value from $xml_value")
@@ -86,7 +86,7 @@ object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 						if(cs.isEmpty())
 							return null
 						return ValueConstructor(
-							context.load(
+							context.loadAsset(
 								type,
 								ResultAssetKey(cs.first())
 							).value
@@ -171,7 +171,7 @@ object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 					val value = xmLproperty.content
 					map[name] = value
 				}
-				return context.load(
+				return context.loadAsset(
 					XMLElement::class.java,
 					RefStringBuilderAssetKey(ResourceAssetKey(file), map)
 				).value

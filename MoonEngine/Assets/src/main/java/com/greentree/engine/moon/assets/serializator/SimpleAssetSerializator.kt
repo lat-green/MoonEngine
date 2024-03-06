@@ -3,7 +3,7 @@ package com.greentree.engine.moon.assets.serializator
 import com.greentree.commons.reflection.info.TypeInfo
 import com.greentree.commons.reflection.info.TypeInfoBuilder
 import com.greentree.commons.reflection.info.TypeUtil
-import com.greentree.engine.moon.assets.serializator.manager.MutableAssetManager
+import com.greentree.engine.moon.assets.manager.MutableAssetManager
 
 interface SimpleAssetSerializator<T : Any, R : Any> : (T) -> R {
 

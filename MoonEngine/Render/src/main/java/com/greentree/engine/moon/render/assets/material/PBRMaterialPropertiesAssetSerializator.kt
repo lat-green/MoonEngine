@@ -3,7 +3,7 @@ package com.greentree.engine.moon.render.assets.material
 import com.greentree.commons.graphics.smart.texture.Texture
 import com.greentree.commons.image.Color
 import com.greentree.commons.image.image.ColorImageData
-import com.greentree.engine.moon.assets.getValue
+import com.greentree.engine.moon.assets.asset.getValue
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.DefaultAssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey

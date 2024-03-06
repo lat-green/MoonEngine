@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.render.assets.image.cube
 
 import com.greentree.commons.image.image.ImageData
-import com.greentree.engine.moon.assets.NotSupportedKeyType
+import com.greentree.engine.moon.assets.exception.NotSupportedKeyType
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 import com.greentree.engine.moon.assets.loader.load

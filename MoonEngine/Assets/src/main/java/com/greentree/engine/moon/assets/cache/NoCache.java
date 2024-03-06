@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.assets.serializator.manager.cache;
+package com.greentree.engine.moon.assets.cache;
 
 import kotlin.jvm.functions.Function0;
 

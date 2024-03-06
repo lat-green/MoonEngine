@@ -1,4 +1,4 @@
-package com.greentree.engine.moon.assets.serializator.manager
+package com.greentree.engine.moon.assets.manager
 
 import com.greentree.commons.data.resource.location.ResourceLocation
 import com.greentree.engine.moon.assets.loader.AssetLoader

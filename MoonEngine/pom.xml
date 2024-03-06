@@ -51,6 +51,12 @@
     <dependencies>
         <!--tests-->
         <dependency>
+            <groupId>com.greentree.commons</groupId>
+            <artifactId>aop-tests</artifactId>
+            <version>${commons.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${junit.version}</version>

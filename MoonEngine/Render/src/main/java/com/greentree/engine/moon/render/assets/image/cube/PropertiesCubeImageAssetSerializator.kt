@@ -2,7 +2,7 @@ package com.greentree.engine.moon.render.assets.image.cube
 
 import com.greentree.commons.image.image.ImageData
 import com.greentree.commons.util.iterator.IteratorUtil
-import com.greentree.engine.moon.assets.SourceNotValid
+import com.greentree.engine.moon.assets.exception.SourceNotValid
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader

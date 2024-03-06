@@ -3,8 +3,8 @@ package com.greentree.engine.moon.render.mesh
 import com.greentree.commons.graphics.smart.mesh.Mesh
 import com.greentree.commons.graphics.smart.shader.Shader
 import com.greentree.commons.graphics.smart.shader.material.Material
-import com.greentree.engine.moon.assets.Asset
-import com.greentree.engine.moon.assets.serializator.manager.load
+import com.greentree.engine.moon.assets.asset.Asset
+import com.greentree.engine.moon.assets.loader.loadAsset
 import com.greentree.engine.moon.base.AssetManagerProperty
 import com.greentree.engine.moon.base.component.CreateComponent
 import com.greentree.engine.moon.base.component.ReadComponent
@@ -28,8 +28,8 @@ class SpriteMeshGenerator : WorldInitSystem, UpdateSystem {
 	@ReadProperty(AssetManagerProperty::class)
 	override fun init(world: World, sceneProperties: SceneProperties) {
 		val manager = sceneProperties.get(AssetManagerProperty::class.java).manager
-		mesh = manager.load(Mesh::class.java, MeshUtil.QUAD_SPRITE)
-		shader = manager.load(Shader::class.java, MaterialUtil.getDefaultSpriteShader())
+		mesh = manager.loadAsset(MeshUtil.QUAD_SPRITE)
+		shader = manager.loadAsset(MaterialUtil.getDefaultSpriteShader())
 		sprite_meshes = SPRITE_MESHES.build(world)
 		sprite_renders = SPRITE_NO_MESH_RENDERS.build(world)
 	}
