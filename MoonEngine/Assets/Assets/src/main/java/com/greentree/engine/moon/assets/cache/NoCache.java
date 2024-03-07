@@ -2,7 +2,16 @@ package com.greentree.engine.moon.assets.cache;
 
 import kotlin.jvm.functions.Function0;
 
-public class NoCache<K, R> implements Cache<K, R> {
+public final class NoCache<K, R> implements Cache<K, R> {
+
+    private static final NoCache INSTANCE = new NoCache();
+
+    private NoCache() {
+    }
+
+    public static <K, R> NoCache<K, R> instance() {
+        return (NoCache<K, R>) INSTANCE;
+    }
 
     @Override
     public R get(K key) {

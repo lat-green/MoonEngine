@@ -1,14 +1,15 @@
-package test.com.greentree.engine.moon.assets
+package test.com.greentree.engine.moon.assets.manager
 
 import com.greentree.commons.tests.aop.AutowiredArgument
 import com.greentree.commons.tests.aop.AutowiredProvider
 import com.greentree.engine.moon.assets.manager.AssetManager
 import com.greentree.engine.moon.assets.manager.MutableAssetManager
 import com.greentree.engine.moon.assets.manager.SimpleAssetManager
+import test.com.greentree.engine.moon.assets.Person
 import test.com.greentree.engine.moon.assets.loader.AlwaysNotSupportedTypeAssetLoader
 import test.com.greentree.engine.moon.assets.loader.AlwaysNotValidSourceAssetLoader
 
-class TestConfig {
+class AssetManagerTestConfig {
 
 	@AutowiredProvider
 	fun simpleAssetManager() = SimpleAssetManager()

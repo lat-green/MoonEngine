@@ -1,4 +1,4 @@
-package test.com.greentree.engine.moon.assets
+package test.com.greentree.engine.moon.assets.manager
 
 import com.greentree.commons.data.resource.location.ClassLoaderResourceLocation
 import com.greentree.commons.reflection.info.TypeInfo
@@ -22,7 +22,7 @@ import org.mockito.Mockito.*
 import test.com.greentree.engine.moon.assets.loader.ResourceToString
 import test.com.greentree.engine.moon.assets.loader.StringToInt
 
-@AutowiredConfig(TestConfig::class)
+@AutowiredConfig(AssetManagerTestConfig::class)
 class AssetManagerTest {
 
 	@AutowiredTest

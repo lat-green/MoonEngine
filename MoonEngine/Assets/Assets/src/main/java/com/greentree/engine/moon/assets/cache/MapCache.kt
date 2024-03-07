@@ -4,7 +4,7 @@ import java.util.concurrent.locks.StampedLock
 
 class MapCache<K : Any, V>(private val map: MutableMap<K, V>) : Cache<K, V> {
 
-	val locks = mutableMapOf<K, StampedLock>()
+	private val locks = mutableMapOf<K, StampedLock>()
 
 	override fun <R : V> set(key: K, create: () -> R): R {
 //		val create = {
