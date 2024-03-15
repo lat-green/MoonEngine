@@ -18,3 +18,7 @@ interface ReadOnlyClassProperties<P> : Iterable<P> {
 		return getProperty(cls).isPresent
 	}
 }
+
+inline fun <reified T> ReadOnlyClassProperties<in T>.get() = get(T::class.java)
+inline fun <reified T> ReadOnlyClassProperties<in T>.getProperty() = getProperty(T::class.java)
+inline fun <reified T> ReadOnlyClassProperties<in T>.contains() = contains(T::class.java)

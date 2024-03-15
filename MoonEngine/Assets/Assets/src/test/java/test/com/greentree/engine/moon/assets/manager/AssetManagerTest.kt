@@ -13,14 +13,17 @@ import com.greentree.engine.moon.assets.key.DefaultAssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
 import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
+import com.greentree.engine.moon.assets.loader.load
 import com.greentree.engine.moon.assets.loader.loadAsset
 import com.greentree.engine.moon.assets.manager.AssetManager
 import com.greentree.engine.moon.assets.manager.MutableAssetManager
+import com.greentree.engine.moon.assets.serializator.SimpleAssetSerializator
 import com.greentree.engine.moon.assets.serializator.addSerializator
 import org.junit.jupiter.api.Assertions.*
 import org.mockito.Mockito.*
 import test.com.greentree.engine.moon.assets.loader.ResourceToString
 import test.com.greentree.engine.moon.assets.loader.StringToInt
+import java.time.Duration
 
 @AutowiredConfig(AssetManagerTestConfig::class)
 class AssetManagerTest {
@@ -83,6 +86,34 @@ class AssetManagerTest {
 		)
 		val asset by manager.loadAsset(result::class, key)
 		assertEquals(asset, result)
+	}
+
+	@AutowiredTest
+	fun testParallelLoad(
+		@AutowiredArgument(tags = ["parallel"]) manager: MutableAssetManager,
+	) {
+		val key = ResultAssetKey("2 + 2")
+		manager.addSerializator(object : SimpleAssetSerializator<String, Int> {
+			override fun invoke(source: String): Int {
+				Thread.sleep(1000)
+				return when {
+					source.contains("+") -> {
+						val index = source.indexOf('+')
+						val first = source.substring(0, index).trim()
+						val second = source.substring(index + 1).trim()
+						val a by manager.loadAsset<Int>(ResultAssetKey(first))
+						val b by manager.loadAsset<Int>(ResultAssetKey(second))
+						return a + b
+					}
+
+					else -> source.toInt()
+				}
+			}
+		})
+		assertTimeoutPreemptively(Duration.ofMillis(2100L)) {
+			val result = manager.load<Int>(key)
+			assertEquals(result, 4)
+		}
 	}
 
 	@AutowiredTest

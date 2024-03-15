@@ -13,6 +13,7 @@ import com.greentree.engine.moon.assets.loader.loadAsset
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
 import com.greentree.engine.moon.base.AssetManagerProperty
 import com.greentree.engine.moon.base.assets
+import com.greentree.engine.moon.base.assets.any.XMLToAnyAssetLoader.builder
 import com.greentree.engine.moon.base.assets.scene.adapters.Constructor
 import com.greentree.engine.moon.base.assets.scene.adapters.Context
 import com.greentree.engine.moon.base.assets.scene.adapters.ObjectXMLBuilder
@@ -43,67 +44,67 @@ import java.io.File
 
 data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 
-	override fun load(manager: AssetLoader.Context, key: AssetKey): Scene {
-		val xml_scene = manager.load<XMLElement>(key)
+	override fun load(context: AssetLoader.Context, key: AssetKey): Scene {
+		val xml_scene = context.load<XMLElement>(key)
+		val builder = ObjectXMLBuilder()
+		val names: MutableMap<String, Entity> = HashMap()
 
-		return object : SimpleScene {
-			val builder = ObjectXMLBuilder()
-			val names: MutableMap<String, Entity> = HashMap()
-			override fun build(properties: SceneProperties) {
-				val context = properties.get(AssetManagerProperty::class.java).manager
-				builder.add(object : XMLTypeAddapter {
-					override fun <T> newInstance(
-						c: Context,
-						type: TypeInfo<T>,
-						xml_value: XMLElement,
-					): Constructor<T>? {
-						if(ClassUtil.isExtends(Asset::class.java, type.toClass())) {
-							if(type.typeArguments.size == 0) throw UnsupportedOperationException("asset type without Type Arguments")
-							val value_type = type.typeArguments[0].boxing
-							c.newInstance(AssetKey::class.java, xml_value).use { key ->
-								val value = context.loadAsset(value_type, key.value())
+		builder.add(object : XMLTypeAddapter {
+			override fun <T> newInstance(
+				c: Context,
+				type: TypeInfo<T>,
+				xml_value: XMLElement,
+			): Constructor<T>? {
+				if(ClassUtil.isExtends(Asset::class.java, type.toClass())) {
+					if(type.typeArguments.size == 0) throw UnsupportedOperationException("asset type without Type Arguments")
+					val value_type = type.typeArguments[0].boxing
+					c.newInstance(AssetKey::class.java, xml_value).use { key ->
+						val value = context.loadAsset(value_type, key.value())
 //									if(!value.isValid()) {
 //										value.value
 //										throw UnsupportedOperationException("build not valid asset $value from $xml_value")
 //									}
-								return ValueConstructor(value as T)
-							}
-						}
-						return null
+						return ValueConstructor(value as T)
 					}
+				}
+				return null
+			}
 
-					override fun getLoadOnly(): Class<*> {
-						return Asset::class.java
-					}
-				})
-				builder.add(object : XMLTypeAddapter {
-					override fun <T : Any> newInstance(
-						c: Context,
-						type: TypeInfo<T>,
-						xml_value: XMLElement,
-					): Constructor<T>? {
-						val cs = xml_value.childrens ?: return null
-						if(cs.isEmpty())
-							return null
-						return ValueConstructor(
-							context.loadAsset(
-								type,
-								ResultAssetKey(cs.first())
-							).value
-						)
-					}
-				})
-				builder.add(object : XMLTypeAddapter {
-					override fun <T> newInstance(
-						context: Context,
-						type: TypeInfo<T>,
-						xml_value: XMLElement,
-					): Constructor<T>? {
-						if(!ClassUtil.isExtends(Entity::class.java, type.toClass())) return null
-						val name = xml_value.content
-						return Constructor { names[name] as T? }
-					}
-				})
+			override fun getLoadOnly(): Class<*> {
+				return Asset::class.java
+			}
+		})
+		builder.add(object : XMLTypeAddapter {
+			override fun <T : Any> newInstance(
+				c: Context,
+				type: TypeInfo<T>,
+				xml_value: XMLElement,
+			): Constructor<T>? {
+				val cs = xml_value.childrens ?: return null
+				if(cs.isEmpty())
+					return null
+				return ValueConstructor(
+					context.loadAsset(
+						type,
+						ResultAssetKey(cs.first())
+					).value
+				)
+			}
+		})
+		builder.add(object : XMLTypeAddapter {
+			override fun <T> newInstance(
+				context: Context,
+				type: TypeInfo<T>,
+				xml_value: XMLElement,
+			): Constructor<T>? {
+				if(!ClassUtil.isExtends(Entity::class.java, type.toClass())) return null
+				val name = xml_value.content
+				return Constructor { names[name] as T? }
+			}
+		})
+
+		return object : SimpleScene {
+			override fun build(properties: SceneProperties) {
 				val world = properties.get(WorldProperty::class.java).world
 				val xml_entities = ArrayList<XMLElement>()
 				for(xml_entity_ref in xml_scene.getChildrens("entity_ref")) xml_entities.add(

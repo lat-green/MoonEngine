@@ -1,3 +1,3 @@
 package com.greentree.engine.moon.assets.exception
 
-object NotSupportedKeyAndType : RuntimeException(null, null, false, false)
+data object NotSupportedKeyAndType : RuntimeException(null, null, false, false)

@@ -1,11 +1,12 @@
 package com.greentree.engine.moon.mesh.compoent
 
+import com.greentree.engine.moon.mesh.StaticMesh
 import com.greentree.engine.moon.mesh.StaticMesh.*
 
-class NormalStaticMeshVertexComponent private constructor() : StaticMeshVertexComponent {
+data object NormalStaticMeshVertexComponent : StaticMeshVertexComponent {
 
 	override fun get(face: MeshFace, strip: Int, a: FloatArray, b: FloatArray, c: FloatArray) {
-		if (face.hasNormals()) super.get(face, strip, a, b, c) else {
+		if(face.hasNormals()) super.get(face, strip, a, b, c) else {
 			val va = face.a.vertex()
 			val vb = face.b.vertex()
 			val vc = face.c.vertex()
@@ -18,17 +19,11 @@ class NormalStaticMeshVertexComponent private constructor() : StaticMeshVertexCo
 	}
 
 	override fun get(index: VertexIndex, strip: Int, dest: FloatArray) {
-		if (!index.hasNormal()) throw UnsupportedOperationException()
+		if(!index.hasNormal()) throw UnsupportedOperationException()
 		StaticMeshFaceComponent.setVector(dest, strip, index.normal())
 	}
 
 	override fun size(): Int {
 		return 3
-	}
-
-	companion object {
-
-		@JvmField
-		val INSTANCE = NormalStaticMeshVertexComponent()
 	}
 }

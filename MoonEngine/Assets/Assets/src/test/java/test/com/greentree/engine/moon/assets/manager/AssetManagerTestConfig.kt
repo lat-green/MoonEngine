@@ -4,15 +4,27 @@ import com.greentree.commons.tests.aop.AutowiredArgument
 import com.greentree.commons.tests.aop.AutowiredProvider
 import com.greentree.engine.moon.assets.manager.AssetManager
 import com.greentree.engine.moon.assets.manager.MutableAssetManager
+import com.greentree.engine.moon.assets.manager.ParallelAssetManager
 import com.greentree.engine.moon.assets.manager.SimpleAssetManager
 import test.com.greentree.engine.moon.assets.Person
 import test.com.greentree.engine.moon.assets.loader.AlwaysNotSupportedTypeAssetLoader
 import test.com.greentree.engine.moon.assets.loader.AlwaysNotValidSourceAssetLoader
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class AssetManagerTestConfig {
 
 	@AutowiredProvider
 	fun simpleAssetManager() = SimpleAssetManager()
+
+	@AutowiredProvider(tags = ["parallel"])
+	fun parallelAssetManager(executor: ExecutorService) = ParallelAssetManager(executor)
+
+	@AutowiredProvider
+	fun cachedThreadPool() = Executors.newCachedThreadPool()
+
+	@AutowiredProvider
+	fun fixedThreadPool() = Executors.newFixedThreadPool(8)
 
 	@AutowiredProvider
 	fun withNotValidSource(manager: MutableAssetManager): AssetManager {

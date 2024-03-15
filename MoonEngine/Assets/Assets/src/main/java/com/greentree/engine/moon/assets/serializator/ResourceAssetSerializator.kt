@@ -13,6 +13,8 @@ class ResourceAssetSerializator(private val resources: ResourceLocation) : Asset
 	override fun load(manager: AssetLoader.Context, ckey: AssetKey): Resource {
 		if(ckey is ResourceAssetKey) {
 			val resourceName = manager.load<String>(ckey.resourceName)
+			if(!resources.isExist(resourceName))
+				throw IllegalArgumentException("not found resource: $resourceName")
 			return resources.getResource(resourceName)
 		}
 		throw NotSupportedKeyType

@@ -4,6 +4,7 @@ import com.greentree.engine.moon.demo1.InitSceneModule;
 import com.greentree.engine.moon.modules.EngineModule;
 
 open module game.moon.demo1 {
+    requires transitive commons.graphics.sgl;
     requires transitive engine.moon.opengl;
     requires transitive engine.moon.script;
     requires transitive engine.moon.assimp;
