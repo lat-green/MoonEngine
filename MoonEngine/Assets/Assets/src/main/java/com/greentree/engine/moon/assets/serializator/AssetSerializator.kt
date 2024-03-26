@@ -9,7 +9,7 @@ import com.greentree.engine.moon.assets.loader.AssetLoader
 interface AssetSerializator<T : Any> {
 
 	val type: TypeInfo<T>
-		get() = TypeUtil.getFirstAtgument(javaClass, AssetSerializator::class.java)
+		get() = TypeUtil.getFirstArgument(javaClass, AssetSerializator::class.java)
 
 	fun load(context: AssetLoader.Context, key: AssetKey): T
 

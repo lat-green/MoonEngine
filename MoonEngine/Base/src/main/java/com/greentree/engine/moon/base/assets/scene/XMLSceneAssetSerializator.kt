@@ -53,10 +53,10 @@ data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 				xml_value: XMLElement,
 			): Constructor<T>? {
 				if(ClassUtil.isExtends(Asset::class.java, type.toClass())) {
-					if(type.typeArguments.size == 0) throw UnsupportedOperationException("asset type without Type Arguments")
-					val value_type = type.typeArguments[0].boxing
+					if(type.typeArguments.isEmpty()) throw UnsupportedOperationException("asset type without Type Arguments")
+					val valueType = type.typeArguments[0].boxing
 					return c.newInstance(AssetKey::class.java, xml_value).map { key ->
-						context.loadAsset(value_type, key) as T
+						context.loadAsset(valueType, key) as T
 					}
 				}
 				return null

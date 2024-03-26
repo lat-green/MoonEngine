@@ -10,7 +10,7 @@ public interface XMLTypeInjectAdapter<T> {
 
     @SuppressWarnings("unchecked")
     default Class<T> getType() {
-        return (Class<T>) TypeUtil.getFirstAtgument(getClass(), XMLTypeInjectAdapter.class).toClass();
+        return (Class<T>) TypeUtil.getFirstArgument(getClass(), XMLTypeInjectAdapter.class).toClass();
     }
 
 }

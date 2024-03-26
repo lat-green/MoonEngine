@@ -1,7 +1,7 @@
 package com.greentree.engine.moon.base.assets.scene
 
 import com.greentree.commons.reflection.info.TypeInfo
-import com.greentree.commons.reflection.info.TypeInfoBuilder.*
+import com.greentree.commons.reflection.info.TypeInfoBuilder.getTypeInfo
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 import com.greentree.engine.moon.assets.loader.load

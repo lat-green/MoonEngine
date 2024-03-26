@@ -159,7 +159,7 @@ public class ObjectXMLBuilder implements Context {
                     c = ObjectBuilder.getMinConstructor(cls);
                 if (c == null)
                     throw new UnsupportedOperationException(type + " not have constructor(maybe abstract) xml_element:"
-                            + xml_element + " names:" + names);
+                                                            + xml_element + " names:" + names);
                 var params = c.getParameters();
                 var args = new Object[params.length];
                 for (var i = 0; i < params.length; i++) {
@@ -170,7 +170,7 @@ public class ObjectXMLBuilder implements Context {
                     final var xml_value = names.remove(p.getName());
                     if (xml_value == null)
                         throw new NullPointerException("constructor of " + type + " has parameter \"" + p.getName()
-                                + "\" but xml not " + names);
+                                                       + "\" but xml not " + names);
                     try {
                         args[i] = context.build(p_type, xml_value);
                     } catch (Exception e) {
@@ -182,8 +182,8 @@ public class ObjectXMLBuilder implements Context {
                     return newInstanceConstructor(names, c.newInstance(args));
                 } catch (Exception e) {
                     throw new RuntimeException("args: " + asList(args) + " constructor: "
-                            + asList(c.getParameters()).stream().map(Parameter::getName).collect(Collectors.toList())
-                            + " type:" + type + " names:" + names, e);
+                                               + asList(c.getParameters()).stream().map(Parameter::getName).collect(Collectors.toList())
+                                               + " type:" + type + " names:" + names, e);
                 }
             }
         };
@@ -223,7 +223,7 @@ public class ObjectXMLBuilder implements Context {
             @Override
             public boolean injectFields(Context context, TypeInfo<? extends Collection> type, Collection dest,
                                         XMLElement element) {
-                var args_type = TypeUtil.getFirstAtgument(type, Collection.class);
+                var args_type = TypeUtil.getFirstArgument(type, Collection.class);
                 for (var c : element.getChildrens("value")) {
                     final var v = context.build(args_type, c);
                     dest.add(v);

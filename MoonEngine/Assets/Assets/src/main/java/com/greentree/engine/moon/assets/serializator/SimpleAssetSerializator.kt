@@ -8,12 +8,12 @@ import com.greentree.engine.moon.assets.manager.MutableAssetManager
 interface SimpleAssetSerializator<T : Any, R : Any> : (T) -> R {
 
 	val resultType
-		get() = TypeUtil.getTtype(
+		get() = TypeUtil.getType(
 			TypeInfoBuilder.getTypeInfo(javaClass),
 			SimpleAssetSerializator::class.java
 		).typeArguments[1] as TypeInfo<R>
 	val sourceType
-		get() = TypeUtil.getTtype(
+		get() = TypeUtil.getType(
 			TypeInfoBuilder.getTypeInfo(javaClass),
 			SimpleAssetSerializator::class.java
 		).typeArguments[0] as TypeInfo<T>
