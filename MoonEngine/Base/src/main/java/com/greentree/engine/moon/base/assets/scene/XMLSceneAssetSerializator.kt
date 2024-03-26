@@ -6,20 +6,17 @@ import com.greentree.commons.xml.XMLElement
 import com.greentree.engine.moon.assets.asset.Asset
 import com.greentree.engine.moon.assets.key.AssetKey
 import com.greentree.engine.moon.assets.key.ResourceAssetKey
-import com.greentree.engine.moon.assets.key.ResultAssetKey
 import com.greentree.engine.moon.assets.loader.AssetLoader
 import com.greentree.engine.moon.assets.loader.load
 import com.greentree.engine.moon.assets.loader.loadAsset
 import com.greentree.engine.moon.assets.serializator.AssetSerializator
-import com.greentree.engine.moon.base.AssetManagerProperty
 import com.greentree.engine.moon.base.assets
-import com.greentree.engine.moon.base.assets.any.XMLToAnyAssetLoader.builder
 import com.greentree.engine.moon.base.assets.scene.adapters.Constructor
 import com.greentree.engine.moon.base.assets.scene.adapters.Context
 import com.greentree.engine.moon.base.assets.scene.adapters.ObjectXMLBuilder
-import com.greentree.engine.moon.base.assets.scene.adapters.ValueConstructor
 import com.greentree.engine.moon.base.assets.scene.adapters.XMLTypeAddapter
 import com.greentree.engine.moon.base.assets.scene.adapters.findClass
+import com.greentree.engine.moon.base.assets.scene.adapters.map
 import com.greentree.engine.moon.base.assets.text.RefStringBuilderAssetKey
 import com.greentree.engine.moon.base.component.AnnotationUtil
 import com.greentree.engine.moon.base.layer.Layer
@@ -50,7 +47,7 @@ data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 		val names: MutableMap<String, Entity> = HashMap()
 
 		builder.add(object : XMLTypeAddapter {
-			override fun <T> newInstance(
+			override fun <T : Any> newInstance(
 				c: Context,
 				type: TypeInfo<T>,
 				xml_value: XMLElement,
@@ -58,13 +55,8 @@ data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 				if(ClassUtil.isExtends(Asset::class.java, type.toClass())) {
 					if(type.typeArguments.size == 0) throw UnsupportedOperationException("asset type without Type Arguments")
 					val value_type = type.typeArguments[0].boxing
-					c.newInstance(AssetKey::class.java, xml_value).use { key ->
-						val value = context.loadAsset(value_type, key.value())
-//									if(!value.isValid()) {
-//										value.value
-//										throw UnsupportedOperationException("build not valid asset $value from $xml_value")
-//									}
-						return ValueConstructor(value as T)
+					return c.newInstance(AssetKey::class.java, xml_value).map { key ->
+						context.loadAsset(value_type, key) as T
 					}
 				}
 				return null
@@ -74,32 +66,16 @@ data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 				return Asset::class.java
 			}
 		})
+
 		builder.add(object : XMLTypeAddapter {
 			override fun <T : Any> newInstance(
-				c: Context,
-				type: TypeInfo<T>,
-				xml_value: XMLElement,
-			): Constructor<T>? {
-				val cs = xml_value.childrens ?: return null
-				if(cs.isEmpty())
-					return null
-				return ValueConstructor(
-					context.loadAsset(
-						type,
-						ResultAssetKey(cs.first())
-					).value
-				)
-			}
-		})
-		builder.add(object : XMLTypeAddapter {
-			override fun <T> newInstance(
 				context: Context,
 				type: TypeInfo<T>,
 				xml_value: XMLElement,
 			): Constructor<T>? {
 				if(!ClassUtil.isExtends(Entity::class.java, type.toClass())) return null
 				val name = xml_value.content
-				return Constructor { names[name] as T? }
+				return Constructor { names[name] as T }
 			}
 		})
 
@@ -155,7 +131,7 @@ data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 			}
 
 			@Throws(ClassNotFoundException::class)
-			private fun <T> newFromXML(baseClass: Class<T>, xml_element: XMLElement): T {
+			private fun <T : Any> newFromXML(baseClass: Class<T>, xml_element: XMLElement): T {
 				val systemClassName = xml_element.getAttribute("type")
 				val cls = findClass(baseClass, systemClassName)
 				builder.newInstance(cls, xml_element).use { c ->
@@ -219,3 +195,4 @@ data object XMLSceneAssetSerializator : AssetSerializator<Scene> {
 		XMLSceneAssetSerializator::class.java
 	)
 }
+

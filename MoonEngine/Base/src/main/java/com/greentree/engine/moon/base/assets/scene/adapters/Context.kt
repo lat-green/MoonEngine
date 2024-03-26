@@ -12,19 +12,19 @@ fun <T> findClass(baseClass: Class<T>, className: String): Class<T> {
 
 interface Context {
 
-	fun <T> build(cls: Class<T>, element: XMLElement): T {
+	fun <T : Any> build(cls: Class<T>, element: XMLElement): T {
 		val type = TypeInfoBuilder.getTypeInfo(cls)
 		return build(type, element)
 	}
 
-	fun <T> build(type: TypeInfo<T>, element: XMLElement): T {
+	fun <T : Any> build(type: TypeInfo<T>, element: XMLElement): T {
 		newInstance(type, element).use { c ->
 			return c.value()
 		}
 	}
 
-	fun <T> newInstance(type: TypeInfo<T>, element: XMLElement): Constructor<T>
-	fun <T> newInstance(cls: Class<T>, element: XMLElement): Constructor<T> {
+	fun <T : Any> newInstance(type: TypeInfo<T>, element: XMLElement): Constructor<T>
+	fun <T : Any> newInstance(cls: Class<T>, element: XMLElement): Constructor<T> {
 		val type = TypeInfoBuilder.getTypeInfo(cls)
 		return newInstance(type, element)
 	}
