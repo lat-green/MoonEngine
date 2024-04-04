@@ -41,8 +41,8 @@ public final class RenderMainCamera implements WorldInitSystem, UpdateSystem, De
         cameras = sceneProperties.get(Cameras.class);
         final var rmesh = library.getDefaultMeshQuad();
         final var shader = library.getDefaultTextureShader();
-        material = shader.newMaterial();
-        buffer = window.screanRenderTarget().buffer();
+        material = shader.createMaterial();
+        buffer = window.screanRenderTarget().createBuffer();
         buffer.bindMesh(rmesh);
         buffer.bindMaterial(material);
         buffer.draw(1);

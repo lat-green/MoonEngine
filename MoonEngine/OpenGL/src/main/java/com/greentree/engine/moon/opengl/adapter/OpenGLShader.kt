@@ -20,7 +20,7 @@ data class OpenGLShader(val shader: GLShaderProgram) : Shader {
 		}
 	}
 
-	override fun newMaterial() = OpenGLMaterialImpl(shader)
+	override fun createMaterial() = OpenGLMaterialImpl(shader)
 
 	class OpenGLMaterialImpl(override val shader: GLShaderProgram) : OpenGLMaterial, AbstractMaterialImpl() {
 
@@ -34,7 +34,7 @@ data class OpenGLShader(val shader: GLShaderProgram) : Shader {
 			shader.unbind()
 		}
 
-		override fun copy(): OpenGLMaterialImpl {
+		override fun createMaterial(): OpenGLMaterialImpl {
 			val copy = OpenGLMaterialImpl(shader)
 			copyTo(copy)
 			return copy
@@ -45,7 +45,7 @@ data class OpenGLShader(val shader: GLShaderProgram) : Shader {
 			material.properties.putAll(properties)
 		}
 
-		override fun newMaterial() = Child(this)
+		override fun createChildMaterial() = Child(this)
 
 		class Child(
 			private val parent: OpenGLMaterial,
@@ -54,7 +54,7 @@ data class OpenGLShader(val shader: GLShaderProgram) : Shader {
 			override val shader
 				get() = parent.shader
 
-			override fun newMaterial() = Child(this)
+			override fun createChildMaterial() = Child(this)
 
 			override fun bind(ctx: PropertyBindContext) {
 				parent.bind(ctx)
@@ -72,7 +72,7 @@ data class OpenGLShader(val shader: GLShaderProgram) : Shader {
 				material.properties.putAll(properties)
 			}
 
-			override fun copy(): OpenGLMaterialImpl {
+			override fun createMaterial(): OpenGLMaterialImpl {
 				val copy = OpenGLMaterialImpl(shader)
 				parent.copyTo(copy)
 				copyTo(copy)

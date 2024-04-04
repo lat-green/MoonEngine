@@ -9,8 +9,8 @@ import java.util.*
 
 data class FreamBufferRenderTarget(val framebuffer: FreamBuffer, val context: RenderTarget) : FrameBuffer {
 
-	override fun buffer(): RenderCommandBuffer {
-		return FreamBufferCommandBuffer(framebuffer, context.buffer())
+	override fun createBuffer(): RenderCommandBuffer {
+		return FreamBufferCommandBuffer(framebuffer, context.createBuffer())
 	}
 
 	override fun getColorTexture(index: Int): Texture {

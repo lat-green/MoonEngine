@@ -8,6 +8,7 @@ import com.greentree.commons.graphics.smart.RenderContext
 import com.greentree.commons.graphics.smart.StackBuffer
 import com.greentree.commons.graphics.smart.mesh.Mesh
 import com.greentree.commons.graphics.smart.mesh.VideoBuffer
+import com.greentree.commons.graphics.smart.pass.RenderPass
 import com.greentree.commons.graphics.smart.shader.Shader
 import com.greentree.commons.graphics.smart.target.FrameBuffer
 import com.greentree.commons.graphics.smart.target.RenderCommandBuffer
@@ -29,7 +30,7 @@ import java.util.*
 
 class GLRenderContext : RenderContext, RenderTarget {
 
-	override fun buffer(): RenderCommandBuffer {
+	override fun createBuffer(): RenderCommandBuffer {
 		return PushCommandBuffer(this)
 	}
 
@@ -70,6 +71,15 @@ class GLRenderContext : RenderContext, RenderTarget {
 			result = prime * result + Arrays.deepHashCode(array)
 			return result
 		}
+	}
+
+	override fun createRenderPass(
+		width: Int,
+		height: Int,
+		attachment: Iterable<RenderPass.Attachment>,
+		depth: RenderPass.Attachment,
+	): RenderPass {
+		TODO("Not yet implemented")
 	}
 
 	override fun getDefaultCubeMapShadowShader(): Shader {

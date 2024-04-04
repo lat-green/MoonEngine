@@ -45,7 +45,7 @@ class SpriteMeshGenerator : WorldInitSystem, UpdateSystem {
 			val c = MeshRenderer(object : Asset<Material> {
 				override val value: Material
 					get() {
-						val m = shader!!.value.newMaterial()
+						val m = shader!!.value.createMaterial()
 						m.put("render_texture", e.get(SpriteRenderer::class.java).texture().value)
 						return m
 					}

@@ -1,6 +1,6 @@
 package com.greentree.engine.moon.opengl;
 
-import com.greentree.common.graphics.sgl.GLFWCallback;
+import com.greentree.common.graphics.sgl.GLCallback;
 import com.greentree.common.graphics.sgl.enums.gl.debug.GLDebugSeverity;
 import com.greentree.engine.moon.base.property.modules.WriteProperty;
 import com.greentree.engine.moon.modules.LaunchModule;
@@ -20,7 +20,7 @@ public final class OpenGLInitModule implements LaunchModule {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(DEBUG_OUTPUT.glEnum);
         glEnable(DEBUG_OUTPUT_SYNCHRONOUS.glEnum);
-        glDebugMessageCallback(GLFWCallback.gl((source, type, id, severity, message, userParam) -> {
+        glDebugMessageCallback(GLCallback.gl((source, type, id, severity, message, userParam) -> {
             if (severity != GLDebugSeverity.DEBUG_SEVERITY_NOTIFICATION) {
                 final var severity0 = severity.name;
                 var source0 = source.name;

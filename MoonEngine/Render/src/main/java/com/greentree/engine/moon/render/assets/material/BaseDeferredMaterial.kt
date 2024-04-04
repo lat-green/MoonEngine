@@ -82,7 +82,7 @@ class BaseDeferredMaterial : DeferredMaterial {
 	}
 
 	override fun build(shader: Shader): Material {
-		val m = shader.newMaterial()
+		val m = shader.createMaterial()
 		for(property in properties)
 			property(m)
 		return m

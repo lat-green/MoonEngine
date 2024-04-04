@@ -1,11 +1,12 @@
 package com.greentree.engine.moon.opengl
 
-import com.greentree.common.graphics.sgl.SGLFW
+import com.greentree.common.graphics.sgl.OpenGLContext
 import com.greentree.common.graphics.sgl.Window
 import com.greentree.common.graphics.sgl.enums.gl.GLShaderType
 import com.greentree.common.graphics.sgl.shader.GLSLShader
 import com.greentree.common.graphics.sgl.shader.GLShaderProgram
 import com.greentree.common.graphics.sgl.shader.GLUniformLocation
+import com.greentree.common.graphics.sglfw.SimpleGLFW.glfwPollEvents
 import com.greentree.commons.util.time.DeltaTimer
 import com.greentree.engine.moon.mesh.StaticMesh
 import com.greentree.engine.moon.opengl.adapter.GLRenderContext
@@ -59,7 +60,6 @@ object BasicRenderMeshView {
 
 	@Throws(InterruptedException::class)
 	private fun view(mesh: StaticMesh) {
-		SGLFW.init()
 		val timer = DeltaTimer()
 		Window("BasicRenderMeshView", 800, 600).use { window ->
 			window.makeCurrent()
@@ -73,7 +73,7 @@ object BasicRenderMeshView {
 			GL11.glEnable(GL11.GL_CULL_FACE)
 			timer.step()
 			while(!window.isShouldClose) {
-				Window.updateEvents()
+				glfwPollEvents()
 				GL11.glClear(GL11.GL_COLOR_BUFFER_BIT or GL11.GL_DEPTH_BUFFER_BIT)
 				timer.step()
 				val depth = timer.delta
@@ -85,9 +85,8 @@ object BasicRenderMeshView {
 				m.render()
 				window.swapBuffer()
 			}
-			Window.unmakeCurrent()
+			OpenGLContext.unmakeCurrent()
 		}
-		SGLFW.terminate()
 	}
 
 	private fun program(): GLShaderProgram {
