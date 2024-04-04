@@ -1,13 +1,13 @@
 package com.greentree.engine.moon.opengl.adapter;
 
 import com.greentree.common.graphics.sgl.Window;
+import com.greentree.common.graphics.sglfw.SGLFW;
 import com.greentree.commons.action.ListenerCloser;
 import com.greentree.commons.graphics.smart.target.RenderTarget;
 import com.greentree.engine.moon.opengl.GLEnums;
 import com.greentree.engine.moon.render.window.CursorInputMode;
 import com.greentree.engine.moon.render.window.callback.*;
 
-import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public record WindowAdapter(Window window, RenderTarget target)
@@ -47,23 +47,22 @@ public record WindowAdapter(Window window, RenderTarget target)
 
     @Override
     public CursorInputMode getInputMode() {
-        final var glfw = glfwGetInputMode(window.glID, GLFW_CURSOR);
-        return switch (glfw) {
-            case GLFW_CURSOR_DISABLED -> CursorInputMode.DISABLED;
-            case GLFW_CURSOR_HIDDEN -> CursorInputMode.HIDDEN;
-            case GLFW_CURSOR_NORMAL -> CursorInputMode.NORMAL;
-            default -> throw new IllegalArgumentException("Unexpected value: " + glfw);
+        var mode = window.getCursorMode();
+        return switch (mode) {
+            case SGLFW.CursorState.CURSOR_DISABLED -> CursorInputMode.DISABLED;
+            case SGLFW.CursorState.CURSOR_HIDDEN -> CursorInputMode.HIDDEN;
+            case SGLFW.CursorState.CURSOR_NORMAL -> CursorInputMode.NORMAL;
         };
     }
 
     @Override
     public void setInputMode(CursorInputMode mode) {
-        final var glfw = switch (mode) {
-            case DISABLED -> GLFW_CURSOR_DISABLED;
-            case HIDDEN -> GLFW_CURSOR_HIDDEN;
-            case NORMAL -> GLFW_CURSOR_NORMAL;
+        final var m = switch (mode) {
+            case DISABLED -> SGLFW.CursorState.CURSOR_DISABLED;
+            case HIDDEN -> SGLFW.CursorState.CURSOR_HIDDEN;
+            case NORMAL -> SGLFW.CursorState.CURSOR_NORMAL;
         };
-        glfwSetInputMode(window.glID, GLFW_CURSOR, glfw);
+        window.setCursorMode(m);
     }
 
     @Override
